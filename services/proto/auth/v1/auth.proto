@@ -1,0 +1,251 @@
+syntax = "proto3";
+
+package documan.auth.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/plus-minus-dev/documan-pkg/services/gen/auth/v1";
+
+service AuthService {
+  // CreateTenant создаёт нового тенанта и первого пользователя (admin@<slug>).
+  // Ошибки: ALREADY_EXISTS (slug занят), INVALID_ARGUMENT (невалидные данные).
+  rpc CreateTenant(CreateTenantRequest) returns (CreateTenantResponse);
+
+  // GetTenant возвращает тенанта по ID.
+  // Ошибки: NOT_FOUND (тенант не найден).
+  rpc GetTenant(GetTenantRequest) returns (GetTenantResponse);
+
+  // CreateUser создаёт пользователя внутри тенанта.
+  // Ошибки: NOT_FOUND (тенант), ALREADY_EXISTS (email/username), INVALID_ARGUMENT.
+  rpc CreateUser(CreateUserRequest) returns (CreateUserResponse);
+
+  // GetUser возвращает пользователя по ID.
+  // Ошибки: NOT_FOUND (пользователь не найден).
+  rpc GetUser(GetUserRequest) returns (GetUserResponse);
+
+  // UpdateUser обновляет профиль пользователя (name, phone, role).
+  // Ошибки: NOT_FOUND, INVALID_ARGUMENT.
+  rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse);
+
+  // DeactivateUser деактивирует пользователя. Сессии остаются, но ValidateSession вернёт ошибку.
+  // Ошибки: NOT_FOUND, FAILED_PRECONDITION (уже неактивен).
+  rpc DeactivateUser(DeactivateUserRequest) returns (DeactivateUserResponse);
+
+  // ActivateUser активирует ранее деактивированного пользователя.
+  // Ошибки: NOT_FOUND, FAILED_PRECONDITION (уже активен).
+  rpc ActivateUser(ActivateUserRequest) returns (ActivateUserResponse);
+
+  // Login аутентифицирует пользователя по username и паролю, создаёт сессию.
+  // Ошибки: UNAUTHENTICATED (неверный username/пароль), FAILED_PRECONDITION (пользователь неактивен).
+  rpc Login(LoginRequest) returns (LoginResponse);
+
+  // ValidateSession проверяет сессию: не истекла, не отозвана, пользователь активен.
+  // Ошибки: NOT_FOUND (сессия), UNAUTHENTICATED (истекла/отозвана/пользователь неактивен).
+  rpc ValidateSession(ValidateSessionRequest) returns (ValidateSessionResponse);
+
+  // Logout отзывает сессию.
+  // Ошибки: NOT_FOUND (сессия не найдена).
+  rpc Logout(LogoutRequest) returns (LogoutResponse);
+
+  // ResetPassword — авторизованный пользователь меняет свой пароль (знает старый).
+  // Ошибки: UNAUTHENTICATED (неверный старый пароль), NOT_FOUND (сессия).
+  rpc ResetPassword(ResetPasswordRequest) returns (ResetPasswordResponse);
+
+  // CreateResetToken создаёт токен для восстановления пароля. BFF отправляет его по email.
+  // Ошибки: NOT_FOUND (email не найден).
+  rpc CreateResetToken(CreateResetTokenRequest) returns (CreateResetTokenResponse);
+
+  // ResetPasswordByToken — сброс пароля по токену (forgot password flow).
+  // Ошибки: NOT_FOUND (пользователь), FAILED_PRECONDITION (токен истёк/невалиден), INVALID_ARGUMENT.
+  rpc ResetPasswordByToken(ResetPasswordByTokenRequest) returns (ResetPasswordByTokenResponse);
+}
+
+// --- Enums ---
+
+// Role — роль пользователя.
+enum Role {
+  // ROLE_UNSPECIFIED — значение не задано.
+  ROLE_UNSPECIFIED = 0;
+  // ROLE_ADMIN — администратор тенанта.
+  ROLE_ADMIN = 1;
+  // ROLE_MANAGER — менеджер.
+  ROLE_MANAGER = 2;
+  // ROLE_USER — обычный пользователь.
+  ROLE_USER = 3;
+}
+
+// --- Shared messages ---
+
+// TenantInfo — представление тенанта.
+message TenantInfo {
+  string id = 1;
+  string slug = 2;
+  google.protobuf.Timestamp created_at = 3;
+  google.protobuf.Timestamp updated_at = 4;
+}
+
+// UserInfo — представление пользователя (без пароля).
+message UserInfo {
+  string id = 1;
+  string tenant_id = 2;
+  // username в формате name@slug.
+  string username = 3;
+  string email = 4;
+  Role role = 5;
+  bool is_active = 6;
+  string name = 7;
+  string phone = 8;
+  google.protobuf.Timestamp created_at = 9;
+  google.protobuf.Timestamp updated_at = 10;
+}
+
+// SessionInfo — представление сессии.
+message SessionInfo {
+  string id = 1;
+  string tenant_id = 2;
+  string user_id = 3;
+  google.protobuf.Timestamp expires_at = 4;
+  string client_ip = 5;
+  string user_agent = 6;
+  google.protobuf.Timestamp created_at = 7;
+}
+
+// --- Tenant ---
+
+message CreateTenantRequest {
+  // slug тенанта (a-z0-9, дефис).
+  string slug = 1;
+  // email первого пользователя (admin).
+  string admin_email = 2;
+  // пароль первого пользователя.
+  string admin_password = 3;
+  // отображаемое имя первого пользователя.
+  string admin_name = 4;
+  // телефон первого пользователя (опционально, E.164).
+  string admin_phone = 5;
+}
+
+message CreateTenantResponse {
+  TenantInfo tenant = 1;
+  UserInfo admin = 2;
+}
+
+message GetTenantRequest {
+  string id = 1;
+}
+
+message GetTenantResponse {
+  TenantInfo tenant = 1;
+}
+
+// --- User ---
+
+message CreateUserRequest {
+  string tenant_id = 1;
+  // username — имя пользователя (полный username = name@slug).
+  string username = 2;
+  string email = 3;
+  string password = 4;
+  Role role = 5;
+  // name — отображаемое имя пользователя.
+  string name = 6;
+  // телефон (опционально, E.164).
+  string phone = 7;
+}
+
+message CreateUserResponse {
+  UserInfo user = 1;
+}
+
+message GetUserRequest {
+  string id = 1;
+}
+
+message GetUserResponse {
+  UserInfo user = 1;
+}
+
+message UpdateUserRequest {
+  string id = 1;
+  optional string name = 2;
+  optional string phone = 3;
+  optional Role role = 4;
+}
+
+message UpdateUserResponse {
+  UserInfo user = 1;
+}
+
+message DeactivateUserRequest {
+  string id = 1;
+}
+
+message DeactivateUserResponse {}
+
+message ActivateUserRequest {
+  string id = 1;
+}
+
+message ActivateUserResponse {}
+
+// --- Auth ---
+
+message LoginRequest {
+  // username в формате part@slug.
+  string username = 1;
+  string password = 2;
+  // IP клиента (передаёт BFF из заголовков).
+  string client_ip = 3;
+  // User-Agent клиента (передаёт BFF).
+  string user_agent = 4;
+}
+
+message LoginResponse {
+  SessionInfo session = 1;
+  UserInfo user = 2;
+}
+
+message ValidateSessionRequest {
+  string session_id = 1;
+}
+
+message ValidateSessionResponse {
+  SessionInfo session = 1;
+  UserInfo user = 2;
+}
+
+message LogoutRequest {
+  string session_id = 1;
+}
+
+message LogoutResponse {}
+
+// --- Password ---
+
+message ResetPasswordRequest {
+  // session_id текущей сессии (пользователь авторизован).
+  string session_id = 1;
+  string old_password = 2;
+  string new_password = 3;
+}
+
+message ResetPasswordResponse {}
+
+message CreateResetTokenRequest {
+  // email пользователя, которому нужно восстановить пароль.
+  string email = 1;
+  string tenant_id = 2;
+}
+
+message CreateResetTokenResponse {
+  // plain_token — токен для отправки по email. Хранится в БД как hash.
+  string plain_token = 1;
+  google.protobuf.Timestamp expires_at = 2;
+}
+
+message ResetPasswordByTokenRequest {
+  string token = 1;
+  string new_password = 2;
+}
+
+message ResetPasswordByTokenResponse {}
