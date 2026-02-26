@@ -1,0 +1,10 @@
+syntax = "proto3";
+package documan.common.v1;
+
+option go_package = "github.com/plus-minus-dev/documan-pkg/services/gen/common/v1";
+
+// S3Ref -- ссылка на объект в S3.
+message S3Ref {
+  string bucket = 1;
+  string key = 2;
+}

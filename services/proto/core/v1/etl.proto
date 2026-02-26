@@ -1,0 +1,107 @@
+syntax = "proto3";
+package documan.core.v1;
+
+option go_package = "github.com/plus-minus-dev/documan-pkg/services/gen/core/v1";
+
+import "google/protobuf/timestamp.proto";
+import "common/v1/types.proto";
+
+// CoreETLService -- приём данных от connector-ms и ingest.
+// Payload передаётся напрямую через gRPC как bytes (JSON, до ~1000 строк).
+service CoreETLService {
+  // connector-ms: "вот справочники/документы из ERP"
+  rpc NotifyERPDataReady(NotifyERPDataReadyRequest) returns (NotifyERPDataReadyResponse);
+
+  // ingest: "вот распарсенные документы"
+  rpc NotifyIngestDataReady(NotifyIngestDataReadyRequest) returns (NotifyIngestDataReadyResponse);
+
+  // connector-ms poll: "какие подключения мне обслуживать?"
+  rpc GetActiveConnections(GetActiveConnectionsRequest) returns (GetActiveConnectionsResponse);
+}
+
+// ===== NotifyERPDataReady =====
+// Для erp_entities: 1 payload (payload_entity)
+// Для erp_documents: 4 payload (meta, header, summary, positions)
+
+message NotifyERPDataReadyRequest {
+  string tenant_id = 1;
+  string connection_id = 2;
+  string connection_type = 3;                          // "moysklad"
+  string erp_entity_type = 4;                          // "product", "supply", ...
+  repeated ERPDataItem items = 5;
+}
+
+message ERPDataItem {
+  string erp_entity_id = 1;
+
+  // Payload JSON напрямую (bytes = []byte в Go = JSONB в Postgres)
+  bytes payload_entity = 2;                            // erp_entities: 1 payload
+  bytes payload_meta = 3;                              // erp_documents: 4 payload
+  bytes payload_header = 4;
+  bytes payload_summary = 5;
+  bytes payload_positions = 6;
+
+  // Метаданные из ERP
+  string payload_hash = 7;                             // SHA-256 от payload
+  google.protobuf.Timestamp erp_updated_at = 8;
+  google.protobuf.Timestamp erp_created_at = 9;
+  google.protobuf.Timestamp erp_deleted_at = 10;
+  bool erp_archived = 11;
+}
+
+// ===== NotifyIngestDataReady =====
+
+message NotifyIngestDataReadyRequest {
+  string tenant_id = 1;
+  string file_batch = 2;
+  string doc_type = 3;                                 // "upd", "torg-12", ...
+  repeated IngestDataItem items = 4;
+}
+
+message IngestDataItem {
+  string doc_id = 1;
+
+  // Payload JSON напрямую
+  bytes payload_meta = 2;
+  bytes payload_header = 3;
+  bytes payload_summary = 4;
+  bytes payload_positions = 5;
+
+  // Метаданные файла
+  string file_name = 6;
+  string file_ext = 7;
+  string file_hash = 8;                               // SHA-256 исходного файла
+  string payload_hash = 9;                             // SHA-256 от payload
+
+  // Ссылка на оригинальный файл в S3 (PDF/XML/...) для скачивания через BFF
+  documan.common.v1.S3Ref original_file = 10;
+}
+
+// ===== Responses =====
+
+message NotifyERPDataReadyResponse {
+  int32 accepted = 1;                                  // сколько items принято
+}
+
+message NotifyIngestDataReadyResponse {
+  int32 accepted = 1;                                  // сколько items принято
+}
+
+// ===== GetActiveConnections =====
+
+message GetActiveConnectionsRequest {
+  // пусто -- connector получает все активные подключения
+}
+
+message GetActiveConnectionsResponse {
+  repeated ActiveConnection items = 1;
+}
+
+message ActiveConnection {
+  string tenant_id = 1;
+  string connection_id = 2;
+  string erp_type = 3;                                // "moysklad"
+  string erp_account_id = 4;
+  bool enabled = 5;
+  string status = 6;
+}

@@ -1,0 +1,139 @@
+syntax = "proto3";
+package documan.core.v1;
+
+option go_package = "github.com/plus-minus-dev/documan-pkg/services/gen/core/v1";
+
+import "google/protobuf/timestamp.proto";
+
+// CoreQueryService -- чтение, вызывает BFF.
+service CoreQueryService {
+  rpc GetConnection(GetConnectionRequest) returns (GetConnectionResponse);
+  rpc ListConnections(ListConnectionsRequest) returns (ListConnectionsResponse);
+  rpc ListOriginalDocuments(ListOriginalDocumentsRequest) returns (ListOriginalDocumentsResponse);
+  rpc ListERPEntities(ListERPEntitiesRequest) returns (ListERPEntitiesResponse);
+  rpc ListERPDocuments(ListERPDocumentsRequest) returns (ListERPDocumentsResponse);
+}
+
+// ===== Connection =====
+
+message GetConnectionRequest {
+  string tenant_id = 1;
+  string connection_id = 2;
+}
+
+message GetConnectionResponse {
+  ConnectionItem connection = 1;
+}
+
+message ListConnectionsRequest {
+  string tenant_id = 1;
+  int32 limit = 2;
+  int32 offset = 3;
+}
+
+message ListConnectionsResponse {
+  repeated ConnectionItem items = 1;
+  int32 total_count = 2;
+}
+
+message ConnectionItem {
+  string connection_id = 1;
+  string tenant_id = 2;
+  string erp_type = 3;
+  string erp_account_id = 4;
+  string name = 5;
+  string auth_type = 6;
+  bool enabled = 7;
+  string status = 8;
+  google.protobuf.Timestamp last_sync_at = 9;
+  google.protobuf.Timestamp created_at = 10;
+  google.protobuf.Timestamp updated_at = 11;
+}
+
+// ===== OriginalDocument =====
+
+message ListOriginalDocumentsRequest {
+  string tenant_id = 1;
+  string doc_type = 2;                        // фильтр, пустой = все
+  int32 limit = 3;
+  int32 offset = 4;
+}
+
+message ListOriginalDocumentsResponse {
+  repeated OriginalDocumentItem items = 1;
+  int32 total_count = 2;
+}
+
+message OriginalDocumentItem {
+  string tenant_id = 1;
+  string doc_id = 2;
+  string doc_type = 3;
+  string file_batch = 4;
+  string file_name = 5;
+  string file_ext = 6;
+  string file_hash = 7;
+  string payload_hash = 8;
+  google.protobuf.Timestamp payloaded_at = 9;
+  google.protobuf.Timestamp created_at = 10;
+  google.protobuf.Timestamp updated_at = 11;
+}
+
+// ===== ERPEntity =====
+
+message ListERPEntitiesRequest {
+  string tenant_id = 1;
+  string connection_id = 2;
+  string erp_entity_type = 3;                // "product", "counterparty", ... пустой = все
+  int32 limit = 4;
+  int32 offset = 5;
+}
+
+message ListERPEntitiesResponse {
+  repeated ERPEntityItem items = 1;
+  int32 total_count = 2;
+}
+
+message ERPEntityItem {
+  string tenant_id = 1;
+  string connection_id = 2;
+  string connection_type = 3;
+  string erp_entity_type = 4;
+  string erp_entity_id = 5;
+  string payload_hash = 6;
+  google.protobuf.Timestamp payloaded_at = 7;
+  google.protobuf.Timestamp erp_updated_at = 8;
+  google.protobuf.Timestamp erp_created_at = 9;
+  google.protobuf.Timestamp erp_deleted_at = 10;
+  bool erp_archived = 11;
+  bool archived = 12;
+}
+
+// ===== ERPDocument =====
+
+message ListERPDocumentsRequest {
+  string tenant_id = 1;
+  string connection_id = 2;
+  string erp_entity_type = 3;                // "supply", "invoicein", ... пустой = все
+  int32 limit = 4;
+  int32 offset = 5;
+}
+
+message ListERPDocumentsResponse {
+  repeated ERPDocumentItem items = 1;
+  int32 total_count = 2;
+}
+
+message ERPDocumentItem {
+  string tenant_id = 1;
+  string connection_id = 2;
+  string connection_type = 3;
+  string erp_entity_type = 4;
+  string erp_entity_id = 5;
+  string payload_hash = 6;
+  google.protobuf.Timestamp payloaded_at = 7;
+  google.protobuf.Timestamp erp_updated_at = 8;
+  google.protobuf.Timestamp erp_created_at = 9;
+  google.protobuf.Timestamp erp_deleted_at = 10;
+  bool erp_archived = 11;
+  bool archived = 12;
+}

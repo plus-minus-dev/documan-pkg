@@ -1,0 +1,70 @@
+syntax = "proto3";
+package documan.core.v1;
+
+option go_package = "github.com/plus-minus-dev/documan-pkg/services/gen/core/v1";
+
+// CoreCommandService -- мутации, вызывает BFF.
+service CoreCommandService {
+  rpc CreateConnection(CreateConnectionRequest) returns (CreateConnectionResponse);
+  rpc UpdateConnection(UpdateConnectionRequest) returns (UpdateConnectionResponse);
+  rpc EnableConnection(EnableConnectionRequest) returns (EnableConnectionResponse);
+  rpc DisableConnection(DisableConnectionRequest) returns (DisableConnectionResponse);
+  rpc DeleteConnection(DeleteConnectionRequest) returns (DeleteConnectionResponse);
+}
+
+// --- CreateConnection ---
+
+message CreateConnectionRequest {
+  string tenant_id = 1;
+  string erp_type = 2;        // "moysklad"
+  string erp_account_id = 3;  // ID аккаунта в ERP (UNIQUE per tenant)
+  string name = 4;
+  string auth_type = 5;       // "token" | "login_password"
+  string token = 6;           // если auth_type = "token"
+  string login = 7;           // если auth_type = "login_password"
+  string password = 8;        // если auth_type = "login_password"
+}
+
+message CreateConnectionResponse {
+  string connection_id = 1;
+}
+
+// --- UpdateConnection ---
+
+message UpdateConnectionRequest {
+  string tenant_id = 1;
+  string connection_id = 2;
+  optional string name = 3;
+  optional string token = 4;
+  optional string login = 5;
+  optional string password = 6;
+}
+
+message UpdateConnectionResponse {}
+
+// --- EnableConnection ---
+
+message EnableConnectionRequest {
+  string tenant_id = 1;
+  string connection_id = 2;
+}
+
+message EnableConnectionResponse {}
+
+// --- DisableConnection ---
+
+message DisableConnectionRequest {
+  string tenant_id = 1;
+  string connection_id = 2;
+}
+
+message DisableConnectionResponse {}
+
+// --- DeleteConnection ---
+
+message DeleteConnectionRequest {
+  string tenant_id = 1;
+  string connection_id = 2;
+}
+
+message DeleteConnectionResponse {}

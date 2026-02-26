@@ -1,0 +1,47 @@
+syntax = "proto3";
+package documan.core.v1;
+
+option go_package = "github.com/plus-minus-dev/documan-pkg/services/gen/core/v1";
+
+import "google/protobuf/timestamp.proto";
+
+// CorePushService -- отправка данных из core в ERP через connector-ms.
+// Направление: core -> connector -> МойСклад.
+service CorePushService {
+  // connector poll: "есть задачи на push в ERP?"
+  rpc GetPushTasks(GetPushTasksRequest) returns (GetPushTasksResponse);
+
+  // connector: "push выполнен"
+  rpc AckPushComplete(AckPushCompleteRequest) returns (AckPushCompleteResponse);
+}
+
+// ===== GetPushTasks =====
+
+message GetPushTasksRequest {
+  string tenant_id = 1;
+  string connection_id = 2;
+}
+
+message GetPushTasksResponse {
+  repeated PushTask items = 1;
+}
+
+message PushTask {
+  string task_id = 1;
+  string tenant_id = 2;
+  string connection_id = 3;
+  string erp_entity_type = 4;                         // "supply", "invoicein", ...
+  string erp_entity_id = 5;
+  bytes payload = 6;                                   // JSON для отправки в ERP
+  google.protobuf.Timestamp created_at = 7;           // когда задача создана
+}
+
+// ===== AckPushComplete =====
+
+message AckPushCompleteRequest {
+  string task_id = 1;
+  bool success = 2;
+  string error_message = 3;                           // если success=false
+}
+
+message AckPushCompleteResponse {}
