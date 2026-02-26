@@ -412,16 +412,69 @@ func (x *IngestDataItem) GetOriginalFile() *v1.S3Ref {
 	return nil
 }
 
+type RejectedItem struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	EntityId      string                 `protobuf:"bytes,1,opt,name=entity_id,json=entityId,proto3" json:"entity_id,omitempty"` // erp_entity_id или doc_id
+	Reason        string                 `protobuf:"bytes,2,opt,name=reason,proto3" json:"reason,omitempty"`                     // причина отклонения
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RejectedItem) Reset() {
+	*x = RejectedItem{}
+	mi := &file_core_v1_etl_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RejectedItem) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RejectedItem) ProtoMessage() {}
+
+func (x *RejectedItem) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_etl_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RejectedItem.ProtoReflect.Descriptor instead.
+func (*RejectedItem) Descriptor() ([]byte, []int) {
+	return file_core_v1_etl_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *RejectedItem) GetEntityId() string {
+	if x != nil {
+		return x.EntityId
+	}
+	return ""
+}
+
+func (x *RejectedItem) GetReason() string {
+	if x != nil {
+		return x.Reason
+	}
+	return ""
+}
+
 type NotifyERPDataReadyResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Accepted      int32                  `protobuf:"varint,1,opt,name=accepted,proto3" json:"accepted,omitempty"` // сколько items принято
+	Rejected      []*RejectedItem        `protobuf:"bytes,2,rep,name=rejected,proto3" json:"rejected,omitempty"`  // отклонённые items
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *NotifyERPDataReadyResponse) Reset() {
 	*x = NotifyERPDataReadyResponse{}
-	mi := &file_core_v1_etl_proto_msgTypes[4]
+	mi := &file_core_v1_etl_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -433,7 +486,7 @@ func (x *NotifyERPDataReadyResponse) String() string {
 func (*NotifyERPDataReadyResponse) ProtoMessage() {}
 
 func (x *NotifyERPDataReadyResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_etl_proto_msgTypes[4]
+	mi := &file_core_v1_etl_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -446,7 +499,7 @@ func (x *NotifyERPDataReadyResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use NotifyERPDataReadyResponse.ProtoReflect.Descriptor instead.
 func (*NotifyERPDataReadyResponse) Descriptor() ([]byte, []int) {
-	return file_core_v1_etl_proto_rawDescGZIP(), []int{4}
+	return file_core_v1_etl_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *NotifyERPDataReadyResponse) GetAccepted() int32 {
@@ -456,16 +509,24 @@ func (x *NotifyERPDataReadyResponse) GetAccepted() int32 {
 	return 0
 }
 
+func (x *NotifyERPDataReadyResponse) GetRejected() []*RejectedItem {
+	if x != nil {
+		return x.Rejected
+	}
+	return nil
+}
+
 type NotifyIngestDataReadyResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Accepted      int32                  `protobuf:"varint,1,opt,name=accepted,proto3" json:"accepted,omitempty"` // сколько items принято
+	Rejected      []*RejectedItem        `protobuf:"bytes,2,rep,name=rejected,proto3" json:"rejected,omitempty"`  // отклонённые items
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *NotifyIngestDataReadyResponse) Reset() {
 	*x = NotifyIngestDataReadyResponse{}
-	mi := &file_core_v1_etl_proto_msgTypes[5]
+	mi := &file_core_v1_etl_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -477,7 +538,7 @@ func (x *NotifyIngestDataReadyResponse) String() string {
 func (*NotifyIngestDataReadyResponse) ProtoMessage() {}
 
 func (x *NotifyIngestDataReadyResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_etl_proto_msgTypes[5]
+	mi := &file_core_v1_etl_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -490,7 +551,7 @@ func (x *NotifyIngestDataReadyResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use NotifyIngestDataReadyResponse.ProtoReflect.Descriptor instead.
 func (*NotifyIngestDataReadyResponse) Descriptor() ([]byte, []int) {
-	return file_core_v1_etl_proto_rawDescGZIP(), []int{5}
+	return file_core_v1_etl_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *NotifyIngestDataReadyResponse) GetAccepted() int32 {
@@ -498,6 +559,13 @@ func (x *NotifyIngestDataReadyResponse) GetAccepted() int32 {
 		return x.Accepted
 	}
 	return 0
+}
+
+func (x *NotifyIngestDataReadyResponse) GetRejected() []*RejectedItem {
+	if x != nil {
+		return x.Rejected
+	}
+	return nil
 }
 
 type GetActiveConnectionsRequest struct {
@@ -508,7 +576,7 @@ type GetActiveConnectionsRequest struct {
 
 func (x *GetActiveConnectionsRequest) Reset() {
 	*x = GetActiveConnectionsRequest{}
-	mi := &file_core_v1_etl_proto_msgTypes[6]
+	mi := &file_core_v1_etl_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -520,7 +588,7 @@ func (x *GetActiveConnectionsRequest) String() string {
 func (*GetActiveConnectionsRequest) ProtoMessage() {}
 
 func (x *GetActiveConnectionsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_etl_proto_msgTypes[6]
+	mi := &file_core_v1_etl_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -533,7 +601,7 @@ func (x *GetActiveConnectionsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetActiveConnectionsRequest.ProtoReflect.Descriptor instead.
 func (*GetActiveConnectionsRequest) Descriptor() ([]byte, []int) {
-	return file_core_v1_etl_proto_rawDescGZIP(), []int{6}
+	return file_core_v1_etl_proto_rawDescGZIP(), []int{7}
 }
 
 type GetActiveConnectionsResponse struct {
@@ -545,7 +613,7 @@ type GetActiveConnectionsResponse struct {
 
 func (x *GetActiveConnectionsResponse) Reset() {
 	*x = GetActiveConnectionsResponse{}
-	mi := &file_core_v1_etl_proto_msgTypes[7]
+	mi := &file_core_v1_etl_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -557,7 +625,7 @@ func (x *GetActiveConnectionsResponse) String() string {
 func (*GetActiveConnectionsResponse) ProtoMessage() {}
 
 func (x *GetActiveConnectionsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_etl_proto_msgTypes[7]
+	mi := &file_core_v1_etl_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -570,7 +638,7 @@ func (x *GetActiveConnectionsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetActiveConnectionsResponse.ProtoReflect.Descriptor instead.
 func (*GetActiveConnectionsResponse) Descriptor() ([]byte, []int) {
-	return file_core_v1_etl_proto_rawDescGZIP(), []int{7}
+	return file_core_v1_etl_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *GetActiveConnectionsResponse) GetItems() []*ActiveConnection {
@@ -594,7 +662,7 @@ type ActiveConnection struct {
 
 func (x *ActiveConnection) Reset() {
 	*x = ActiveConnection{}
-	mi := &file_core_v1_etl_proto_msgTypes[8]
+	mi := &file_core_v1_etl_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -606,7 +674,7 @@ func (x *ActiveConnection) String() string {
 func (*ActiveConnection) ProtoMessage() {}
 
 func (x *ActiveConnection) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_etl_proto_msgTypes[8]
+	mi := &file_core_v1_etl_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -619,7 +687,7 @@ func (x *ActiveConnection) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ActiveConnection.ProtoReflect.Descriptor instead.
 func (*ActiveConnection) Descriptor() ([]byte, []int) {
-	return file_core_v1_etl_proto_rawDescGZIP(), []int{8}
+	return file_core_v1_etl_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *ActiveConnection) GetTenantId() string {
@@ -705,11 +773,16 @@ const file_core_v1_etl_proto_rawDesc = "" +
 	"\tfile_hash\x18\b \x01(\tR\bfileHash\x12!\n" +
 	"\fpayload_hash\x18\t \x01(\tR\vpayloadHash\x12=\n" +
 	"\roriginal_file\x18\n" +
-	" \x01(\v2\x18.documan.common.v1.S3RefR\foriginalFile\"8\n" +
+	" \x01(\v2\x18.documan.common.v1.S3RefR\foriginalFile\"C\n" +
+	"\fRejectedItem\x12\x1b\n" +
+	"\tentity_id\x18\x01 \x01(\tR\bentityId\x12\x16\n" +
+	"\x06reason\x18\x02 \x01(\tR\x06reason\"s\n" +
 	"\x1aNotifyERPDataReadyResponse\x12\x1a\n" +
-	"\baccepted\x18\x01 \x01(\x05R\baccepted\";\n" +
+	"\baccepted\x18\x01 \x01(\x05R\baccepted\x129\n" +
+	"\brejected\x18\x02 \x03(\v2\x1d.documan.core.v1.RejectedItemR\brejected\"v\n" +
 	"\x1dNotifyIngestDataReadyResponse\x12\x1a\n" +
-	"\baccepted\x18\x01 \x01(\x05R\baccepted\"\x1d\n" +
+	"\baccepted\x18\x01 \x01(\x05R\baccepted\x129\n" +
+	"\brejected\x18\x02 \x03(\v2\x1d.documan.core.v1.RejectedItemR\brejected\"\x1d\n" +
 	"\x1bGetActiveConnectionsRequest\"W\n" +
 	"\x1cGetActiveConnectionsResponse\x127\n" +
 	"\x05items\x18\x01 \x03(\v2!.documan.core.v1.ActiveConnectionR\x05items\"\xc7\x01\n" +
@@ -737,39 +810,42 @@ func file_core_v1_etl_proto_rawDescGZIP() []byte {
 	return file_core_v1_etl_proto_rawDescData
 }
 
-var file_core_v1_etl_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
+var file_core_v1_etl_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_core_v1_etl_proto_goTypes = []any{
 	(*NotifyERPDataReadyRequest)(nil),     // 0: documan.core.v1.NotifyERPDataReadyRequest
 	(*ERPDataItem)(nil),                   // 1: documan.core.v1.ERPDataItem
 	(*NotifyIngestDataReadyRequest)(nil),  // 2: documan.core.v1.NotifyIngestDataReadyRequest
 	(*IngestDataItem)(nil),                // 3: documan.core.v1.IngestDataItem
-	(*NotifyERPDataReadyResponse)(nil),    // 4: documan.core.v1.NotifyERPDataReadyResponse
-	(*NotifyIngestDataReadyResponse)(nil), // 5: documan.core.v1.NotifyIngestDataReadyResponse
-	(*GetActiveConnectionsRequest)(nil),   // 6: documan.core.v1.GetActiveConnectionsRequest
-	(*GetActiveConnectionsResponse)(nil),  // 7: documan.core.v1.GetActiveConnectionsResponse
-	(*ActiveConnection)(nil),              // 8: documan.core.v1.ActiveConnection
-	(*timestamppb.Timestamp)(nil),         // 9: google.protobuf.Timestamp
-	(*v1.S3Ref)(nil),                      // 10: documan.common.v1.S3Ref
+	(*RejectedItem)(nil),                  // 4: documan.core.v1.RejectedItem
+	(*NotifyERPDataReadyResponse)(nil),    // 5: documan.core.v1.NotifyERPDataReadyResponse
+	(*NotifyIngestDataReadyResponse)(nil), // 6: documan.core.v1.NotifyIngestDataReadyResponse
+	(*GetActiveConnectionsRequest)(nil),   // 7: documan.core.v1.GetActiveConnectionsRequest
+	(*GetActiveConnectionsResponse)(nil),  // 8: documan.core.v1.GetActiveConnectionsResponse
+	(*ActiveConnection)(nil),              // 9: documan.core.v1.ActiveConnection
+	(*timestamppb.Timestamp)(nil),         // 10: google.protobuf.Timestamp
+	(*v1.S3Ref)(nil),                      // 11: documan.common.v1.S3Ref
 }
 var file_core_v1_etl_proto_depIdxs = []int32{
 	1,  // 0: documan.core.v1.NotifyERPDataReadyRequest.items:type_name -> documan.core.v1.ERPDataItem
-	9,  // 1: documan.core.v1.ERPDataItem.erp_updated_at:type_name -> google.protobuf.Timestamp
-	9,  // 2: documan.core.v1.ERPDataItem.erp_created_at:type_name -> google.protobuf.Timestamp
-	9,  // 3: documan.core.v1.ERPDataItem.erp_deleted_at:type_name -> google.protobuf.Timestamp
+	10, // 1: documan.core.v1.ERPDataItem.erp_updated_at:type_name -> google.protobuf.Timestamp
+	10, // 2: documan.core.v1.ERPDataItem.erp_created_at:type_name -> google.protobuf.Timestamp
+	10, // 3: documan.core.v1.ERPDataItem.erp_deleted_at:type_name -> google.protobuf.Timestamp
 	3,  // 4: documan.core.v1.NotifyIngestDataReadyRequest.items:type_name -> documan.core.v1.IngestDataItem
-	10, // 5: documan.core.v1.IngestDataItem.original_file:type_name -> documan.common.v1.S3Ref
-	8,  // 6: documan.core.v1.GetActiveConnectionsResponse.items:type_name -> documan.core.v1.ActiveConnection
-	0,  // 7: documan.core.v1.CoreETLService.NotifyERPDataReady:input_type -> documan.core.v1.NotifyERPDataReadyRequest
-	2,  // 8: documan.core.v1.CoreETLService.NotifyIngestDataReady:input_type -> documan.core.v1.NotifyIngestDataReadyRequest
-	6,  // 9: documan.core.v1.CoreETLService.GetActiveConnections:input_type -> documan.core.v1.GetActiveConnectionsRequest
-	4,  // 10: documan.core.v1.CoreETLService.NotifyERPDataReady:output_type -> documan.core.v1.NotifyERPDataReadyResponse
-	5,  // 11: documan.core.v1.CoreETLService.NotifyIngestDataReady:output_type -> documan.core.v1.NotifyIngestDataReadyResponse
-	7,  // 12: documan.core.v1.CoreETLService.GetActiveConnections:output_type -> documan.core.v1.GetActiveConnectionsResponse
-	10, // [10:13] is the sub-list for method output_type
-	7,  // [7:10] is the sub-list for method input_type
-	7,  // [7:7] is the sub-list for extension type_name
-	7,  // [7:7] is the sub-list for extension extendee
-	0,  // [0:7] is the sub-list for field type_name
+	11, // 5: documan.core.v1.IngestDataItem.original_file:type_name -> documan.common.v1.S3Ref
+	4,  // 6: documan.core.v1.NotifyERPDataReadyResponse.rejected:type_name -> documan.core.v1.RejectedItem
+	4,  // 7: documan.core.v1.NotifyIngestDataReadyResponse.rejected:type_name -> documan.core.v1.RejectedItem
+	9,  // 8: documan.core.v1.GetActiveConnectionsResponse.items:type_name -> documan.core.v1.ActiveConnection
+	0,  // 9: documan.core.v1.CoreETLService.NotifyERPDataReady:input_type -> documan.core.v1.NotifyERPDataReadyRequest
+	2,  // 10: documan.core.v1.CoreETLService.NotifyIngestDataReady:input_type -> documan.core.v1.NotifyIngestDataReadyRequest
+	7,  // 11: documan.core.v1.CoreETLService.GetActiveConnections:input_type -> documan.core.v1.GetActiveConnectionsRequest
+	5,  // 12: documan.core.v1.CoreETLService.NotifyERPDataReady:output_type -> documan.core.v1.NotifyERPDataReadyResponse
+	6,  // 13: documan.core.v1.CoreETLService.NotifyIngestDataReady:output_type -> documan.core.v1.NotifyIngestDataReadyResponse
+	8,  // 14: documan.core.v1.CoreETLService.GetActiveConnections:output_type -> documan.core.v1.GetActiveConnectionsResponse
+	12, // [12:15] is the sub-list for method output_type
+	9,  // [9:12] is the sub-list for method input_type
+	9,  // [9:9] is the sub-list for extension type_name
+	9,  // [9:9] is the sub-list for extension extendee
+	0,  // [0:9] is the sub-list for field type_name
 }
 
 func init() { file_core_v1_etl_proto_init() }
@@ -783,7 +859,7 @@ func file_core_v1_etl_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_core_v1_etl_proto_rawDesc), len(file_core_v1_etl_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   9,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

@@ -79,12 +79,19 @@ message IngestDataItem {
 
 // ===== Responses =====
 
+message RejectedItem {
+  string entity_id = 1;                                // erp_entity_id или doc_id
+  string reason = 2;                                   // причина отклонения
+}
+
 message NotifyERPDataReadyResponse {
   int32 accepted = 1;                                  // сколько items принято
+  repeated RejectedItem rejected = 2;                  // отклонённые items
 }
 
 message NotifyIngestDataReadyResponse {
   int32 accepted = 1;                                  // сколько items принято
+  repeated RejectedItem rejected = 2;                  // отклонённые items
 }
 
 // ===== GetActiveConnections =====
