@@ -656,6 +656,8 @@ type ActiveConnection struct {
 	ErpAccountId  string                 `protobuf:"bytes,4,opt,name=erp_account_id,json=erpAccountId,proto3" json:"erp_account_id,omitempty"`
 	Enabled       bool                   `protobuf:"varint,5,opt,name=enabled,proto3" json:"enabled,omitempty"`
 	Status        string                 `protobuf:"bytes,6,opt,name=status,proto3" json:"status,omitempty"`
+	AuthType      string                 `protobuf:"bytes,7,opt,name=auth_type,json=authType,proto3" json:"auth_type,omitempty"` // "token" | "vendor_app"
+	ErpToken      string                 `protobuf:"bytes,8,opt,name=erp_token,json=erpToken,proto3" json:"erp_token,omitempty"` // токен доступа к ERP API
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -732,6 +734,20 @@ func (x *ActiveConnection) GetStatus() string {
 	return ""
 }
 
+func (x *ActiveConnection) GetAuthType() string {
+	if x != nil {
+		return x.AuthType
+	}
+	return ""
+}
+
+func (x *ActiveConnection) GetErpToken() string {
+	if x != nil {
+		return x.ErpToken
+	}
+	return ""
+}
+
 var File_core_v1_etl_proto protoreflect.FileDescriptor
 
 const file_core_v1_etl_proto_rawDesc = "" +
@@ -785,14 +801,16 @@ const file_core_v1_etl_proto_rawDesc = "" +
 	"\brejected\x18\x02 \x03(\v2\x1d.documan.core.v1.RejectedItemR\brejected\"\x1d\n" +
 	"\x1bGetActiveConnectionsRequest\"W\n" +
 	"\x1cGetActiveConnectionsResponse\x127\n" +
-	"\x05items\x18\x01 \x03(\v2!.documan.core.v1.ActiveConnectionR\x05items\"\xc7\x01\n" +
+	"\x05items\x18\x01 \x03(\v2!.documan.core.v1.ActiveConnectionR\x05items\"\x81\x02\n" +
 	"\x10ActiveConnection\x12\x1b\n" +
 	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12#\n" +
 	"\rconnection_id\x18\x02 \x01(\tR\fconnectionId\x12\x19\n" +
 	"\berp_type\x18\x03 \x01(\tR\aerpType\x12$\n" +
 	"\x0eerp_account_id\x18\x04 \x01(\tR\ferpAccountId\x12\x18\n" +
 	"\aenabled\x18\x05 \x01(\bR\aenabled\x12\x16\n" +
-	"\x06status\x18\x06 \x01(\tR\x06status2\xec\x02\n" +
+	"\x06status\x18\x06 \x01(\tR\x06status\x12\x1b\n" +
+	"\tauth_type\x18\a \x01(\tR\bauthType\x12\x1b\n" +
+	"\terp_token\x18\b \x01(\tR\berpToken2\xec\x02\n" +
 	"\x0eCoreETLService\x12m\n" +
 	"\x12NotifyERPDataReady\x12*.documan.core.v1.NotifyERPDataReadyRequest\x1a+.documan.core.v1.NotifyERPDataReadyResponse\x12v\n" +
 	"\x15NotifyIngestDataReady\x12-.documan.core.v1.NotifyIngestDataReadyRequest\x1a..documan.core.v1.NotifyIngestDataReadyResponse\x12s\n" +

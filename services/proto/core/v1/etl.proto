@@ -111,4 +111,6 @@ message ActiveConnection {
   string erp_account_id = 4;
   bool enabled = 5;
   string status = 6;
+  string auth_type = 7;                               // "token" | "vendor_app"
+  string erp_token = 8;                               // токен доступа к ERP API
 }
