@@ -22,6 +22,7 @@ const (
 	CoreQueryService_GetConnection_FullMethodName         = "/documan.core.v1.CoreQueryService/GetConnection"
 	CoreQueryService_ListConnections_FullMethodName       = "/documan.core.v1.CoreQueryService/ListConnections"
 	CoreQueryService_ListOriginalDocuments_FullMethodName = "/documan.core.v1.CoreQueryService/ListOriginalDocuments"
+	CoreQueryService_GetOriginalDocument_FullMethodName   = "/documan.core.v1.CoreQueryService/GetOriginalDocument"
 	CoreQueryService_ListERPEntities_FullMethodName       = "/documan.core.v1.CoreQueryService/ListERPEntities"
 	CoreQueryService_ListERPDocuments_FullMethodName      = "/documan.core.v1.CoreQueryService/ListERPDocuments"
 )
@@ -35,6 +36,7 @@ type CoreQueryServiceClient interface {
 	GetConnection(ctx context.Context, in *GetConnectionRequest, opts ...grpc.CallOption) (*GetConnectionResponse, error)
 	ListConnections(ctx context.Context, in *ListConnectionsRequest, opts ...grpc.CallOption) (*ListConnectionsResponse, error)
 	ListOriginalDocuments(ctx context.Context, in *ListOriginalDocumentsRequest, opts ...grpc.CallOption) (*ListOriginalDocumentsResponse, error)
+	GetOriginalDocument(ctx context.Context, in *GetOriginalDocumentRequest, opts ...grpc.CallOption) (*GetOriginalDocumentResponse, error)
 	ListERPEntities(ctx context.Context, in *ListERPEntitiesRequest, opts ...grpc.CallOption) (*ListERPEntitiesResponse, error)
 	ListERPDocuments(ctx context.Context, in *ListERPDocumentsRequest, opts ...grpc.CallOption) (*ListERPDocumentsResponse, error)
 }
@@ -77,6 +79,16 @@ func (c *coreQueryServiceClient) ListOriginalDocuments(ctx context.Context, in *
 	return out, nil
 }
 
+func (c *coreQueryServiceClient) GetOriginalDocument(ctx context.Context, in *GetOriginalDocumentRequest, opts ...grpc.CallOption) (*GetOriginalDocumentResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetOriginalDocumentResponse)
+	err := c.cc.Invoke(ctx, CoreQueryService_GetOriginalDocument_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *coreQueryServiceClient) ListERPEntities(ctx context.Context, in *ListERPEntitiesRequest, opts ...grpc.CallOption) (*ListERPEntitiesResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListERPEntitiesResponse)
@@ -106,6 +118,7 @@ type CoreQueryServiceServer interface {
 	GetConnection(context.Context, *GetConnectionRequest) (*GetConnectionResponse, error)
 	ListConnections(context.Context, *ListConnectionsRequest) (*ListConnectionsResponse, error)
 	ListOriginalDocuments(context.Context, *ListOriginalDocumentsRequest) (*ListOriginalDocumentsResponse, error)
+	GetOriginalDocument(context.Context, *GetOriginalDocumentRequest) (*GetOriginalDocumentResponse, error)
 	ListERPEntities(context.Context, *ListERPEntitiesRequest) (*ListERPEntitiesResponse, error)
 	ListERPDocuments(context.Context, *ListERPDocumentsRequest) (*ListERPDocumentsResponse, error)
 	mustEmbedUnimplementedCoreQueryServiceServer()
@@ -126,6 +139,9 @@ func (UnimplementedCoreQueryServiceServer) ListConnections(context.Context, *Lis
 }
 func (UnimplementedCoreQueryServiceServer) ListOriginalDocuments(context.Context, *ListOriginalDocumentsRequest) (*ListOriginalDocumentsResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListOriginalDocuments not implemented")
+}
+func (UnimplementedCoreQueryServiceServer) GetOriginalDocument(context.Context, *GetOriginalDocumentRequest) (*GetOriginalDocumentResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetOriginalDocument not implemented")
 }
 func (UnimplementedCoreQueryServiceServer) ListERPEntities(context.Context, *ListERPEntitiesRequest) (*ListERPEntitiesResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListERPEntities not implemented")
@@ -208,6 +224,24 @@ func _CoreQueryService_ListOriginalDocuments_Handler(srv interface{}, ctx contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CoreQueryService_GetOriginalDocument_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetOriginalDocumentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CoreQueryServiceServer).GetOriginalDocument(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CoreQueryService_GetOriginalDocument_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CoreQueryServiceServer).GetOriginalDocument(ctx, req.(*GetOriginalDocumentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _CoreQueryService_ListERPEntities_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListERPEntitiesRequest)
 	if err := dec(in); err != nil {
@@ -262,6 +296,10 @@ var CoreQueryService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListOriginalDocuments",
 			Handler:    _CoreQueryService_ListOriginalDocuments_Handler,
+		},
+		{
+			MethodName: "GetOriginalDocument",
+			Handler:    _CoreQueryService_GetOriginalDocument_Handler,
 		},
 		{
 			MethodName: "ListERPEntities",

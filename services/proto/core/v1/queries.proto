@@ -4,12 +4,14 @@ package documan.core.v1;
 option go_package = "github.com/plus-minus-dev/documan-pkg/services/gen/core/v1";
 
 import "google/protobuf/timestamp.proto";
+import "common/v1/types.proto";
 
 // CoreQueryService -- чтение, вызывает BFF.
 service CoreQueryService {
   rpc GetConnection(GetConnectionRequest) returns (GetConnectionResponse);
   rpc ListConnections(ListConnectionsRequest) returns (ListConnectionsResponse);
   rpc ListOriginalDocuments(ListOriginalDocumentsRequest) returns (ListOriginalDocumentsResponse);
+  rpc GetOriginalDocument(GetOriginalDocumentRequest) returns (GetOriginalDocumentResponse);
   rpc ListERPEntities(ListERPEntitiesRequest) returns (ListERPEntitiesResponse);
   rpc ListERPDocuments(ListERPDocumentsRequest) returns (ListERPDocumentsResponse);
 }
@@ -64,6 +66,15 @@ message ListOriginalDocumentsResponse {
   int32 total_count = 2;
 }
 
+message GetOriginalDocumentRequest {
+  string tenant_id = 1;
+  string doc_id = 2;
+}
+
+message GetOriginalDocumentResponse {
+  OriginalDocumentDetails document = 1;
+}
+
 message OriginalDocumentItem {
   string tenant_id = 1;
   string doc_id = 2;
@@ -76,6 +87,25 @@ message OriginalDocumentItem {
   google.protobuf.Timestamp payloaded_at = 9;
   google.protobuf.Timestamp created_at = 10;
   google.protobuf.Timestamp updated_at = 11;
+}
+
+message OriginalDocumentDetails {
+  string tenant_id = 1;
+  string doc_id = 2;
+  string doc_type = 3;
+  string file_batch = 4;
+  string file_name = 5;
+  string file_ext = 6;
+  string file_hash = 7;
+  string payload_hash = 8;
+  bytes payload_meta = 9;
+  bytes payload_header = 10;
+  bytes payload_summary = 11;
+  bytes payload_positions = 12;
+  google.protobuf.Timestamp payloaded_at = 13;
+  google.protobuf.Timestamp created_at = 14;
+  google.protobuf.Timestamp updated_at = 15;
+  documan.common.v1.S3Ref original_file = 16;
 }
 
 // ===== ERPEntity =====
