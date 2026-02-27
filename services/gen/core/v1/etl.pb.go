@@ -27,7 +27,7 @@ type NotifyERPDataReadyRequest struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	TenantId       string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
 	ConnectionId   string                 `protobuf:"bytes,2,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
-	ConnectionType string                 `protobuf:"bytes,3,opt,name=connection_type,json=connectionType,proto3" json:"connection_type,omitempty"` // "moysklad"
+	ConnectionType string                 `protobuf:"bytes,3,opt,name=connection_type,json=connectionType,proto3" json:"connection_type,omitempty"` // "ms"
 	ErpEntityType  string                 `protobuf:"bytes,4,opt,name=erp_entity_type,json=erpEntityType,proto3" json:"erp_entity_type,omitempty"`  // "product", "supply", ...
 	Items          []*ERPDataItem         `protobuf:"bytes,5,rep,name=items,proto3" json:"items,omitempty"`
 	unknownFields  protoimpl.UnknownFields

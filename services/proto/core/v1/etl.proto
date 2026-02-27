@@ -26,7 +26,7 @@ service CoreETLService {
 message NotifyERPDataReadyRequest {
   string tenant_id = 1;
   string connection_id = 2;
-  string connection_type = 3;                          // "moysklad"
+  string connection_type = 3;                          // "ms"
   string erp_entity_type = 4;                          // "product", "supply", ...
   repeated ERPDataItem items = 5;
 }
