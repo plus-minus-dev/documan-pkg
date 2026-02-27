@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package documan.connector_ms.v1;
+
+option go_package = "github.com/plus-minus-dev/documan-pkg/services/gen/connector_ms/v1;connector_msv1";
+
+service ConnectorMSService {
+  // ValidateToken проверяет ERP-токен и возвращает accountID.
+  rpc ValidateToken(ValidateTokenRequest) returns (ValidateTokenResponse);
+}
+
+message ValidateTokenRequest {
+  string erp_type = 1;
+  string token = 2;
+}
+
+message ValidateTokenResponse {
+  string account_id = 1;
+  string org_name = 2;
+}
