@@ -1379,6 +1379,1190 @@ func (x *ERPDocumentItem) GetArchived() bool {
 	return false
 }
 
+type GetMatchingStatsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TenantId      string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetMatchingStatsRequest) Reset() {
+	*x = GetMatchingStatsRequest{}
+	mi := &file_core_v1_queries_proto_msgTypes[17]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetMatchingStatsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetMatchingStatsRequest) ProtoMessage() {}
+
+func (x *GetMatchingStatsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_queries_proto_msgTypes[17]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetMatchingStatsRequest.ProtoReflect.Descriptor instead.
+func (*GetMatchingStatsRequest) Descriptor() ([]byte, []int) {
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *GetMatchingStatsRequest) GetTenantId() string {
+	if x != nil {
+		return x.TenantId
+	}
+	return ""
+}
+
+type GetMatchingStatsResponse struct {
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	DocJobsQueued     int32                  `protobuf:"varint,1,opt,name=doc_jobs_queued,json=docJobsQueued,proto3" json:"doc_jobs_queued,omitempty"`
+	DocJobsProcessing int32                  `protobuf:"varint,2,opt,name=doc_jobs_processing,json=docJobsProcessing,proto3" json:"doc_jobs_processing,omitempty"`
+	DocJobsDone       int32                  `protobuf:"varint,3,opt,name=doc_jobs_done,json=docJobsDone,proto3" json:"doc_jobs_done,omitempty"`
+	DocJobsFailed     int32                  `protobuf:"varint,4,opt,name=doc_jobs_failed,json=docJobsFailed,proto3" json:"doc_jobs_failed,omitempty"`
+	DocJobsRetry      int32                  `protobuf:"varint,5,opt,name=doc_jobs_retry,json=docJobsRetry,proto3" json:"doc_jobs_retry,omitempty"`
+	EntJobsQueued     int32                  `protobuf:"varint,6,opt,name=ent_jobs_queued,json=entJobsQueued,proto3" json:"ent_jobs_queued,omitempty"`
+	EntJobsProcessing int32                  `protobuf:"varint,7,opt,name=ent_jobs_processing,json=entJobsProcessing,proto3" json:"ent_jobs_processing,omitempty"`
+	EntJobsDone       int32                  `protobuf:"varint,8,opt,name=ent_jobs_done,json=entJobsDone,proto3" json:"ent_jobs_done,omitempty"`
+	EntJobsFailed     int32                  `protobuf:"varint,9,opt,name=ent_jobs_failed,json=entJobsFailed,proto3" json:"ent_jobs_failed,omitempty"`
+	PairsStrongMatch  int32                  `protobuf:"varint,10,opt,name=pairs_strong_match,json=pairsStrongMatch,proto3" json:"pairs_strong_match,omitempty"`
+	PairsCandidate    int32                  `protobuf:"varint,11,opt,name=pairs_candidate,json=pairsCandidate,proto3" json:"pairs_candidate,omitempty"`
+	PairsAmbiguous    int32                  `protobuf:"varint,12,opt,name=pairs_ambiguous,json=pairsAmbiguous,proto3" json:"pairs_ambiguous,omitempty"`
+	PairsNotFound     int32                  `protobuf:"varint,13,opt,name=pairs_not_found,json=pairsNotFound,proto3" json:"pairs_not_found,omitempty"`
+	PairsConfirmed    int32                  `protobuf:"varint,14,opt,name=pairs_confirmed,json=pairsConfirmed,proto3" json:"pairs_confirmed,omitempty"`
+	PairsWithDelta    int32                  `protobuf:"varint,15,opt,name=pairs_with_delta,json=pairsWithDelta,proto3" json:"pairs_with_delta,omitempty"`
+	DictionaryEntries int32                  `protobuf:"varint,16,opt,name=dictionary_entries,json=dictionaryEntries,proto3" json:"dictionary_entries,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
+}
+
+func (x *GetMatchingStatsResponse) Reset() {
+	*x = GetMatchingStatsResponse{}
+	mi := &file_core_v1_queries_proto_msgTypes[18]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetMatchingStatsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetMatchingStatsResponse) ProtoMessage() {}
+
+func (x *GetMatchingStatsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_queries_proto_msgTypes[18]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetMatchingStatsResponse.ProtoReflect.Descriptor instead.
+func (*GetMatchingStatsResponse) Descriptor() ([]byte, []int) {
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{18}
+}
+
+func (x *GetMatchingStatsResponse) GetDocJobsQueued() int32 {
+	if x != nil {
+		return x.DocJobsQueued
+	}
+	return 0
+}
+
+func (x *GetMatchingStatsResponse) GetDocJobsProcessing() int32 {
+	if x != nil {
+		return x.DocJobsProcessing
+	}
+	return 0
+}
+
+func (x *GetMatchingStatsResponse) GetDocJobsDone() int32 {
+	if x != nil {
+		return x.DocJobsDone
+	}
+	return 0
+}
+
+func (x *GetMatchingStatsResponse) GetDocJobsFailed() int32 {
+	if x != nil {
+		return x.DocJobsFailed
+	}
+	return 0
+}
+
+func (x *GetMatchingStatsResponse) GetDocJobsRetry() int32 {
+	if x != nil {
+		return x.DocJobsRetry
+	}
+	return 0
+}
+
+func (x *GetMatchingStatsResponse) GetEntJobsQueued() int32 {
+	if x != nil {
+		return x.EntJobsQueued
+	}
+	return 0
+}
+
+func (x *GetMatchingStatsResponse) GetEntJobsProcessing() int32 {
+	if x != nil {
+		return x.EntJobsProcessing
+	}
+	return 0
+}
+
+func (x *GetMatchingStatsResponse) GetEntJobsDone() int32 {
+	if x != nil {
+		return x.EntJobsDone
+	}
+	return 0
+}
+
+func (x *GetMatchingStatsResponse) GetEntJobsFailed() int32 {
+	if x != nil {
+		return x.EntJobsFailed
+	}
+	return 0
+}
+
+func (x *GetMatchingStatsResponse) GetPairsStrongMatch() int32 {
+	if x != nil {
+		return x.PairsStrongMatch
+	}
+	return 0
+}
+
+func (x *GetMatchingStatsResponse) GetPairsCandidate() int32 {
+	if x != nil {
+		return x.PairsCandidate
+	}
+	return 0
+}
+
+func (x *GetMatchingStatsResponse) GetPairsAmbiguous() int32 {
+	if x != nil {
+		return x.PairsAmbiguous
+	}
+	return 0
+}
+
+func (x *GetMatchingStatsResponse) GetPairsNotFound() int32 {
+	if x != nil {
+		return x.PairsNotFound
+	}
+	return 0
+}
+
+func (x *GetMatchingStatsResponse) GetPairsConfirmed() int32 {
+	if x != nil {
+		return x.PairsConfirmed
+	}
+	return 0
+}
+
+func (x *GetMatchingStatsResponse) GetPairsWithDelta() int32 {
+	if x != nil {
+		return x.PairsWithDelta
+	}
+	return 0
+}
+
+func (x *GetMatchingStatsResponse) GetDictionaryEntries() int32 {
+	if x != nil {
+		return x.DictionaryEntries
+	}
+	return 0
+}
+
+type ListDocumentPairsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TenantId      string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
+	Limit         int32                  `protobuf:"varint,2,opt,name=limit,proto3" json:"limit,omitempty"`
+	Offset        int32                  `protobuf:"varint,3,opt,name=offset,proto3" json:"offset,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListDocumentPairsRequest) Reset() {
+	*x = ListDocumentPairsRequest{}
+	mi := &file_core_v1_queries_proto_msgTypes[19]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListDocumentPairsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListDocumentPairsRequest) ProtoMessage() {}
+
+func (x *ListDocumentPairsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_queries_proto_msgTypes[19]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListDocumentPairsRequest.ProtoReflect.Descriptor instead.
+func (*ListDocumentPairsRequest) Descriptor() ([]byte, []int) {
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{19}
+}
+
+func (x *ListDocumentPairsRequest) GetTenantId() string {
+	if x != nil {
+		return x.TenantId
+	}
+	return ""
+}
+
+func (x *ListDocumentPairsRequest) GetLimit() int32 {
+	if x != nil {
+		return x.Limit
+	}
+	return 0
+}
+
+func (x *ListDocumentPairsRequest) GetOffset() int32 {
+	if x != nil {
+		return x.Offset
+	}
+	return 0
+}
+
+type ListDocumentPairsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Items         []*DocumentPairItem    `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
+	TotalCount    int32                  `protobuf:"varint,2,opt,name=total_count,json=totalCount,proto3" json:"total_count,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListDocumentPairsResponse) Reset() {
+	*x = ListDocumentPairsResponse{}
+	mi := &file_core_v1_queries_proto_msgTypes[20]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListDocumentPairsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListDocumentPairsResponse) ProtoMessage() {}
+
+func (x *ListDocumentPairsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_queries_proto_msgTypes[20]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListDocumentPairsResponse.ProtoReflect.Descriptor instead.
+func (*ListDocumentPairsResponse) Descriptor() ([]byte, []int) {
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{20}
+}
+
+func (x *ListDocumentPairsResponse) GetItems() []*DocumentPairItem {
+	if x != nil {
+		return x.Items
+	}
+	return nil
+}
+
+func (x *ListDocumentPairsResponse) GetTotalCount() int32 {
+	if x != nil {
+		return x.TotalCount
+	}
+	return 0
+}
+
+type DocumentPairItem struct {
+	state              protoimpl.MessageState `protogen:"open.v1"`
+	Id                 string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	TenantId           string                 `protobuf:"bytes,2,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
+	DocumentSetId      string                 `protobuf:"bytes,3,opt,name=document_set_id,json=documentSetId,proto3" json:"document_set_id,omitempty"`
+	SourceConnectionId string                 `protobuf:"bytes,4,opt,name=source_connection_id,json=sourceConnectionId,proto3" json:"source_connection_id,omitempty"` // пустой = original
+	SourceDocId        string                 `protobuf:"bytes,5,opt,name=source_doc_id,json=sourceDocId,proto3" json:"source_doc_id,omitempty"`
+	TargetConnectionId string                 `protobuf:"bytes,6,opt,name=target_connection_id,json=targetConnectionId,proto3" json:"target_connection_id,omitempty"` // пустой = original
+	TargetDocId        string                 `protobuf:"bytes,7,opt,name=target_doc_id,json=targetDocId,proto3" json:"target_doc_id,omitempty"`
+	MatchScore         int32                  `protobuf:"varint,8,opt,name=match_score,json=matchScore,proto3" json:"match_score,omitempty"`
+	MatchStatus        string                 `protobuf:"bytes,9,opt,name=match_status,json=matchStatus,proto3" json:"match_status,omitempty"`  // strong_match | candidate | ambiguous | not_found | confirmed
+	ConfirmedBy        string                 `protobuf:"bytes,10,opt,name=confirmed_by,json=confirmedBy,proto3" json:"confirmed_by,omitempty"` // human | autopilot | пустой
+	HasDelta           bool                   `protobuf:"varint,11,opt,name=has_delta,json=hasDelta,proto3" json:"has_delta,omitempty"`
+	CreatedAt          *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt          *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
+}
+
+func (x *DocumentPairItem) Reset() {
+	*x = DocumentPairItem{}
+	mi := &file_core_v1_queries_proto_msgTypes[21]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DocumentPairItem) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DocumentPairItem) ProtoMessage() {}
+
+func (x *DocumentPairItem) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_queries_proto_msgTypes[21]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DocumentPairItem.ProtoReflect.Descriptor instead.
+func (*DocumentPairItem) Descriptor() ([]byte, []int) {
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{21}
+}
+
+func (x *DocumentPairItem) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *DocumentPairItem) GetTenantId() string {
+	if x != nil {
+		return x.TenantId
+	}
+	return ""
+}
+
+func (x *DocumentPairItem) GetDocumentSetId() string {
+	if x != nil {
+		return x.DocumentSetId
+	}
+	return ""
+}
+
+func (x *DocumentPairItem) GetSourceConnectionId() string {
+	if x != nil {
+		return x.SourceConnectionId
+	}
+	return ""
+}
+
+func (x *DocumentPairItem) GetSourceDocId() string {
+	if x != nil {
+		return x.SourceDocId
+	}
+	return ""
+}
+
+func (x *DocumentPairItem) GetTargetConnectionId() string {
+	if x != nil {
+		return x.TargetConnectionId
+	}
+	return ""
+}
+
+func (x *DocumentPairItem) GetTargetDocId() string {
+	if x != nil {
+		return x.TargetDocId
+	}
+	return ""
+}
+
+func (x *DocumentPairItem) GetMatchScore() int32 {
+	if x != nil {
+		return x.MatchScore
+	}
+	return 0
+}
+
+func (x *DocumentPairItem) GetMatchStatus() string {
+	if x != nil {
+		return x.MatchStatus
+	}
+	return ""
+}
+
+func (x *DocumentPairItem) GetConfirmedBy() string {
+	if x != nil {
+		return x.ConfirmedBy
+	}
+	return ""
+}
+
+func (x *DocumentPairItem) GetHasDelta() bool {
+	if x != nil {
+		return x.HasDelta
+	}
+	return false
+}
+
+func (x *DocumentPairItem) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *DocumentPairItem) GetUpdatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return nil
+}
+
+type ListDocumentMatchingJobsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TenantId      string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
+	Limit         int32                  `protobuf:"varint,2,opt,name=limit,proto3" json:"limit,omitempty"`
+	Offset        int32                  `protobuf:"varint,3,opt,name=offset,proto3" json:"offset,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListDocumentMatchingJobsRequest) Reset() {
+	*x = ListDocumentMatchingJobsRequest{}
+	mi := &file_core_v1_queries_proto_msgTypes[22]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListDocumentMatchingJobsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListDocumentMatchingJobsRequest) ProtoMessage() {}
+
+func (x *ListDocumentMatchingJobsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_queries_proto_msgTypes[22]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListDocumentMatchingJobsRequest.ProtoReflect.Descriptor instead.
+func (*ListDocumentMatchingJobsRequest) Descriptor() ([]byte, []int) {
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{22}
+}
+
+func (x *ListDocumentMatchingJobsRequest) GetTenantId() string {
+	if x != nil {
+		return x.TenantId
+	}
+	return ""
+}
+
+func (x *ListDocumentMatchingJobsRequest) GetLimit() int32 {
+	if x != nil {
+		return x.Limit
+	}
+	return 0
+}
+
+func (x *ListDocumentMatchingJobsRequest) GetOffset() int32 {
+	if x != nil {
+		return x.Offset
+	}
+	return 0
+}
+
+type ListDocumentMatchingJobsResponse struct {
+	state         protoimpl.MessageState     `protogen:"open.v1"`
+	Items         []*DocumentMatchingJobItem `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
+	TotalCount    int32                      `protobuf:"varint,2,opt,name=total_count,json=totalCount,proto3" json:"total_count,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListDocumentMatchingJobsResponse) Reset() {
+	*x = ListDocumentMatchingJobsResponse{}
+	mi := &file_core_v1_queries_proto_msgTypes[23]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListDocumentMatchingJobsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListDocumentMatchingJobsResponse) ProtoMessage() {}
+
+func (x *ListDocumentMatchingJobsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_queries_proto_msgTypes[23]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListDocumentMatchingJobsResponse.ProtoReflect.Descriptor instead.
+func (*ListDocumentMatchingJobsResponse) Descriptor() ([]byte, []int) {
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{23}
+}
+
+func (x *ListDocumentMatchingJobsResponse) GetItems() []*DocumentMatchingJobItem {
+	if x != nil {
+		return x.Items
+	}
+	return nil
+}
+
+func (x *ListDocumentMatchingJobsResponse) GetTotalCount() int32 {
+	if x != nil {
+		return x.TotalCount
+	}
+	return 0
+}
+
+type DocumentMatchingJobItem struct {
+	state              protoimpl.MessageState `protogen:"open.v1"`
+	Id                 string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	TenantId           string                 `protobuf:"bytes,2,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
+	SourceConnectionId string                 `protobuf:"bytes,3,opt,name=source_connection_id,json=sourceConnectionId,proto3" json:"source_connection_id,omitempty"`
+	SourceDocId        string                 `protobuf:"bytes,4,opt,name=source_doc_id,json=sourceDocId,proto3" json:"source_doc_id,omitempty"`
+	TargetConnectionId string                 `protobuf:"bytes,5,opt,name=target_connection_id,json=targetConnectionId,proto3" json:"target_connection_id,omitempty"`
+	Mode               string                 `protobuf:"bytes,6,opt,name=mode,proto3" json:"mode,omitempty"`         // warmup | checkup | routine
+	Priority           string                 `protobuf:"bytes,7,opt,name=priority,proto3" json:"priority,omitempty"` // high | normal | low
+	Status             string                 `protobuf:"bytes,8,opt,name=status,proto3" json:"status,omitempty"`     // queued | processing | done | retry | failed
+	Attempts           int32                  `protobuf:"varint,9,opt,name=attempts,proto3" json:"attempts,omitempty"`
+	ErrorMessage       string                 `protobuf:"bytes,10,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"`
+	CreatedAt          *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt          *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
+}
+
+func (x *DocumentMatchingJobItem) Reset() {
+	*x = DocumentMatchingJobItem{}
+	mi := &file_core_v1_queries_proto_msgTypes[24]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DocumentMatchingJobItem) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DocumentMatchingJobItem) ProtoMessage() {}
+
+func (x *DocumentMatchingJobItem) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_queries_proto_msgTypes[24]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DocumentMatchingJobItem.ProtoReflect.Descriptor instead.
+func (*DocumentMatchingJobItem) Descriptor() ([]byte, []int) {
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{24}
+}
+
+func (x *DocumentMatchingJobItem) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *DocumentMatchingJobItem) GetTenantId() string {
+	if x != nil {
+		return x.TenantId
+	}
+	return ""
+}
+
+func (x *DocumentMatchingJobItem) GetSourceConnectionId() string {
+	if x != nil {
+		return x.SourceConnectionId
+	}
+	return ""
+}
+
+func (x *DocumentMatchingJobItem) GetSourceDocId() string {
+	if x != nil {
+		return x.SourceDocId
+	}
+	return ""
+}
+
+func (x *DocumentMatchingJobItem) GetTargetConnectionId() string {
+	if x != nil {
+		return x.TargetConnectionId
+	}
+	return ""
+}
+
+func (x *DocumentMatchingJobItem) GetMode() string {
+	if x != nil {
+		return x.Mode
+	}
+	return ""
+}
+
+func (x *DocumentMatchingJobItem) GetPriority() string {
+	if x != nil {
+		return x.Priority
+	}
+	return ""
+}
+
+func (x *DocumentMatchingJobItem) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+func (x *DocumentMatchingJobItem) GetAttempts() int32 {
+	if x != nil {
+		return x.Attempts
+	}
+	return 0
+}
+
+func (x *DocumentMatchingJobItem) GetErrorMessage() string {
+	if x != nil {
+		return x.ErrorMessage
+	}
+	return ""
+}
+
+func (x *DocumentMatchingJobItem) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *DocumentMatchingJobItem) GetUpdatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return nil
+}
+
+type ListEntityMatchingJobsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TenantId      string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
+	Limit         int32                  `protobuf:"varint,2,opt,name=limit,proto3" json:"limit,omitempty"`
+	Offset        int32                  `protobuf:"varint,3,opt,name=offset,proto3" json:"offset,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListEntityMatchingJobsRequest) Reset() {
+	*x = ListEntityMatchingJobsRequest{}
+	mi := &file_core_v1_queries_proto_msgTypes[25]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListEntityMatchingJobsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListEntityMatchingJobsRequest) ProtoMessage() {}
+
+func (x *ListEntityMatchingJobsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_queries_proto_msgTypes[25]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListEntityMatchingJobsRequest.ProtoReflect.Descriptor instead.
+func (*ListEntityMatchingJobsRequest) Descriptor() ([]byte, []int) {
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{25}
+}
+
+func (x *ListEntityMatchingJobsRequest) GetTenantId() string {
+	if x != nil {
+		return x.TenantId
+	}
+	return ""
+}
+
+func (x *ListEntityMatchingJobsRequest) GetLimit() int32 {
+	if x != nil {
+		return x.Limit
+	}
+	return 0
+}
+
+func (x *ListEntityMatchingJobsRequest) GetOffset() int32 {
+	if x != nil {
+		return x.Offset
+	}
+	return 0
+}
+
+type ListEntityMatchingJobsResponse struct {
+	state         protoimpl.MessageState   `protogen:"open.v1"`
+	Items         []*EntityMatchingJobItem `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
+	TotalCount    int32                    `protobuf:"varint,2,opt,name=total_count,json=totalCount,proto3" json:"total_count,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListEntityMatchingJobsResponse) Reset() {
+	*x = ListEntityMatchingJobsResponse{}
+	mi := &file_core_v1_queries_proto_msgTypes[26]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListEntityMatchingJobsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListEntityMatchingJobsResponse) ProtoMessage() {}
+
+func (x *ListEntityMatchingJobsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_queries_proto_msgTypes[26]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListEntityMatchingJobsResponse.ProtoReflect.Descriptor instead.
+func (*ListEntityMatchingJobsResponse) Descriptor() ([]byte, []int) {
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{26}
+}
+
+func (x *ListEntityMatchingJobsResponse) GetItems() []*EntityMatchingJobItem {
+	if x != nil {
+		return x.Items
+	}
+	return nil
+}
+
+func (x *ListEntityMatchingJobsResponse) GetTotalCount() int32 {
+	if x != nil {
+		return x.TotalCount
+	}
+	return 0
+}
+
+type EntityMatchingJobItem struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	TenantId      string                 `protobuf:"bytes,2,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
+	DocumentSetId string                 `protobuf:"bytes,3,opt,name=document_set_id,json=documentSetId,proto3" json:"document_set_id,omitempty"`
+	PairId        string                 `protobuf:"bytes,4,opt,name=pair_id,json=pairId,proto3" json:"pair_id,omitempty"`
+	Mode          string                 `protobuf:"bytes,5,opt,name=mode,proto3" json:"mode,omitempty"`
+	Priority      string                 `protobuf:"bytes,6,opt,name=priority,proto3" json:"priority,omitempty"`
+	Status        string                 `protobuf:"bytes,7,opt,name=status,proto3" json:"status,omitempty"`
+	Attempts      int32                  `protobuf:"varint,8,opt,name=attempts,proto3" json:"attempts,omitempty"`
+	ErrorMessage  string                 `protobuf:"bytes,9,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *EntityMatchingJobItem) Reset() {
+	*x = EntityMatchingJobItem{}
+	mi := &file_core_v1_queries_proto_msgTypes[27]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *EntityMatchingJobItem) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*EntityMatchingJobItem) ProtoMessage() {}
+
+func (x *EntityMatchingJobItem) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_queries_proto_msgTypes[27]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use EntityMatchingJobItem.ProtoReflect.Descriptor instead.
+func (*EntityMatchingJobItem) Descriptor() ([]byte, []int) {
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{27}
+}
+
+func (x *EntityMatchingJobItem) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *EntityMatchingJobItem) GetTenantId() string {
+	if x != nil {
+		return x.TenantId
+	}
+	return ""
+}
+
+func (x *EntityMatchingJobItem) GetDocumentSetId() string {
+	if x != nil {
+		return x.DocumentSetId
+	}
+	return ""
+}
+
+func (x *EntityMatchingJobItem) GetPairId() string {
+	if x != nil {
+		return x.PairId
+	}
+	return ""
+}
+
+func (x *EntityMatchingJobItem) GetMode() string {
+	if x != nil {
+		return x.Mode
+	}
+	return ""
+}
+
+func (x *EntityMatchingJobItem) GetPriority() string {
+	if x != nil {
+		return x.Priority
+	}
+	return ""
+}
+
+func (x *EntityMatchingJobItem) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+func (x *EntityMatchingJobItem) GetAttempts() int32 {
+	if x != nil {
+		return x.Attempts
+	}
+	return 0
+}
+
+func (x *EntityMatchingJobItem) GetErrorMessage() string {
+	if x != nil {
+		return x.ErrorMessage
+	}
+	return ""
+}
+
+func (x *EntityMatchingJobItem) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *EntityMatchingJobItem) GetUpdatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return nil
+}
+
+type ListEntityDictionaryRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TenantId      string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
+	Limit         int32                  `protobuf:"varint,2,opt,name=limit,proto3" json:"limit,omitempty"`
+	Offset        int32                  `protobuf:"varint,3,opt,name=offset,proto3" json:"offset,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListEntityDictionaryRequest) Reset() {
+	*x = ListEntityDictionaryRequest{}
+	mi := &file_core_v1_queries_proto_msgTypes[28]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListEntityDictionaryRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListEntityDictionaryRequest) ProtoMessage() {}
+
+func (x *ListEntityDictionaryRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_queries_proto_msgTypes[28]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListEntityDictionaryRequest.ProtoReflect.Descriptor instead.
+func (*ListEntityDictionaryRequest) Descriptor() ([]byte, []int) {
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{28}
+}
+
+func (x *ListEntityDictionaryRequest) GetTenantId() string {
+	if x != nil {
+		return x.TenantId
+	}
+	return ""
+}
+
+func (x *ListEntityDictionaryRequest) GetLimit() int32 {
+	if x != nil {
+		return x.Limit
+	}
+	return 0
+}
+
+func (x *ListEntityDictionaryRequest) GetOffset() int32 {
+	if x != nil {
+		return x.Offset
+	}
+	return 0
+}
+
+type ListEntityDictionaryResponse struct {
+	state         protoimpl.MessageState  `protogen:"open.v1"`
+	Items         []*EntityDictionaryItem `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
+	TotalCount    int32                   `protobuf:"varint,2,opt,name=total_count,json=totalCount,proto3" json:"total_count,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListEntityDictionaryResponse) Reset() {
+	*x = ListEntityDictionaryResponse{}
+	mi := &file_core_v1_queries_proto_msgTypes[29]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListEntityDictionaryResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListEntityDictionaryResponse) ProtoMessage() {}
+
+func (x *ListEntityDictionaryResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_queries_proto_msgTypes[29]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListEntityDictionaryResponse.ProtoReflect.Descriptor instead.
+func (*ListEntityDictionaryResponse) Descriptor() ([]byte, []int) {
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{29}
+}
+
+func (x *ListEntityDictionaryResponse) GetItems() []*EntityDictionaryItem {
+	if x != nil {
+		return x.Items
+	}
+	return nil
+}
+
+func (x *ListEntityDictionaryResponse) GetTotalCount() int32 {
+	if x != nil {
+		return x.TotalCount
+	}
+	return 0
+}
+
+type EntityDictionaryItem struct {
+	state               protoimpl.MessageState `protogen:"open.v1"`
+	Id                  string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	TenantId            string                 `protobuf:"bytes,2,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
+	ConnectionId        string                 `protobuf:"bytes,3,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
+	EntityType          string                 `protobuf:"bytes,4,opt,name=entity_type,json=entityType,proto3" json:"entity_type,omitempty"` // product | counterparty | organization | warehouse
+	Fingerprint         string                 `protobuf:"bytes,5,opt,name=fingerprint,proto3" json:"fingerprint,omitempty"`
+	EntityId            string                 `protobuf:"bytes,6,opt,name=entity_id,json=entityId,proto3" json:"entity_id,omitempty"`
+	Source              string                 `protobuf:"bytes,7,opt,name=source,proto3" json:"source,omitempty"` // warmup | routine | hitl_manual
+	SourceDocumentSetId string                 `protobuf:"bytes,8,opt,name=source_document_set_id,json=sourceDocumentSetId,proto3" json:"source_document_set_id,omitempty"`
+	ConfirmedBy         string                 `protobuf:"bytes,9,opt,name=confirmed_by,json=confirmedBy,proto3" json:"confirmed_by,omitempty"` // human | autopilot
+	LastUsedAt          *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=last_used_at,json=lastUsedAt,proto3" json:"last_used_at,omitempty"`
+	CreatedAt           *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt           *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
+}
+
+func (x *EntityDictionaryItem) Reset() {
+	*x = EntityDictionaryItem{}
+	mi := &file_core_v1_queries_proto_msgTypes[30]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *EntityDictionaryItem) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*EntityDictionaryItem) ProtoMessage() {}
+
+func (x *EntityDictionaryItem) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_queries_proto_msgTypes[30]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use EntityDictionaryItem.ProtoReflect.Descriptor instead.
+func (*EntityDictionaryItem) Descriptor() ([]byte, []int) {
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{30}
+}
+
+func (x *EntityDictionaryItem) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *EntityDictionaryItem) GetTenantId() string {
+	if x != nil {
+		return x.TenantId
+	}
+	return ""
+}
+
+func (x *EntityDictionaryItem) GetConnectionId() string {
+	if x != nil {
+		return x.ConnectionId
+	}
+	return ""
+}
+
+func (x *EntityDictionaryItem) GetEntityType() string {
+	if x != nil {
+		return x.EntityType
+	}
+	return ""
+}
+
+func (x *EntityDictionaryItem) GetFingerprint() string {
+	if x != nil {
+		return x.Fingerprint
+	}
+	return ""
+}
+
+func (x *EntityDictionaryItem) GetEntityId() string {
+	if x != nil {
+		return x.EntityId
+	}
+	return ""
+}
+
+func (x *EntityDictionaryItem) GetSource() string {
+	if x != nil {
+		return x.Source
+	}
+	return ""
+}
+
+func (x *EntityDictionaryItem) GetSourceDocumentSetId() string {
+	if x != nil {
+		return x.SourceDocumentSetId
+	}
+	return ""
+}
+
+func (x *EntityDictionaryItem) GetConfirmedBy() string {
+	if x != nil {
+		return x.ConfirmedBy
+	}
+	return ""
+}
+
+func (x *EntityDictionaryItem) GetLastUsedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.LastUsedAt
+	}
+	return nil
+}
+
+func (x *EntityDictionaryItem) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *EntityDictionaryItem) GetUpdatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return nil
+}
+
 var File_core_v1_queries_proto protoreflect.FileDescriptor
 
 const file_core_v1_queries_proto_rawDesc = "" +
@@ -1513,14 +2697,138 @@ const file_core_v1_queries_proto_rawDesc = "" +
 	"\x0eerp_deleted_at\x18\n" +
 	" \x01(\v2\x1a.google.protobuf.TimestampR\ferpDeletedAt\x12!\n" +
 	"\ferp_archived\x18\v \x01(\bR\verpArchived\x12\x1a\n" +
-	"\barchived\x18\f \x01(\bR\barchived2\x91\x05\n" +
+	"\barchived\x18\f \x01(\bR\barchived\"6\n" +
+	"\x17GetMatchingStatsRequest\x12\x1b\n" +
+	"\ttenant_id\x18\x01 \x01(\tR\btenantId\"\xb2\x05\n" +
+	"\x18GetMatchingStatsResponse\x12&\n" +
+	"\x0fdoc_jobs_queued\x18\x01 \x01(\x05R\rdocJobsQueued\x12.\n" +
+	"\x13doc_jobs_processing\x18\x02 \x01(\x05R\x11docJobsProcessing\x12\"\n" +
+	"\rdoc_jobs_done\x18\x03 \x01(\x05R\vdocJobsDone\x12&\n" +
+	"\x0fdoc_jobs_failed\x18\x04 \x01(\x05R\rdocJobsFailed\x12$\n" +
+	"\x0edoc_jobs_retry\x18\x05 \x01(\x05R\fdocJobsRetry\x12&\n" +
+	"\x0fent_jobs_queued\x18\x06 \x01(\x05R\rentJobsQueued\x12.\n" +
+	"\x13ent_jobs_processing\x18\a \x01(\x05R\x11entJobsProcessing\x12\"\n" +
+	"\rent_jobs_done\x18\b \x01(\x05R\ventJobsDone\x12&\n" +
+	"\x0fent_jobs_failed\x18\t \x01(\x05R\rentJobsFailed\x12,\n" +
+	"\x12pairs_strong_match\x18\n" +
+	" \x01(\x05R\x10pairsStrongMatch\x12'\n" +
+	"\x0fpairs_candidate\x18\v \x01(\x05R\x0epairsCandidate\x12'\n" +
+	"\x0fpairs_ambiguous\x18\f \x01(\x05R\x0epairsAmbiguous\x12&\n" +
+	"\x0fpairs_not_found\x18\r \x01(\x05R\rpairsNotFound\x12'\n" +
+	"\x0fpairs_confirmed\x18\x0e \x01(\x05R\x0epairsConfirmed\x12(\n" +
+	"\x10pairs_with_delta\x18\x0f \x01(\x05R\x0epairsWithDelta\x12-\n" +
+	"\x12dictionary_entries\x18\x10 \x01(\x05R\x11dictionaryEntries\"e\n" +
+	"\x18ListDocumentPairsRequest\x12\x1b\n" +
+	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12\x14\n" +
+	"\x05limit\x18\x02 \x01(\x05R\x05limit\x12\x16\n" +
+	"\x06offset\x18\x03 \x01(\x05R\x06offset\"u\n" +
+	"\x19ListDocumentPairsResponse\x127\n" +
+	"\x05items\x18\x01 \x03(\v2!.documan.core.v1.DocumentPairItemR\x05items\x12\x1f\n" +
+	"\vtotal_count\x18\x02 \x01(\x05R\n" +
+	"totalCount\"\x8d\x04\n" +
+	"\x10DocumentPairItem\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
+	"\ttenant_id\x18\x02 \x01(\tR\btenantId\x12&\n" +
+	"\x0fdocument_set_id\x18\x03 \x01(\tR\rdocumentSetId\x120\n" +
+	"\x14source_connection_id\x18\x04 \x01(\tR\x12sourceConnectionId\x12\"\n" +
+	"\rsource_doc_id\x18\x05 \x01(\tR\vsourceDocId\x120\n" +
+	"\x14target_connection_id\x18\x06 \x01(\tR\x12targetConnectionId\x12\"\n" +
+	"\rtarget_doc_id\x18\a \x01(\tR\vtargetDocId\x12\x1f\n" +
+	"\vmatch_score\x18\b \x01(\x05R\n" +
+	"matchScore\x12!\n" +
+	"\fmatch_status\x18\t \x01(\tR\vmatchStatus\x12!\n" +
+	"\fconfirmed_by\x18\n" +
+	" \x01(\tR\vconfirmedBy\x12\x1b\n" +
+	"\thas_delta\x18\v \x01(\bR\bhasDelta\x129\n" +
+	"\n" +
+	"created_at\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"\n" +
+	"updated_at\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"l\n" +
+	"\x1fListDocumentMatchingJobsRequest\x12\x1b\n" +
+	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12\x14\n" +
+	"\x05limit\x18\x02 \x01(\x05R\x05limit\x12\x16\n" +
+	"\x06offset\x18\x03 \x01(\x05R\x06offset\"\x83\x01\n" +
+	" ListDocumentMatchingJobsResponse\x12>\n" +
+	"\x05items\x18\x01 \x03(\v2(.documan.core.v1.DocumentMatchingJobItemR\x05items\x12\x1f\n" +
+	"\vtotal_count\x18\x02 \x01(\x05R\n" +
+	"totalCount\"\xcd\x03\n" +
+	"\x17DocumentMatchingJobItem\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
+	"\ttenant_id\x18\x02 \x01(\tR\btenantId\x120\n" +
+	"\x14source_connection_id\x18\x03 \x01(\tR\x12sourceConnectionId\x12\"\n" +
+	"\rsource_doc_id\x18\x04 \x01(\tR\vsourceDocId\x120\n" +
+	"\x14target_connection_id\x18\x05 \x01(\tR\x12targetConnectionId\x12\x12\n" +
+	"\x04mode\x18\x06 \x01(\tR\x04mode\x12\x1a\n" +
+	"\bpriority\x18\a \x01(\tR\bpriority\x12\x16\n" +
+	"\x06status\x18\b \x01(\tR\x06status\x12\x1a\n" +
+	"\battempts\x18\t \x01(\x05R\battempts\x12#\n" +
+	"\rerror_message\x18\n" +
+	" \x01(\tR\ferrorMessage\x129\n" +
+	"\n" +
+	"created_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"\n" +
+	"updated_at\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"j\n" +
+	"\x1dListEntityMatchingJobsRequest\x12\x1b\n" +
+	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12\x14\n" +
+	"\x05limit\x18\x02 \x01(\x05R\x05limit\x12\x16\n" +
+	"\x06offset\x18\x03 \x01(\x05R\x06offset\"\x7f\n" +
+	"\x1eListEntityMatchingJobsResponse\x12<\n" +
+	"\x05items\x18\x01 \x03(\v2&.documan.core.v1.EntityMatchingJobItemR\x05items\x12\x1f\n" +
+	"\vtotal_count\x18\x02 \x01(\x05R\n" +
+	"totalCount\"\x84\x03\n" +
+	"\x15EntityMatchingJobItem\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
+	"\ttenant_id\x18\x02 \x01(\tR\btenantId\x12&\n" +
+	"\x0fdocument_set_id\x18\x03 \x01(\tR\rdocumentSetId\x12\x17\n" +
+	"\apair_id\x18\x04 \x01(\tR\x06pairId\x12\x12\n" +
+	"\x04mode\x18\x05 \x01(\tR\x04mode\x12\x1a\n" +
+	"\bpriority\x18\x06 \x01(\tR\bpriority\x12\x16\n" +
+	"\x06status\x18\a \x01(\tR\x06status\x12\x1a\n" +
+	"\battempts\x18\b \x01(\x05R\battempts\x12#\n" +
+	"\rerror_message\x18\t \x01(\tR\ferrorMessage\x129\n" +
+	"\n" +
+	"created_at\x18\n" +
+	" \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"\n" +
+	"updated_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"h\n" +
+	"\x1bListEntityDictionaryRequest\x12\x1b\n" +
+	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12\x14\n" +
+	"\x05limit\x18\x02 \x01(\x05R\x05limit\x12\x16\n" +
+	"\x06offset\x18\x03 \x01(\x05R\x06offset\"|\n" +
+	"\x1cListEntityDictionaryResponse\x12;\n" +
+	"\x05items\x18\x01 \x03(\v2%.documan.core.v1.EntityDictionaryItemR\x05items\x12\x1f\n" +
+	"\vtotal_count\x18\x02 \x01(\x05R\n" +
+	"totalCount\"\xec\x03\n" +
+	"\x14EntityDictionaryItem\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
+	"\ttenant_id\x18\x02 \x01(\tR\btenantId\x12#\n" +
+	"\rconnection_id\x18\x03 \x01(\tR\fconnectionId\x12\x1f\n" +
+	"\ventity_type\x18\x04 \x01(\tR\n" +
+	"entityType\x12 \n" +
+	"\vfingerprint\x18\x05 \x01(\tR\vfingerprint\x12\x1b\n" +
+	"\tentity_id\x18\x06 \x01(\tR\bentityId\x12\x16\n" +
+	"\x06source\x18\a \x01(\tR\x06source\x123\n" +
+	"\x16source_document_set_id\x18\b \x01(\tR\x13sourceDocumentSetId\x12!\n" +
+	"\fconfirmed_by\x18\t \x01(\tR\vconfirmedBy\x12<\n" +
+	"\flast_used_at\x18\n" +
+	" \x01(\v2\x1a.google.protobuf.TimestampR\n" +
+	"lastUsedAt\x129\n" +
+	"\n" +
+	"created_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"\n" +
+	"updated_at\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt2\xd7\t\n" +
 	"\x10CoreQueryService\x12^\n" +
 	"\rGetConnection\x12%.documan.core.v1.GetConnectionRequest\x1a&.documan.core.v1.GetConnectionResponse\x12d\n" +
 	"\x0fListConnections\x12'.documan.core.v1.ListConnectionsRequest\x1a(.documan.core.v1.ListConnectionsResponse\x12v\n" +
 	"\x15ListOriginalDocuments\x12-.documan.core.v1.ListOriginalDocumentsRequest\x1a..documan.core.v1.ListOriginalDocumentsResponse\x12p\n" +
 	"\x13GetOriginalDocument\x12+.documan.core.v1.GetOriginalDocumentRequest\x1a,.documan.core.v1.GetOriginalDocumentResponse\x12d\n" +
 	"\x0fListERPEntities\x12'.documan.core.v1.ListERPEntitiesRequest\x1a(.documan.core.v1.ListERPEntitiesResponse\x12g\n" +
-	"\x10ListERPDocuments\x12(.documan.core.v1.ListERPDocumentsRequest\x1a).documan.core.v1.ListERPDocumentsResponseB<Z:github.com/plus-minus-dev/documan-pkg/services/gen/core/v1b\x06proto3"
+	"\x10ListERPDocuments\x12(.documan.core.v1.ListERPDocumentsRequest\x1a).documan.core.v1.ListERPDocumentsResponse\x12g\n" +
+	"\x10GetMatchingStats\x12(.documan.core.v1.GetMatchingStatsRequest\x1a).documan.core.v1.GetMatchingStatsResponse\x12j\n" +
+	"\x11ListDocumentPairs\x12).documan.core.v1.ListDocumentPairsRequest\x1a*.documan.core.v1.ListDocumentPairsResponse\x12\x7f\n" +
+	"\x18ListDocumentMatchingJobs\x120.documan.core.v1.ListDocumentMatchingJobsRequest\x1a1.documan.core.v1.ListDocumentMatchingJobsResponse\x12y\n" +
+	"\x16ListEntityMatchingJobs\x12..documan.core.v1.ListEntityMatchingJobsRequest\x1a/.documan.core.v1.ListEntityMatchingJobsResponse\x12s\n" +
+	"\x14ListEntityDictionary\x12,.documan.core.v1.ListEntityDictionaryRequest\x1a-.documan.core.v1.ListEntityDictionaryResponseB<Z:github.com/plus-minus-dev/documan-pkg/services/gen/core/v1b\x06proto3"
 
 var (
 	file_core_v1_queries_proto_rawDescOnce sync.Once
@@ -1534,70 +2842,107 @@ func file_core_v1_queries_proto_rawDescGZIP() []byte {
 	return file_core_v1_queries_proto_rawDescData
 }
 
-var file_core_v1_queries_proto_msgTypes = make([]protoimpl.MessageInfo, 17)
+var file_core_v1_queries_proto_msgTypes = make([]protoimpl.MessageInfo, 31)
 var file_core_v1_queries_proto_goTypes = []any{
-	(*GetConnectionRequest)(nil),          // 0: documan.core.v1.GetConnectionRequest
-	(*GetConnectionResponse)(nil),         // 1: documan.core.v1.GetConnectionResponse
-	(*ListConnectionsRequest)(nil),        // 2: documan.core.v1.ListConnectionsRequest
-	(*ListConnectionsResponse)(nil),       // 3: documan.core.v1.ListConnectionsResponse
-	(*ConnectionItem)(nil),                // 4: documan.core.v1.ConnectionItem
-	(*ListOriginalDocumentsRequest)(nil),  // 5: documan.core.v1.ListOriginalDocumentsRequest
-	(*ListOriginalDocumentsResponse)(nil), // 6: documan.core.v1.ListOriginalDocumentsResponse
-	(*GetOriginalDocumentRequest)(nil),    // 7: documan.core.v1.GetOriginalDocumentRequest
-	(*GetOriginalDocumentResponse)(nil),   // 8: documan.core.v1.GetOriginalDocumentResponse
-	(*OriginalDocumentItem)(nil),          // 9: documan.core.v1.OriginalDocumentItem
-	(*OriginalDocumentDetails)(nil),       // 10: documan.core.v1.OriginalDocumentDetails
-	(*ListERPEntitiesRequest)(nil),        // 11: documan.core.v1.ListERPEntitiesRequest
-	(*ListERPEntitiesResponse)(nil),       // 12: documan.core.v1.ListERPEntitiesResponse
-	(*ERPEntityItem)(nil),                 // 13: documan.core.v1.ERPEntityItem
-	(*ListERPDocumentsRequest)(nil),       // 14: documan.core.v1.ListERPDocumentsRequest
-	(*ListERPDocumentsResponse)(nil),      // 15: documan.core.v1.ListERPDocumentsResponse
-	(*ERPDocumentItem)(nil),               // 16: documan.core.v1.ERPDocumentItem
-	(*timestamppb.Timestamp)(nil),         // 17: google.protobuf.Timestamp
-	(*v1.S3Ref)(nil),                      // 18: documan.common.v1.S3Ref
+	(*GetConnectionRequest)(nil),             // 0: documan.core.v1.GetConnectionRequest
+	(*GetConnectionResponse)(nil),            // 1: documan.core.v1.GetConnectionResponse
+	(*ListConnectionsRequest)(nil),           // 2: documan.core.v1.ListConnectionsRequest
+	(*ListConnectionsResponse)(nil),          // 3: documan.core.v1.ListConnectionsResponse
+	(*ConnectionItem)(nil),                   // 4: documan.core.v1.ConnectionItem
+	(*ListOriginalDocumentsRequest)(nil),     // 5: documan.core.v1.ListOriginalDocumentsRequest
+	(*ListOriginalDocumentsResponse)(nil),    // 6: documan.core.v1.ListOriginalDocumentsResponse
+	(*GetOriginalDocumentRequest)(nil),       // 7: documan.core.v1.GetOriginalDocumentRequest
+	(*GetOriginalDocumentResponse)(nil),      // 8: documan.core.v1.GetOriginalDocumentResponse
+	(*OriginalDocumentItem)(nil),             // 9: documan.core.v1.OriginalDocumentItem
+	(*OriginalDocumentDetails)(nil),          // 10: documan.core.v1.OriginalDocumentDetails
+	(*ListERPEntitiesRequest)(nil),           // 11: documan.core.v1.ListERPEntitiesRequest
+	(*ListERPEntitiesResponse)(nil),          // 12: documan.core.v1.ListERPEntitiesResponse
+	(*ERPEntityItem)(nil),                    // 13: documan.core.v1.ERPEntityItem
+	(*ListERPDocumentsRequest)(nil),          // 14: documan.core.v1.ListERPDocumentsRequest
+	(*ListERPDocumentsResponse)(nil),         // 15: documan.core.v1.ListERPDocumentsResponse
+	(*ERPDocumentItem)(nil),                  // 16: documan.core.v1.ERPDocumentItem
+	(*GetMatchingStatsRequest)(nil),          // 17: documan.core.v1.GetMatchingStatsRequest
+	(*GetMatchingStatsResponse)(nil),         // 18: documan.core.v1.GetMatchingStatsResponse
+	(*ListDocumentPairsRequest)(nil),         // 19: documan.core.v1.ListDocumentPairsRequest
+	(*ListDocumentPairsResponse)(nil),        // 20: documan.core.v1.ListDocumentPairsResponse
+	(*DocumentPairItem)(nil),                 // 21: documan.core.v1.DocumentPairItem
+	(*ListDocumentMatchingJobsRequest)(nil),  // 22: documan.core.v1.ListDocumentMatchingJobsRequest
+	(*ListDocumentMatchingJobsResponse)(nil), // 23: documan.core.v1.ListDocumentMatchingJobsResponse
+	(*DocumentMatchingJobItem)(nil),          // 24: documan.core.v1.DocumentMatchingJobItem
+	(*ListEntityMatchingJobsRequest)(nil),    // 25: documan.core.v1.ListEntityMatchingJobsRequest
+	(*ListEntityMatchingJobsResponse)(nil),   // 26: documan.core.v1.ListEntityMatchingJobsResponse
+	(*EntityMatchingJobItem)(nil),            // 27: documan.core.v1.EntityMatchingJobItem
+	(*ListEntityDictionaryRequest)(nil),      // 28: documan.core.v1.ListEntityDictionaryRequest
+	(*ListEntityDictionaryResponse)(nil),     // 29: documan.core.v1.ListEntityDictionaryResponse
+	(*EntityDictionaryItem)(nil),             // 30: documan.core.v1.EntityDictionaryItem
+	(*timestamppb.Timestamp)(nil),            // 31: google.protobuf.Timestamp
+	(*v1.S3Ref)(nil),                         // 32: documan.common.v1.S3Ref
 }
 var file_core_v1_queries_proto_depIdxs = []int32{
 	4,  // 0: documan.core.v1.GetConnectionResponse.connection:type_name -> documan.core.v1.ConnectionItem
 	4,  // 1: documan.core.v1.ListConnectionsResponse.items:type_name -> documan.core.v1.ConnectionItem
-	17, // 2: documan.core.v1.ConnectionItem.last_sync_at:type_name -> google.protobuf.Timestamp
-	17, // 3: documan.core.v1.ConnectionItem.created_at:type_name -> google.protobuf.Timestamp
-	17, // 4: documan.core.v1.ConnectionItem.updated_at:type_name -> google.protobuf.Timestamp
+	31, // 2: documan.core.v1.ConnectionItem.last_sync_at:type_name -> google.protobuf.Timestamp
+	31, // 3: documan.core.v1.ConnectionItem.created_at:type_name -> google.protobuf.Timestamp
+	31, // 4: documan.core.v1.ConnectionItem.updated_at:type_name -> google.protobuf.Timestamp
 	9,  // 5: documan.core.v1.ListOriginalDocumentsResponse.items:type_name -> documan.core.v1.OriginalDocumentItem
 	10, // 6: documan.core.v1.GetOriginalDocumentResponse.document:type_name -> documan.core.v1.OriginalDocumentDetails
-	17, // 7: documan.core.v1.OriginalDocumentItem.payloaded_at:type_name -> google.protobuf.Timestamp
-	17, // 8: documan.core.v1.OriginalDocumentItem.created_at:type_name -> google.protobuf.Timestamp
-	17, // 9: documan.core.v1.OriginalDocumentItem.updated_at:type_name -> google.protobuf.Timestamp
-	17, // 10: documan.core.v1.OriginalDocumentDetails.payloaded_at:type_name -> google.protobuf.Timestamp
-	17, // 11: documan.core.v1.OriginalDocumentDetails.created_at:type_name -> google.protobuf.Timestamp
-	17, // 12: documan.core.v1.OriginalDocumentDetails.updated_at:type_name -> google.protobuf.Timestamp
-	18, // 13: documan.core.v1.OriginalDocumentDetails.original_file:type_name -> documan.common.v1.S3Ref
+	31, // 7: documan.core.v1.OriginalDocumentItem.payloaded_at:type_name -> google.protobuf.Timestamp
+	31, // 8: documan.core.v1.OriginalDocumentItem.created_at:type_name -> google.protobuf.Timestamp
+	31, // 9: documan.core.v1.OriginalDocumentItem.updated_at:type_name -> google.protobuf.Timestamp
+	31, // 10: documan.core.v1.OriginalDocumentDetails.payloaded_at:type_name -> google.protobuf.Timestamp
+	31, // 11: documan.core.v1.OriginalDocumentDetails.created_at:type_name -> google.protobuf.Timestamp
+	31, // 12: documan.core.v1.OriginalDocumentDetails.updated_at:type_name -> google.protobuf.Timestamp
+	32, // 13: documan.core.v1.OriginalDocumentDetails.original_file:type_name -> documan.common.v1.S3Ref
 	13, // 14: documan.core.v1.ListERPEntitiesResponse.items:type_name -> documan.core.v1.ERPEntityItem
-	17, // 15: documan.core.v1.ERPEntityItem.payloaded_at:type_name -> google.protobuf.Timestamp
-	17, // 16: documan.core.v1.ERPEntityItem.erp_updated_at:type_name -> google.protobuf.Timestamp
-	17, // 17: documan.core.v1.ERPEntityItem.erp_created_at:type_name -> google.protobuf.Timestamp
-	17, // 18: documan.core.v1.ERPEntityItem.erp_deleted_at:type_name -> google.protobuf.Timestamp
+	31, // 15: documan.core.v1.ERPEntityItem.payloaded_at:type_name -> google.protobuf.Timestamp
+	31, // 16: documan.core.v1.ERPEntityItem.erp_updated_at:type_name -> google.protobuf.Timestamp
+	31, // 17: documan.core.v1.ERPEntityItem.erp_created_at:type_name -> google.protobuf.Timestamp
+	31, // 18: documan.core.v1.ERPEntityItem.erp_deleted_at:type_name -> google.protobuf.Timestamp
 	16, // 19: documan.core.v1.ListERPDocumentsResponse.items:type_name -> documan.core.v1.ERPDocumentItem
-	17, // 20: documan.core.v1.ERPDocumentItem.payloaded_at:type_name -> google.protobuf.Timestamp
-	17, // 21: documan.core.v1.ERPDocumentItem.erp_updated_at:type_name -> google.protobuf.Timestamp
-	17, // 22: documan.core.v1.ERPDocumentItem.erp_created_at:type_name -> google.protobuf.Timestamp
-	17, // 23: documan.core.v1.ERPDocumentItem.erp_deleted_at:type_name -> google.protobuf.Timestamp
-	0,  // 24: documan.core.v1.CoreQueryService.GetConnection:input_type -> documan.core.v1.GetConnectionRequest
-	2,  // 25: documan.core.v1.CoreQueryService.ListConnections:input_type -> documan.core.v1.ListConnectionsRequest
-	5,  // 26: documan.core.v1.CoreQueryService.ListOriginalDocuments:input_type -> documan.core.v1.ListOriginalDocumentsRequest
-	7,  // 27: documan.core.v1.CoreQueryService.GetOriginalDocument:input_type -> documan.core.v1.GetOriginalDocumentRequest
-	11, // 28: documan.core.v1.CoreQueryService.ListERPEntities:input_type -> documan.core.v1.ListERPEntitiesRequest
-	14, // 29: documan.core.v1.CoreQueryService.ListERPDocuments:input_type -> documan.core.v1.ListERPDocumentsRequest
-	1,  // 30: documan.core.v1.CoreQueryService.GetConnection:output_type -> documan.core.v1.GetConnectionResponse
-	3,  // 31: documan.core.v1.CoreQueryService.ListConnections:output_type -> documan.core.v1.ListConnectionsResponse
-	6,  // 32: documan.core.v1.CoreQueryService.ListOriginalDocuments:output_type -> documan.core.v1.ListOriginalDocumentsResponse
-	8,  // 33: documan.core.v1.CoreQueryService.GetOriginalDocument:output_type -> documan.core.v1.GetOriginalDocumentResponse
-	12, // 34: documan.core.v1.CoreQueryService.ListERPEntities:output_type -> documan.core.v1.ListERPEntitiesResponse
-	15, // 35: documan.core.v1.CoreQueryService.ListERPDocuments:output_type -> documan.core.v1.ListERPDocumentsResponse
-	30, // [30:36] is the sub-list for method output_type
-	24, // [24:30] is the sub-list for method input_type
-	24, // [24:24] is the sub-list for extension type_name
-	24, // [24:24] is the sub-list for extension extendee
-	0,  // [0:24] is the sub-list for field type_name
+	31, // 20: documan.core.v1.ERPDocumentItem.payloaded_at:type_name -> google.protobuf.Timestamp
+	31, // 21: documan.core.v1.ERPDocumentItem.erp_updated_at:type_name -> google.protobuf.Timestamp
+	31, // 22: documan.core.v1.ERPDocumentItem.erp_created_at:type_name -> google.protobuf.Timestamp
+	31, // 23: documan.core.v1.ERPDocumentItem.erp_deleted_at:type_name -> google.protobuf.Timestamp
+	21, // 24: documan.core.v1.ListDocumentPairsResponse.items:type_name -> documan.core.v1.DocumentPairItem
+	31, // 25: documan.core.v1.DocumentPairItem.created_at:type_name -> google.protobuf.Timestamp
+	31, // 26: documan.core.v1.DocumentPairItem.updated_at:type_name -> google.protobuf.Timestamp
+	24, // 27: documan.core.v1.ListDocumentMatchingJobsResponse.items:type_name -> documan.core.v1.DocumentMatchingJobItem
+	31, // 28: documan.core.v1.DocumentMatchingJobItem.created_at:type_name -> google.protobuf.Timestamp
+	31, // 29: documan.core.v1.DocumentMatchingJobItem.updated_at:type_name -> google.protobuf.Timestamp
+	27, // 30: documan.core.v1.ListEntityMatchingJobsResponse.items:type_name -> documan.core.v1.EntityMatchingJobItem
+	31, // 31: documan.core.v1.EntityMatchingJobItem.created_at:type_name -> google.protobuf.Timestamp
+	31, // 32: documan.core.v1.EntityMatchingJobItem.updated_at:type_name -> google.protobuf.Timestamp
+	30, // 33: documan.core.v1.ListEntityDictionaryResponse.items:type_name -> documan.core.v1.EntityDictionaryItem
+	31, // 34: documan.core.v1.EntityDictionaryItem.last_used_at:type_name -> google.protobuf.Timestamp
+	31, // 35: documan.core.v1.EntityDictionaryItem.created_at:type_name -> google.protobuf.Timestamp
+	31, // 36: documan.core.v1.EntityDictionaryItem.updated_at:type_name -> google.protobuf.Timestamp
+	0,  // 37: documan.core.v1.CoreQueryService.GetConnection:input_type -> documan.core.v1.GetConnectionRequest
+	2,  // 38: documan.core.v1.CoreQueryService.ListConnections:input_type -> documan.core.v1.ListConnectionsRequest
+	5,  // 39: documan.core.v1.CoreQueryService.ListOriginalDocuments:input_type -> documan.core.v1.ListOriginalDocumentsRequest
+	7,  // 40: documan.core.v1.CoreQueryService.GetOriginalDocument:input_type -> documan.core.v1.GetOriginalDocumentRequest
+	11, // 41: documan.core.v1.CoreQueryService.ListERPEntities:input_type -> documan.core.v1.ListERPEntitiesRequest
+	14, // 42: documan.core.v1.CoreQueryService.ListERPDocuments:input_type -> documan.core.v1.ListERPDocumentsRequest
+	17, // 43: documan.core.v1.CoreQueryService.GetMatchingStats:input_type -> documan.core.v1.GetMatchingStatsRequest
+	19, // 44: documan.core.v1.CoreQueryService.ListDocumentPairs:input_type -> documan.core.v1.ListDocumentPairsRequest
+	22, // 45: documan.core.v1.CoreQueryService.ListDocumentMatchingJobs:input_type -> documan.core.v1.ListDocumentMatchingJobsRequest
+	25, // 46: documan.core.v1.CoreQueryService.ListEntityMatchingJobs:input_type -> documan.core.v1.ListEntityMatchingJobsRequest
+	28, // 47: documan.core.v1.CoreQueryService.ListEntityDictionary:input_type -> documan.core.v1.ListEntityDictionaryRequest
+	1,  // 48: documan.core.v1.CoreQueryService.GetConnection:output_type -> documan.core.v1.GetConnectionResponse
+	3,  // 49: documan.core.v1.CoreQueryService.ListConnections:output_type -> documan.core.v1.ListConnectionsResponse
+	6,  // 50: documan.core.v1.CoreQueryService.ListOriginalDocuments:output_type -> documan.core.v1.ListOriginalDocumentsResponse
+	8,  // 51: documan.core.v1.CoreQueryService.GetOriginalDocument:output_type -> documan.core.v1.GetOriginalDocumentResponse
+	12, // 52: documan.core.v1.CoreQueryService.ListERPEntities:output_type -> documan.core.v1.ListERPEntitiesResponse
+	15, // 53: documan.core.v1.CoreQueryService.ListERPDocuments:output_type -> documan.core.v1.ListERPDocumentsResponse
+	18, // 54: documan.core.v1.CoreQueryService.GetMatchingStats:output_type -> documan.core.v1.GetMatchingStatsResponse
+	20, // 55: documan.core.v1.CoreQueryService.ListDocumentPairs:output_type -> documan.core.v1.ListDocumentPairsResponse
+	23, // 56: documan.core.v1.CoreQueryService.ListDocumentMatchingJobs:output_type -> documan.core.v1.ListDocumentMatchingJobsResponse
+	26, // 57: documan.core.v1.CoreQueryService.ListEntityMatchingJobs:output_type -> documan.core.v1.ListEntityMatchingJobsResponse
+	29, // 58: documan.core.v1.CoreQueryService.ListEntityDictionary:output_type -> documan.core.v1.ListEntityDictionaryResponse
+	48, // [48:59] is the sub-list for method output_type
+	37, // [37:48] is the sub-list for method input_type
+	37, // [37:37] is the sub-list for extension type_name
+	37, // [37:37] is the sub-list for extension extendee
+	0,  // [0:37] is the sub-list for field type_name
 }
 
 func init() { file_core_v1_queries_proto_init() }
@@ -1611,7 +2956,7 @@ func file_core_v1_queries_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_core_v1_queries_proto_rawDesc), len(file_core_v1_queries_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   17,
+			NumMessages:   31,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

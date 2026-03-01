@@ -14,6 +14,13 @@ service CoreQueryService {
   rpc GetOriginalDocument(GetOriginalDocumentRequest) returns (GetOriginalDocumentResponse);
   rpc ListERPEntities(ListERPEntitiesRequest) returns (ListERPEntitiesResponse);
   rpc ListERPDocuments(ListERPDocumentsRequest) returns (ListERPDocumentsResponse);
+
+  // Matching
+  rpc GetMatchingStats(GetMatchingStatsRequest) returns (GetMatchingStatsResponse);
+  rpc ListDocumentPairs(ListDocumentPairsRequest) returns (ListDocumentPairsResponse);
+  rpc ListDocumentMatchingJobs(ListDocumentMatchingJobsRequest) returns (ListDocumentMatchingJobsResponse);
+  rpc ListEntityMatchingJobs(ListEntityMatchingJobsRequest) returns (ListEntityMatchingJobsResponse);
+  rpc ListEntityDictionary(ListEntityDictionaryRequest) returns (ListEntityDictionaryResponse);
 }
 
 // ===== Connection =====
@@ -166,4 +173,144 @@ message ERPDocumentItem {
   google.protobuf.Timestamp erp_deleted_at = 10;
   bool erp_archived = 11;
   bool archived = 12;
+}
+
+// ===== Matching: Stats =====
+
+message GetMatchingStatsRequest {
+  string tenant_id = 1;
+}
+
+message GetMatchingStatsResponse {
+  int32 doc_jobs_queued = 1;
+  int32 doc_jobs_processing = 2;
+  int32 doc_jobs_done = 3;
+  int32 doc_jobs_failed = 4;
+  int32 doc_jobs_retry = 5;
+
+  int32 ent_jobs_queued = 6;
+  int32 ent_jobs_processing = 7;
+  int32 ent_jobs_done = 8;
+  int32 ent_jobs_failed = 9;
+
+  int32 pairs_strong_match = 10;
+  int32 pairs_candidate = 11;
+  int32 pairs_ambiguous = 12;
+  int32 pairs_not_found = 13;
+  int32 pairs_confirmed = 14;
+  int32 pairs_with_delta = 15;
+
+  int32 dictionary_entries = 16;
+}
+
+// ===== Matching: DocumentPairs =====
+
+message ListDocumentPairsRequest {
+  string tenant_id = 1;
+  int32 limit = 2;
+  int32 offset = 3;
+}
+
+message ListDocumentPairsResponse {
+  repeated DocumentPairItem items = 1;
+  int32 total_count = 2;
+}
+
+message DocumentPairItem {
+  string id = 1;
+  string tenant_id = 2;
+  string document_set_id = 3;
+  string source_connection_id = 4;    // пустой = original
+  string source_doc_id = 5;
+  string target_connection_id = 6;    // пустой = original
+  string target_doc_id = 7;
+  int32 match_score = 8;
+  string match_status = 9;           // strong_match | candidate | ambiguous | not_found | confirmed
+  string confirmed_by = 10;          // human | autopilot | пустой
+  bool has_delta = 11;
+  google.protobuf.Timestamp created_at = 12;
+  google.protobuf.Timestamp updated_at = 13;
+}
+
+// ===== Matching: DocumentMatchingJobs =====
+
+message ListDocumentMatchingJobsRequest {
+  string tenant_id = 1;
+  int32 limit = 2;
+  int32 offset = 3;
+}
+
+message ListDocumentMatchingJobsResponse {
+  repeated DocumentMatchingJobItem items = 1;
+  int32 total_count = 2;
+}
+
+message DocumentMatchingJobItem {
+  string id = 1;
+  string tenant_id = 2;
+  string source_connection_id = 3;
+  string source_doc_id = 4;
+  string target_connection_id = 5;
+  string mode = 6;                    // warmup | checkup | routine
+  string priority = 7;               // high | normal | low
+  string status = 8;                  // queued | processing | done | retry | failed
+  int32 attempts = 9;
+  string error_message = 10;
+  google.protobuf.Timestamp created_at = 11;
+  google.protobuf.Timestamp updated_at = 12;
+}
+
+// ===== Matching: EntityMatchingJobs =====
+
+message ListEntityMatchingJobsRequest {
+  string tenant_id = 1;
+  int32 limit = 2;
+  int32 offset = 3;
+}
+
+message ListEntityMatchingJobsResponse {
+  repeated EntityMatchingJobItem items = 1;
+  int32 total_count = 2;
+}
+
+message EntityMatchingJobItem {
+  string id = 1;
+  string tenant_id = 2;
+  string document_set_id = 3;
+  string pair_id = 4;
+  string mode = 5;
+  string priority = 6;
+  string status = 7;
+  int32 attempts = 8;
+  string error_message = 9;
+  google.protobuf.Timestamp created_at = 10;
+  google.protobuf.Timestamp updated_at = 11;
+}
+
+// ===== Matching: EntityDictionary =====
+
+message ListEntityDictionaryRequest {
+  string tenant_id = 1;
+  int32 limit = 2;
+  int32 offset = 3;
+}
+
+message ListEntityDictionaryResponse {
+  repeated EntityDictionaryItem items = 1;
+  int32 total_count = 2;
+}
+
+message EntityDictionaryItem {
+  string id = 1;
+  string tenant_id = 2;
+  string connection_id = 3;
+  string entity_type = 4;            // product | counterparty | organization | warehouse
+  string fingerprint = 5;
+  string entity_id = 6;
+  string source = 7;                 // warmup | routine | hitl_manual
+  string source_document_set_id = 8;
+  string confirmed_by = 9;           // human | autopilot
+  google.protobuf.Timestamp last_used_at = 10;
+  google.protobuf.Timestamp created_at = 11;
+  google.protobuf.Timestamp updated_at = 12;
 }

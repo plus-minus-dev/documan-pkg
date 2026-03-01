@@ -19,12 +19,17 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	CoreQueryService_GetConnection_FullMethodName         = "/documan.core.v1.CoreQueryService/GetConnection"
-	CoreQueryService_ListConnections_FullMethodName       = "/documan.core.v1.CoreQueryService/ListConnections"
-	CoreQueryService_ListOriginalDocuments_FullMethodName = "/documan.core.v1.CoreQueryService/ListOriginalDocuments"
-	CoreQueryService_GetOriginalDocument_FullMethodName   = "/documan.core.v1.CoreQueryService/GetOriginalDocument"
-	CoreQueryService_ListERPEntities_FullMethodName       = "/documan.core.v1.CoreQueryService/ListERPEntities"
-	CoreQueryService_ListERPDocuments_FullMethodName      = "/documan.core.v1.CoreQueryService/ListERPDocuments"
+	CoreQueryService_GetConnection_FullMethodName            = "/documan.core.v1.CoreQueryService/GetConnection"
+	CoreQueryService_ListConnections_FullMethodName          = "/documan.core.v1.CoreQueryService/ListConnections"
+	CoreQueryService_ListOriginalDocuments_FullMethodName    = "/documan.core.v1.CoreQueryService/ListOriginalDocuments"
+	CoreQueryService_GetOriginalDocument_FullMethodName      = "/documan.core.v1.CoreQueryService/GetOriginalDocument"
+	CoreQueryService_ListERPEntities_FullMethodName          = "/documan.core.v1.CoreQueryService/ListERPEntities"
+	CoreQueryService_ListERPDocuments_FullMethodName         = "/documan.core.v1.CoreQueryService/ListERPDocuments"
+	CoreQueryService_GetMatchingStats_FullMethodName         = "/documan.core.v1.CoreQueryService/GetMatchingStats"
+	CoreQueryService_ListDocumentPairs_FullMethodName        = "/documan.core.v1.CoreQueryService/ListDocumentPairs"
+	CoreQueryService_ListDocumentMatchingJobs_FullMethodName = "/documan.core.v1.CoreQueryService/ListDocumentMatchingJobs"
+	CoreQueryService_ListEntityMatchingJobs_FullMethodName   = "/documan.core.v1.CoreQueryService/ListEntityMatchingJobs"
+	CoreQueryService_ListEntityDictionary_FullMethodName     = "/documan.core.v1.CoreQueryService/ListEntityDictionary"
 )
 
 // CoreQueryServiceClient is the client API for CoreQueryService service.
@@ -39,6 +44,12 @@ type CoreQueryServiceClient interface {
 	GetOriginalDocument(ctx context.Context, in *GetOriginalDocumentRequest, opts ...grpc.CallOption) (*GetOriginalDocumentResponse, error)
 	ListERPEntities(ctx context.Context, in *ListERPEntitiesRequest, opts ...grpc.CallOption) (*ListERPEntitiesResponse, error)
 	ListERPDocuments(ctx context.Context, in *ListERPDocumentsRequest, opts ...grpc.CallOption) (*ListERPDocumentsResponse, error)
+	// Matching
+	GetMatchingStats(ctx context.Context, in *GetMatchingStatsRequest, opts ...grpc.CallOption) (*GetMatchingStatsResponse, error)
+	ListDocumentPairs(ctx context.Context, in *ListDocumentPairsRequest, opts ...grpc.CallOption) (*ListDocumentPairsResponse, error)
+	ListDocumentMatchingJobs(ctx context.Context, in *ListDocumentMatchingJobsRequest, opts ...grpc.CallOption) (*ListDocumentMatchingJobsResponse, error)
+	ListEntityMatchingJobs(ctx context.Context, in *ListEntityMatchingJobsRequest, opts ...grpc.CallOption) (*ListEntityMatchingJobsResponse, error)
+	ListEntityDictionary(ctx context.Context, in *ListEntityDictionaryRequest, opts ...grpc.CallOption) (*ListEntityDictionaryResponse, error)
 }
 
 type coreQueryServiceClient struct {
@@ -109,6 +120,56 @@ func (c *coreQueryServiceClient) ListERPDocuments(ctx context.Context, in *ListE
 	return out, nil
 }
 
+func (c *coreQueryServiceClient) GetMatchingStats(ctx context.Context, in *GetMatchingStatsRequest, opts ...grpc.CallOption) (*GetMatchingStatsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetMatchingStatsResponse)
+	err := c.cc.Invoke(ctx, CoreQueryService_GetMatchingStats_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *coreQueryServiceClient) ListDocumentPairs(ctx context.Context, in *ListDocumentPairsRequest, opts ...grpc.CallOption) (*ListDocumentPairsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListDocumentPairsResponse)
+	err := c.cc.Invoke(ctx, CoreQueryService_ListDocumentPairs_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *coreQueryServiceClient) ListDocumentMatchingJobs(ctx context.Context, in *ListDocumentMatchingJobsRequest, opts ...grpc.CallOption) (*ListDocumentMatchingJobsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListDocumentMatchingJobsResponse)
+	err := c.cc.Invoke(ctx, CoreQueryService_ListDocumentMatchingJobs_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *coreQueryServiceClient) ListEntityMatchingJobs(ctx context.Context, in *ListEntityMatchingJobsRequest, opts ...grpc.CallOption) (*ListEntityMatchingJobsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListEntityMatchingJobsResponse)
+	err := c.cc.Invoke(ctx, CoreQueryService_ListEntityMatchingJobs_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *coreQueryServiceClient) ListEntityDictionary(ctx context.Context, in *ListEntityDictionaryRequest, opts ...grpc.CallOption) (*ListEntityDictionaryResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListEntityDictionaryResponse)
+	err := c.cc.Invoke(ctx, CoreQueryService_ListEntityDictionary_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CoreQueryServiceServer is the server API for CoreQueryService service.
 // All implementations must embed UnimplementedCoreQueryServiceServer
 // for forward compatibility.
@@ -121,6 +182,12 @@ type CoreQueryServiceServer interface {
 	GetOriginalDocument(context.Context, *GetOriginalDocumentRequest) (*GetOriginalDocumentResponse, error)
 	ListERPEntities(context.Context, *ListERPEntitiesRequest) (*ListERPEntitiesResponse, error)
 	ListERPDocuments(context.Context, *ListERPDocumentsRequest) (*ListERPDocumentsResponse, error)
+	// Matching
+	GetMatchingStats(context.Context, *GetMatchingStatsRequest) (*GetMatchingStatsResponse, error)
+	ListDocumentPairs(context.Context, *ListDocumentPairsRequest) (*ListDocumentPairsResponse, error)
+	ListDocumentMatchingJobs(context.Context, *ListDocumentMatchingJobsRequest) (*ListDocumentMatchingJobsResponse, error)
+	ListEntityMatchingJobs(context.Context, *ListEntityMatchingJobsRequest) (*ListEntityMatchingJobsResponse, error)
+	ListEntityDictionary(context.Context, *ListEntityDictionaryRequest) (*ListEntityDictionaryResponse, error)
 	mustEmbedUnimplementedCoreQueryServiceServer()
 }
 
@@ -148,6 +215,21 @@ func (UnimplementedCoreQueryServiceServer) ListERPEntities(context.Context, *Lis
 }
 func (UnimplementedCoreQueryServiceServer) ListERPDocuments(context.Context, *ListERPDocumentsRequest) (*ListERPDocumentsResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListERPDocuments not implemented")
+}
+func (UnimplementedCoreQueryServiceServer) GetMatchingStats(context.Context, *GetMatchingStatsRequest) (*GetMatchingStatsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetMatchingStats not implemented")
+}
+func (UnimplementedCoreQueryServiceServer) ListDocumentPairs(context.Context, *ListDocumentPairsRequest) (*ListDocumentPairsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListDocumentPairs not implemented")
+}
+func (UnimplementedCoreQueryServiceServer) ListDocumentMatchingJobs(context.Context, *ListDocumentMatchingJobsRequest) (*ListDocumentMatchingJobsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListDocumentMatchingJobs not implemented")
+}
+func (UnimplementedCoreQueryServiceServer) ListEntityMatchingJobs(context.Context, *ListEntityMatchingJobsRequest) (*ListEntityMatchingJobsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListEntityMatchingJobs not implemented")
+}
+func (UnimplementedCoreQueryServiceServer) ListEntityDictionary(context.Context, *ListEntityDictionaryRequest) (*ListEntityDictionaryResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListEntityDictionary not implemented")
 }
 func (UnimplementedCoreQueryServiceServer) mustEmbedUnimplementedCoreQueryServiceServer() {}
 func (UnimplementedCoreQueryServiceServer) testEmbeddedByValue()                          {}
@@ -278,6 +360,96 @@ func _CoreQueryService_ListERPDocuments_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CoreQueryService_GetMatchingStats_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetMatchingStatsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CoreQueryServiceServer).GetMatchingStats(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CoreQueryService_GetMatchingStats_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CoreQueryServiceServer).GetMatchingStats(ctx, req.(*GetMatchingStatsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CoreQueryService_ListDocumentPairs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListDocumentPairsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CoreQueryServiceServer).ListDocumentPairs(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CoreQueryService_ListDocumentPairs_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CoreQueryServiceServer).ListDocumentPairs(ctx, req.(*ListDocumentPairsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CoreQueryService_ListDocumentMatchingJobs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListDocumentMatchingJobsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CoreQueryServiceServer).ListDocumentMatchingJobs(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CoreQueryService_ListDocumentMatchingJobs_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CoreQueryServiceServer).ListDocumentMatchingJobs(ctx, req.(*ListDocumentMatchingJobsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CoreQueryService_ListEntityMatchingJobs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListEntityMatchingJobsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CoreQueryServiceServer).ListEntityMatchingJobs(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CoreQueryService_ListEntityMatchingJobs_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CoreQueryServiceServer).ListEntityMatchingJobs(ctx, req.(*ListEntityMatchingJobsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CoreQueryService_ListEntityDictionary_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListEntityDictionaryRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CoreQueryServiceServer).ListEntityDictionary(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CoreQueryService_ListEntityDictionary_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CoreQueryServiceServer).ListEntityDictionary(ctx, req.(*ListEntityDictionaryRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CoreQueryService_ServiceDesc is the grpc.ServiceDesc for CoreQueryService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -308,6 +480,26 @@ var CoreQueryService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListERPDocuments",
 			Handler:    _CoreQueryService_ListERPDocuments_Handler,
+		},
+		{
+			MethodName: "GetMatchingStats",
+			Handler:    _CoreQueryService_GetMatchingStats_Handler,
+		},
+		{
+			MethodName: "ListDocumentPairs",
+			Handler:    _CoreQueryService_ListDocumentPairs_Handler,
+		},
+		{
+			MethodName: "ListDocumentMatchingJobs",
+			Handler:    _CoreQueryService_ListDocumentMatchingJobs_Handler,
+		},
+		{
+			MethodName: "ListEntityMatchingJobs",
+			Handler:    _CoreQueryService_ListEntityMatchingJobs_Handler,
+		},
+		{
+			MethodName: "ListEntityDictionary",
+			Handler:    _CoreQueryService_ListEntityDictionary_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
