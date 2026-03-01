@@ -14,6 +14,9 @@ service CoreQueryService {
   rpc GetOriginalDocument(GetOriginalDocumentRequest) returns (GetOriginalDocumentResponse);
   rpc ListERPEntities(ListERPEntitiesRequest) returns (ListERPEntitiesResponse);
   rpc ListERPDocuments(ListERPDocumentsRequest) returns (ListERPDocumentsResponse);
+
+  // ERP document counts per entity type for a connection
+  rpc GetERPDocumentCounts(GetERPDocumentCountsRequest) returns (GetERPDocumentCountsResponse);
 }
 
 // ===== Connection =====
@@ -166,4 +169,22 @@ message ERPDocumentItem {
   google.protobuf.Timestamp erp_deleted_at = 10;
   bool erp_archived = 11;
   bool archived = 12;
+}
+
+
+// ===== ERPDocumentCounts =====
+
+message GetERPDocumentCountsRequest {
+  string tenant_id = 1;
+  string connection_id = 2;
+}
+
+message GetERPDocumentCountsResponse {
+  repeated ERPDocumentCountItem items = 1;
+}
+
+message ERPDocumentCountItem {
+  string erp_entity_type = 1;
+  int32 count = 2;
+  google.protobuf.Timestamp max_erp_updated_at = 3;
 }

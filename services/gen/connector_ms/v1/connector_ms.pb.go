@@ -125,6 +125,111 @@ func (x *ValidateTokenResponse) GetOrgName() string {
 	return ""
 }
 
+type GetSyncStatusRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TenantId      string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
+	AccountId     string                 `protobuf:"bytes,2,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetSyncStatusRequest) Reset() {
+	*x = GetSyncStatusRequest{}
+	mi := &file_connector_ms_v1_connector_ms_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetSyncStatusRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetSyncStatusRequest) ProtoMessage() {}
+
+func (x *GetSyncStatusRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_connector_ms_v1_connector_ms_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetSyncStatusRequest.ProtoReflect.Descriptor instead.
+func (*GetSyncStatusRequest) Descriptor() ([]byte, []int) {
+	return file_connector_ms_v1_connector_ms_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *GetSyncStatusRequest) GetTenantId() string {
+	if x != nil {
+		return x.TenantId
+	}
+	return ""
+}
+
+func (x *GetSyncStatusRequest) GetAccountId() string {
+	if x != nil {
+		return x.AccountId
+	}
+	return ""
+}
+
+type GetSyncStatusResponse struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// "initial" = массовая загрузка, "incremental" = инкрементальная синхронизация
+	SyncMode       string `protobuf:"bytes,1,opt,name=sync_mode,json=syncMode,proto3" json:"sync_mode,omitempty"`
+	HasAuditCursor bool   `protobuf:"varint,2,opt,name=has_audit_cursor,json=hasAuditCursor,proto3" json:"has_audit_cursor,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *GetSyncStatusResponse) Reset() {
+	*x = GetSyncStatusResponse{}
+	mi := &file_connector_ms_v1_connector_ms_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetSyncStatusResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetSyncStatusResponse) ProtoMessage() {}
+
+func (x *GetSyncStatusResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_connector_ms_v1_connector_ms_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetSyncStatusResponse.ProtoReflect.Descriptor instead.
+func (*GetSyncStatusResponse) Descriptor() ([]byte, []int) {
+	return file_connector_ms_v1_connector_ms_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *GetSyncStatusResponse) GetSyncMode() string {
+	if x != nil {
+		return x.SyncMode
+	}
+	return ""
+}
+
+func (x *GetSyncStatusResponse) GetHasAuditCursor() bool {
+	if x != nil {
+		return x.HasAuditCursor
+	}
+	return false
+}
+
 var File_connector_ms_v1_connector_ms_proto protoreflect.FileDescriptor
 
 const file_connector_ms_v1_connector_ms_proto_rawDesc = "" +
@@ -136,9 +241,17 @@ const file_connector_ms_v1_connector_ms_proto_rawDesc = "" +
 	"\x15ValidateTokenResponse\x12\x1d\n" +
 	"\n" +
 	"account_id\x18\x01 \x01(\tR\taccountId\x12\x19\n" +
-	"\borg_name\x18\x02 \x01(\tR\aorgName2\x84\x01\n" +
+	"\borg_name\x18\x02 \x01(\tR\aorgName\"R\n" +
+	"\x14GetSyncStatusRequest\x12\x1b\n" +
+	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12\x1d\n" +
+	"\n" +
+	"account_id\x18\x02 \x01(\tR\taccountId\"^\n" +
+	"\x15GetSyncStatusResponse\x12\x1b\n" +
+	"\tsync_mode\x18\x01 \x01(\tR\bsyncMode\x12(\n" +
+	"\x10has_audit_cursor\x18\x02 \x01(\bR\x0ehasAuditCursor2\xf4\x01\n" +
 	"\x12ConnectorMSService\x12n\n" +
-	"\rValidateToken\x12-.documan.connector_ms.v1.ValidateTokenRequest\x1a..documan.connector_ms.v1.ValidateTokenResponseBSZQgithub.com/plus-minus-dev/documan-pkg/services/gen/connector_ms/v1;connector_msv1b\x06proto3"
+	"\rValidateToken\x12-.documan.connector_ms.v1.ValidateTokenRequest\x1a..documan.connector_ms.v1.ValidateTokenResponse\x12n\n" +
+	"\rGetSyncStatus\x12-.documan.connector_ms.v1.GetSyncStatusRequest\x1a..documan.connector_ms.v1.GetSyncStatusResponseBSZQgithub.com/plus-minus-dev/documan-pkg/services/gen/connector_ms/v1;connector_msv1b\x06proto3"
 
 var (
 	file_connector_ms_v1_connector_ms_proto_rawDescOnce sync.Once
@@ -152,16 +265,20 @@ func file_connector_ms_v1_connector_ms_proto_rawDescGZIP() []byte {
 	return file_connector_ms_v1_connector_ms_proto_rawDescData
 }
 
-var file_connector_ms_v1_connector_ms_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_connector_ms_v1_connector_ms_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_connector_ms_v1_connector_ms_proto_goTypes = []any{
 	(*ValidateTokenRequest)(nil),  // 0: documan.connector_ms.v1.ValidateTokenRequest
 	(*ValidateTokenResponse)(nil), // 1: documan.connector_ms.v1.ValidateTokenResponse
+	(*GetSyncStatusRequest)(nil),  // 2: documan.connector_ms.v1.GetSyncStatusRequest
+	(*GetSyncStatusResponse)(nil), // 3: documan.connector_ms.v1.GetSyncStatusResponse
 }
 var file_connector_ms_v1_connector_ms_proto_depIdxs = []int32{
 	0, // 0: documan.connector_ms.v1.ConnectorMSService.ValidateToken:input_type -> documan.connector_ms.v1.ValidateTokenRequest
-	1, // 1: documan.connector_ms.v1.ConnectorMSService.ValidateToken:output_type -> documan.connector_ms.v1.ValidateTokenResponse
-	1, // [1:2] is the sub-list for method output_type
-	0, // [0:1] is the sub-list for method input_type
+	2, // 1: documan.connector_ms.v1.ConnectorMSService.GetSyncStatus:input_type -> documan.connector_ms.v1.GetSyncStatusRequest
+	1, // 2: documan.connector_ms.v1.ConnectorMSService.ValidateToken:output_type -> documan.connector_ms.v1.ValidateTokenResponse
+	3, // 3: documan.connector_ms.v1.ConnectorMSService.GetSyncStatus:output_type -> documan.connector_ms.v1.GetSyncStatusResponse
+	2, // [2:4] is the sub-list for method output_type
+	0, // [0:2] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -178,7 +295,7 @@ func file_connector_ms_v1_connector_ms_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_connector_ms_v1_connector_ms_proto_rawDesc), len(file_connector_ms_v1_connector_ms_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

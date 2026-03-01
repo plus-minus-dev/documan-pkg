@@ -7,6 +7,9 @@ option go_package = "github.com/plus-minus-dev/documan-pkg/services/gen/connecto
 service ConnectorMSService {
   // ValidateToken проверяет ERP-токен и возвращает accountID.
   rpc ValidateToken(ValidateTokenRequest) returns (ValidateTokenResponse);
+
+  // GetSyncStatus возвращает режим синхронизации для подключения.
+  rpc GetSyncStatus(GetSyncStatusRequest) returns (GetSyncStatusResponse);
 }
 
 message ValidateTokenRequest {
@@ -17,4 +20,15 @@ message ValidateTokenRequest {
 message ValidateTokenResponse {
   string account_id = 1;
   string org_name = 2;
+}
+
+message GetSyncStatusRequest {
+  string tenant_id = 1;
+  string account_id = 2;
+}
+
+message GetSyncStatusResponse {
+  // "initial" = массовая загрузка, "incremental" = инкрементальная синхронизация
+  string sync_mode = 1;
+  bool has_audit_cursor = 2;
 }
