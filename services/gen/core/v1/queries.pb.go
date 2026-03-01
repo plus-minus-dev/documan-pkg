@@ -1379,6 +1379,162 @@ func (x *ERPDocumentItem) GetArchived() bool {
 	return false
 }
 
+type GetERPDocumentCountsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TenantId      string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
+	ConnectionId  string                 `protobuf:"bytes,2,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetERPDocumentCountsRequest) Reset() {
+	*x = GetERPDocumentCountsRequest{}
+	mi := &file_core_v1_queries_proto_msgTypes[17]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetERPDocumentCountsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetERPDocumentCountsRequest) ProtoMessage() {}
+
+func (x *GetERPDocumentCountsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_queries_proto_msgTypes[17]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetERPDocumentCountsRequest.ProtoReflect.Descriptor instead.
+func (*GetERPDocumentCountsRequest) Descriptor() ([]byte, []int) {
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *GetERPDocumentCountsRequest) GetTenantId() string {
+	if x != nil {
+		return x.TenantId
+	}
+	return ""
+}
+
+func (x *GetERPDocumentCountsRequest) GetConnectionId() string {
+	if x != nil {
+		return x.ConnectionId
+	}
+	return ""
+}
+
+type GetERPDocumentCountsResponse struct {
+	state         protoimpl.MessageState  `protogen:"open.v1"`
+	Items         []*ERPDocumentCountItem `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetERPDocumentCountsResponse) Reset() {
+	*x = GetERPDocumentCountsResponse{}
+	mi := &file_core_v1_queries_proto_msgTypes[18]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetERPDocumentCountsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetERPDocumentCountsResponse) ProtoMessage() {}
+
+func (x *GetERPDocumentCountsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_queries_proto_msgTypes[18]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetERPDocumentCountsResponse.ProtoReflect.Descriptor instead.
+func (*GetERPDocumentCountsResponse) Descriptor() ([]byte, []int) {
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{18}
+}
+
+func (x *GetERPDocumentCountsResponse) GetItems() []*ERPDocumentCountItem {
+	if x != nil {
+		return x.Items
+	}
+	return nil
+}
+
+type ERPDocumentCountItem struct {
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	ErpEntityType   string                 `protobuf:"bytes,1,opt,name=erp_entity_type,json=erpEntityType,proto3" json:"erp_entity_type,omitempty"`
+	Count           int32                  `protobuf:"varint,2,opt,name=count,proto3" json:"count,omitempty"`
+	MaxErpUpdatedAt *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=max_erp_updated_at,json=maxErpUpdatedAt,proto3" json:"max_erp_updated_at,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *ERPDocumentCountItem) Reset() {
+	*x = ERPDocumentCountItem{}
+	mi := &file_core_v1_queries_proto_msgTypes[19]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ERPDocumentCountItem) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ERPDocumentCountItem) ProtoMessage() {}
+
+func (x *ERPDocumentCountItem) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_queries_proto_msgTypes[19]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ERPDocumentCountItem.ProtoReflect.Descriptor instead.
+func (*ERPDocumentCountItem) Descriptor() ([]byte, []int) {
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{19}
+}
+
+func (x *ERPDocumentCountItem) GetErpEntityType() string {
+	if x != nil {
+		return x.ErpEntityType
+	}
+	return ""
+}
+
+func (x *ERPDocumentCountItem) GetCount() int32 {
+	if x != nil {
+		return x.Count
+	}
+	return 0
+}
+
+func (x *ERPDocumentCountItem) GetMaxErpUpdatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.MaxErpUpdatedAt
+	}
+	return nil
+}
+
 type GetMatchingStatsRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	TenantId      string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
@@ -1388,7 +1544,7 @@ type GetMatchingStatsRequest struct {
 
 func (x *GetMatchingStatsRequest) Reset() {
 	*x = GetMatchingStatsRequest{}
-	mi := &file_core_v1_queries_proto_msgTypes[17]
+	mi := &file_core_v1_queries_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1400,7 +1556,7 @@ func (x *GetMatchingStatsRequest) String() string {
 func (*GetMatchingStatsRequest) ProtoMessage() {}
 
 func (x *GetMatchingStatsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_queries_proto_msgTypes[17]
+	mi := &file_core_v1_queries_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1413,7 +1569,7 @@ func (x *GetMatchingStatsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetMatchingStatsRequest.ProtoReflect.Descriptor instead.
 func (*GetMatchingStatsRequest) Descriptor() ([]byte, []int) {
-	return file_core_v1_queries_proto_rawDescGZIP(), []int{17}
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{20}
 }
 
 func (x *GetMatchingStatsRequest) GetTenantId() string {
@@ -1447,7 +1603,7 @@ type GetMatchingStatsResponse struct {
 
 func (x *GetMatchingStatsResponse) Reset() {
 	*x = GetMatchingStatsResponse{}
-	mi := &file_core_v1_queries_proto_msgTypes[18]
+	mi := &file_core_v1_queries_proto_msgTypes[21]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1459,7 +1615,7 @@ func (x *GetMatchingStatsResponse) String() string {
 func (*GetMatchingStatsResponse) ProtoMessage() {}
 
 func (x *GetMatchingStatsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_queries_proto_msgTypes[18]
+	mi := &file_core_v1_queries_proto_msgTypes[21]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1472,7 +1628,7 @@ func (x *GetMatchingStatsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetMatchingStatsResponse.ProtoReflect.Descriptor instead.
 func (*GetMatchingStatsResponse) Descriptor() ([]byte, []int) {
-	return file_core_v1_queries_proto_rawDescGZIP(), []int{18}
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{21}
 }
 
 func (x *GetMatchingStatsResponse) GetDocJobsQueued() int32 {
@@ -1598,7 +1754,7 @@ type ListDocumentPairsRequest struct {
 
 func (x *ListDocumentPairsRequest) Reset() {
 	*x = ListDocumentPairsRequest{}
-	mi := &file_core_v1_queries_proto_msgTypes[19]
+	mi := &file_core_v1_queries_proto_msgTypes[22]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1610,7 +1766,7 @@ func (x *ListDocumentPairsRequest) String() string {
 func (*ListDocumentPairsRequest) ProtoMessage() {}
 
 func (x *ListDocumentPairsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_queries_proto_msgTypes[19]
+	mi := &file_core_v1_queries_proto_msgTypes[22]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1623,7 +1779,7 @@ func (x *ListDocumentPairsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListDocumentPairsRequest.ProtoReflect.Descriptor instead.
 func (*ListDocumentPairsRequest) Descriptor() ([]byte, []int) {
-	return file_core_v1_queries_proto_rawDescGZIP(), []int{19}
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{22}
 }
 
 func (x *ListDocumentPairsRequest) GetTenantId() string {
@@ -1657,7 +1813,7 @@ type ListDocumentPairsResponse struct {
 
 func (x *ListDocumentPairsResponse) Reset() {
 	*x = ListDocumentPairsResponse{}
-	mi := &file_core_v1_queries_proto_msgTypes[20]
+	mi := &file_core_v1_queries_proto_msgTypes[23]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1669,7 +1825,7 @@ func (x *ListDocumentPairsResponse) String() string {
 func (*ListDocumentPairsResponse) ProtoMessage() {}
 
 func (x *ListDocumentPairsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_queries_proto_msgTypes[20]
+	mi := &file_core_v1_queries_proto_msgTypes[23]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1682,7 +1838,7 @@ func (x *ListDocumentPairsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListDocumentPairsResponse.ProtoReflect.Descriptor instead.
 func (*ListDocumentPairsResponse) Descriptor() ([]byte, []int) {
-	return file_core_v1_queries_proto_rawDescGZIP(), []int{20}
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{23}
 }
 
 func (x *ListDocumentPairsResponse) GetItems() []*DocumentPairItem {
@@ -1720,7 +1876,7 @@ type DocumentPairItem struct {
 
 func (x *DocumentPairItem) Reset() {
 	*x = DocumentPairItem{}
-	mi := &file_core_v1_queries_proto_msgTypes[21]
+	mi := &file_core_v1_queries_proto_msgTypes[24]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1732,7 +1888,7 @@ func (x *DocumentPairItem) String() string {
 func (*DocumentPairItem) ProtoMessage() {}
 
 func (x *DocumentPairItem) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_queries_proto_msgTypes[21]
+	mi := &file_core_v1_queries_proto_msgTypes[24]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1745,7 +1901,7 @@ func (x *DocumentPairItem) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DocumentPairItem.ProtoReflect.Descriptor instead.
 func (*DocumentPairItem) Descriptor() ([]byte, []int) {
-	return file_core_v1_queries_proto_rawDescGZIP(), []int{21}
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{24}
 }
 
 func (x *DocumentPairItem) GetId() string {
@@ -1850,7 +2006,7 @@ type ListDocumentMatchingJobsRequest struct {
 
 func (x *ListDocumentMatchingJobsRequest) Reset() {
 	*x = ListDocumentMatchingJobsRequest{}
-	mi := &file_core_v1_queries_proto_msgTypes[22]
+	mi := &file_core_v1_queries_proto_msgTypes[25]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1862,7 +2018,7 @@ func (x *ListDocumentMatchingJobsRequest) String() string {
 func (*ListDocumentMatchingJobsRequest) ProtoMessage() {}
 
 func (x *ListDocumentMatchingJobsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_queries_proto_msgTypes[22]
+	mi := &file_core_v1_queries_proto_msgTypes[25]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1875,7 +2031,7 @@ func (x *ListDocumentMatchingJobsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListDocumentMatchingJobsRequest.ProtoReflect.Descriptor instead.
 func (*ListDocumentMatchingJobsRequest) Descriptor() ([]byte, []int) {
-	return file_core_v1_queries_proto_rawDescGZIP(), []int{22}
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{25}
 }
 
 func (x *ListDocumentMatchingJobsRequest) GetTenantId() string {
@@ -1909,7 +2065,7 @@ type ListDocumentMatchingJobsResponse struct {
 
 func (x *ListDocumentMatchingJobsResponse) Reset() {
 	*x = ListDocumentMatchingJobsResponse{}
-	mi := &file_core_v1_queries_proto_msgTypes[23]
+	mi := &file_core_v1_queries_proto_msgTypes[26]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1921,7 +2077,7 @@ func (x *ListDocumentMatchingJobsResponse) String() string {
 func (*ListDocumentMatchingJobsResponse) ProtoMessage() {}
 
 func (x *ListDocumentMatchingJobsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_queries_proto_msgTypes[23]
+	mi := &file_core_v1_queries_proto_msgTypes[26]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1934,7 +2090,7 @@ func (x *ListDocumentMatchingJobsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListDocumentMatchingJobsResponse.ProtoReflect.Descriptor instead.
 func (*ListDocumentMatchingJobsResponse) Descriptor() ([]byte, []int) {
-	return file_core_v1_queries_proto_rawDescGZIP(), []int{23}
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{26}
 }
 
 func (x *ListDocumentMatchingJobsResponse) GetItems() []*DocumentMatchingJobItem {
@@ -1971,7 +2127,7 @@ type DocumentMatchingJobItem struct {
 
 func (x *DocumentMatchingJobItem) Reset() {
 	*x = DocumentMatchingJobItem{}
-	mi := &file_core_v1_queries_proto_msgTypes[24]
+	mi := &file_core_v1_queries_proto_msgTypes[27]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1983,7 +2139,7 @@ func (x *DocumentMatchingJobItem) String() string {
 func (*DocumentMatchingJobItem) ProtoMessage() {}
 
 func (x *DocumentMatchingJobItem) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_queries_proto_msgTypes[24]
+	mi := &file_core_v1_queries_proto_msgTypes[27]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1996,7 +2152,7 @@ func (x *DocumentMatchingJobItem) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DocumentMatchingJobItem.ProtoReflect.Descriptor instead.
 func (*DocumentMatchingJobItem) Descriptor() ([]byte, []int) {
-	return file_core_v1_queries_proto_rawDescGZIP(), []int{24}
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{27}
 }
 
 func (x *DocumentMatchingJobItem) GetId() string {
@@ -2094,7 +2250,7 @@ type ListEntityMatchingJobsRequest struct {
 
 func (x *ListEntityMatchingJobsRequest) Reset() {
 	*x = ListEntityMatchingJobsRequest{}
-	mi := &file_core_v1_queries_proto_msgTypes[25]
+	mi := &file_core_v1_queries_proto_msgTypes[28]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2106,7 +2262,7 @@ func (x *ListEntityMatchingJobsRequest) String() string {
 func (*ListEntityMatchingJobsRequest) ProtoMessage() {}
 
 func (x *ListEntityMatchingJobsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_queries_proto_msgTypes[25]
+	mi := &file_core_v1_queries_proto_msgTypes[28]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2119,7 +2275,7 @@ func (x *ListEntityMatchingJobsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListEntityMatchingJobsRequest.ProtoReflect.Descriptor instead.
 func (*ListEntityMatchingJobsRequest) Descriptor() ([]byte, []int) {
-	return file_core_v1_queries_proto_rawDescGZIP(), []int{25}
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{28}
 }
 
 func (x *ListEntityMatchingJobsRequest) GetTenantId() string {
@@ -2153,7 +2309,7 @@ type ListEntityMatchingJobsResponse struct {
 
 func (x *ListEntityMatchingJobsResponse) Reset() {
 	*x = ListEntityMatchingJobsResponse{}
-	mi := &file_core_v1_queries_proto_msgTypes[26]
+	mi := &file_core_v1_queries_proto_msgTypes[29]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2165,7 +2321,7 @@ func (x *ListEntityMatchingJobsResponse) String() string {
 func (*ListEntityMatchingJobsResponse) ProtoMessage() {}
 
 func (x *ListEntityMatchingJobsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_queries_proto_msgTypes[26]
+	mi := &file_core_v1_queries_proto_msgTypes[29]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2178,7 +2334,7 @@ func (x *ListEntityMatchingJobsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListEntityMatchingJobsResponse.ProtoReflect.Descriptor instead.
 func (*ListEntityMatchingJobsResponse) Descriptor() ([]byte, []int) {
-	return file_core_v1_queries_proto_rawDescGZIP(), []int{26}
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{29}
 }
 
 func (x *ListEntityMatchingJobsResponse) GetItems() []*EntityMatchingJobItem {
@@ -2214,7 +2370,7 @@ type EntityMatchingJobItem struct {
 
 func (x *EntityMatchingJobItem) Reset() {
 	*x = EntityMatchingJobItem{}
-	mi := &file_core_v1_queries_proto_msgTypes[27]
+	mi := &file_core_v1_queries_proto_msgTypes[30]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2226,7 +2382,7 @@ func (x *EntityMatchingJobItem) String() string {
 func (*EntityMatchingJobItem) ProtoMessage() {}
 
 func (x *EntityMatchingJobItem) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_queries_proto_msgTypes[27]
+	mi := &file_core_v1_queries_proto_msgTypes[30]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2239,7 +2395,7 @@ func (x *EntityMatchingJobItem) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use EntityMatchingJobItem.ProtoReflect.Descriptor instead.
 func (*EntityMatchingJobItem) Descriptor() ([]byte, []int) {
-	return file_core_v1_queries_proto_rawDescGZIP(), []int{27}
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{30}
 }
 
 func (x *EntityMatchingJobItem) GetId() string {
@@ -2330,7 +2486,7 @@ type ListEntityDictionaryRequest struct {
 
 func (x *ListEntityDictionaryRequest) Reset() {
 	*x = ListEntityDictionaryRequest{}
-	mi := &file_core_v1_queries_proto_msgTypes[28]
+	mi := &file_core_v1_queries_proto_msgTypes[31]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2342,7 +2498,7 @@ func (x *ListEntityDictionaryRequest) String() string {
 func (*ListEntityDictionaryRequest) ProtoMessage() {}
 
 func (x *ListEntityDictionaryRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_queries_proto_msgTypes[28]
+	mi := &file_core_v1_queries_proto_msgTypes[31]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2355,7 +2511,7 @@ func (x *ListEntityDictionaryRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListEntityDictionaryRequest.ProtoReflect.Descriptor instead.
 func (*ListEntityDictionaryRequest) Descriptor() ([]byte, []int) {
-	return file_core_v1_queries_proto_rawDescGZIP(), []int{28}
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{31}
 }
 
 func (x *ListEntityDictionaryRequest) GetTenantId() string {
@@ -2389,7 +2545,7 @@ type ListEntityDictionaryResponse struct {
 
 func (x *ListEntityDictionaryResponse) Reset() {
 	*x = ListEntityDictionaryResponse{}
-	mi := &file_core_v1_queries_proto_msgTypes[29]
+	mi := &file_core_v1_queries_proto_msgTypes[32]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2401,7 +2557,7 @@ func (x *ListEntityDictionaryResponse) String() string {
 func (*ListEntityDictionaryResponse) ProtoMessage() {}
 
 func (x *ListEntityDictionaryResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_queries_proto_msgTypes[29]
+	mi := &file_core_v1_queries_proto_msgTypes[32]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2414,7 +2570,7 @@ func (x *ListEntityDictionaryResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListEntityDictionaryResponse.ProtoReflect.Descriptor instead.
 func (*ListEntityDictionaryResponse) Descriptor() ([]byte, []int) {
-	return file_core_v1_queries_proto_rawDescGZIP(), []int{29}
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{32}
 }
 
 func (x *ListEntityDictionaryResponse) GetItems() []*EntityDictionaryItem {
@@ -2451,7 +2607,7 @@ type EntityDictionaryItem struct {
 
 func (x *EntityDictionaryItem) Reset() {
 	*x = EntityDictionaryItem{}
-	mi := &file_core_v1_queries_proto_msgTypes[30]
+	mi := &file_core_v1_queries_proto_msgTypes[33]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2463,7 +2619,7 @@ func (x *EntityDictionaryItem) String() string {
 func (*EntityDictionaryItem) ProtoMessage() {}
 
 func (x *EntityDictionaryItem) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_queries_proto_msgTypes[30]
+	mi := &file_core_v1_queries_proto_msgTypes[33]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2476,7 +2632,7 @@ func (x *EntityDictionaryItem) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use EntityDictionaryItem.ProtoReflect.Descriptor instead.
 func (*EntityDictionaryItem) Descriptor() ([]byte, []int) {
-	return file_core_v1_queries_proto_rawDescGZIP(), []int{30}
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{33}
 }
 
 func (x *EntityDictionaryItem) GetId() string {
@@ -2697,7 +2853,16 @@ const file_core_v1_queries_proto_rawDesc = "" +
 	"\x0eerp_deleted_at\x18\n" +
 	" \x01(\v2\x1a.google.protobuf.TimestampR\ferpDeletedAt\x12!\n" +
 	"\ferp_archived\x18\v \x01(\bR\verpArchived\x12\x1a\n" +
-	"\barchived\x18\f \x01(\bR\barchived\"6\n" +
+	"\barchived\x18\f \x01(\bR\barchived\"_\n" +
+	"\x1bGetERPDocumentCountsRequest\x12\x1b\n" +
+	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12#\n" +
+	"\rconnection_id\x18\x02 \x01(\tR\fconnectionId\"[\n" +
+	"\x1cGetERPDocumentCountsResponse\x12;\n" +
+	"\x05items\x18\x01 \x03(\v2%.documan.core.v1.ERPDocumentCountItemR\x05items\"\x9d\x01\n" +
+	"\x14ERPDocumentCountItem\x12&\n" +
+	"\x0ferp_entity_type\x18\x01 \x01(\tR\rerpEntityType\x12\x14\n" +
+	"\x05count\x18\x02 \x01(\x05R\x05count\x12G\n" +
+	"\x12max_erp_updated_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\x0fmaxErpUpdatedAt\"6\n" +
 	"\x17GetMatchingStatsRequest\x12\x1b\n" +
 	"\ttenant_id\x18\x01 \x01(\tR\btenantId\"\xb2\x05\n" +
 	"\x18GetMatchingStatsResponse\x12&\n" +
@@ -2816,14 +2981,16 @@ const file_core_v1_queries_proto_rawDesc = "" +
 	"\n" +
 	"created_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
-	"updated_at\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt2\xd7\t\n" +
+	"updated_at\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt2\xcc\n" +
+	"\n" +
 	"\x10CoreQueryService\x12^\n" +
 	"\rGetConnection\x12%.documan.core.v1.GetConnectionRequest\x1a&.documan.core.v1.GetConnectionResponse\x12d\n" +
 	"\x0fListConnections\x12'.documan.core.v1.ListConnectionsRequest\x1a(.documan.core.v1.ListConnectionsResponse\x12v\n" +
 	"\x15ListOriginalDocuments\x12-.documan.core.v1.ListOriginalDocumentsRequest\x1a..documan.core.v1.ListOriginalDocumentsResponse\x12p\n" +
 	"\x13GetOriginalDocument\x12+.documan.core.v1.GetOriginalDocumentRequest\x1a,.documan.core.v1.GetOriginalDocumentResponse\x12d\n" +
 	"\x0fListERPEntities\x12'.documan.core.v1.ListERPEntitiesRequest\x1a(.documan.core.v1.ListERPEntitiesResponse\x12g\n" +
-	"\x10ListERPDocuments\x12(.documan.core.v1.ListERPDocumentsRequest\x1a).documan.core.v1.ListERPDocumentsResponse\x12g\n" +
+	"\x10ListERPDocuments\x12(.documan.core.v1.ListERPDocumentsRequest\x1a).documan.core.v1.ListERPDocumentsResponse\x12s\n" +
+	"\x14GetERPDocumentCounts\x12,.documan.core.v1.GetERPDocumentCountsRequest\x1a-.documan.core.v1.GetERPDocumentCountsResponse\x12g\n" +
 	"\x10GetMatchingStats\x12(.documan.core.v1.GetMatchingStatsRequest\x1a).documan.core.v1.GetMatchingStatsResponse\x12j\n" +
 	"\x11ListDocumentPairs\x12).documan.core.v1.ListDocumentPairsRequest\x1a*.documan.core.v1.ListDocumentPairsResponse\x12\x7f\n" +
 	"\x18ListDocumentMatchingJobs\x120.documan.core.v1.ListDocumentMatchingJobsRequest\x1a1.documan.core.v1.ListDocumentMatchingJobsResponse\x12y\n" +
@@ -2842,7 +3009,7 @@ func file_core_v1_queries_proto_rawDescGZIP() []byte {
 	return file_core_v1_queries_proto_rawDescData
 }
 
-var file_core_v1_queries_proto_msgTypes = make([]protoimpl.MessageInfo, 31)
+var file_core_v1_queries_proto_msgTypes = make([]protoimpl.MessageInfo, 34)
 var file_core_v1_queries_proto_goTypes = []any{
 	(*GetConnectionRequest)(nil),             // 0: documan.core.v1.GetConnectionRequest
 	(*GetConnectionResponse)(nil),            // 1: documan.core.v1.GetConnectionResponse
@@ -2861,88 +3028,95 @@ var file_core_v1_queries_proto_goTypes = []any{
 	(*ListERPDocumentsRequest)(nil),          // 14: documan.core.v1.ListERPDocumentsRequest
 	(*ListERPDocumentsResponse)(nil),         // 15: documan.core.v1.ListERPDocumentsResponse
 	(*ERPDocumentItem)(nil),                  // 16: documan.core.v1.ERPDocumentItem
-	(*GetMatchingStatsRequest)(nil),          // 17: documan.core.v1.GetMatchingStatsRequest
-	(*GetMatchingStatsResponse)(nil),         // 18: documan.core.v1.GetMatchingStatsResponse
-	(*ListDocumentPairsRequest)(nil),         // 19: documan.core.v1.ListDocumentPairsRequest
-	(*ListDocumentPairsResponse)(nil),        // 20: documan.core.v1.ListDocumentPairsResponse
-	(*DocumentPairItem)(nil),                 // 21: documan.core.v1.DocumentPairItem
-	(*ListDocumentMatchingJobsRequest)(nil),  // 22: documan.core.v1.ListDocumentMatchingJobsRequest
-	(*ListDocumentMatchingJobsResponse)(nil), // 23: documan.core.v1.ListDocumentMatchingJobsResponse
-	(*DocumentMatchingJobItem)(nil),          // 24: documan.core.v1.DocumentMatchingJobItem
-	(*ListEntityMatchingJobsRequest)(nil),    // 25: documan.core.v1.ListEntityMatchingJobsRequest
-	(*ListEntityMatchingJobsResponse)(nil),   // 26: documan.core.v1.ListEntityMatchingJobsResponse
-	(*EntityMatchingJobItem)(nil),            // 27: documan.core.v1.EntityMatchingJobItem
-	(*ListEntityDictionaryRequest)(nil),      // 28: documan.core.v1.ListEntityDictionaryRequest
-	(*ListEntityDictionaryResponse)(nil),     // 29: documan.core.v1.ListEntityDictionaryResponse
-	(*EntityDictionaryItem)(nil),             // 30: documan.core.v1.EntityDictionaryItem
-	(*timestamppb.Timestamp)(nil),            // 31: google.protobuf.Timestamp
-	(*v1.S3Ref)(nil),                         // 32: documan.common.v1.S3Ref
+	(*GetERPDocumentCountsRequest)(nil),      // 17: documan.core.v1.GetERPDocumentCountsRequest
+	(*GetERPDocumentCountsResponse)(nil),     // 18: documan.core.v1.GetERPDocumentCountsResponse
+	(*ERPDocumentCountItem)(nil),             // 19: documan.core.v1.ERPDocumentCountItem
+	(*GetMatchingStatsRequest)(nil),          // 20: documan.core.v1.GetMatchingStatsRequest
+	(*GetMatchingStatsResponse)(nil),         // 21: documan.core.v1.GetMatchingStatsResponse
+	(*ListDocumentPairsRequest)(nil),         // 22: documan.core.v1.ListDocumentPairsRequest
+	(*ListDocumentPairsResponse)(nil),        // 23: documan.core.v1.ListDocumentPairsResponse
+	(*DocumentPairItem)(nil),                 // 24: documan.core.v1.DocumentPairItem
+	(*ListDocumentMatchingJobsRequest)(nil),  // 25: documan.core.v1.ListDocumentMatchingJobsRequest
+	(*ListDocumentMatchingJobsResponse)(nil), // 26: documan.core.v1.ListDocumentMatchingJobsResponse
+	(*DocumentMatchingJobItem)(nil),          // 27: documan.core.v1.DocumentMatchingJobItem
+	(*ListEntityMatchingJobsRequest)(nil),    // 28: documan.core.v1.ListEntityMatchingJobsRequest
+	(*ListEntityMatchingJobsResponse)(nil),   // 29: documan.core.v1.ListEntityMatchingJobsResponse
+	(*EntityMatchingJobItem)(nil),            // 30: documan.core.v1.EntityMatchingJobItem
+	(*ListEntityDictionaryRequest)(nil),      // 31: documan.core.v1.ListEntityDictionaryRequest
+	(*ListEntityDictionaryResponse)(nil),     // 32: documan.core.v1.ListEntityDictionaryResponse
+	(*EntityDictionaryItem)(nil),             // 33: documan.core.v1.EntityDictionaryItem
+	(*timestamppb.Timestamp)(nil),            // 34: google.protobuf.Timestamp
+	(*v1.S3Ref)(nil),                         // 35: documan.common.v1.S3Ref
 }
 var file_core_v1_queries_proto_depIdxs = []int32{
 	4,  // 0: documan.core.v1.GetConnectionResponse.connection:type_name -> documan.core.v1.ConnectionItem
 	4,  // 1: documan.core.v1.ListConnectionsResponse.items:type_name -> documan.core.v1.ConnectionItem
-	31, // 2: documan.core.v1.ConnectionItem.last_sync_at:type_name -> google.protobuf.Timestamp
-	31, // 3: documan.core.v1.ConnectionItem.created_at:type_name -> google.protobuf.Timestamp
-	31, // 4: documan.core.v1.ConnectionItem.updated_at:type_name -> google.protobuf.Timestamp
+	34, // 2: documan.core.v1.ConnectionItem.last_sync_at:type_name -> google.protobuf.Timestamp
+	34, // 3: documan.core.v1.ConnectionItem.created_at:type_name -> google.protobuf.Timestamp
+	34, // 4: documan.core.v1.ConnectionItem.updated_at:type_name -> google.protobuf.Timestamp
 	9,  // 5: documan.core.v1.ListOriginalDocumentsResponse.items:type_name -> documan.core.v1.OriginalDocumentItem
 	10, // 6: documan.core.v1.GetOriginalDocumentResponse.document:type_name -> documan.core.v1.OriginalDocumentDetails
-	31, // 7: documan.core.v1.OriginalDocumentItem.payloaded_at:type_name -> google.protobuf.Timestamp
-	31, // 8: documan.core.v1.OriginalDocumentItem.created_at:type_name -> google.protobuf.Timestamp
-	31, // 9: documan.core.v1.OriginalDocumentItem.updated_at:type_name -> google.protobuf.Timestamp
-	31, // 10: documan.core.v1.OriginalDocumentDetails.payloaded_at:type_name -> google.protobuf.Timestamp
-	31, // 11: documan.core.v1.OriginalDocumentDetails.created_at:type_name -> google.protobuf.Timestamp
-	31, // 12: documan.core.v1.OriginalDocumentDetails.updated_at:type_name -> google.protobuf.Timestamp
-	32, // 13: documan.core.v1.OriginalDocumentDetails.original_file:type_name -> documan.common.v1.S3Ref
+	34, // 7: documan.core.v1.OriginalDocumentItem.payloaded_at:type_name -> google.protobuf.Timestamp
+	34, // 8: documan.core.v1.OriginalDocumentItem.created_at:type_name -> google.protobuf.Timestamp
+	34, // 9: documan.core.v1.OriginalDocumentItem.updated_at:type_name -> google.protobuf.Timestamp
+	34, // 10: documan.core.v1.OriginalDocumentDetails.payloaded_at:type_name -> google.protobuf.Timestamp
+	34, // 11: documan.core.v1.OriginalDocumentDetails.created_at:type_name -> google.protobuf.Timestamp
+	34, // 12: documan.core.v1.OriginalDocumentDetails.updated_at:type_name -> google.protobuf.Timestamp
+	35, // 13: documan.core.v1.OriginalDocumentDetails.original_file:type_name -> documan.common.v1.S3Ref
 	13, // 14: documan.core.v1.ListERPEntitiesResponse.items:type_name -> documan.core.v1.ERPEntityItem
-	31, // 15: documan.core.v1.ERPEntityItem.payloaded_at:type_name -> google.protobuf.Timestamp
-	31, // 16: documan.core.v1.ERPEntityItem.erp_updated_at:type_name -> google.protobuf.Timestamp
-	31, // 17: documan.core.v1.ERPEntityItem.erp_created_at:type_name -> google.protobuf.Timestamp
-	31, // 18: documan.core.v1.ERPEntityItem.erp_deleted_at:type_name -> google.protobuf.Timestamp
+	34, // 15: documan.core.v1.ERPEntityItem.payloaded_at:type_name -> google.protobuf.Timestamp
+	34, // 16: documan.core.v1.ERPEntityItem.erp_updated_at:type_name -> google.protobuf.Timestamp
+	34, // 17: documan.core.v1.ERPEntityItem.erp_created_at:type_name -> google.protobuf.Timestamp
+	34, // 18: documan.core.v1.ERPEntityItem.erp_deleted_at:type_name -> google.protobuf.Timestamp
 	16, // 19: documan.core.v1.ListERPDocumentsResponse.items:type_name -> documan.core.v1.ERPDocumentItem
-	31, // 20: documan.core.v1.ERPDocumentItem.payloaded_at:type_name -> google.protobuf.Timestamp
-	31, // 21: documan.core.v1.ERPDocumentItem.erp_updated_at:type_name -> google.protobuf.Timestamp
-	31, // 22: documan.core.v1.ERPDocumentItem.erp_created_at:type_name -> google.protobuf.Timestamp
-	31, // 23: documan.core.v1.ERPDocumentItem.erp_deleted_at:type_name -> google.protobuf.Timestamp
-	21, // 24: documan.core.v1.ListDocumentPairsResponse.items:type_name -> documan.core.v1.DocumentPairItem
-	31, // 25: documan.core.v1.DocumentPairItem.created_at:type_name -> google.protobuf.Timestamp
-	31, // 26: documan.core.v1.DocumentPairItem.updated_at:type_name -> google.protobuf.Timestamp
-	24, // 27: documan.core.v1.ListDocumentMatchingJobsResponse.items:type_name -> documan.core.v1.DocumentMatchingJobItem
-	31, // 28: documan.core.v1.DocumentMatchingJobItem.created_at:type_name -> google.protobuf.Timestamp
-	31, // 29: documan.core.v1.DocumentMatchingJobItem.updated_at:type_name -> google.protobuf.Timestamp
-	27, // 30: documan.core.v1.ListEntityMatchingJobsResponse.items:type_name -> documan.core.v1.EntityMatchingJobItem
-	31, // 31: documan.core.v1.EntityMatchingJobItem.created_at:type_name -> google.protobuf.Timestamp
-	31, // 32: documan.core.v1.EntityMatchingJobItem.updated_at:type_name -> google.protobuf.Timestamp
-	30, // 33: documan.core.v1.ListEntityDictionaryResponse.items:type_name -> documan.core.v1.EntityDictionaryItem
-	31, // 34: documan.core.v1.EntityDictionaryItem.last_used_at:type_name -> google.protobuf.Timestamp
-	31, // 35: documan.core.v1.EntityDictionaryItem.created_at:type_name -> google.protobuf.Timestamp
-	31, // 36: documan.core.v1.EntityDictionaryItem.updated_at:type_name -> google.protobuf.Timestamp
-	0,  // 37: documan.core.v1.CoreQueryService.GetConnection:input_type -> documan.core.v1.GetConnectionRequest
-	2,  // 38: documan.core.v1.CoreQueryService.ListConnections:input_type -> documan.core.v1.ListConnectionsRequest
-	5,  // 39: documan.core.v1.CoreQueryService.ListOriginalDocuments:input_type -> documan.core.v1.ListOriginalDocumentsRequest
-	7,  // 40: documan.core.v1.CoreQueryService.GetOriginalDocument:input_type -> documan.core.v1.GetOriginalDocumentRequest
-	11, // 41: documan.core.v1.CoreQueryService.ListERPEntities:input_type -> documan.core.v1.ListERPEntitiesRequest
-	14, // 42: documan.core.v1.CoreQueryService.ListERPDocuments:input_type -> documan.core.v1.ListERPDocumentsRequest
-	17, // 43: documan.core.v1.CoreQueryService.GetMatchingStats:input_type -> documan.core.v1.GetMatchingStatsRequest
-	19, // 44: documan.core.v1.CoreQueryService.ListDocumentPairs:input_type -> documan.core.v1.ListDocumentPairsRequest
-	22, // 45: documan.core.v1.CoreQueryService.ListDocumentMatchingJobs:input_type -> documan.core.v1.ListDocumentMatchingJobsRequest
-	25, // 46: documan.core.v1.CoreQueryService.ListEntityMatchingJobs:input_type -> documan.core.v1.ListEntityMatchingJobsRequest
-	28, // 47: documan.core.v1.CoreQueryService.ListEntityDictionary:input_type -> documan.core.v1.ListEntityDictionaryRequest
-	1,  // 48: documan.core.v1.CoreQueryService.GetConnection:output_type -> documan.core.v1.GetConnectionResponse
-	3,  // 49: documan.core.v1.CoreQueryService.ListConnections:output_type -> documan.core.v1.ListConnectionsResponse
-	6,  // 50: documan.core.v1.CoreQueryService.ListOriginalDocuments:output_type -> documan.core.v1.ListOriginalDocumentsResponse
-	8,  // 51: documan.core.v1.CoreQueryService.GetOriginalDocument:output_type -> documan.core.v1.GetOriginalDocumentResponse
-	12, // 52: documan.core.v1.CoreQueryService.ListERPEntities:output_type -> documan.core.v1.ListERPEntitiesResponse
-	15, // 53: documan.core.v1.CoreQueryService.ListERPDocuments:output_type -> documan.core.v1.ListERPDocumentsResponse
-	18, // 54: documan.core.v1.CoreQueryService.GetMatchingStats:output_type -> documan.core.v1.GetMatchingStatsResponse
-	20, // 55: documan.core.v1.CoreQueryService.ListDocumentPairs:output_type -> documan.core.v1.ListDocumentPairsResponse
-	23, // 56: documan.core.v1.CoreQueryService.ListDocumentMatchingJobs:output_type -> documan.core.v1.ListDocumentMatchingJobsResponse
-	26, // 57: documan.core.v1.CoreQueryService.ListEntityMatchingJobs:output_type -> documan.core.v1.ListEntityMatchingJobsResponse
-	29, // 58: documan.core.v1.CoreQueryService.ListEntityDictionary:output_type -> documan.core.v1.ListEntityDictionaryResponse
-	48, // [48:59] is the sub-list for method output_type
-	37, // [37:48] is the sub-list for method input_type
-	37, // [37:37] is the sub-list for extension type_name
-	37, // [37:37] is the sub-list for extension extendee
-	0,  // [0:37] is the sub-list for field type_name
+	34, // 20: documan.core.v1.ERPDocumentItem.payloaded_at:type_name -> google.protobuf.Timestamp
+	34, // 21: documan.core.v1.ERPDocumentItem.erp_updated_at:type_name -> google.protobuf.Timestamp
+	34, // 22: documan.core.v1.ERPDocumentItem.erp_created_at:type_name -> google.protobuf.Timestamp
+	34, // 23: documan.core.v1.ERPDocumentItem.erp_deleted_at:type_name -> google.protobuf.Timestamp
+	19, // 24: documan.core.v1.GetERPDocumentCountsResponse.items:type_name -> documan.core.v1.ERPDocumentCountItem
+	34, // 25: documan.core.v1.ERPDocumentCountItem.max_erp_updated_at:type_name -> google.protobuf.Timestamp
+	24, // 26: documan.core.v1.ListDocumentPairsResponse.items:type_name -> documan.core.v1.DocumentPairItem
+	34, // 27: documan.core.v1.DocumentPairItem.created_at:type_name -> google.protobuf.Timestamp
+	34, // 28: documan.core.v1.DocumentPairItem.updated_at:type_name -> google.protobuf.Timestamp
+	27, // 29: documan.core.v1.ListDocumentMatchingJobsResponse.items:type_name -> documan.core.v1.DocumentMatchingJobItem
+	34, // 30: documan.core.v1.DocumentMatchingJobItem.created_at:type_name -> google.protobuf.Timestamp
+	34, // 31: documan.core.v1.DocumentMatchingJobItem.updated_at:type_name -> google.protobuf.Timestamp
+	30, // 32: documan.core.v1.ListEntityMatchingJobsResponse.items:type_name -> documan.core.v1.EntityMatchingJobItem
+	34, // 33: documan.core.v1.EntityMatchingJobItem.created_at:type_name -> google.protobuf.Timestamp
+	34, // 34: documan.core.v1.EntityMatchingJobItem.updated_at:type_name -> google.protobuf.Timestamp
+	33, // 35: documan.core.v1.ListEntityDictionaryResponse.items:type_name -> documan.core.v1.EntityDictionaryItem
+	34, // 36: documan.core.v1.EntityDictionaryItem.last_used_at:type_name -> google.protobuf.Timestamp
+	34, // 37: documan.core.v1.EntityDictionaryItem.created_at:type_name -> google.protobuf.Timestamp
+	34, // 38: documan.core.v1.EntityDictionaryItem.updated_at:type_name -> google.protobuf.Timestamp
+	0,  // 39: documan.core.v1.CoreQueryService.GetConnection:input_type -> documan.core.v1.GetConnectionRequest
+	2,  // 40: documan.core.v1.CoreQueryService.ListConnections:input_type -> documan.core.v1.ListConnectionsRequest
+	5,  // 41: documan.core.v1.CoreQueryService.ListOriginalDocuments:input_type -> documan.core.v1.ListOriginalDocumentsRequest
+	7,  // 42: documan.core.v1.CoreQueryService.GetOriginalDocument:input_type -> documan.core.v1.GetOriginalDocumentRequest
+	11, // 43: documan.core.v1.CoreQueryService.ListERPEntities:input_type -> documan.core.v1.ListERPEntitiesRequest
+	14, // 44: documan.core.v1.CoreQueryService.ListERPDocuments:input_type -> documan.core.v1.ListERPDocumentsRequest
+	17, // 45: documan.core.v1.CoreQueryService.GetERPDocumentCounts:input_type -> documan.core.v1.GetERPDocumentCountsRequest
+	20, // 46: documan.core.v1.CoreQueryService.GetMatchingStats:input_type -> documan.core.v1.GetMatchingStatsRequest
+	22, // 47: documan.core.v1.CoreQueryService.ListDocumentPairs:input_type -> documan.core.v1.ListDocumentPairsRequest
+	25, // 48: documan.core.v1.CoreQueryService.ListDocumentMatchingJobs:input_type -> documan.core.v1.ListDocumentMatchingJobsRequest
+	28, // 49: documan.core.v1.CoreQueryService.ListEntityMatchingJobs:input_type -> documan.core.v1.ListEntityMatchingJobsRequest
+	31, // 50: documan.core.v1.CoreQueryService.ListEntityDictionary:input_type -> documan.core.v1.ListEntityDictionaryRequest
+	1,  // 51: documan.core.v1.CoreQueryService.GetConnection:output_type -> documan.core.v1.GetConnectionResponse
+	3,  // 52: documan.core.v1.CoreQueryService.ListConnections:output_type -> documan.core.v1.ListConnectionsResponse
+	6,  // 53: documan.core.v1.CoreQueryService.ListOriginalDocuments:output_type -> documan.core.v1.ListOriginalDocumentsResponse
+	8,  // 54: documan.core.v1.CoreQueryService.GetOriginalDocument:output_type -> documan.core.v1.GetOriginalDocumentResponse
+	12, // 55: documan.core.v1.CoreQueryService.ListERPEntities:output_type -> documan.core.v1.ListERPEntitiesResponse
+	15, // 56: documan.core.v1.CoreQueryService.ListERPDocuments:output_type -> documan.core.v1.ListERPDocumentsResponse
+	18, // 57: documan.core.v1.CoreQueryService.GetERPDocumentCounts:output_type -> documan.core.v1.GetERPDocumentCountsResponse
+	21, // 58: documan.core.v1.CoreQueryService.GetMatchingStats:output_type -> documan.core.v1.GetMatchingStatsResponse
+	23, // 59: documan.core.v1.CoreQueryService.ListDocumentPairs:output_type -> documan.core.v1.ListDocumentPairsResponse
+	26, // 60: documan.core.v1.CoreQueryService.ListDocumentMatchingJobs:output_type -> documan.core.v1.ListDocumentMatchingJobsResponse
+	29, // 61: documan.core.v1.CoreQueryService.ListEntityMatchingJobs:output_type -> documan.core.v1.ListEntityMatchingJobsResponse
+	32, // 62: documan.core.v1.CoreQueryService.ListEntityDictionary:output_type -> documan.core.v1.ListEntityDictionaryResponse
+	51, // [51:63] is the sub-list for method output_type
+	39, // [39:51] is the sub-list for method input_type
+	39, // [39:39] is the sub-list for extension type_name
+	39, // [39:39] is the sub-list for extension extendee
+	0,  // [0:39] is the sub-list for field type_name
 }
 
 func init() { file_core_v1_queries_proto_init() }
@@ -2956,7 +3130,7 @@ func file_core_v1_queries_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_core_v1_queries_proto_rawDesc), len(file_core_v1_queries_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   31,
+			NumMessages:   34,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
