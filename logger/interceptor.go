@@ -3,7 +3,8 @@ package logger
 import (
 	"context"
 
-	"github.com/rs/zerolog/log"
+	zlog "github.com/rs/zerolog/log"
+	"go.opentelemetry.io/otel/trace"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/status"
 )
@@ -11,6 +12,13 @@ import (
 func Interceptor(ctx context.Context, req any, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (any, error) {
 	var err error
 	ctx = context.WithValue(ctx, ContextErrKey{}, &err)
+	log := zlog.Ctx(ctx)
+	ctx = log.With().
+		Str("transport", "grpc").
+		Str("grpc_method", info.FullMethod).
+		Logger().
+		WithContext(ctx)
+	log = zlog.Ctx(ctx)
 
 	event := log.Info()
 
@@ -21,7 +29,7 @@ func Interceptor(ctx context.Context, req any, info *grpc.UnaryServerInfo, handl
 
 	event.
 		Str("code", status.Code(err).String()).
-		Str("grpc_method", info.FullMethod).
+		Str("trace_id", trace.SpanContextFromContext(ctx).TraceID().String()).
 		Send()
 
 	return resp, err

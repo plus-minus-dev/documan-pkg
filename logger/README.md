@@ -22,10 +22,10 @@ logger.Init(cfg.Logger)
 `internal/app/app.go` — подключить middleware или interceptor при создании сервера:
 ```go
 // HTTP
-router.Use(logger.Middleware)
+r := router.NewWithMiddlewares(chimw.RequestID, logger.Middleware)
 
 // gRPC
-grpc.NewServer(grpc.UnaryInterceptor(logger.Interceptor()))
+grpc.NewServer(grpc.UnaryInterceptor(logger.Interceptor))
 ```
 
 `PrettyConsole: true` — человекочитаемый вывод для локальной разработки. `false` — JSON для продакшена.

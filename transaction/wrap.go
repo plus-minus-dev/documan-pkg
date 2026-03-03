@@ -6,12 +6,13 @@ import (
 	"fmt"
 
 	"github.com/jackc/pgx/v5"
-	"github.com/rs/zerolog/log"
+	zlog "github.com/rs/zerolog/log"
 
 	"github.com/plus-minus-dev/documan-pkg/otel/tracer"
 )
 
 func Wrap(ctx context.Context, fn func(context.Context) error) error {
+	log := zlog.Ctx(ctx)
 	ctx, span := tracer.Start(ctx, "transaction Wrap")
 	defer span.End()
 

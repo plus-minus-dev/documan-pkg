@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/rs/zerolog/log"
+	zlog "github.com/rs/zerolog/log"
 	"go.opentelemetry.io/otel/trace"
 
 	"github.com/plus-minus-dev/documan-pkg/router"
@@ -17,6 +17,12 @@ func Middleware(next http.Handler) http.Handler {
 	fn := func(w http.ResponseWriter, r *http.Request) {
 		var err error
 		ctx := context.WithValue(r.Context(), ContextErrKey{}, &err)
+		log := zlog.Ctx(ctx)
+		ctx = log.With().
+			Str("transport", "http").
+			Logger().
+			WithContext(ctx)
+		log = zlog.Ctx(ctx)
 
 		ww := router.WriterWrapper(w)
 		next.ServeHTTP(ww, r.WithContext(ctx))
@@ -29,8 +35,8 @@ func Middleware(next http.Handler) http.Handler {
 
 		event.
 			Int("code", ww.Code()).
-			Str("method", fmt.Sprintf("%s %s", r.Method, router.ExtractPath(r.Context()))).
-			Str("trace_id", trace.SpanContextFromContext(r.Context()).TraceID().String()).
+			Str("method", fmt.Sprintf("%s %s", r.Method, router.ExtractPath(ctx))).
+			Str("trace_id", trace.SpanContextFromContext(ctx).TraceID().String()).
 			Send()
 	}
 

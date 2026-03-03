@@ -10,8 +10,8 @@
 ```go
 srv := grpcserver.New(cfg.GRPCPort,
     grpc.ChainUnaryInterceptor(
-        logger.Interceptor(),
-        otel.GRPCInterceptor(),
+        logger.Interceptor,
+        otel.Interceptor,
     ),
 )
 

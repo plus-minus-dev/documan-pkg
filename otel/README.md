@@ -20,10 +20,10 @@ otel.Init(ctx, cfg.Otel)
 defer otel.Close()
 
 // HTTP
-router.Use(otel.HTTPMiddleware)
+r := router.NewWithMiddlewares(chimw.RequestID, logger.Middleware, otel.Middleware)
 
 // gRPC
-grpc.ChainUnaryInterceptor(otel.GRPCInterceptor())
+grpc.ChainUnaryInterceptor(otel.Interceptor)
 ```
 
 `internal/usecase/*/scenario.go`, `internal/adapter/postgres/*.go` — ручные спаны:

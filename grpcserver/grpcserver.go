@@ -1,9 +1,11 @@
 package grpcserver
 
 import (
+	"errors"
 	"fmt"
 	"net"
 
+	zlog "github.com/rs/zerolog/log"
 	"google.golang.org/grpc"
 )
 
@@ -30,8 +32,8 @@ func (s *Server) Start() error {
 	}
 
 	go func() {
-		if err := s.server.Serve(lis); err != nil {
-			panic(fmt.Sprintf("grpcserver serve: %v", err))
+		if err := s.server.Serve(lis); err != nil && !errors.Is(err, grpc.ErrServerStopped) {
+			zlog.Error().Err(err).Msg("grpcserver serve")
 		}
 	}()
 
