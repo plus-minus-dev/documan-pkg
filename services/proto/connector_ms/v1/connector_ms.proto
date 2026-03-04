@@ -10,6 +10,9 @@ service ConnectorMSService {
 
   // GetSyncStatus возвращает режим синхронизации для подключения.
   rpc GetSyncStatus(GetSyncStatusRequest) returns (GetSyncStatusResponse);
+
+  // InspectAccount возвращает количество сущностей/документов в ERP-аккаунте.
+  rpc InspectAccount(InspectAccountRequest) returns (InspectAccountResponse);
 }
 
 message ValidateTokenRequest {
@@ -31,4 +34,13 @@ message GetSyncStatusResponse {
   // "initial" = массовая загрузка, "incremental" = инкрементальная синхронизация
   string sync_mode = 1;
   bool has_audit_cursor = 2;
+}
+
+message InspectAccountRequest {
+  string tenant_id = 1;
+  string account_id = 2;
+}
+
+message InspectAccountResponse {
+  map<string, int64> resource_counts = 1;
 }

@@ -19,8 +19,9 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	ConnectorMSService_ValidateToken_FullMethodName = "/documan.connector_ms.v1.ConnectorMSService/ValidateToken"
-	ConnectorMSService_GetSyncStatus_FullMethodName = "/documan.connector_ms.v1.ConnectorMSService/GetSyncStatus"
+	ConnectorMSService_ValidateToken_FullMethodName  = "/documan.connector_ms.v1.ConnectorMSService/ValidateToken"
+	ConnectorMSService_GetSyncStatus_FullMethodName  = "/documan.connector_ms.v1.ConnectorMSService/GetSyncStatus"
+	ConnectorMSService_InspectAccount_FullMethodName = "/documan.connector_ms.v1.ConnectorMSService/InspectAccount"
 )
 
 // ConnectorMSServiceClient is the client API for ConnectorMSService service.
@@ -31,6 +32,8 @@ type ConnectorMSServiceClient interface {
 	ValidateToken(ctx context.Context, in *ValidateTokenRequest, opts ...grpc.CallOption) (*ValidateTokenResponse, error)
 	// GetSyncStatus возвращает режим синхронизации для подключения.
 	GetSyncStatus(ctx context.Context, in *GetSyncStatusRequest, opts ...grpc.CallOption) (*GetSyncStatusResponse, error)
+	// InspectAccount возвращает количество сущностей/документов в ERP-аккаунте.
+	InspectAccount(ctx context.Context, in *InspectAccountRequest, opts ...grpc.CallOption) (*InspectAccountResponse, error)
 }
 
 type connectorMSServiceClient struct {
@@ -61,6 +64,16 @@ func (c *connectorMSServiceClient) GetSyncStatus(ctx context.Context, in *GetSyn
 	return out, nil
 }
 
+func (c *connectorMSServiceClient) InspectAccount(ctx context.Context, in *InspectAccountRequest, opts ...grpc.CallOption) (*InspectAccountResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(InspectAccountResponse)
+	err := c.cc.Invoke(ctx, ConnectorMSService_InspectAccount_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ConnectorMSServiceServer is the server API for ConnectorMSService service.
 // All implementations must embed UnimplementedConnectorMSServiceServer
 // for forward compatibility.
@@ -69,6 +82,8 @@ type ConnectorMSServiceServer interface {
 	ValidateToken(context.Context, *ValidateTokenRequest) (*ValidateTokenResponse, error)
 	// GetSyncStatus возвращает режим синхронизации для подключения.
 	GetSyncStatus(context.Context, *GetSyncStatusRequest) (*GetSyncStatusResponse, error)
+	// InspectAccount возвращает количество сущностей/документов в ERP-аккаунте.
+	InspectAccount(context.Context, *InspectAccountRequest) (*InspectAccountResponse, error)
 	mustEmbedUnimplementedConnectorMSServiceServer()
 }
 
@@ -84,6 +99,9 @@ func (UnimplementedConnectorMSServiceServer) ValidateToken(context.Context, *Val
 }
 func (UnimplementedConnectorMSServiceServer) GetSyncStatus(context.Context, *GetSyncStatusRequest) (*GetSyncStatusResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetSyncStatus not implemented")
+}
+func (UnimplementedConnectorMSServiceServer) InspectAccount(context.Context, *InspectAccountRequest) (*InspectAccountResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method InspectAccount not implemented")
 }
 func (UnimplementedConnectorMSServiceServer) mustEmbedUnimplementedConnectorMSServiceServer() {}
 func (UnimplementedConnectorMSServiceServer) testEmbeddedByValue()                            {}
@@ -142,6 +160,24 @@ func _ConnectorMSService_GetSyncStatus_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ConnectorMSService_InspectAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(InspectAccountRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ConnectorMSServiceServer).InspectAccount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ConnectorMSService_InspectAccount_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ConnectorMSServiceServer).InspectAccount(ctx, req.(*InspectAccountRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ConnectorMSService_ServiceDesc is the grpc.ServiceDesc for ConnectorMSService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -156,6 +192,10 @@ var ConnectorMSService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetSyncStatus",
 			Handler:    _ConnectorMSService_GetSyncStatus_Handler,
+		},
+		{
+			MethodName: "InspectAccount",
+			Handler:    _ConnectorMSService_InspectAccount_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -230,6 +230,102 @@ func (x *GetSyncStatusResponse) GetHasAuditCursor() bool {
 	return false
 }
 
+type InspectAccountRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TenantId      string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
+	AccountId     string                 `protobuf:"bytes,2,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *InspectAccountRequest) Reset() {
+	*x = InspectAccountRequest{}
+	mi := &file_connector_ms_v1_connector_ms_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *InspectAccountRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*InspectAccountRequest) ProtoMessage() {}
+
+func (x *InspectAccountRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_connector_ms_v1_connector_ms_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use InspectAccountRequest.ProtoReflect.Descriptor instead.
+func (*InspectAccountRequest) Descriptor() ([]byte, []int) {
+	return file_connector_ms_v1_connector_ms_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *InspectAccountRequest) GetTenantId() string {
+	if x != nil {
+		return x.TenantId
+	}
+	return ""
+}
+
+func (x *InspectAccountRequest) GetAccountId() string {
+	if x != nil {
+		return x.AccountId
+	}
+	return ""
+}
+
+type InspectAccountResponse struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	ResourceCounts map[string]int64       `protobuf:"bytes,1,rep,name=resource_counts,json=resourceCounts,proto3" json:"resource_counts,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"varint,2,opt,name=value"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *InspectAccountResponse) Reset() {
+	*x = InspectAccountResponse{}
+	mi := &file_connector_ms_v1_connector_ms_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *InspectAccountResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*InspectAccountResponse) ProtoMessage() {}
+
+func (x *InspectAccountResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_connector_ms_v1_connector_ms_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use InspectAccountResponse.ProtoReflect.Descriptor instead.
+func (*InspectAccountResponse) Descriptor() ([]byte, []int) {
+	return file_connector_ms_v1_connector_ms_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *InspectAccountResponse) GetResourceCounts() map[string]int64 {
+	if x != nil {
+		return x.ResourceCounts
+	}
+	return nil
+}
+
 var File_connector_ms_v1_connector_ms_proto protoreflect.FileDescriptor
 
 const file_connector_ms_v1_connector_ms_proto_rawDesc = "" +
@@ -248,10 +344,20 @@ const file_connector_ms_v1_connector_ms_proto_rawDesc = "" +
 	"account_id\x18\x02 \x01(\tR\taccountId\"^\n" +
 	"\x15GetSyncStatusResponse\x12\x1b\n" +
 	"\tsync_mode\x18\x01 \x01(\tR\bsyncMode\x12(\n" +
-	"\x10has_audit_cursor\x18\x02 \x01(\bR\x0ehasAuditCursor2\xf4\x01\n" +
+	"\x10has_audit_cursor\x18\x02 \x01(\bR\x0ehasAuditCursor\"S\n" +
+	"\x15InspectAccountRequest\x12\x1b\n" +
+	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12\x1d\n" +
+	"\n" +
+	"account_id\x18\x02 \x01(\tR\taccountId\"\xc9\x01\n" +
+	"\x16InspectAccountResponse\x12l\n" +
+	"\x0fresource_counts\x18\x01 \x03(\v2C.documan.connector_ms.v1.InspectAccountResponse.ResourceCountsEntryR\x0eresourceCounts\x1aA\n" +
+	"\x13ResourceCountsEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\x03R\x05value:\x028\x012\xe7\x02\n" +
 	"\x12ConnectorMSService\x12n\n" +
 	"\rValidateToken\x12-.documan.connector_ms.v1.ValidateTokenRequest\x1a..documan.connector_ms.v1.ValidateTokenResponse\x12n\n" +
-	"\rGetSyncStatus\x12-.documan.connector_ms.v1.GetSyncStatusRequest\x1a..documan.connector_ms.v1.GetSyncStatusResponseBSZQgithub.com/plus-minus-dev/documan-pkg/services/gen/connector_ms/v1;connector_msv1b\x06proto3"
+	"\rGetSyncStatus\x12-.documan.connector_ms.v1.GetSyncStatusRequest\x1a..documan.connector_ms.v1.GetSyncStatusResponse\x12q\n" +
+	"\x0eInspectAccount\x12..documan.connector_ms.v1.InspectAccountRequest\x1a/.documan.connector_ms.v1.InspectAccountResponseBSZQgithub.com/plus-minus-dev/documan-pkg/services/gen/connector_ms/v1;connector_msv1b\x06proto3"
 
 var (
 	file_connector_ms_v1_connector_ms_proto_rawDescOnce sync.Once
@@ -265,23 +371,29 @@ func file_connector_ms_v1_connector_ms_proto_rawDescGZIP() []byte {
 	return file_connector_ms_v1_connector_ms_proto_rawDescData
 }
 
-var file_connector_ms_v1_connector_ms_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_connector_ms_v1_connector_ms_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_connector_ms_v1_connector_ms_proto_goTypes = []any{
-	(*ValidateTokenRequest)(nil),  // 0: documan.connector_ms.v1.ValidateTokenRequest
-	(*ValidateTokenResponse)(nil), // 1: documan.connector_ms.v1.ValidateTokenResponse
-	(*GetSyncStatusRequest)(nil),  // 2: documan.connector_ms.v1.GetSyncStatusRequest
-	(*GetSyncStatusResponse)(nil), // 3: documan.connector_ms.v1.GetSyncStatusResponse
+	(*ValidateTokenRequest)(nil),   // 0: documan.connector_ms.v1.ValidateTokenRequest
+	(*ValidateTokenResponse)(nil),  // 1: documan.connector_ms.v1.ValidateTokenResponse
+	(*GetSyncStatusRequest)(nil),   // 2: documan.connector_ms.v1.GetSyncStatusRequest
+	(*GetSyncStatusResponse)(nil),  // 3: documan.connector_ms.v1.GetSyncStatusResponse
+	(*InspectAccountRequest)(nil),  // 4: documan.connector_ms.v1.InspectAccountRequest
+	(*InspectAccountResponse)(nil), // 5: documan.connector_ms.v1.InspectAccountResponse
+	nil,                            // 6: documan.connector_ms.v1.InspectAccountResponse.ResourceCountsEntry
 }
 var file_connector_ms_v1_connector_ms_proto_depIdxs = []int32{
-	0, // 0: documan.connector_ms.v1.ConnectorMSService.ValidateToken:input_type -> documan.connector_ms.v1.ValidateTokenRequest
-	2, // 1: documan.connector_ms.v1.ConnectorMSService.GetSyncStatus:input_type -> documan.connector_ms.v1.GetSyncStatusRequest
-	1, // 2: documan.connector_ms.v1.ConnectorMSService.ValidateToken:output_type -> documan.connector_ms.v1.ValidateTokenResponse
-	3, // 3: documan.connector_ms.v1.ConnectorMSService.GetSyncStatus:output_type -> documan.connector_ms.v1.GetSyncStatusResponse
-	2, // [2:4] is the sub-list for method output_type
-	0, // [0:2] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	6, // 0: documan.connector_ms.v1.InspectAccountResponse.resource_counts:type_name -> documan.connector_ms.v1.InspectAccountResponse.ResourceCountsEntry
+	0, // 1: documan.connector_ms.v1.ConnectorMSService.ValidateToken:input_type -> documan.connector_ms.v1.ValidateTokenRequest
+	2, // 2: documan.connector_ms.v1.ConnectorMSService.GetSyncStatus:input_type -> documan.connector_ms.v1.GetSyncStatusRequest
+	4, // 3: documan.connector_ms.v1.ConnectorMSService.InspectAccount:input_type -> documan.connector_ms.v1.InspectAccountRequest
+	1, // 4: documan.connector_ms.v1.ConnectorMSService.ValidateToken:output_type -> documan.connector_ms.v1.ValidateTokenResponse
+	3, // 5: documan.connector_ms.v1.ConnectorMSService.GetSyncStatus:output_type -> documan.connector_ms.v1.GetSyncStatusResponse
+	5, // 6: documan.connector_ms.v1.ConnectorMSService.InspectAccount:output_type -> documan.connector_ms.v1.InspectAccountResponse
+	4, // [4:7] is the sub-list for method output_type
+	1, // [1:4] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_connector_ms_v1_connector_ms_proto_init() }
@@ -295,7 +407,7 @@ func file_connector_ms_v1_connector_ms_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_connector_ms_v1_connector_ms_proto_rawDesc), len(file_connector_ms_v1_connector_ms_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
