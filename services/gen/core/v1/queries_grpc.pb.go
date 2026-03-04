@@ -25,6 +25,7 @@ const (
 	CoreQueryService_GetOriginalDocument_FullMethodName   = "/documan.core.v1.CoreQueryService/GetOriginalDocument"
 	CoreQueryService_ListERPEntities_FullMethodName       = "/documan.core.v1.CoreQueryService/ListERPEntities"
 	CoreQueryService_ListERPDocuments_FullMethodName      = "/documan.core.v1.CoreQueryService/ListERPDocuments"
+	CoreQueryService_GetERPDocument_FullMethodName        = "/documan.core.v1.CoreQueryService/GetERPDocument"
 	CoreQueryService_GetERPDocumentCounts_FullMethodName  = "/documan.core.v1.CoreQueryService/GetERPDocumentCounts"
 )
 
@@ -40,6 +41,7 @@ type CoreQueryServiceClient interface {
 	GetOriginalDocument(ctx context.Context, in *GetOriginalDocumentRequest, opts ...grpc.CallOption) (*GetOriginalDocumentResponse, error)
 	ListERPEntities(ctx context.Context, in *ListERPEntitiesRequest, opts ...grpc.CallOption) (*ListERPEntitiesResponse, error)
 	ListERPDocuments(ctx context.Context, in *ListERPDocumentsRequest, opts ...grpc.CallOption) (*ListERPDocumentsResponse, error)
+	GetERPDocument(ctx context.Context, in *GetERPDocumentRequest, opts ...grpc.CallOption) (*GetERPDocumentResponse, error)
 	// ERP document counts per entity type for a connection
 	GetERPDocumentCounts(ctx context.Context, in *GetERPDocumentCountsRequest, opts ...grpc.CallOption) (*GetERPDocumentCountsResponse, error)
 }
@@ -112,6 +114,16 @@ func (c *coreQueryServiceClient) ListERPDocuments(ctx context.Context, in *ListE
 	return out, nil
 }
 
+func (c *coreQueryServiceClient) GetERPDocument(ctx context.Context, in *GetERPDocumentRequest, opts ...grpc.CallOption) (*GetERPDocumentResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetERPDocumentResponse)
+	err := c.cc.Invoke(ctx, CoreQueryService_GetERPDocument_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *coreQueryServiceClient) GetERPDocumentCounts(ctx context.Context, in *GetERPDocumentCountsRequest, opts ...grpc.CallOption) (*GetERPDocumentCountsResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetERPDocumentCountsResponse)
@@ -134,6 +146,7 @@ type CoreQueryServiceServer interface {
 	GetOriginalDocument(context.Context, *GetOriginalDocumentRequest) (*GetOriginalDocumentResponse, error)
 	ListERPEntities(context.Context, *ListERPEntitiesRequest) (*ListERPEntitiesResponse, error)
 	ListERPDocuments(context.Context, *ListERPDocumentsRequest) (*ListERPDocumentsResponse, error)
+	GetERPDocument(context.Context, *GetERPDocumentRequest) (*GetERPDocumentResponse, error)
 	// ERP document counts per entity type for a connection
 	GetERPDocumentCounts(context.Context, *GetERPDocumentCountsRequest) (*GetERPDocumentCountsResponse, error)
 	mustEmbedUnimplementedCoreQueryServiceServer()
@@ -163,6 +176,9 @@ func (UnimplementedCoreQueryServiceServer) ListERPEntities(context.Context, *Lis
 }
 func (UnimplementedCoreQueryServiceServer) ListERPDocuments(context.Context, *ListERPDocumentsRequest) (*ListERPDocumentsResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListERPDocuments not implemented")
+}
+func (UnimplementedCoreQueryServiceServer) GetERPDocument(context.Context, *GetERPDocumentRequest) (*GetERPDocumentResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetERPDocument not implemented")
 }
 func (UnimplementedCoreQueryServiceServer) GetERPDocumentCounts(context.Context, *GetERPDocumentCountsRequest) (*GetERPDocumentCountsResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetERPDocumentCounts not implemented")
@@ -296,6 +312,24 @@ func _CoreQueryService_ListERPDocuments_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CoreQueryService_GetERPDocument_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetERPDocumentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CoreQueryServiceServer).GetERPDocument(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CoreQueryService_GetERPDocument_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CoreQueryServiceServer).GetERPDocument(ctx, req.(*GetERPDocumentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _CoreQueryService_GetERPDocumentCounts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetERPDocumentCountsRequest)
 	if err := dec(in); err != nil {
@@ -344,6 +378,10 @@ var CoreQueryService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListERPDocuments",
 			Handler:    _CoreQueryService_ListERPDocuments_Handler,
+		},
+		{
+			MethodName: "GetERPDocument",
+			Handler:    _CoreQueryService_GetERPDocument_Handler,
 		},
 		{
 			MethodName: "GetERPDocumentCounts",

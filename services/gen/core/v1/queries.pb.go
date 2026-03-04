@@ -1379,6 +1379,282 @@ func (x *ERPDocumentItem) GetArchived() bool {
 	return false
 }
 
+type GetERPDocumentRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TenantId      string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
+	ConnectionId  string                 `protobuf:"bytes,2,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
+	ErpEntityType string                 `protobuf:"bytes,3,opt,name=erp_entity_type,json=erpEntityType,proto3" json:"erp_entity_type,omitempty"`
+	ErpEntityId   string                 `protobuf:"bytes,4,opt,name=erp_entity_id,json=erpEntityId,proto3" json:"erp_entity_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetERPDocumentRequest) Reset() {
+	*x = GetERPDocumentRequest{}
+	mi := &file_core_v1_queries_proto_msgTypes[17]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetERPDocumentRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetERPDocumentRequest) ProtoMessage() {}
+
+func (x *GetERPDocumentRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_queries_proto_msgTypes[17]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetERPDocumentRequest.ProtoReflect.Descriptor instead.
+func (*GetERPDocumentRequest) Descriptor() ([]byte, []int) {
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *GetERPDocumentRequest) GetTenantId() string {
+	if x != nil {
+		return x.TenantId
+	}
+	return ""
+}
+
+func (x *GetERPDocumentRequest) GetConnectionId() string {
+	if x != nil {
+		return x.ConnectionId
+	}
+	return ""
+}
+
+func (x *GetERPDocumentRequest) GetErpEntityType() string {
+	if x != nil {
+		return x.ErpEntityType
+	}
+	return ""
+}
+
+func (x *GetERPDocumentRequest) GetErpEntityId() string {
+	if x != nil {
+		return x.ErpEntityId
+	}
+	return ""
+}
+
+type GetERPDocumentResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Document      *ERPDocumentDetails    `protobuf:"bytes,1,opt,name=document,proto3" json:"document,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetERPDocumentResponse) Reset() {
+	*x = GetERPDocumentResponse{}
+	mi := &file_core_v1_queries_proto_msgTypes[18]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetERPDocumentResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetERPDocumentResponse) ProtoMessage() {}
+
+func (x *GetERPDocumentResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_queries_proto_msgTypes[18]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetERPDocumentResponse.ProtoReflect.Descriptor instead.
+func (*GetERPDocumentResponse) Descriptor() ([]byte, []int) {
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{18}
+}
+
+func (x *GetERPDocumentResponse) GetDocument() *ERPDocumentDetails {
+	if x != nil {
+		return x.Document
+	}
+	return nil
+}
+
+type ERPDocumentDetails struct {
+	state            protoimpl.MessageState `protogen:"open.v1"`
+	TenantId         string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
+	ConnectionId     string                 `protobuf:"bytes,2,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
+	ConnectionType   string                 `protobuf:"bytes,3,opt,name=connection_type,json=connectionType,proto3" json:"connection_type,omitempty"`
+	ErpEntityType    string                 `protobuf:"bytes,4,opt,name=erp_entity_type,json=erpEntityType,proto3" json:"erp_entity_type,omitempty"`
+	ErpEntityId      string                 `protobuf:"bytes,5,opt,name=erp_entity_id,json=erpEntityId,proto3" json:"erp_entity_id,omitempty"`
+	PayloadMeta      []byte                 `protobuf:"bytes,6,opt,name=payload_meta,json=payloadMeta,proto3" json:"payload_meta,omitempty"`
+	PayloadHeader    []byte                 `protobuf:"bytes,7,opt,name=payload_header,json=payloadHeader,proto3" json:"payload_header,omitempty"`
+	PayloadSummary   []byte                 `protobuf:"bytes,8,opt,name=payload_summary,json=payloadSummary,proto3" json:"payload_summary,omitempty"`
+	PayloadPositions []byte                 `protobuf:"bytes,9,opt,name=payload_positions,json=payloadPositions,proto3" json:"payload_positions,omitempty"`
+	PayloadHash      string                 `protobuf:"bytes,10,opt,name=payload_hash,json=payloadHash,proto3" json:"payload_hash,omitempty"`
+	PayloadedAt      *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=payloaded_at,json=payloadedAt,proto3" json:"payloaded_at,omitempty"`
+	ErpUpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=erp_updated_at,json=erpUpdatedAt,proto3" json:"erp_updated_at,omitempty"`
+	ErpCreatedAt     *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=erp_created_at,json=erpCreatedAt,proto3" json:"erp_created_at,omitempty"`
+	ErpDeletedAt     *timestamppb.Timestamp `protobuf:"bytes,14,opt,name=erp_deleted_at,json=erpDeletedAt,proto3" json:"erp_deleted_at,omitempty"`
+	ErpArchived      bool                   `protobuf:"varint,15,opt,name=erp_archived,json=erpArchived,proto3" json:"erp_archived,omitempty"`
+	Archived         bool                   `protobuf:"varint,16,opt,name=archived,proto3" json:"archived,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
+}
+
+func (x *ERPDocumentDetails) Reset() {
+	*x = ERPDocumentDetails{}
+	mi := &file_core_v1_queries_proto_msgTypes[19]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ERPDocumentDetails) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ERPDocumentDetails) ProtoMessage() {}
+
+func (x *ERPDocumentDetails) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_queries_proto_msgTypes[19]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ERPDocumentDetails.ProtoReflect.Descriptor instead.
+func (*ERPDocumentDetails) Descriptor() ([]byte, []int) {
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{19}
+}
+
+func (x *ERPDocumentDetails) GetTenantId() string {
+	if x != nil {
+		return x.TenantId
+	}
+	return ""
+}
+
+func (x *ERPDocumentDetails) GetConnectionId() string {
+	if x != nil {
+		return x.ConnectionId
+	}
+	return ""
+}
+
+func (x *ERPDocumentDetails) GetConnectionType() string {
+	if x != nil {
+		return x.ConnectionType
+	}
+	return ""
+}
+
+func (x *ERPDocumentDetails) GetErpEntityType() string {
+	if x != nil {
+		return x.ErpEntityType
+	}
+	return ""
+}
+
+func (x *ERPDocumentDetails) GetErpEntityId() string {
+	if x != nil {
+		return x.ErpEntityId
+	}
+	return ""
+}
+
+func (x *ERPDocumentDetails) GetPayloadMeta() []byte {
+	if x != nil {
+		return x.PayloadMeta
+	}
+	return nil
+}
+
+func (x *ERPDocumentDetails) GetPayloadHeader() []byte {
+	if x != nil {
+		return x.PayloadHeader
+	}
+	return nil
+}
+
+func (x *ERPDocumentDetails) GetPayloadSummary() []byte {
+	if x != nil {
+		return x.PayloadSummary
+	}
+	return nil
+}
+
+func (x *ERPDocumentDetails) GetPayloadPositions() []byte {
+	if x != nil {
+		return x.PayloadPositions
+	}
+	return nil
+}
+
+func (x *ERPDocumentDetails) GetPayloadHash() string {
+	if x != nil {
+		return x.PayloadHash
+	}
+	return ""
+}
+
+func (x *ERPDocumentDetails) GetPayloadedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.PayloadedAt
+	}
+	return nil
+}
+
+func (x *ERPDocumentDetails) GetErpUpdatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.ErpUpdatedAt
+	}
+	return nil
+}
+
+func (x *ERPDocumentDetails) GetErpCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.ErpCreatedAt
+	}
+	return nil
+}
+
+func (x *ERPDocumentDetails) GetErpDeletedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.ErpDeletedAt
+	}
+	return nil
+}
+
+func (x *ERPDocumentDetails) GetErpArchived() bool {
+	if x != nil {
+		return x.ErpArchived
+	}
+	return false
+}
+
+func (x *ERPDocumentDetails) GetArchived() bool {
+	if x != nil {
+		return x.Archived
+	}
+	return false
+}
+
 type GetERPDocumentCountsRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	TenantId      string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
@@ -1389,7 +1665,7 @@ type GetERPDocumentCountsRequest struct {
 
 func (x *GetERPDocumentCountsRequest) Reset() {
 	*x = GetERPDocumentCountsRequest{}
-	mi := &file_core_v1_queries_proto_msgTypes[17]
+	mi := &file_core_v1_queries_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1401,7 +1677,7 @@ func (x *GetERPDocumentCountsRequest) String() string {
 func (*GetERPDocumentCountsRequest) ProtoMessage() {}
 
 func (x *GetERPDocumentCountsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_queries_proto_msgTypes[17]
+	mi := &file_core_v1_queries_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1414,7 +1690,7 @@ func (x *GetERPDocumentCountsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetERPDocumentCountsRequest.ProtoReflect.Descriptor instead.
 func (*GetERPDocumentCountsRequest) Descriptor() ([]byte, []int) {
-	return file_core_v1_queries_proto_rawDescGZIP(), []int{17}
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{20}
 }
 
 func (x *GetERPDocumentCountsRequest) GetTenantId() string {
@@ -1440,7 +1716,7 @@ type GetERPDocumentCountsResponse struct {
 
 func (x *GetERPDocumentCountsResponse) Reset() {
 	*x = GetERPDocumentCountsResponse{}
-	mi := &file_core_v1_queries_proto_msgTypes[18]
+	mi := &file_core_v1_queries_proto_msgTypes[21]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1452,7 +1728,7 @@ func (x *GetERPDocumentCountsResponse) String() string {
 func (*GetERPDocumentCountsResponse) ProtoMessage() {}
 
 func (x *GetERPDocumentCountsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_queries_proto_msgTypes[18]
+	mi := &file_core_v1_queries_proto_msgTypes[21]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1465,7 +1741,7 @@ func (x *GetERPDocumentCountsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetERPDocumentCountsResponse.ProtoReflect.Descriptor instead.
 func (*GetERPDocumentCountsResponse) Descriptor() ([]byte, []int) {
-	return file_core_v1_queries_proto_rawDescGZIP(), []int{18}
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{21}
 }
 
 func (x *GetERPDocumentCountsResponse) GetItems() []*ERPDocumentCountItem {
@@ -1486,7 +1762,7 @@ type ERPDocumentCountItem struct {
 
 func (x *ERPDocumentCountItem) Reset() {
 	*x = ERPDocumentCountItem{}
-	mi := &file_core_v1_queries_proto_msgTypes[19]
+	mi := &file_core_v1_queries_proto_msgTypes[22]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1498,7 +1774,7 @@ func (x *ERPDocumentCountItem) String() string {
 func (*ERPDocumentCountItem) ProtoMessage() {}
 
 func (x *ERPDocumentCountItem) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_queries_proto_msgTypes[19]
+	mi := &file_core_v1_queries_proto_msgTypes[22]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1511,7 +1787,7 @@ func (x *ERPDocumentCountItem) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ERPDocumentCountItem.ProtoReflect.Descriptor instead.
 func (*ERPDocumentCountItem) Descriptor() ([]byte, []int) {
-	return file_core_v1_queries_proto_rawDescGZIP(), []int{19}
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{22}
 }
 
 func (x *ERPDocumentCountItem) GetErpEntityType() string {
@@ -1669,7 +1945,32 @@ const file_core_v1_queries_proto_rawDesc = "" +
 	"\x0eerp_deleted_at\x18\n" +
 	" \x01(\v2\x1a.google.protobuf.TimestampR\ferpDeletedAt\x12!\n" +
 	"\ferp_archived\x18\v \x01(\bR\verpArchived\x12\x1a\n" +
-	"\barchived\x18\f \x01(\bR\barchived\"_\n" +
+	"\barchived\x18\f \x01(\bR\barchived\"\xa5\x01\n" +
+	"\x15GetERPDocumentRequest\x12\x1b\n" +
+	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12#\n" +
+	"\rconnection_id\x18\x02 \x01(\tR\fconnectionId\x12&\n" +
+	"\x0ferp_entity_type\x18\x03 \x01(\tR\rerpEntityType\x12\"\n" +
+	"\rerp_entity_id\x18\x04 \x01(\tR\verpEntityId\"Y\n" +
+	"\x16GetERPDocumentResponse\x12?\n" +
+	"\bdocument\x18\x01 \x01(\v2#.documan.core.v1.ERPDocumentDetailsR\bdocument\"\xd2\x05\n" +
+	"\x12ERPDocumentDetails\x12\x1b\n" +
+	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12#\n" +
+	"\rconnection_id\x18\x02 \x01(\tR\fconnectionId\x12'\n" +
+	"\x0fconnection_type\x18\x03 \x01(\tR\x0econnectionType\x12&\n" +
+	"\x0ferp_entity_type\x18\x04 \x01(\tR\rerpEntityType\x12\"\n" +
+	"\rerp_entity_id\x18\x05 \x01(\tR\verpEntityId\x12!\n" +
+	"\fpayload_meta\x18\x06 \x01(\fR\vpayloadMeta\x12%\n" +
+	"\x0epayload_header\x18\a \x01(\fR\rpayloadHeader\x12'\n" +
+	"\x0fpayload_summary\x18\b \x01(\fR\x0epayloadSummary\x12+\n" +
+	"\x11payload_positions\x18\t \x01(\fR\x10payloadPositions\x12!\n" +
+	"\fpayload_hash\x18\n" +
+	" \x01(\tR\vpayloadHash\x12=\n" +
+	"\fpayloaded_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\vpayloadedAt\x12@\n" +
+	"\x0eerp_updated_at\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\ferpUpdatedAt\x12@\n" +
+	"\x0eerp_created_at\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\ferpCreatedAt\x12@\n" +
+	"\x0eerp_deleted_at\x18\x0e \x01(\v2\x1a.google.protobuf.TimestampR\ferpDeletedAt\x12!\n" +
+	"\ferp_archived\x18\x0f \x01(\bR\verpArchived\x12\x1a\n" +
+	"\barchived\x18\x10 \x01(\bR\barchived\"_\n" +
 	"\x1bGetERPDocumentCountsRequest\x12\x1b\n" +
 	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12#\n" +
 	"\rconnection_id\x18\x02 \x01(\tR\fconnectionId\"[\n" +
@@ -1678,14 +1979,15 @@ const file_core_v1_queries_proto_rawDesc = "" +
 	"\x14ERPDocumentCountItem\x12&\n" +
 	"\x0ferp_entity_type\x18\x01 \x01(\tR\rerpEntityType\x12\x14\n" +
 	"\x05count\x18\x02 \x01(\x05R\x05count\x12G\n" +
-	"\x12max_erp_updated_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\x0fmaxErpUpdatedAt2\x86\x06\n" +
+	"\x12max_erp_updated_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\x0fmaxErpUpdatedAt2\xe9\x06\n" +
 	"\x10CoreQueryService\x12^\n" +
 	"\rGetConnection\x12%.documan.core.v1.GetConnectionRequest\x1a&.documan.core.v1.GetConnectionResponse\x12d\n" +
 	"\x0fListConnections\x12'.documan.core.v1.ListConnectionsRequest\x1a(.documan.core.v1.ListConnectionsResponse\x12v\n" +
 	"\x15ListOriginalDocuments\x12-.documan.core.v1.ListOriginalDocumentsRequest\x1a..documan.core.v1.ListOriginalDocumentsResponse\x12p\n" +
 	"\x13GetOriginalDocument\x12+.documan.core.v1.GetOriginalDocumentRequest\x1a,.documan.core.v1.GetOriginalDocumentResponse\x12d\n" +
 	"\x0fListERPEntities\x12'.documan.core.v1.ListERPEntitiesRequest\x1a(.documan.core.v1.ListERPEntitiesResponse\x12g\n" +
-	"\x10ListERPDocuments\x12(.documan.core.v1.ListERPDocumentsRequest\x1a).documan.core.v1.ListERPDocumentsResponse\x12s\n" +
+	"\x10ListERPDocuments\x12(.documan.core.v1.ListERPDocumentsRequest\x1a).documan.core.v1.ListERPDocumentsResponse\x12a\n" +
+	"\x0eGetERPDocument\x12&.documan.core.v1.GetERPDocumentRequest\x1a'.documan.core.v1.GetERPDocumentResponse\x12s\n" +
 	"\x14GetERPDocumentCounts\x12,.documan.core.v1.GetERPDocumentCountsRequest\x1a-.documan.core.v1.GetERPDocumentCountsResponseB<Z:github.com/plus-minus-dev/documan-pkg/services/gen/core/v1b\x06proto3"
 
 var (
@@ -1700,7 +2002,7 @@ func file_core_v1_queries_proto_rawDescGZIP() []byte {
 	return file_core_v1_queries_proto_rawDescData
 }
 
-var file_core_v1_queries_proto_msgTypes = make([]protoimpl.MessageInfo, 20)
+var file_core_v1_queries_proto_msgTypes = make([]protoimpl.MessageInfo, 23)
 var file_core_v1_queries_proto_goTypes = []any{
 	(*GetConnectionRequest)(nil),          // 0: documan.core.v1.GetConnectionRequest
 	(*GetConnectionResponse)(nil),         // 1: documan.core.v1.GetConnectionResponse
@@ -1719,58 +2021,68 @@ var file_core_v1_queries_proto_goTypes = []any{
 	(*ListERPDocumentsRequest)(nil),       // 14: documan.core.v1.ListERPDocumentsRequest
 	(*ListERPDocumentsResponse)(nil),      // 15: documan.core.v1.ListERPDocumentsResponse
 	(*ERPDocumentItem)(nil),               // 16: documan.core.v1.ERPDocumentItem
-	(*GetERPDocumentCountsRequest)(nil),   // 17: documan.core.v1.GetERPDocumentCountsRequest
-	(*GetERPDocumentCountsResponse)(nil),  // 18: documan.core.v1.GetERPDocumentCountsResponse
-	(*ERPDocumentCountItem)(nil),          // 19: documan.core.v1.ERPDocumentCountItem
-	(*timestamppb.Timestamp)(nil),         // 20: google.protobuf.Timestamp
-	(*v1.S3Ref)(nil),                      // 21: documan.common.v1.S3Ref
+	(*GetERPDocumentRequest)(nil),         // 17: documan.core.v1.GetERPDocumentRequest
+	(*GetERPDocumentResponse)(nil),        // 18: documan.core.v1.GetERPDocumentResponse
+	(*ERPDocumentDetails)(nil),            // 19: documan.core.v1.ERPDocumentDetails
+	(*GetERPDocumentCountsRequest)(nil),   // 20: documan.core.v1.GetERPDocumentCountsRequest
+	(*GetERPDocumentCountsResponse)(nil),  // 21: documan.core.v1.GetERPDocumentCountsResponse
+	(*ERPDocumentCountItem)(nil),          // 22: documan.core.v1.ERPDocumentCountItem
+	(*timestamppb.Timestamp)(nil),         // 23: google.protobuf.Timestamp
+	(*v1.S3Ref)(nil),                      // 24: documan.common.v1.S3Ref
 }
 var file_core_v1_queries_proto_depIdxs = []int32{
 	4,  // 0: documan.core.v1.GetConnectionResponse.connection:type_name -> documan.core.v1.ConnectionItem
 	4,  // 1: documan.core.v1.ListConnectionsResponse.items:type_name -> documan.core.v1.ConnectionItem
-	20, // 2: documan.core.v1.ConnectionItem.last_sync_at:type_name -> google.protobuf.Timestamp
-	20, // 3: documan.core.v1.ConnectionItem.created_at:type_name -> google.protobuf.Timestamp
-	20, // 4: documan.core.v1.ConnectionItem.updated_at:type_name -> google.protobuf.Timestamp
+	23, // 2: documan.core.v1.ConnectionItem.last_sync_at:type_name -> google.protobuf.Timestamp
+	23, // 3: documan.core.v1.ConnectionItem.created_at:type_name -> google.protobuf.Timestamp
+	23, // 4: documan.core.v1.ConnectionItem.updated_at:type_name -> google.protobuf.Timestamp
 	9,  // 5: documan.core.v1.ListOriginalDocumentsResponse.items:type_name -> documan.core.v1.OriginalDocumentItem
 	10, // 6: documan.core.v1.GetOriginalDocumentResponse.document:type_name -> documan.core.v1.OriginalDocumentDetails
-	20, // 7: documan.core.v1.OriginalDocumentItem.payloaded_at:type_name -> google.protobuf.Timestamp
-	20, // 8: documan.core.v1.OriginalDocumentItem.created_at:type_name -> google.protobuf.Timestamp
-	20, // 9: documan.core.v1.OriginalDocumentItem.updated_at:type_name -> google.protobuf.Timestamp
-	20, // 10: documan.core.v1.OriginalDocumentDetails.payloaded_at:type_name -> google.protobuf.Timestamp
-	20, // 11: documan.core.v1.OriginalDocumentDetails.created_at:type_name -> google.protobuf.Timestamp
-	20, // 12: documan.core.v1.OriginalDocumentDetails.updated_at:type_name -> google.protobuf.Timestamp
-	21, // 13: documan.core.v1.OriginalDocumentDetails.original_file:type_name -> documan.common.v1.S3Ref
+	23, // 7: documan.core.v1.OriginalDocumentItem.payloaded_at:type_name -> google.protobuf.Timestamp
+	23, // 8: documan.core.v1.OriginalDocumentItem.created_at:type_name -> google.protobuf.Timestamp
+	23, // 9: documan.core.v1.OriginalDocumentItem.updated_at:type_name -> google.protobuf.Timestamp
+	23, // 10: documan.core.v1.OriginalDocumentDetails.payloaded_at:type_name -> google.protobuf.Timestamp
+	23, // 11: documan.core.v1.OriginalDocumentDetails.created_at:type_name -> google.protobuf.Timestamp
+	23, // 12: documan.core.v1.OriginalDocumentDetails.updated_at:type_name -> google.protobuf.Timestamp
+	24, // 13: documan.core.v1.OriginalDocumentDetails.original_file:type_name -> documan.common.v1.S3Ref
 	13, // 14: documan.core.v1.ListERPEntitiesResponse.items:type_name -> documan.core.v1.ERPEntityItem
-	20, // 15: documan.core.v1.ERPEntityItem.payloaded_at:type_name -> google.protobuf.Timestamp
-	20, // 16: documan.core.v1.ERPEntityItem.erp_updated_at:type_name -> google.protobuf.Timestamp
-	20, // 17: documan.core.v1.ERPEntityItem.erp_created_at:type_name -> google.protobuf.Timestamp
-	20, // 18: documan.core.v1.ERPEntityItem.erp_deleted_at:type_name -> google.protobuf.Timestamp
+	23, // 15: documan.core.v1.ERPEntityItem.payloaded_at:type_name -> google.protobuf.Timestamp
+	23, // 16: documan.core.v1.ERPEntityItem.erp_updated_at:type_name -> google.protobuf.Timestamp
+	23, // 17: documan.core.v1.ERPEntityItem.erp_created_at:type_name -> google.protobuf.Timestamp
+	23, // 18: documan.core.v1.ERPEntityItem.erp_deleted_at:type_name -> google.protobuf.Timestamp
 	16, // 19: documan.core.v1.ListERPDocumentsResponse.items:type_name -> documan.core.v1.ERPDocumentItem
-	20, // 20: documan.core.v1.ERPDocumentItem.payloaded_at:type_name -> google.protobuf.Timestamp
-	20, // 21: documan.core.v1.ERPDocumentItem.erp_updated_at:type_name -> google.protobuf.Timestamp
-	20, // 22: documan.core.v1.ERPDocumentItem.erp_created_at:type_name -> google.protobuf.Timestamp
-	20, // 23: documan.core.v1.ERPDocumentItem.erp_deleted_at:type_name -> google.protobuf.Timestamp
-	19, // 24: documan.core.v1.GetERPDocumentCountsResponse.items:type_name -> documan.core.v1.ERPDocumentCountItem
-	20, // 25: documan.core.v1.ERPDocumentCountItem.max_erp_updated_at:type_name -> google.protobuf.Timestamp
-	0,  // 26: documan.core.v1.CoreQueryService.GetConnection:input_type -> documan.core.v1.GetConnectionRequest
-	2,  // 27: documan.core.v1.CoreQueryService.ListConnections:input_type -> documan.core.v1.ListConnectionsRequest
-	5,  // 28: documan.core.v1.CoreQueryService.ListOriginalDocuments:input_type -> documan.core.v1.ListOriginalDocumentsRequest
-	7,  // 29: documan.core.v1.CoreQueryService.GetOriginalDocument:input_type -> documan.core.v1.GetOriginalDocumentRequest
-	11, // 30: documan.core.v1.CoreQueryService.ListERPEntities:input_type -> documan.core.v1.ListERPEntitiesRequest
-	14, // 31: documan.core.v1.CoreQueryService.ListERPDocuments:input_type -> documan.core.v1.ListERPDocumentsRequest
-	17, // 32: documan.core.v1.CoreQueryService.GetERPDocumentCounts:input_type -> documan.core.v1.GetERPDocumentCountsRequest
-	1,  // 33: documan.core.v1.CoreQueryService.GetConnection:output_type -> documan.core.v1.GetConnectionResponse
-	3,  // 34: documan.core.v1.CoreQueryService.ListConnections:output_type -> documan.core.v1.ListConnectionsResponse
-	6,  // 35: documan.core.v1.CoreQueryService.ListOriginalDocuments:output_type -> documan.core.v1.ListOriginalDocumentsResponse
-	8,  // 36: documan.core.v1.CoreQueryService.GetOriginalDocument:output_type -> documan.core.v1.GetOriginalDocumentResponse
-	12, // 37: documan.core.v1.CoreQueryService.ListERPEntities:output_type -> documan.core.v1.ListERPEntitiesResponse
-	15, // 38: documan.core.v1.CoreQueryService.ListERPDocuments:output_type -> documan.core.v1.ListERPDocumentsResponse
-	18, // 39: documan.core.v1.CoreQueryService.GetERPDocumentCounts:output_type -> documan.core.v1.GetERPDocumentCountsResponse
-	33, // [33:40] is the sub-list for method output_type
-	26, // [26:33] is the sub-list for method input_type
-	26, // [26:26] is the sub-list for extension type_name
-	26, // [26:26] is the sub-list for extension extendee
-	0,  // [0:26] is the sub-list for field type_name
+	23, // 20: documan.core.v1.ERPDocumentItem.payloaded_at:type_name -> google.protobuf.Timestamp
+	23, // 21: documan.core.v1.ERPDocumentItem.erp_updated_at:type_name -> google.protobuf.Timestamp
+	23, // 22: documan.core.v1.ERPDocumentItem.erp_created_at:type_name -> google.protobuf.Timestamp
+	23, // 23: documan.core.v1.ERPDocumentItem.erp_deleted_at:type_name -> google.protobuf.Timestamp
+	19, // 24: documan.core.v1.GetERPDocumentResponse.document:type_name -> documan.core.v1.ERPDocumentDetails
+	23, // 25: documan.core.v1.ERPDocumentDetails.payloaded_at:type_name -> google.protobuf.Timestamp
+	23, // 26: documan.core.v1.ERPDocumentDetails.erp_updated_at:type_name -> google.protobuf.Timestamp
+	23, // 27: documan.core.v1.ERPDocumentDetails.erp_created_at:type_name -> google.protobuf.Timestamp
+	23, // 28: documan.core.v1.ERPDocumentDetails.erp_deleted_at:type_name -> google.protobuf.Timestamp
+	22, // 29: documan.core.v1.GetERPDocumentCountsResponse.items:type_name -> documan.core.v1.ERPDocumentCountItem
+	23, // 30: documan.core.v1.ERPDocumentCountItem.max_erp_updated_at:type_name -> google.protobuf.Timestamp
+	0,  // 31: documan.core.v1.CoreQueryService.GetConnection:input_type -> documan.core.v1.GetConnectionRequest
+	2,  // 32: documan.core.v1.CoreQueryService.ListConnections:input_type -> documan.core.v1.ListConnectionsRequest
+	5,  // 33: documan.core.v1.CoreQueryService.ListOriginalDocuments:input_type -> documan.core.v1.ListOriginalDocumentsRequest
+	7,  // 34: documan.core.v1.CoreQueryService.GetOriginalDocument:input_type -> documan.core.v1.GetOriginalDocumentRequest
+	11, // 35: documan.core.v1.CoreQueryService.ListERPEntities:input_type -> documan.core.v1.ListERPEntitiesRequest
+	14, // 36: documan.core.v1.CoreQueryService.ListERPDocuments:input_type -> documan.core.v1.ListERPDocumentsRequest
+	17, // 37: documan.core.v1.CoreQueryService.GetERPDocument:input_type -> documan.core.v1.GetERPDocumentRequest
+	20, // 38: documan.core.v1.CoreQueryService.GetERPDocumentCounts:input_type -> documan.core.v1.GetERPDocumentCountsRequest
+	1,  // 39: documan.core.v1.CoreQueryService.GetConnection:output_type -> documan.core.v1.GetConnectionResponse
+	3,  // 40: documan.core.v1.CoreQueryService.ListConnections:output_type -> documan.core.v1.ListConnectionsResponse
+	6,  // 41: documan.core.v1.CoreQueryService.ListOriginalDocuments:output_type -> documan.core.v1.ListOriginalDocumentsResponse
+	8,  // 42: documan.core.v1.CoreQueryService.GetOriginalDocument:output_type -> documan.core.v1.GetOriginalDocumentResponse
+	12, // 43: documan.core.v1.CoreQueryService.ListERPEntities:output_type -> documan.core.v1.ListERPEntitiesResponse
+	15, // 44: documan.core.v1.CoreQueryService.ListERPDocuments:output_type -> documan.core.v1.ListERPDocumentsResponse
+	18, // 45: documan.core.v1.CoreQueryService.GetERPDocument:output_type -> documan.core.v1.GetERPDocumentResponse
+	21, // 46: documan.core.v1.CoreQueryService.GetERPDocumentCounts:output_type -> documan.core.v1.GetERPDocumentCountsResponse
+	39, // [39:47] is the sub-list for method output_type
+	31, // [31:39] is the sub-list for method input_type
+	31, // [31:31] is the sub-list for extension type_name
+	31, // [31:31] is the sub-list for extension extendee
+	0,  // [0:31] is the sub-list for field type_name
 }
 
 func init() { file_core_v1_queries_proto_init() }
@@ -1784,7 +2096,7 @@ func file_core_v1_queries_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_core_v1_queries_proto_rawDesc), len(file_core_v1_queries_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   20,
+			NumMessages:   23,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
