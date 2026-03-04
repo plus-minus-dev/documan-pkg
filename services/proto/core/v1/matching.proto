@@ -22,9 +22,6 @@ service CoreMatchingService {
 
   // Queue status (debug page)
   rpc GetMatchingStatus(GetMatchingStatusRequest) returns (GetMatchingStatusResponse);
-
-  // Detailed scoring + processing history for original document (debug page)
-  rpc GetScoringDebug(GetScoringDebugRequest) returns (GetScoringDebugResponse);
 }
 
 // --- DocApprove ---
@@ -168,72 +165,4 @@ message GetMatchingStatusResponse {
   int32 matching_jobs_processing = 3;
   int32 entity_jobs_queued = 4;
   int32 entity_jobs_processing = 5;
-}
-
-// --- GetScoringDebug ---
-
-message GetScoringDebugRequest {
-  string tenant_id = 1;
-  string original_doc_id = 2;
-  string erp_doc_id = 3; // optional
-  int32 limit = 4;
-}
-
-message GetScoringDebugResponse {
-  string original_doc_id = 1;
-  ScoreFeatureSnapshot source = 2;
-  repeated ScoreCandidateDebug candidates = 3;
-  repeated MatchingJobDebugItem jobs = 4;
-  repeated OutboxEventDebugItem outbox_events = 5;
-}
-
-message ScoreFeatureSnapshot {
-  string seller_inn = 1;
-  string buyer_inn = 2;
-  int64 amount_with_vat = 3;
-  string doc_number = 4;
-  string doc_date = 5;
-  int32 sku_count = 6;
-  double quantity_sum = 7;
-}
-
-message ScoreCandidateDebug {
-  string erp_doc_id = 1;
-  string connection_id = 2;
-  string entity_type = 3;
-  int32 total_score = 4;
-  string status = 5;
-  ScoreFeatureSnapshot target = 6;
-  repeated ScoreParamDebug params = 7;
-}
-
-message ScoreParamDebug {
-  string key = 1;
-  int32 weight = 2;
-  bool matched = 3;
-  int32 points = 4;
-  string original = 5;
-  string erp = 6;
-}
-
-message MatchingJobDebugItem {
-  string id = 1;
-  string mode = 2;
-  string status = 3;
-  int32 attempts = 4;
-  int32 max_attempts = 5;
-  string error_message = 6;
-  string created_at = 7;
-  string updated_at = 8;
-}
-
-message OutboxEventDebugItem {
-  string id = 1;
-  string event_type = 2;
-  string status = 3;
-  int32 attempts = 4;
-  int32 max_attempts = 5;
-  string error_message = 6;
-  string created_at = 7;
-  string published_at = 8;
 }

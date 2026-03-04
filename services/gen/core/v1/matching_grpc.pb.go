@@ -29,7 +29,6 @@ const (
 	CoreMatchingService_GetDelta_FullMethodName          = "/documan.core.v1.CoreMatchingService/GetDelta"
 	CoreMatchingService_ListKB_FullMethodName            = "/documan.core.v1.CoreMatchingService/ListKB"
 	CoreMatchingService_GetMatchingStatus_FullMethodName = "/documan.core.v1.CoreMatchingService/GetMatchingStatus"
-	CoreMatchingService_GetScoringDebug_FullMethodName   = "/documan.core.v1.CoreMatchingService/GetScoringDebug"
 )
 
 // CoreMatchingServiceClient is the client API for CoreMatchingService service.
@@ -52,8 +51,6 @@ type CoreMatchingServiceClient interface {
 	ListKB(ctx context.Context, in *ListKBRequest, opts ...grpc.CallOption) (*ListKBResponse, error)
 	// Queue status (debug page)
 	GetMatchingStatus(ctx context.Context, in *GetMatchingStatusRequest, opts ...grpc.CallOption) (*GetMatchingStatusResponse, error)
-	// Detailed scoring + processing history for original document (debug page)
-	GetScoringDebug(ctx context.Context, in *GetScoringDebugRequest, opts ...grpc.CallOption) (*GetScoringDebugResponse, error)
 }
 
 type coreMatchingServiceClient struct {
@@ -164,16 +161,6 @@ func (c *coreMatchingServiceClient) GetMatchingStatus(ctx context.Context, in *G
 	return out, nil
 }
 
-func (c *coreMatchingServiceClient) GetScoringDebug(ctx context.Context, in *GetScoringDebugRequest, opts ...grpc.CallOption) (*GetScoringDebugResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetScoringDebugResponse)
-	err := c.cc.Invoke(ctx, CoreMatchingService_GetScoringDebug_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // CoreMatchingServiceServer is the server API for CoreMatchingService service.
 // All implementations must embed UnimplementedCoreMatchingServiceServer
 // for forward compatibility.
@@ -194,8 +181,6 @@ type CoreMatchingServiceServer interface {
 	ListKB(context.Context, *ListKBRequest) (*ListKBResponse, error)
 	// Queue status (debug page)
 	GetMatchingStatus(context.Context, *GetMatchingStatusRequest) (*GetMatchingStatusResponse, error)
-	// Detailed scoring + processing history for original document (debug page)
-	GetScoringDebug(context.Context, *GetScoringDebugRequest) (*GetScoringDebugResponse, error)
 	mustEmbedUnimplementedCoreMatchingServiceServer()
 }
 
@@ -235,9 +220,6 @@ func (UnimplementedCoreMatchingServiceServer) ListKB(context.Context, *ListKBReq
 }
 func (UnimplementedCoreMatchingServiceServer) GetMatchingStatus(context.Context, *GetMatchingStatusRequest) (*GetMatchingStatusResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetMatchingStatus not implemented")
-}
-func (UnimplementedCoreMatchingServiceServer) GetScoringDebug(context.Context, *GetScoringDebugRequest) (*GetScoringDebugResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method GetScoringDebug not implemented")
 }
 func (UnimplementedCoreMatchingServiceServer) mustEmbedUnimplementedCoreMatchingServiceServer() {}
 func (UnimplementedCoreMatchingServiceServer) testEmbeddedByValue()                             {}
@@ -440,24 +422,6 @@ func _CoreMatchingService_GetMatchingStatus_Handler(srv interface{}, ctx context
 	return interceptor(ctx, in, info, handler)
 }
 
-func _CoreMatchingService_GetScoringDebug_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetScoringDebugRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CoreMatchingServiceServer).GetScoringDebug(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: CoreMatchingService_GetScoringDebug_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CoreMatchingServiceServer).GetScoringDebug(ctx, req.(*GetScoringDebugRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // CoreMatchingService_ServiceDesc is the grpc.ServiceDesc for CoreMatchingService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -504,10 +468,6 @@ var CoreMatchingService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetMatchingStatus",
 			Handler:    _CoreMatchingService_GetMatchingStatus_Handler,
-		},
-		{
-			MethodName: "GetScoringDebug",
-			Handler:    _CoreMatchingService_GetScoringDebug_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
