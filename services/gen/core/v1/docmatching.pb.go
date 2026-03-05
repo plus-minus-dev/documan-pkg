@@ -126,11 +126,16 @@ func (x *FindCandidatesResponse) GetCandidates() []*CandidateItem {
 }
 
 type CandidateItem struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	DocId         string                 `protobuf:"bytes,1,opt,name=doc_id,json=docId,proto3" json:"doc_id,omitempty"`
-	DocType       string                 `protobuf:"bytes,2,opt,name=doc_type,json=docType,proto3" json:"doc_type,omitempty"`          // "original" | "erp"
-	EntityType    string                 `protobuf:"bytes,3,opt,name=entity_type,json=entityType,proto3" json:"entity_type,omitempty"` // "supply", "invoicein", ...
-	MatchResult   *MatchResult           `protobuf:"bytes,4,opt,name=match_result,json=matchResult,proto3" json:"match_result,omitempty"`
+	state       protoimpl.MessageState `protogen:"open.v1"`
+	DocId       string                 `protobuf:"bytes,1,opt,name=doc_id,json=docId,proto3" json:"doc_id,omitempty"`
+	DocType     string                 `protobuf:"bytes,2,opt,name=doc_type,json=docType,proto3" json:"doc_type,omitempty"`          // "original" | "erp"
+	EntityType  string                 `protobuf:"bytes,3,opt,name=entity_type,json=entityType,proto3" json:"entity_type,omitempty"` // "supply", "invoicein", ...
+	MatchResult *MatchResult           `protobuf:"bytes,4,opt,name=match_result,json=matchResult,proto3" json:"match_result,omitempty"`
+	// Display fields (from extracted features)
+	SellerInn     string `protobuf:"bytes,5,opt,name=seller_inn,json=sellerInn,proto3" json:"seller_inn,omitempty"`
+	BuyerInn      string `protobuf:"bytes,6,opt,name=buyer_inn,json=buyerInn,proto3" json:"buyer_inn,omitempty"`
+	DocNumber     string `protobuf:"bytes,7,opt,name=doc_number,json=docNumber,proto3" json:"doc_number,omitempty"`
+	DocDate       string `protobuf:"bytes,8,opt,name=doc_date,json=docDate,proto3" json:"doc_date,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -191,6 +196,34 @@ func (x *CandidateItem) GetMatchResult() *MatchResult {
 		return x.MatchResult
 	}
 	return nil
+}
+
+func (x *CandidateItem) GetSellerInn() string {
+	if x != nil {
+		return x.SellerInn
+	}
+	return ""
+}
+
+func (x *CandidateItem) GetBuyerInn() string {
+	if x != nil {
+		return x.BuyerInn
+	}
+	return ""
+}
+
+func (x *CandidateItem) GetDocNumber() string {
+	if x != nil {
+		return x.DocNumber
+	}
+	return ""
+}
+
+func (x *CandidateItem) GetDocDate() string {
+	if x != nil {
+		return x.DocDate
+	}
+	return ""
 }
 
 type MatchResult struct {
@@ -1333,13 +1366,19 @@ const file_core_v1_docmatching_proto_rawDesc = "" +
 	"\x16FindCandidatesResponse\x12>\n" +
 	"\n" +
 	"candidates\x18\x01 \x03(\v2\x1e.documan.core.v1.CandidateItemR\n" +
-	"candidates\"\xa3\x01\n" +
+	"candidates\"\x99\x02\n" +
 	"\rCandidateItem\x12\x15\n" +
 	"\x06doc_id\x18\x01 \x01(\tR\x05docId\x12\x19\n" +
 	"\bdoc_type\x18\x02 \x01(\tR\adocType\x12\x1f\n" +
 	"\ventity_type\x18\x03 \x01(\tR\n" +
 	"entityType\x12?\n" +
-	"\fmatch_result\x18\x04 \x01(\v2\x1c.documan.core.v1.MatchResultR\vmatchResult\"\x9f\x03\n" +
+	"\fmatch_result\x18\x04 \x01(\v2\x1c.documan.core.v1.MatchResultR\vmatchResult\x12\x1d\n" +
+	"\n" +
+	"seller_inn\x18\x05 \x01(\tR\tsellerInn\x12\x1b\n" +
+	"\tbuyer_inn\x18\x06 \x01(\tR\bbuyerInn\x12\x1d\n" +
+	"\n" +
+	"doc_number\x18\a \x01(\tR\tdocNumber\x12\x19\n" +
+	"\bdoc_date\x18\b \x01(\tR\adocDate\"\x9f\x03\n" +
 	"\vMatchResult\x12\"\n" +
 	"\n" +
 	"seller_inn\x18\x01 \x01(\bH\x00R\tsellerInn\x88\x01\x01\x12 \n" +

@@ -41,6 +41,11 @@ message CandidateItem {
   string doc_type = 2;       // "original" | "erp"
   string entity_type = 3;    // "supply", "invoicein", ...
   MatchResult match_result = 4;
+  // Display fields (from extracted features)
+  string seller_inn = 5;
+  string buyer_inn = 6;
+  string doc_number = 7;
+  string doc_date = 8;
 }
 
 message MatchResult {
