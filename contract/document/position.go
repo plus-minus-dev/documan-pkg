@@ -2,19 +2,20 @@ package document
 
 // Position — одна строка (позиция) товара/услуги в документе.
 // Денежные поля — *int64 (копейки): nil = нет данных, 0 = валидный ноль.
-// Количества — decimal string (dot separator, no thousand separators).
+// Количества и процентные значения — decimal string (dot separator, no thousand separators).
 type Position struct {
 	// Идентификация строки
-	LineNumber int    `json:"line_number"`           // порядковый номер (0-based)
-	ItemType   string `json:"item_type,omitempty"`   // "product" | "service" | "work" | "rights"
+	LineNumber int    `json:"line_number"`          // нормализованный 0-based индекс строки в payload
+	LineLabel  string `json:"line_label,omitempty"` // исходное значение номера строки из документа: "1", "1а", "I" ...
+	ItemType   string `json:"item_type,omitempty"`  // "product" | "service" | "work" | "rights"
 
 	// Товар/услуга
-	Name        string `json:"name,omitempty"`         // наименование
-	Variant     string `json:"variant,omitempty"`      // характеристика
-	SKU         string `json:"sku,omitempty"`          // артикул
-	ProductCode string `json:"product_code,omitempty"` // код товара
-	GTIN     string   `json:"gtin,omitempty"`     // ГТИН из документа (ФНС)
-	Barcodes []string `json:"barcodes,omitempty"` // прочие штрихкоды (code128, UPC, EAN-8...)
+	Name     string   `json:"name,omitempty"`      // наименование
+	Variant  string   `json:"variant,omitempty"`   // характеристика
+	Article  string   `json:"article,omitempty"`   // артикул / article
+	ItemCode string   `json:"item_code,omitempty"` // код товара/работ/услуг из документа или источника; не article, не gtin, не hs_code
+	GTIN     string   `json:"gtin,omitempty"`      // ГТИН из документа (ФНС)
+	Barcodes []string `json:"barcodes,omitempty"`  // прочие штрихкоды (code128, UPC, EAN-8...)
 
 	// Количество и единицы
 	// Quantity: decimal string, dot separator, no thousand separators, normalized.
@@ -32,13 +33,14 @@ type Position struct {
 	AmountWithTax *int64 `json:"amount_with_tax,omitempty"` // с НДС
 
 	// Налог
-	TaxRate   string `json:"tax_rate,omitempty"`   // "20%", "10%", "без НДС"
+	TaxRate   string `json:"tax_rate,omitempty"`   // normalized string, e.g. "20%", "10%", "без НДС"
 	TaxAmount *int64 `json:"tax_amount,omitempty"` // сумма НДС
 
 	// Скидка
 	// DiscountRate: decimal string, e.g. "5", "10.5".
-	DiscountRate string `json:"discount_rate,omitempty"` // скидка %
-	Discount     *int64 `json:"discount,omitempty"`      // скидка, копейки
+	// Discount заполняется только если producer может извлечь или вычислить сумму скидки без неоднозначности.
+	DiscountRate string `json:"discount_rate,omitempty"`
+	Discount     *int64 `json:"discount,omitempty"` // скидка, копейки
 
 	// Акциз (копейки, 0 = "без акциза")
 	Excise *int64 `json:"excise,omitempty"`

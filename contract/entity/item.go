@@ -1,17 +1,15 @@
 package entity
 
-// Item — товар, услуга, комплект (карточка из ERP).
-// Название предварительное — будет пересмотрено при реализации товарного matching.
+// Item — товар, услуга, комплект или модификация/вариант из ERP.
 type Item struct {
 	Meta
 
 	// Идентификация
 	Name     string   `json:"name,omitempty"`
 	Type     string   `json:"item_type,omitempty"` // "product" | "service" | "bundle" | "variant"
-	SKU      string   `json:"sku,omitempty"`
-	GTIN     []string `json:"gtin,omitempty"`     // ГТИН (массив, с карточки)
-	Barcodes []string `json:"barcodes,omitempty"` // прочие штрихкоды
-
-	// ERP
-	SourceCode string `json:"source_code,omitempty"`
+	Variant  string   `json:"variant,omitempty"`   // характеристика / модификация / вариант
+	Article  string   `json:"article,omitempty"`   // артикул / article
+	ItemCode string   `json:"item_code,omitempty"` // код товара из ERP/source business code; не article
+	GTIN     []string `json:"gtin,omitempty"`      // ГТИН (массив, с карточки)
+	Barcodes []string `json:"barcodes,omitempty"`  // прочие штрихкоды
 }

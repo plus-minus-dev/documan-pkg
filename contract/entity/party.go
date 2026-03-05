@@ -11,6 +11,7 @@ type Party struct {
 	LegalTitle string `json:"legal_title,omitempty"` // полное юридическое название
 	INN        string `json:"inn,omitempty"`
 	KPP        string `json:"kpp,omitempty"`
+	Address    string `json:"address,omitempty"`
 
 	// ERP
 	SourceCode string `json:"source_code,omitempty"` // код в системе-источнике

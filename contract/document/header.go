@@ -7,7 +7,7 @@ type Header struct {
 	// Документ
 	Type   string `json:"doc_type,omitempty"`   // оригинальный тип из источника (supply, УПД, счет...)
 	Number string `json:"doc_number,omitempty"` // номер документа
-	Date   string `json:"doc_date,omitempty"`   // дата документа
+	Date   string `json:"doc_date,omitempty"`   // дата документа, YYYY-MM-DD
 
 	// Продавец
 	SellerName    string `json:"seller_name,omitempty"`
@@ -22,12 +22,16 @@ type Header struct {
 	BuyerAddress string `json:"buyer_address,omitempty"`
 
 	// Грузоотправитель (УПД: ФНС ГрузОт)
+	// Поля могут быть заполнены частично: например, только Name, если источник не позволяет
+	// надежно выделить ИНН/КПП/адрес.
 	ShipperName    string `json:"shipper_name,omitempty"`
 	ShipperINN     string `json:"shipper_inn,omitempty"`
 	ShipperKPP     string `json:"shipper_kpp,omitempty"`
 	ShipperAddress string `json:"shipper_address,omitempty"`
 
 	// Грузополучатель (УПД: ФНС ГрузПолуч)
+	// Поля могут быть заполнены частично: например, только Name, если источник не позволяет
+	// надежно выделить ИНН/КПП/адрес.
 	ReceiverName    string `json:"receiver_name,omitempty"`
 	ReceiverINN     string `json:"receiver_inn,omitempty"`
 	ReceiverKPP     string `json:"receiver_kpp,omitempty"`
@@ -37,6 +41,6 @@ type Header struct {
 	StoreName string `json:"store_name,omitempty"`
 
 	// Валюта
-	CurrencyCode string `json:"currency_code,omitempty"` // ISO 4217, e.g. "643"
+	CurrencyCode string `json:"currency_code,omitempty"` // ISO 4217 numeric code, e.g. "643"
 	CurrencyName string `json:"currency_name,omitempty"`
 }

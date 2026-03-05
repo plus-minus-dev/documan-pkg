@@ -1,6 +1,7 @@
 package document
 
-// Canonical document types.
+// Canonical document types for the classification layer in core.
+// These constants are not values for payload_header.doc_type.
 const (
 	TypeOrder    = "order"
 	TypeShipment = "shipment"
@@ -8,7 +9,7 @@ const (
 	TypePayment  = "payment"
 )
 
-// Document direction.
+// Canonical document direction for the classification layer in core.
 const (
 	DirectionForward = "forward"
 	DirectionReverse = "reverse"
