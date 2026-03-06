@@ -44,7 +44,8 @@
 ### 2. ERP document pages
 Файл: `documents_erp/[entityType]/[id].vue`
 - Новые payload names
-- Убрать ожидание `seller_id`, `buyer_id`, `source_name`
+- Убрать ожидание raw `seller_id`, `buyer_id`, `source_name`
+- Seller/buyer/store для ERP UI брать из уже обогащённого query/API ответа `core`/`bff`, а не из raw `payload_meta.refs`
 - **ВАЖНО**: убрать допущение "ERP summary = рубли". В новом контракте деньги = копейки. Это behavioural change, не только rename.
 
 ### 3. Matching UI

@@ -4,6 +4,24 @@
 > Основано на фактическом коде репозиториев `documan-*`, а не только на целевом контракте.
 > Источник истины по целевой схеме: `documan-pkg/contract/document/*`, `documan-pkg/contract/entity/*`, `documan-pkg/contract/README.md`.
 
+## Обязательные правила выполнения
+
+- Без обратной совместимости: запрещены dual-read, dual-write, fallback на legacy payload fields и временное сосуществование old/new payload schema.
+- Payload собирается только через contract structs. `map[string]any` и ad-hoc JSON maps не допускаются как финальное состояние producers.
+- Любые legacy payload field names (`amount_with_vat`, `line_no`, `source_name`, `source_date` в header, `commodity_code`, `unit_price_with_vat`, `legalTitle` и т.п.) должны быть удалены из payload. Оставлять их «временно» нельзя.
+- `seller_id`, `buyer_id`, `store_id` запрещены в `payload_header` и top-level payload fields. Они допустимы только внутри `payload_meta.refs` как source entity ids.
+- Projection fields вне payload допустимы. Поля хранения/индексации/query layer (`file_*`, `original_file_*`, `erp_*`, `archived`) не являются частью payload contract и могут сохраняться в БД/DTO отдельно.
+- Если projection field дублирует payload/meta по смыслу, payload остаётся источником истины, а projection field считается производным read-model полем.
+- Для ERP-документов source of truth для linkage seller/buyer/store — `payload_meta.refs`. Бизнес-поля `payload_header.seller_*`, `payload_header.buyer_*`, `payload_header.store_name` не являются reference fields и не должны содержать ids.
+- В выбранной модели ERP connectors могут не писать seller/buyer/store snapshot в `payload_header`; enrichment этих данных выполняет `core` по `payload_meta.refs`.
+- `.proto` пересобираются с чистого листа под финальную схему. Обратная совместимость protobuf wire format не требуется.
+- Сохранять старые номера protobuf-полей не нужно. `reserved` для удалённых legacy-полей не использовать. Нумерацию полей можно выстроить заново под финальную модель сообщений.
+- Изменения `.proto` выполняются только атомарно: правка schema + regenerate + обновление producer/consumer кода в том же проходе. Состояние «.proto уже изменён, gen-код ещё старый» не допускается как этап миграции.
+- Не оставлять bridge-адаптеры, compatibility wrappers, alias-поля, deprecated endpoints, дублирующие env/config keys и временные rename-слои ради “плавного перехода”. Если старое имя больше не нужно вне payload contract, оно должно быть удалено, а не алиаситься.
+- Для rename `transform/clear -> payload` конечное состояние должно быть полным: без legacy route names, worker names, config/env names, S3 prefixes и лог-сообщений в затронутых сервисах, если только старое имя не сохранено осознанно вне scope этой миграции.
+- Любые остаточные legacy payload references в коде, proto, DTO, UI, тестах и grep-аудите к финалу миграции считаются `major`, а не `minor`.
+- Любое отклонение от этих правил требует явного согласования, а не локального компромисса внутри этапа.
+
 ## Исходные условия
 
 - Релиза не было, обратная совместимость не требуется.
@@ -286,6 +304,7 @@ Delivery уже возит payload как `bytes`, но transport для ERP п�
 - `hs_code`
 - `variant`
 - `source_number`, `source_status`, `payloaded_at`
+- `document.Meta.Refs` с `seller_id`, `buyer_id`, `store_id`
 - `entity.Item` использует `article` + `item_code`
 - `entity.Party` / `entity.Store` используют `source_code`
 
@@ -473,13 +492,12 @@ BFF payload сам не пересобирает, но жёстко зависи
 Добавить / перенести:
 - `source_number` в meta (`MS name -> source_number`)
 - `source_date` в meta (`moment -> source_date`)
-- `seller_name`, `seller_inn`, `seller_kpp`, при возможности `seller_address`
-- `buyer_name`, `buyer_inn`, `buyer_kpp`, при возможности `buyer_address`
-- `store_name`
+- seller/buyer/store business fields в header НЕ считать обязательным snapshot-слоем для ERP-документов
 
 Новая логика:
-- document transform должен best-effort резолвить ERP entities по UUID из raw документа
-- если lookup не удался, document payload остаётся валидным, просто с пустыми enriched fields
+- connector-ms document payload для ERP-документов пишется ref-based
+- source entity ids продавца/покупателя/склада пишутся только в `payload_meta.refs`
+- enrichment seller/buyer/store business fields на стороне connector-ms НЕ требуется; этим занимается `core`
 
 #### Meta
 Заменить legacy meta на contract meta:
@@ -493,6 +511,7 @@ BFF payload сам не пересобирает, но жёстко зависи
 - добавить `source_date`
 - добавить `parse_rule`
 - добавить `created_at`
+- добавить `refs.seller_id`, `refs.buyer_id`, `refs.store_id`
 
 #### Summary
 Заменить:
@@ -712,10 +731,11 @@ Projection fields остаются отдельными.
 - читать `payload_meta` тоже, не только header/summary/positions
 - `doc_number` брать из `header.doc_number`, fallback в `meta.source_number`
 - `doc_date` брать из `header.doc_date`, fallback в `meta.source_date`
-- `store_name` вместо `store`
 - `amount_with_tax` вместо `amount_with_vat`
 - quantity суммировать как decimal string -> numeric parse
-- убрать fallback через `seller_id/buyer_id`, если header уже заполнен seller/buyer реквизитами
+- для ERP-документов читать `payload_meta.refs`
+- если seller/buyer/store business fields отсутствуют в header, делать enrichment по `meta.refs.seller_id`, `meta.refs.buyer_id`, `meta.refs.store_id` через `erp_entities`
+- fallback через legacy top-level `seller_id/buyer_id/store_id` не использовать
 
 #### `resolve_field.go`
 Переписать ожидаемые поля:
@@ -737,6 +757,7 @@ Projection fields остаются отдельными.
 - list/detail endpoints
 
 Здесь учитываем как уже принятое решение: transport/query projection fields остаются отдельными.
+Для ERP documents query-layer обязан выполнять enrichment seller/buyer/store по `payload_meta.refs`, если эти business fields отсутствуют в raw `payload_header`.
 
 ### SQL migration
 Одна основная миграция должна покрыть:
@@ -799,7 +820,8 @@ BFF нужно менять после обновления `queries.proto` и `
 ### ERP document pages
 Перевести на:
 - новые payload names
-- убрать ожидание `seller_id`, `buyer_id`, `source_name`
+- убрать ожидание raw `seller_id`, `buyer_id`, `source_name`
+- seller/buyer/store получать из уже обогащённого query/API ответа `core`, а не из raw ERP payload header
 - убрать допущение “ERP summary = рубли”; в новом контракте деньги должны читаться как копейки
 
 ### Matching UI
@@ -904,7 +926,7 @@ BFF нужно менять после обновления `queries.proto` и `
 1. `core` сейчас использует отдельные DB/query поля `erp_*`, `file_*`, `original_file_*`; их нельзя “незаметно” удалить без решения, где они будут жить после миграции.
 2. `fe-my` не просто показывает payload, а содержит assumptions о semantics денег ERP (`rubles`, а не `kopecks`). Это behavioural change, не только rename.
 3. `docmatching` сейчас жёстко завязан на old vocabulary `amount_with_vat`; его нельзя забыть вне общего плана.
-4. `connector-ms` ещё не умеет entity enrichment для seller/buyer/store names. Это новая логика, а не rename.
+4. При выбранной ref-based модели `core` обязан корректно enrich-ить seller/buyer/store по `payload_meta.refs`; иначе ERP details/matching останутся без бизнес-полей.
 5. Rename `transform/clear -> payload` затрагивает S3 keys, worker names, config/env и workflow vocabulary; его нужно делать синхронно с contract migration, а не отдельным подготовительным шагом.
 6. `ingest` сейчас пишет `original_file` внутрь `payload_meta`; при переходе это поведение надо осознанно убрать и не потерять скачивание исходника.
 
@@ -931,5 +953,11 @@ BFF нужно менять после обновления `queries.proto` и `
 3. Canonical classification:
 - `type` — internal/DB сейчас
 - `direction` — не тащить в внешний API без отдельной потребности
+
+4. ERP document refs strategy:
+- `seller_id`, `buyer_id`, `store_id` разрешены только в `payload_meta.refs`
+- `connector-ms` пишет ref-based ERP document payload без обязательного snapshot seller/buyer/store в header
+- `core` выполняет enrichment seller/buyer/store по `payload_meta.refs` для query/matching/read models
+- `ingest` оставляет `payload_meta.refs` пустым
 
 Эти решения считаются зафиксированными и не открывают новый round обсуждения внутри самой миграции.

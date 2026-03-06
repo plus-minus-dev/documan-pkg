@@ -9,7 +9,7 @@
 ---
 
 ## Цель
-Переписать все payload consumers в documan-core под новый contract vocabulary.
+Переписать все payload consumers в documan-core под новый contract vocabulary и ref-based enrichment по `payload_meta.refs`.
 
 ## Сервис
 - **Имя**: documan-core
@@ -27,10 +27,11 @@
 - Читать `payload_meta` в дополнение к header/summary/positions
 - `doc_number` брать из `header.doc_number`, fallback → `meta.source_number` (оба поля — новый контракт, это НЕ legacy fallback, а доменное правило выбора внутри новой схемы)
 - `doc_date` брать из `header.doc_date`, fallback → `meta.source_date` (аналогично — оба contract fields)
-- `store_name` вместо `store`
 - `amount_with_tax` вместо `amount_with_vat`
 - quantity суммировать как decimal string → numeric parse
-- Удалить fallback через `seller_id/buyer_id` БЕЗУСЛОВНО. Эти legacy поля удалены из payload. Если header seller/buyer пусты — работать с пустыми значениями, НЕ искать fallback в удалённых полях.
+- Для ERP documents читать `meta.refs.seller_id`, `meta.refs.buyer_id`, `meta.refs.store_id`
+- Если seller/buyer/store business fields отсутствуют в header, делать enrichment через `erp_entities` по `meta.refs`
+- Legacy top-level `seller_id/buyer_id/store_id` не использовать
 
 ### 2. `resolve_field.go`
 Переписать ожидаемые поля:
@@ -51,7 +52,7 @@
 Проверить выводимые field names. Если выводит legacy — обновить.
 
 ## Критерии готовности
-- [ ] `dl_candidates.go` использует contract vocabulary
+- [ ] `dl_candidates.go` использует contract vocabulary и enrichment по `meta.refs`
 - [ ] `resolve_field.go` использует `legal_title`, `item_code`, `address`
 - [ ] `docmatching` использует `AmountWithTax`
 - [ ] `dl_delta.go` не выводит legacy field names

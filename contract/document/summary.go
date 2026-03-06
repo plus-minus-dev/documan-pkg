@@ -13,6 +13,6 @@ type Summary struct {
 	// Qty: decimal string, dot separator, no thousand separators, normalized.
 	// Examples: "1", "1.25", "0.500".
 	Qty   string `json:"qty"`
-	SKU   int    `json:"sku"`
-	Lines int    `json:"lines"`
+	SKU   int    `json:"sku"`   // количество уникальных артикулов
+	Lines int    `json:"lines"` // количество строк в документе
 }

@@ -49,6 +49,7 @@
 После обновления proto:
 - Перестать передавать `erp_*` как отдельные transport fields
 - Брать ERP-meta только из payload/meta или payload_entity.Meta
+- `payload_meta.refs.*` в document payload должны ссылаться на те же source ids, по которым публикуются `entity.Party` и `entity.Store`
 
 ### 5. Терминологический rename (СИНХРОННО с contract migration)
 Правила:

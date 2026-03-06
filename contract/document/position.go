@@ -3,13 +3,21 @@ package document
 // Position — одна строка (позиция) товара/услуги в документе.
 // Денежные поля — *int64 (копейки): nil = нет данных, 0 = валидный ноль.
 // Количества и процентные значения — decimal string (dot separator, no thousand separators).
+//
+// Универсальная плоская модель:
+// - ingest обычно заполняет business fields;
+// - ERP connectors могут заполнять только item_id и оставлять business fields пустыми;
+// - core enrich-ит business fields по item_id при необходимости.
 type Position struct {
 	// Идентификация строки
 	LineNumber int    `json:"line_number"`          // нормализованный 0-based индекс строки в payload
 	LineLabel  string `json:"line_label,omitempty"` // исходное значение номера строки из документа: "1", "1а", "I" ...
 	ItemType   string `json:"item_type,omitempty"`  // "product" | "service" | "work" | "rights"
 
-	// Товар/услуга
+	// Reference field (ERP/source ref)
+	ItemID string `json:"item_id,omitempty"` // source entity id товара/услуги в ERP
+
+	// Товар/услуга (business fields)
 	Name     string   `json:"name,omitempty"`      // наименование
 	Variant  string   `json:"variant,omitempty"`   // характеристика
 	Article  string   `json:"article,omitempty"`   // артикул / article

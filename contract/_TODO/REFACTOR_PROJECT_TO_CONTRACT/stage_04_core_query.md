@@ -9,7 +9,7 @@
 ---
 
 ## Цель
-Обновить query controllers и DTO/proto mapping documan-core под обновлённые `queries.proto`.
+Обновить query controllers и DTO/proto mapping documan-core под обновлённые `queries.proto`, включая ERP enrichment по `payload_meta.refs`.
 
 ## Сервис
 - **Имя**: documan-core
@@ -35,10 +35,12 @@ Transport/query projection fields остаются отдельными:
 
 Эти поля продолжают маппиться как отдельные query/storage projections, НЕ как часть payload.
 
+Для ERP details/list query-layer обязан возвращать seller/buyer/store business fields в обогащённом виде, если raw `payload_header` их не содержит. Источник обогащения — `payload_meta.refs` + `erp_entities`.
+
 ### 3. Grep-аудит
 Выполнить grep по documan-core на предмет оставшихся legacy payload field names в query layer:
 ```bash
-grep -rn "amount_with_vat\|source_name\|seller_id\|buyer_id\|store_id\|line_no\|commodity_code\|unit_price_with_vat\|legalTitle" documan-core/internal/controller/
+grep -rn "amount_with_vat\|source_name\|line_no\|commodity_code\|unit_price_with_vat\|legalTitle" documan-core/internal/controller/
 ```
 
 ## Критерии готовности
@@ -46,6 +48,7 @@ grep -rn "amount_with_vat\|source_name\|seller_id\|buyer_id\|store_id\|line_no\|
 - [ ] DTO mapping обновлён
 - [ ] Projection fields корректно маппятся
 - [ ] Grep-аудит по query layer чист от legacy payload names
+- [ ] ERP query responses умеют enrich-ить seller/buyer/store по `meta.refs`
 - [ ] `go build ./...` из `documan-core/` — pass
 
 ## Gate check

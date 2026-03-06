@@ -33,7 +33,8 @@ contract/
 | Struct | Назначение |
 |--------|-----------|
 | `Header` | Реквизиты документа (стороны, валюта, склад) |
-| `Meta` | Служебная информация (источник, файл, S3, парсинг) |
+| `Meta` | Служебная информация (источник, файл, S3, парсинг, refs) |
+| `Refs` | Source entity ids для enrichment/linkage ERP-документов (вложены в `Meta`) |
 | `Summary` | Итоговые суммы и агрегаты |
 | `Position` | Строка товара/услуги |
 
@@ -65,6 +66,9 @@ contract/
 - `item_code` — бизнесовый код товара/позиции из источника; не `article`, не `gtin`, не `hs_code`
 - `source_code` — код справочника в системе-источнике; используется только там, где это отдельный source-specific атрибут entity payload
 - `source_status` вычисляется по приоритету: `deleted` -> `archived` -> `active`
+- `payload_meta.refs` — reference layer для ERP-документов; содержит source entity ids (`seller_id`, `buyer_id`, `store_id`) и используется для enrichment/linkage
+- `seller_id`, `buyer_id`, `store_id` запрещены в `payload_header` и допустимы только внутри `payload_meta.refs`
+- `payload_header.seller_*`, `payload_header.buyer_*`, `payload_header.store_name` — бизнес-поля; туда нельзя писать ids
 
 ### Payload vs Transport
 
@@ -83,8 +87,11 @@ contract/
 - Формирует payload строго через contract structs
 - Записывает оригинальный `doc_type` источника (`supply`, `УПД`, `счет`...)
 - Нормализует даты, decimal string и денежные поля до contract format
+- `ingest` обычно оставляет `payload_meta.refs` пустым
+- ERP connectors пишут source entity ids в `payload_meta.refs` и не обязаны дублировать seller/buyer/store snapshot в `payload_header`
 
 **Core**:
 - Классифицирует `doc_type -> canonical type` (одно место, один switch)
 - Может хранить canonical `type` и `direction` отдельно от payload
 - Валидирует бизнес-инварианты payload
+- Выполняет enrichment ERP-документов по `payload_meta.refs` при необходимости для query/matching/read models

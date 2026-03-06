@@ -9,7 +9,7 @@
 ---
 
 ## Цель
-Обновить proto-файлы под финальный контракт и пересобрать codegen.
+Обновить contract docs и proto-файлы под финальный контракт, затем пересобрать codegen.
 
 ## Сервис
 - **Имя**: documan-pkg
@@ -19,9 +19,15 @@
 - Найти proto-файлы: `grep -rl "\.proto$" documan-pkg/services/proto/`
 - Прочитать текущие: `etl.proto`, `queries.proto`, `docmatching.proto`
 - Прочитать финальный контракт: `documan-pkg/contract/document/`, `documan-pkg/contract/entity/`
+- Прочитать `documan-pkg/contract/README.md`
 - Прочитать ТЗ раздел 2.1 — что именно менять
 
 ## Что сделать
+
+### 0. Contract docs
+- Добавить и задокументировать `contract/document/refs.go`
+- Добавить `Refs` в `document.Meta` и обновить `contract/README.md`
+- Зафиксировать ref-based модель ERP documents: `seller_id`, `buyer_id`, `store_id` допустимы только в `payload_meta.refs`
 
 ### 1. `etl.proto`
 #### `ERPDataItem` — убрать:
@@ -57,6 +63,7 @@
 - Изменения `.proto` АТОМАРНО: правка schema + regenerate + обновление кода в том же проходе.
 
 ## Критерии готовности
+- [ ] Contract docs описывают `Meta.Refs` и ref-based ERP model
 - [ ] `etl.proto` не содержит legacy transport полей
 - [ ] `queries.proto` приведён к финальной модели с сохранением projection fields
 - [ ] `docmatching.proto` использует `amount_with_tax`

@@ -3,8 +3,8 @@
 > Обновляется после каждого этапа.
 
 ## Текущий статус
-- **Последний завершённый этап**: 1 (documan-pkg — proto + codegen)
-- **Текущий этап**: 2 (ожидает запуска)
+- **Последний завершённый этап**: 3 (documan-core — payload consumers)
+- **Текущий этап**: 4 (ожидает запуска)
 - **Открытые отклонения**: none
 
 ## Состояние по сервисам
@@ -12,7 +12,7 @@
 | Сервис | Статус | Последний этап | Заметки |
 |--------|--------|---------------|---------|
 | documan-pkg | proto + codegen готовы | 1 | etl.proto, docmatching.proto обновлены, queries.proto без изменений |
-| documan-core | не начат | — | сломается на build — ожидаемо (этап 2) |
+| documan-core | ETL + consumers обновлены | 3 | ETL transport, docmatching features/candidates, controller mapping — всё на contract vocabulary |
 | documan-connector-ms | не начат | — | сломается на build — ожидаемо (этап 5) |
 | documan-ingest | не начат | — | сломается на build — ожидаемо (этап 7) |
 | documan-bff | не начат | — | — |

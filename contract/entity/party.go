@@ -13,6 +13,6 @@ type Party struct {
 	KPP        string `json:"kpp,omitempty"`
 	Address    string `json:"address,omitempty"`
 
-	// ERP
-	SourceCode string `json:"source_code,omitempty"` // код в системе-источнике
+	// ERP/source business code
+	SourceCode string `json:"source_code,omitempty"`
 }

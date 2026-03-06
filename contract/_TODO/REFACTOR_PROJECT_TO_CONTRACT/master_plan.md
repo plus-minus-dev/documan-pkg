@@ -11,38 +11,38 @@
 
 ---
 
-## Этап 1: documan-pkg — Proto schemas + codegen
+## Этап 1: documan-pkg — Contract docs + proto schemas + codegen
 - **Файл**: `stage_01_pkg_proto.md`
 - **Сервис**: `documan-pkg`
-- **Цель**: Обновить `etl.proto`, `queries.proto`, `docmatching.proto` под финальный контракт. Regenerate `services/gen/*`.
+- **Цель**: Обновить contract docs (`Meta.Refs`), `etl.proto`, `queries.proto`, `docmatching.proto`. Regenerate `services/gen/*`.
 - **Gate**: `go build ./...` из `documan-pkg/`
 - **Зависимости**: нет (первый этап)
 
 ## Этап 2: documan-core — ETL transport + domain models + SQL migration
 - **Файл**: `stage_02_core_etl_domain.md`
 - **Сервис**: `documan-core`
-- **Цель**: Привести ETL transport, domain/persistence модели и SQL schema к новым proto.
+- **Цель**: Привести ETL transport, domain/persistence модели и SQL schema к новым proto и ref-based ERP document model (`payload_meta.refs`).
 - **Gate**: `go build ./...` из `documan-core/`
 - **Зависимости**: этап 1
 
 ## Этап 3: documan-core — Payload consumers
 - **Файл**: `stage_03_core_consumers.md`
 - **Сервис**: `documan-core`
-- **Цель**: Переписать `dl_candidates.go`, `resolve_field.go`, `docmatching`, `dl_delta.go` под новый contract vocabulary.
+- **Цель**: Переписать `dl_candidates.go`, `resolve_field.go`, `docmatching`, `dl_delta.go` под новый contract vocabulary и enrichment по `payload_meta.refs`.
 - **Gate**: `go build ./...` из `documan-core/`
 - **Зависимости**: этап 2
 
 ## Этап 4: documan-core — Query API controllers
 - **Файл**: `stage_04_core_query.md`
 - **Сервис**: `documan-core`
-- **Цель**: Обновить query controllers и DTO/proto mapping под новые `queries.proto`.
+- **Цель**: Обновить query controllers и DTO/proto mapping под новые `queries.proto`, включая ERP enrichment по `payload_meta.refs`.
 - **Gate**: `go build ./...` из `documan-core/`
 - **Зависимости**: этап 2
 
 ## Этап 5: documan-connector-ms — Document payload
 - **Файл**: `stage_05_connector_doc.md`
 - **Сервис**: `documan-connector-ms`
-- **Цель**: Перевести `transform/doc.go` с `map[string]any` на `contract/document` structs (header, meta, summary, positions).
+- **Цель**: Перевести `transform/doc.go` с `map[string]any` на `contract/document` structs и писать ERP refs в `payload_meta.refs` вместо snapshot seller/buyer/store в header.
 - **Gate**: `go build ./...` из `documan-connector-ms/`
 - **Зависимости**: этап 1
 
@@ -56,7 +56,7 @@
 ## Этап 7: documan-ingest — Parser/payload build
 - **Файл**: `stage_07_ingest_parser.md`
 - **Сервис**: `documan-ingest`
-- **Цель**: Перевести `parser.go` с legacy clear-building на `contract/document` structs (header, meta, summary, positions).
+- **Цель**: Перевести `parser.go` с legacy clear-building на `contract/document` structs; `ingest` оставляет `payload_meta.refs` пустым.
 - **Gate**: `go build ./...` из `documan-ingest/`
 - **Зависимости**: этап 1
 
@@ -70,14 +70,14 @@
 ## Этап 9: documan-bff — DTO + query mapping + matching
 - **Файл**: `stage_09_bff.md`
 - **Сервис**: `documan-bff`
-- **Цель**: Обновить DTO, query mapping и matching responses под новые proto.
+- **Цель**: Обновить DTO, query mapping и matching responses под новые proto; BFF полагается на уже обогащённые ответы `core` для ERP seller/buyer/store.
 - **Gate**: `go build ./...` из `documan-bff/`
 - **Зависимости**: этапы 4, 3
 
 ## Этап 10: documan-fe-my — UI migration
 - **Файл**: `stage_10_fe.md`
 - **Сервис**: `documan-fe-my`
-- **Цель**: Обновить composables, document/ERP pages, matching UI под новый contract vocabulary и semantics.
+- **Цель**: Обновить composables, document/ERP pages, matching UI под новый contract vocabulary и semantics; ERP UI не должен сам резолвить refs.
 - **Gate**: `npx nuxi typecheck` из `documan-fe-my/`
 - **Зависимости**: этап 9
 

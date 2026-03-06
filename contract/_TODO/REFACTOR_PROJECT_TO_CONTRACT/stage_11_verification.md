@@ -40,13 +40,28 @@ cd /Users/av/Desktop/WORK/documan/documan-fe-my && npx nuxi typecheck
 ### 2. Grep-аудит legacy payload references (ВСЕ сервисы)
 ```bash
 # Legacy payload field names — ДОЛЖНЫ быть полностью удалены
-grep -rn "amount_with_vat\|source_name\|seller_id\|buyer_id\|store_id\|line_no\|commodity_code\|unit_price_with_vat\|legalTitle\|companyType\|pathName\|assortment_id\|assortment_type\|product_code" \
+grep -rn "amount_with_vat\|source_name\|line_no\|commodity_code\|unit_price_with_vat\|legalTitle\|companyType\|pathName\|assortment_id\|assortment_type\|product_code" \
   documan-pkg/ documan-core/ documan-connector-ms/ documan-ingest/ documan-bff/ documan-fe-my/ \
   --include="*.go" --include="*.proto" --include="*.vue" --include="*.ts" \
   | grep -v "node_modules" | grep -v ".gen." | grep -v "_archive_del"
 ```
 
 Любые найденные legacy payload references к финалу миграции = **major**.
+
+### 2b. Grep-аудит refs-context для seller_id / buyer_id / store_id
+```bash
+# Эти идентификаторы разрешены только в contract/document/refs.go,
+# document.Meta.Refs и коде core/connector, который читает или пишет payload_meta.refs.
+grep -rn "seller_id\|buyer_id\|store_id" \
+  documan-pkg/ documan-core/ documan-connector-ms/ documan-ingest/ documan-bff/ documan-fe-my/ \
+  --include="*.go" --include="*.proto" --include="*.vue" --include="*.ts" \
+  | grep -v "node_modules" | grep -v ".gen." | grep -v "_archive_del"
+```
+
+Ручная проверка результатов обязательна:
+- Разрешено: `contract/document/refs.go`, `document.Meta.Refs`, код `connector-ms`/`core`, который пишет или читает `payload_meta.refs.*`
+- Запрещено: `Header`, top-level payload fields, ожидания UI/BFF от raw payload `seller_id/buyer_id/store_id`
+- Любое нарушение refs-context = **major**
 
 ### 3. Grep-аудит терминологического rename (все типы файлов)
 ```bash
@@ -74,6 +89,7 @@ find documan-connector-ms/ documan-ingest/ -name ".env*" \
 - Все перечисленные изменения выполнены
 - Нет пропущенных файлов
 - Нет оставшихся legacy references
+- `seller_id` / `buyer_id` / `store_id` используются только в допустимом refs-context
 
 ### 6. Проверка proto/gen синхронизации
 ```bash
@@ -127,6 +143,7 @@ grep -rn "bridge\|compat\|wrapper\|alias\|legacy\|backward\|fallback.*legacy\|du
 ## Критерии готовности
 - [ ] Cross-repo build — все pass
 - [ ] Grep-аудит legacy payload — чисто
+- [ ] Refs-context audit для `seller_id` / `buyer_id` / `store_id` пройден
 - [ ] Grep-аудит rename — чисто
 - [ ] Bruno обновлён
 - [ ] Аудит по ТЗ — все разделы покрыты

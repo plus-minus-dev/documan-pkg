@@ -8,6 +8,6 @@ type Store struct {
 	Name    string `json:"name,omitempty"`
 	Address string `json:"address,omitempty"`
 
-	// ERP
+	// ERP/source business code
 	SourceCode string `json:"source_code,omitempty"`
 }
