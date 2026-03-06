@@ -230,7 +230,7 @@ type MatchResult struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	SellerInn     *bool                  `protobuf:"varint,1,opt,name=seller_inn,json=sellerInn,proto3,oneof" json:"seller_inn,omitempty"`
 	BuyerInn      *bool                  `protobuf:"varint,2,opt,name=buyer_inn,json=buyerInn,proto3,oneof" json:"buyer_inn,omitempty"`
-	AmountWithVat *bool                  `protobuf:"varint,3,opt,name=amount_with_vat,json=amountWithVat,proto3,oneof" json:"amount_with_vat,omitempty"`
+	AmountWithTax *bool                  `protobuf:"varint,3,opt,name=amount_with_tax,json=amountWithTax,proto3,oneof" json:"amount_with_tax,omitempty"`
 	DocNumber     *bool                  `protobuf:"varint,4,opt,name=doc_number,json=docNumber,proto3,oneof" json:"doc_number,omitempty"`
 	DocDate       *bool                  `protobuf:"varint,5,opt,name=doc_date,json=docDate,proto3,oneof" json:"doc_date,omitempty"`
 	SkuCount      *bool                  `protobuf:"varint,6,opt,name=sku_count,json=skuCount,proto3,oneof" json:"sku_count,omitempty"`
@@ -284,9 +284,9 @@ func (x *MatchResult) GetBuyerInn() bool {
 	return false
 }
 
-func (x *MatchResult) GetAmountWithVat() bool {
-	if x != nil && x.AmountWithVat != nil {
-		return *x.AmountWithVat
+func (x *MatchResult) GetAmountWithTax() bool {
+	if x != nil && x.AmountWithTax != nil {
+		return *x.AmountWithTax
 	}
 	return false
 }
@@ -1383,7 +1383,7 @@ const file_core_v1_docmatching_proto_rawDesc = "" +
 	"\n" +
 	"seller_inn\x18\x01 \x01(\bH\x00R\tsellerInn\x88\x01\x01\x12 \n" +
 	"\tbuyer_inn\x18\x02 \x01(\bH\x01R\bbuyerInn\x88\x01\x01\x12+\n" +
-	"\x0famount_with_vat\x18\x03 \x01(\bH\x02R\ramountWithVat\x88\x01\x01\x12\"\n" +
+	"\x0famount_with_tax\x18\x03 \x01(\bH\x02R\ramountWithTax\x88\x01\x01\x12\"\n" +
 	"\n" +
 	"doc_number\x18\x04 \x01(\bH\x03R\tdocNumber\x88\x01\x01\x12\x1e\n" +
 	"\bdoc_date\x18\x05 \x01(\bH\x04R\adocDate\x88\x01\x01\x12 \n" +
@@ -1393,7 +1393,7 @@ const file_core_v1_docmatching_proto_rawDesc = "" +
 	"\v_seller_innB\f\n" +
 	"\n" +
 	"_buyer_innB\x12\n" +
-	"\x10_amount_with_vatB\r\n" +
+	"\x10_amount_with_taxB\r\n" +
 	"\v_doc_numberB\v\n" +
 	"\t_doc_dateB\f\n" +
 	"\n" +

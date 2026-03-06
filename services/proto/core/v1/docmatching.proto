@@ -51,7 +51,7 @@ message CandidateItem {
 message MatchResult {
   optional bool seller_inn = 1;
   optional bool buyer_inn = 2;
-  optional bool amount_with_vat = 3;
+  optional bool amount_with_tax = 3;
   optional bool doc_number = 4;
   optional bool doc_date = 5;
   optional bool sku_count = 6;

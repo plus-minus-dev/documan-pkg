@@ -10,7 +10,6 @@ import (
 	v1 "github.com/plus-minus-dev/documan-pkg/services/gen/common/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -108,14 +107,9 @@ type ERPDataItem struct {
 	PayloadHeader    []byte `protobuf:"bytes,4,opt,name=payload_header,json=payloadHeader,proto3" json:"payload_header,omitempty"`
 	PayloadSummary   []byte `protobuf:"bytes,5,opt,name=payload_summary,json=payloadSummary,proto3" json:"payload_summary,omitempty"`
 	PayloadPositions []byte `protobuf:"bytes,6,opt,name=payload_positions,json=payloadPositions,proto3" json:"payload_positions,omitempty"`
-	// Метаданные из ERP
-	PayloadHash   string                 `protobuf:"bytes,7,opt,name=payload_hash,json=payloadHash,proto3" json:"payload_hash,omitempty"` // SHA-256 от payload
-	ErpUpdatedAt  *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=erp_updated_at,json=erpUpdatedAt,proto3" json:"erp_updated_at,omitempty"`
-	ErpCreatedAt  *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=erp_created_at,json=erpCreatedAt,proto3" json:"erp_created_at,omitempty"`
-	ErpDeletedAt  *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=erp_deleted_at,json=erpDeletedAt,proto3" json:"erp_deleted_at,omitempty"`
-	ErpArchived   bool                   `protobuf:"varint,11,opt,name=erp_archived,json=erpArchived,proto3" json:"erp_archived,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	PayloadHash      string `protobuf:"bytes,7,opt,name=payload_hash,json=payloadHash,proto3" json:"payload_hash,omitempty"` // SHA-256 от payload
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *ERPDataItem) Reset() {
@@ -197,34 +191,6 @@ func (x *ERPDataItem) GetPayloadHash() string {
 	return ""
 }
 
-func (x *ERPDataItem) GetErpUpdatedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.ErpUpdatedAt
-	}
-	return nil
-}
-
-func (x *ERPDataItem) GetErpCreatedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.ErpCreatedAt
-	}
-	return nil
-}
-
-func (x *ERPDataItem) GetErpDeletedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.ErpDeletedAt
-	}
-	return nil
-}
-
-func (x *ERPDataItem) GetErpArchived() bool {
-	if x != nil {
-		return x.ErpArchived
-	}
-	return false
-}
-
 type NotifyIngestDataReadyRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	TenantId      string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
@@ -301,13 +267,9 @@ type IngestDataItem struct {
 	PayloadHeader    []byte `protobuf:"bytes,3,opt,name=payload_header,json=payloadHeader,proto3" json:"payload_header,omitempty"`
 	PayloadSummary   []byte `protobuf:"bytes,4,opt,name=payload_summary,json=payloadSummary,proto3" json:"payload_summary,omitempty"`
 	PayloadPositions []byte `protobuf:"bytes,5,opt,name=payload_positions,json=payloadPositions,proto3" json:"payload_positions,omitempty"`
-	// Метаданные файла
-	FileName    string `protobuf:"bytes,6,opt,name=file_name,json=fileName,proto3" json:"file_name,omitempty"`
-	FileExt     string `protobuf:"bytes,7,opt,name=file_ext,json=fileExt,proto3" json:"file_ext,omitempty"`
-	FileHash    string `protobuf:"bytes,8,opt,name=file_hash,json=fileHash,proto3" json:"file_hash,omitempty"`          // SHA-256 исходного файла
-	PayloadHash string `protobuf:"bytes,9,opt,name=payload_hash,json=payloadHash,proto3" json:"payload_hash,omitempty"` // SHA-256 от payload
+	PayloadHash      string `protobuf:"bytes,6,opt,name=payload_hash,json=payloadHash,proto3" json:"payload_hash,omitempty"` // SHA-256 от payload
 	// Ссылка на оригинальный файл в S3 (PDF/XML/...) для скачивания через BFF
-	OriginalFile  *v1.S3Ref `protobuf:"bytes,10,opt,name=original_file,json=originalFile,proto3" json:"original_file,omitempty"`
+	OriginalFile  *v1.S3Ref `protobuf:"bytes,7,opt,name=original_file,json=originalFile,proto3" json:"original_file,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -375,27 +337,6 @@ func (x *IngestDataItem) GetPayloadPositions() []byte {
 		return x.PayloadPositions
 	}
 	return nil
-}
-
-func (x *IngestDataItem) GetFileName() string {
-	if x != nil {
-		return x.FileName
-	}
-	return ""
-}
-
-func (x *IngestDataItem) GetFileExt() string {
-	if x != nil {
-		return x.FileExt
-	}
-	return ""
-}
-
-func (x *IngestDataItem) GetFileHash() string {
-	if x != nil {
-		return x.FileHash
-	}
-	return ""
 }
 
 func (x *IngestDataItem) GetPayloadHash() string {
@@ -752,13 +693,13 @@ var File_core_v1_etl_proto protoreflect.FileDescriptor
 
 const file_core_v1_etl_proto_rawDesc = "" +
 	"\n" +
-	"\x11core/v1/etl.proto\x12\x0fdocuman.core.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x15common/v1/types.proto\"\xe2\x01\n" +
+	"\x11core/v1/etl.proto\x12\x0fdocuman.core.v1\x1a\x15common/v1/types.proto\"\xe2\x01\n" +
 	"\x19NotifyERPDataReadyRequest\x12\x1b\n" +
 	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12#\n" +
 	"\rconnection_id\x18\x02 \x01(\tR\fconnectionId\x12'\n" +
 	"\x0fconnection_type\x18\x03 \x01(\tR\x0econnectionType\x12&\n" +
 	"\x0ferp_entity_type\x18\x04 \x01(\tR\rerpEntityType\x122\n" +
-	"\x05items\x18\x05 \x03(\v2\x1c.documan.core.v1.ERPDataItemR\x05items\"\x84\x04\n" +
+	"\x05items\x18\x05 \x03(\v2\x1c.documan.core.v1.ERPDataItemR\x05items\"\x9b\x02\n" +
 	"\vERPDataItem\x12\"\n" +
 	"\rerp_entity_id\x18\x01 \x01(\tR\verpEntityId\x12%\n" +
 	"\x0epayload_entity\x18\x02 \x01(\fR\rpayloadEntity\x12!\n" +
@@ -766,30 +707,21 @@ const file_core_v1_etl_proto_rawDesc = "" +
 	"\x0epayload_header\x18\x04 \x01(\fR\rpayloadHeader\x12'\n" +
 	"\x0fpayload_summary\x18\x05 \x01(\fR\x0epayloadSummary\x12+\n" +
 	"\x11payload_positions\x18\x06 \x01(\fR\x10payloadPositions\x12!\n" +
-	"\fpayload_hash\x18\a \x01(\tR\vpayloadHash\x12@\n" +
-	"\x0eerp_updated_at\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\ferpUpdatedAt\x12@\n" +
-	"\x0eerp_created_at\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\ferpCreatedAt\x12@\n" +
-	"\x0eerp_deleted_at\x18\n" +
-	" \x01(\v2\x1a.google.protobuf.TimestampR\ferpDeletedAt\x12!\n" +
-	"\ferp_archived\x18\v \x01(\bR\verpArchived\"\xac\x01\n" +
+	"\fpayload_hash\x18\a \x01(\tR\vpayloadHash\"\xac\x01\n" +
 	"\x1cNotifyIngestDataReadyRequest\x12\x1b\n" +
 	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12\x1d\n" +
 	"\n" +
 	"file_batch\x18\x02 \x01(\tR\tfileBatch\x12\x19\n" +
 	"\bdoc_type\x18\x03 \x01(\tR\adocType\x125\n" +
-	"\x05items\x18\x04 \x03(\v2\x1f.documan.core.v1.IngestDataItemR\x05items\"\xfe\x02\n" +
+	"\x05items\x18\x04 \x03(\v2\x1f.documan.core.v1.IngestDataItemR\x05items\"\xa9\x02\n" +
 	"\x0eIngestDataItem\x12\x15\n" +
 	"\x06doc_id\x18\x01 \x01(\tR\x05docId\x12!\n" +
 	"\fpayload_meta\x18\x02 \x01(\fR\vpayloadMeta\x12%\n" +
 	"\x0epayload_header\x18\x03 \x01(\fR\rpayloadHeader\x12'\n" +
 	"\x0fpayload_summary\x18\x04 \x01(\fR\x0epayloadSummary\x12+\n" +
-	"\x11payload_positions\x18\x05 \x01(\fR\x10payloadPositions\x12\x1b\n" +
-	"\tfile_name\x18\x06 \x01(\tR\bfileName\x12\x19\n" +
-	"\bfile_ext\x18\a \x01(\tR\afileExt\x12\x1b\n" +
-	"\tfile_hash\x18\b \x01(\tR\bfileHash\x12!\n" +
-	"\fpayload_hash\x18\t \x01(\tR\vpayloadHash\x12=\n" +
-	"\roriginal_file\x18\n" +
-	" \x01(\v2\x18.documan.common.v1.S3RefR\foriginalFile\"C\n" +
+	"\x11payload_positions\x18\x05 \x01(\fR\x10payloadPositions\x12!\n" +
+	"\fpayload_hash\x18\x06 \x01(\tR\vpayloadHash\x12=\n" +
+	"\roriginal_file\x18\a \x01(\v2\x18.documan.common.v1.S3RefR\foriginalFile\"C\n" +
 	"\fRejectedItem\x12\x1b\n" +
 	"\tentity_id\x18\x01 \x01(\tR\bentityId\x12\x16\n" +
 	"\x06reason\x18\x02 \x01(\tR\x06reason\"s\n" +
@@ -840,30 +772,26 @@ var file_core_v1_etl_proto_goTypes = []any{
 	(*GetActiveConnectionsRequest)(nil),   // 7: documan.core.v1.GetActiveConnectionsRequest
 	(*GetActiveConnectionsResponse)(nil),  // 8: documan.core.v1.GetActiveConnectionsResponse
 	(*ActiveConnection)(nil),              // 9: documan.core.v1.ActiveConnection
-	(*timestamppb.Timestamp)(nil),         // 10: google.protobuf.Timestamp
-	(*v1.S3Ref)(nil),                      // 11: documan.common.v1.S3Ref
+	(*v1.S3Ref)(nil),                      // 10: documan.common.v1.S3Ref
 }
 var file_core_v1_etl_proto_depIdxs = []int32{
 	1,  // 0: documan.core.v1.NotifyERPDataReadyRequest.items:type_name -> documan.core.v1.ERPDataItem
-	10, // 1: documan.core.v1.ERPDataItem.erp_updated_at:type_name -> google.protobuf.Timestamp
-	10, // 2: documan.core.v1.ERPDataItem.erp_created_at:type_name -> google.protobuf.Timestamp
-	10, // 3: documan.core.v1.ERPDataItem.erp_deleted_at:type_name -> google.protobuf.Timestamp
-	3,  // 4: documan.core.v1.NotifyIngestDataReadyRequest.items:type_name -> documan.core.v1.IngestDataItem
-	11, // 5: documan.core.v1.IngestDataItem.original_file:type_name -> documan.common.v1.S3Ref
-	4,  // 6: documan.core.v1.NotifyERPDataReadyResponse.rejected:type_name -> documan.core.v1.RejectedItem
-	4,  // 7: documan.core.v1.NotifyIngestDataReadyResponse.rejected:type_name -> documan.core.v1.RejectedItem
-	9,  // 8: documan.core.v1.GetActiveConnectionsResponse.items:type_name -> documan.core.v1.ActiveConnection
-	0,  // 9: documan.core.v1.CoreETLService.NotifyERPDataReady:input_type -> documan.core.v1.NotifyERPDataReadyRequest
-	2,  // 10: documan.core.v1.CoreETLService.NotifyIngestDataReady:input_type -> documan.core.v1.NotifyIngestDataReadyRequest
-	7,  // 11: documan.core.v1.CoreETLService.GetActiveConnections:input_type -> documan.core.v1.GetActiveConnectionsRequest
-	5,  // 12: documan.core.v1.CoreETLService.NotifyERPDataReady:output_type -> documan.core.v1.NotifyERPDataReadyResponse
-	6,  // 13: documan.core.v1.CoreETLService.NotifyIngestDataReady:output_type -> documan.core.v1.NotifyIngestDataReadyResponse
-	8,  // 14: documan.core.v1.CoreETLService.GetActiveConnections:output_type -> documan.core.v1.GetActiveConnectionsResponse
-	12, // [12:15] is the sub-list for method output_type
-	9,  // [9:12] is the sub-list for method input_type
-	9,  // [9:9] is the sub-list for extension type_name
-	9,  // [9:9] is the sub-list for extension extendee
-	0,  // [0:9] is the sub-list for field type_name
+	3,  // 1: documan.core.v1.NotifyIngestDataReadyRequest.items:type_name -> documan.core.v1.IngestDataItem
+	10, // 2: documan.core.v1.IngestDataItem.original_file:type_name -> documan.common.v1.S3Ref
+	4,  // 3: documan.core.v1.NotifyERPDataReadyResponse.rejected:type_name -> documan.core.v1.RejectedItem
+	4,  // 4: documan.core.v1.NotifyIngestDataReadyResponse.rejected:type_name -> documan.core.v1.RejectedItem
+	9,  // 5: documan.core.v1.GetActiveConnectionsResponse.items:type_name -> documan.core.v1.ActiveConnection
+	0,  // 6: documan.core.v1.CoreETLService.NotifyERPDataReady:input_type -> documan.core.v1.NotifyERPDataReadyRequest
+	2,  // 7: documan.core.v1.CoreETLService.NotifyIngestDataReady:input_type -> documan.core.v1.NotifyIngestDataReadyRequest
+	7,  // 8: documan.core.v1.CoreETLService.GetActiveConnections:input_type -> documan.core.v1.GetActiveConnectionsRequest
+	5,  // 9: documan.core.v1.CoreETLService.NotifyERPDataReady:output_type -> documan.core.v1.NotifyERPDataReadyResponse
+	6,  // 10: documan.core.v1.CoreETLService.NotifyIngestDataReady:output_type -> documan.core.v1.NotifyIngestDataReadyResponse
+	8,  // 11: documan.core.v1.CoreETLService.GetActiveConnections:output_type -> documan.core.v1.GetActiveConnectionsResponse
+	9,  // [9:12] is the sub-list for method output_type
+	6,  // [6:9] is the sub-list for method input_type
+	6,  // [6:6] is the sub-list for extension type_name
+	6,  // [6:6] is the sub-list for extension extendee
+	0,  // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_core_v1_etl_proto_init() }

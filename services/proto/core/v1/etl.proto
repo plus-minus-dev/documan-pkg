@@ -3,7 +3,6 @@ package documan.core.v1;
 
 option go_package = "github.com/plus-minus-dev/documan-pkg/services/gen/core/v1";
 
-import "google/protobuf/timestamp.proto";
 import "common/v1/types.proto";
 
 // CoreETLService -- приём данных от connector-ms и ingest.
@@ -41,12 +40,7 @@ message ERPDataItem {
   bytes payload_summary = 5;
   bytes payload_positions = 6;
 
-  // Метаданные из ERP
   string payload_hash = 7;                             // SHA-256 от payload
-  google.protobuf.Timestamp erp_updated_at = 8;
-  google.protobuf.Timestamp erp_created_at = 9;
-  google.protobuf.Timestamp erp_deleted_at = 10;
-  bool erp_archived = 11;
 }
 
 // ===== NotifyIngestDataReady =====
@@ -67,14 +61,10 @@ message IngestDataItem {
   bytes payload_summary = 4;
   bytes payload_positions = 5;
 
-  // Метаданные файла
-  string file_name = 6;
-  string file_ext = 7;
-  string file_hash = 8;                               // SHA-256 исходного файла
-  string payload_hash = 9;                             // SHA-256 от payload
+  string payload_hash = 6;                             // SHA-256 от payload
 
   // Ссылка на оригинальный файл в S3 (PDF/XML/...) для скачивания через BFF
-  documan.common.v1.S3Ref original_file = 10;
+  documan.common.v1.S3Ref original_file = 7;
 }
 
 // ===== Responses =====
