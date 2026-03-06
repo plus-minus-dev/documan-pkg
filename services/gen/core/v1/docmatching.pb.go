@@ -233,8 +233,8 @@ type MatchResult struct {
 	AmountWithTax *bool                  `protobuf:"varint,3,opt,name=amount_with_tax,json=amountWithTax,proto3,oneof" json:"amount_with_tax,omitempty"`
 	DocNumber     *bool                  `protobuf:"varint,4,opt,name=doc_number,json=docNumber,proto3,oneof" json:"doc_number,omitempty"`
 	DocDate       *bool                  `protobuf:"varint,5,opt,name=doc_date,json=docDate,proto3,oneof" json:"doc_date,omitempty"`
-	SkuCount      *bool                  `protobuf:"varint,6,opt,name=sku_count,json=skuCount,proto3,oneof" json:"sku_count,omitempty"`
-	QuantitySum   *bool                  `protobuf:"varint,7,opt,name=quantity_sum,json=quantitySum,proto3,oneof" json:"quantity_sum,omitempty"`
+	Sku           *bool                  `protobuf:"varint,6,opt,name=sku,proto3,oneof" json:"sku,omitempty"`
+	Qty           *bool                  `protobuf:"varint,7,opt,name=qty,proto3,oneof" json:"qty,omitempty"`
 	Store         *bool                  `protobuf:"varint,8,opt,name=store,proto3,oneof" json:"store,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -305,16 +305,16 @@ func (x *MatchResult) GetDocDate() bool {
 	return false
 }
 
-func (x *MatchResult) GetSkuCount() bool {
-	if x != nil && x.SkuCount != nil {
-		return *x.SkuCount
+func (x *MatchResult) GetSku() bool {
+	if x != nil && x.Sku != nil {
+		return *x.Sku
 	}
 	return false
 }
 
-func (x *MatchResult) GetQuantitySum() bool {
-	if x != nil && x.QuantitySum != nil {
-		return *x.QuantitySum
+func (x *MatchResult) GetQty() bool {
+	if x != nil && x.Qty != nil {
+		return *x.Qty
 	}
 	return false
 }
@@ -1378,7 +1378,7 @@ const file_core_v1_docmatching_proto_rawDesc = "" +
 	"\tbuyer_inn\x18\x06 \x01(\tR\bbuyerInn\x12\x1d\n" +
 	"\n" +
 	"doc_number\x18\a \x01(\tR\tdocNumber\x12\x19\n" +
-	"\bdoc_date\x18\b \x01(\tR\adocDate\"\x9f\x03\n" +
+	"\bdoc_date\x18\b \x01(\tR\adocDate\"\xf4\x02\n" +
 	"\vMatchResult\x12\"\n" +
 	"\n" +
 	"seller_inn\x18\x01 \x01(\bH\x00R\tsellerInn\x88\x01\x01\x12 \n" +
@@ -1386,19 +1386,18 @@ const file_core_v1_docmatching_proto_rawDesc = "" +
 	"\x0famount_with_tax\x18\x03 \x01(\bH\x02R\ramountWithTax\x88\x01\x01\x12\"\n" +
 	"\n" +
 	"doc_number\x18\x04 \x01(\bH\x03R\tdocNumber\x88\x01\x01\x12\x1e\n" +
-	"\bdoc_date\x18\x05 \x01(\bH\x04R\adocDate\x88\x01\x01\x12 \n" +
-	"\tsku_count\x18\x06 \x01(\bH\x05R\bskuCount\x88\x01\x01\x12&\n" +
-	"\fquantity_sum\x18\a \x01(\bH\x06R\vquantitySum\x88\x01\x01\x12\x19\n" +
+	"\bdoc_date\x18\x05 \x01(\bH\x04R\adocDate\x88\x01\x01\x12\x15\n" +
+	"\x03sku\x18\x06 \x01(\bH\x05R\x03sku\x88\x01\x01\x12\x15\n" +
+	"\x03qty\x18\a \x01(\bH\x06R\x03qty\x88\x01\x01\x12\x19\n" +
 	"\x05store\x18\b \x01(\bH\aR\x05store\x88\x01\x01B\r\n" +
 	"\v_seller_innB\f\n" +
 	"\n" +
 	"_buyer_innB\x12\n" +
 	"\x10_amount_with_taxB\r\n" +
 	"\v_doc_numberB\v\n" +
-	"\t_doc_dateB\f\n" +
-	"\n" +
-	"_sku_countB\x0f\n" +
-	"\r_quantity_sumB\b\n" +
+	"\t_doc_dateB\x06\n" +
+	"\x04_skuB\x06\n" +
+	"\x04_qtyB\b\n" +
 	"\x06_store\"\x84\x01\n" +
 	"\x14LinkDocumentsRequest\x12\x1b\n" +
 	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12\x18\n" +

@@ -54,8 +54,8 @@ message MatchResult {
   optional bool amount_with_tax = 3;
   optional bool doc_number = 4;
   optional bool doc_date = 5;
-  optional bool sku_count = 6;
-  optional bool quantity_sum = 7;
+  optional bool sku = 6;
+  optional bool qty = 7;
   optional bool store = 8;
 }
 
