@@ -42,7 +42,7 @@
 - `parse_rule`
 - `parse_error`
 - `created_at`, `payloaded_at`
-- `refs` оставить пустым; ingest не синтезирует `seller_id/buyer_id/store_id`
+- `seller_id`, `buyer_id`, `store_id`, `item_id` ingest не синтезирует; эти ref fields для ingest обычно пустые
 
 ### 3. Summary
 - `vat` → `tax_amount`
@@ -78,7 +78,7 @@
 ## Критерии готовности
 - [ ] Parser строит payload через `contract/document` structs
 - [ ] Header не содержит `parse_error`
-- [ ] Meta содержит все contract-поля и пустой `refs` для ingest
+- [ ] Meta содержит все contract-поля; ref fields для ingest не синтезируются
 - [ ] Summary использует `amount_with_tax`, `tax_amount`
 - [ ] Positions используют contract vocabulary
 - [ ] `quantity` — decimal string, не float64

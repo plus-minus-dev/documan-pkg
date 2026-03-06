@@ -45,7 +45,7 @@
 Файл: `documents_erp/[entityType]/[id].vue`
 - Новые payload names
 - Убрать ожидание raw `seller_id`, `buyer_id`, `source_name`
-- Seller/buyer/store для ERP UI брать из уже обогащённого query/API ответа `core`/`bff`, а не из raw `payload_meta.refs`
+- Seller/buyer/store/item business fields для ERP UI брать из уже обогащённого query/API ответа `core`/`bff`, а не из raw `seller_id` / `buyer_id` / `store_id` / `item_id`
 - **ВАЖНО**: убрать допущение "ERP summary = рубли". В новом контракте деньги = копейки. Это behavioural change, не только rename.
 
 ### 3. Matching UI
@@ -73,7 +73,7 @@ cd /Users/av/Desktop/WORK/documan/documan-fe-my && npx nuxi typecheck
 
 ## Grep-аудит
 ```bash
-grep -rn "amount_with_vat\|source_name\|seller_id\|buyer_id\|line_no\|commodity_code\|unit_price_with_vat\|legalTitle" documan-fe-my/app/ --include="*.vue" --include="*.ts"
+grep -rn "amount_with_vat\|source_name\|line_no\|commodity_code\|unit_price_with_vat\|legalTitle" documan-fe-my/app/ --include="*.vue" --include="*.ts"
 ```
 Результат должен быть пустым.
 

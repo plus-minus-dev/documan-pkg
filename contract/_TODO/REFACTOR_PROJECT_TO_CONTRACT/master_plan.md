@@ -14,35 +14,35 @@
 ## Этап 1: documan-pkg — Contract docs + proto schemas + codegen
 - **Файл**: `stage_01_pkg_proto.md`
 - **Сервис**: `documan-pkg`
-- **Цель**: Обновить contract docs (`Meta.Refs`), `etl.proto`, `queries.proto`, `docmatching.proto`. Regenerate `services/gen/*`.
+- **Цель**: Обновить contract docs (flat ref fields), `etl.proto`, `queries.proto`, `docmatching.proto`. Regenerate `services/gen/*`.
 - **Gate**: `go build ./...` из `documan-pkg/`
 - **Зависимости**: нет (первый этап)
 
 ## Этап 2: documan-core — ETL transport + domain models + SQL migration
 - **Файл**: `stage_02_core_etl_domain.md`
 - **Сервис**: `documan-core`
-- **Цель**: Привести ETL transport, domain/persistence модели и SQL schema к новым proto и ref-based ERP document model (`payload_meta.refs`).
+- **Цель**: Привести ETL transport, domain/persistence модели и SQL schema к новым proto и flat ref-based ERP document model (`payload_header.seller_id/buyer_id/store_id`, `payload_positions[*].item_id`).
 - **Gate**: `go build ./...` из `documan-core/`
 - **Зависимости**: этап 1
 
 ## Этап 3: documan-core — Payload consumers
 - **Файл**: `stage_03_core_consumers.md`
 - **Сервис**: `documan-core`
-- **Цель**: Переписать `dl_candidates.go`, `resolve_field.go`, `docmatching`, `dl_delta.go` под новый contract vocabulary и enrichment по `payload_meta.refs`.
+- **Цель**: Переписать `dl_candidates.go`, `resolve_field.go`, `docmatching`, `dl_delta.go` под новый contract vocabulary и конкретный enrichment по flat ids в `payload_header` / `payload_positions`.
 - **Gate**: `go build ./...` из `documan-core/`
 - **Зависимости**: этап 2
 
 ## Этап 4: documan-core — Query API controllers
 - **Файл**: `stage_04_core_query.md`
 - **Сервис**: `documan-core`
-- **Цель**: Обновить query controllers и DTO/proto mapping под новые `queries.proto`, включая ERP enrichment по `payload_meta.refs`.
+- **Цель**: Обновить query controllers и DTO/proto mapping под новые `queries.proto`, включая ERP enrichment по flat ids в `payload_header` / `payload_positions`.
 - **Gate**: `go build ./...` из `documan-core/`
 - **Зависимости**: этап 2
 
 ## Этап 5: documan-connector-ms — Document payload
 - **Файл**: `stage_05_connector_doc.md`
 - **Сервис**: `documan-connector-ms`
-- **Цель**: Перевести `transform/doc.go` с `map[string]any` на `contract/document` structs и писать ERP refs в `payload_meta.refs` вместо snapshot seller/buyer/store в header.
+- **Цель**: Перевести `transform/doc.go` с `map[string]any` на `contract/document` structs и писать ERP flat ref fields в `payload_header` / `payload_positions` вместо snapshot business fields.
 - **Gate**: `go build ./...` из `documan-connector-ms/`
 - **Зависимости**: этап 1
 
@@ -56,7 +56,7 @@
 ## Этап 7: documan-ingest — Parser/payload build
 - **Файл**: `stage_07_ingest_parser.md`
 - **Сервис**: `documan-ingest`
-- **Цель**: Перевести `parser.go` с legacy clear-building на `contract/document` structs; `ingest` оставляет `payload_meta.refs` пустым.
+- **Цель**: Перевести `parser.go` с legacy clear-building на `contract/document` structs; `ingest` обычно оставляет flat ref fields пустыми.
 - **Gate**: `go build ./...` из `documan-ingest/`
 - **Зависимости**: этап 1
 

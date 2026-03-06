@@ -9,7 +9,7 @@
 ---
 
 ## Цель
-Переписать все payload consumers в documan-core под новый contract vocabulary и ref-based enrichment по `payload_meta.refs`.
+Переписать все payload consumers в documan-core под новый contract vocabulary и конкретный enrichment по flat ids в `payload_header` / `payload_positions`.
 
 ## Сервис
 - **Имя**: documan-core
@@ -29,9 +29,10 @@
 - `doc_date` брать из `header.doc_date`, fallback → `meta.source_date` (аналогично — оба contract fields)
 - `amount_with_tax` вместо `amount_with_vat`
 - quantity суммировать как decimal string → numeric parse
-- Для ERP documents читать `meta.refs.seller_id`, `meta.refs.buyer_id`, `meta.refs.store_id`
-- Если seller/buyer/store business fields отсутствуют в header, делать enrichment через `erp_entities` по `meta.refs`
-- Legacy top-level `seller_id/buyer_id/store_id` не использовать
+- Для ERP documents читать `header.seller_id`, `header.buyer_id`, `header.store_id`
+- Если seller/buyer/store business fields отсутствуют в header, делать enrichment через `erp_entities` по `header.seller_id`, `header.buyer_id`, `header.store_id`
+- На этом этапе восстанавливается конкретный enrichment в `dl_candidates.go`; generic enrich helper/service в эту миграцию не входит
+- Legacy ad-hoc ids вне contract fields не использовать
 
 ### 2. `resolve_field.go`
 Переписать ожидаемые поля:
@@ -52,8 +53,8 @@
 Проверить выводимые field names. Если выводит legacy — обновить.
 
 ## Критерии готовности
-- [ ] `dl_candidates.go` использует contract vocabulary и enrichment по `meta.refs`
-- [ ] `resolve_field.go` использует `legal_title`, `item_code`, `address`
+- [ ] `dl_candidates.go` использует contract vocabulary и конкретный enrichment по `header.seller_id` / `header.buyer_id` / `header.store_id`
+- [ ] `resolve_field.go` остаётся generic; callers enrichment используют только contract field names
 - [ ] `docmatching` использует `AmountWithTax`
 - [ ] `dl_delta.go` не выводит legacy field names
 - [ ] `go build ./...` из `documan-core/` — pass

@@ -9,7 +9,7 @@
 ---
 
 ## Цель
-Перевести сборку document payload в documan-connector-ms с `map[string]any` на `contract/document` structs и писать ERP refs в `payload_meta.refs`.
+Перевести сборку document payload в documan-connector-ms с `map[string]any` на `contract/document` structs и писать ERP flat ref fields в `payload_header` / `payload_positions`.
 
 ## Сервис
 - **Имя**: documan-connector-ms
@@ -23,14 +23,14 @@
 ## Что сделать
 
 ### 1. Header
-**Удалить**: `source_name`, `source_date` из header, `seller_id`, `buyer_id`, `store_id`
+**Удалить**: `source_name`, `source_date` из header
 
 **Добавить/перенести**:
 - `source_number` в meta (MS name → source_number)
 - `source_date` в meta (moment → source_date)
 - `seller_name`, `seller_inn`, `seller_kpp`, `buyer_name`, `buyer_inn`, `buyer_kpp`, `store_name` НЕ считать обязательным snapshot-слоем для ERP document payload
 
-**Новая логика**: connector-ms НЕ делает enrichment seller/buyer/store business fields при сборке document payload. Вместо этого source entity ids пишутся в `payload_meta.refs`, а business enrichment выполняет `core`.
+**Новая логика**: connector-ms НЕ делает enrichment seller/buyer/store/item business fields при сборке document payload. Вместо этого source entity ids пишутся в `payload_header.seller_id/buyer_id/store_id` и `payload_positions[*].item_id`, а business enrichment выполняет `core`.
 
 ### 2. Meta
 Заменить legacy meta на contract meta:
@@ -40,13 +40,13 @@
 - `deleted_at` → `source_deleted_at`
 - `archived bool` → `source_status`
 - Добавить: `source_account_id`, `source_number`, `source_date`, `parse_rule`, `created_at`
-- Добавить `refs.seller_id`, `refs.buyer_id`, `refs.store_id`
 
 ### 3. Summary
 - `amount_with_vat` → `amount_with_tax`
 - `vat` → `tax_amount`
 - `amount` — только как `*int64` копейки
-- Добавить: `qty`, `sku` (count unique article), `lines`
+- Добавить: `qty`, `sku`, `lines`
+- Для ref-only ERP payload `summary.sku` считать по count unique `item_id`
 - Убрать `kopecksToRubles()` из payload
 
 ### 4. Positions
@@ -59,9 +59,10 @@
 - `commodity_code` → `hs_code` (если raw даёт)
 
 **Добавить**:
-- `article` из ERP article
-- `item_code` из ERP code
-- `variant`, `gtin`, `barcodes`, `uom_code`, `uom_name`
+- `item_id` = source entity id товара/услуги
+
+**Business fields для ERP payload не обязательны**:
+- `article`, `item_code`, `name`, `variant`, `gtin`, `barcodes`, `uom_code`, `uom_name`
 - `amount`, `amount_with_tax`, `tax_rate`
 
 **Не писать больше**: `assortment_id`, `assortment_type`, `product_code`
@@ -72,7 +73,7 @@
 ## Критерии готовности
 - [ ] Document payload собирается через `contract/document` structs
 - [ ] Нет `map[string]any` для payload
-- [ ] Header не содержит legacy field names и не хранит `seller_id/buyer_id/store_id`
+- [ ] Header не содержит legacy field names; `seller_id/buyer_id/store_id` используются только как согласованные contract ref fields
 - [ ] Meta использует contract-поля
 - [ ] Summary в копейках, без `kopecksToRubles()`
 - [ ] Positions используют contract vocabulary
@@ -92,6 +93,6 @@ DONE: REFACTOR_CONTRACT stage 5: document payload → contract structs
 ```
 
 ## Stop/Continue
-- `connector-ms` не должен enrich-ить seller/buyer/store business fields на этом этапе. Source of truth для linkage — `payload_meta.refs`. Если возникает соблазн вернуть snapshot в header, это требует отдельного согласования.
+- `connector-ms` не должен enrich-ить seller/buyer/store/item business fields на этом этапе. Source of truth для linkage — flat ref fields в `payload_header` / `payload_positions`. Если возникает соблазн вернуть snapshot в payload, это требует отдельного согласования.
 - Если обнаружены потребители `map[string]any` payload — обновить на текущем этапе. `map[string]any` как финальное состояние payload = `major`. Если scope за пределами connector-ms — зафиксировать как `tracked` для этапа соответствующего сервиса.
 - Если contract structs не покрывают нужные поля — `major`, СТОП (может потребоваться расширение контракта).

@@ -9,7 +9,7 @@
 ---
 
 ## Цель
-Привести ETL transport, доменные/persistence модели и SQL schema documan-core к новым proto-определениям из этапа 1 и подготовить ref-based ERP document model (`payload_meta.refs`).
+Привести ETL transport, доменные/persistence модели и SQL schema documan-core к новым proto-определениям из этапа 1 и подготовить flat ref-based ERP document model (`payload_header.seller_id/buyer_id/store_id`, `payload_positions[*].item_id`).
 
 ## Сервис
 - **Имя**: documan-core
@@ -42,14 +42,14 @@
 Синхронно обновить model structs под новые proto — убрать те же поля.
 
 ### 3. Domain / persistence model
-- `payload_meta.refs` должен сохраняться без потерь как часть payload JSON. Это source of truth для linkage seller/buyer/store ERP-документов.
+- `payload_header.seller_id/buyer_id/store_id` и `payload_positions[*].item_id` должны сохраняться без потерь как часть payload JSON. Это source of truth для linkage ERP-документов и строк ERP-позиций.
 #### `OriginalDocument`
 - `FileName`, `FileExt`, `FileHash`, `OriginalFileBucket`, `OriginalFileKey` — ОСТАВИТЬ как query/storage projection columns.
 
 #### `ERPDocument` / `ERPEntity`
 - `ERPUpdatedAt`, `ERPCreatedAt`, `ERPDeletedAt`, `ERPArchived`, `Archived` — ОСТАВИТЬ как query/index projection columns.
 - При upsert core наполняет их отдельно от payload, используя payload/meta как источник данных.
-- На этом этапе не требуется snapshot seller/buyer/store в raw payload header: ERP documents могут полагаться на `payload_meta.refs`.
+- На этом этапе не требуется business snapshot seller/buyer/store/item в raw payload: ERP documents могут полагаться на flat ref fields в `payload_header` / `payload_positions`.
 
 ### 4. SQL migration
 Одна основная миграция. Покрыть:

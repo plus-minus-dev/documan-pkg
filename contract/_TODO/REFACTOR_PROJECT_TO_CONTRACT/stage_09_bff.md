@@ -37,7 +37,7 @@
 ### 3. Response mapping для details/list
 - Обновить query structs, зависящие от обновлённых proto
 - Projection fields `file_*`, `original_file_*`, `erp_*`, `archived` — сохранить отдельными
-- Для ERP details/list полагаться на уже обогащённые ответы `core`; BFF не должен сам резолвить `payload_meta.refs`
+- Для ERP details/list полагаться на уже обогащённые ответы `core`; BFF не должен сам резолвить `seller_id`, `buyer_id`, `store_id`, `item_id`
 
 ### 4. Что вероятно НЕ меняется
 - BFF может проксировать payload как `json.RawMessage` ТОЛЬКО если он НЕ конструирует, НЕ модифицирует и НЕ интерпретирует payload fields. Если BFF читает или пишет отдельные payload fields — ОБЯЗАН использовать contract structs.

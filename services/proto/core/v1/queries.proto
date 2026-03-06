@@ -170,6 +170,7 @@ message ERPDocumentItem {
   google.protobuf.Timestamp erp_deleted_at = 10;
   bool erp_archived = 11;
   bool archived = 12;
+  bytes payload_header = 13;
 }
 
 

@@ -25,9 +25,9 @@
 ## Что сделать
 
 ### 0. Contract docs
-- Добавить и задокументировать `contract/document/refs.go`
-- Добавить `Refs` в `document.Meta` и обновить `contract/README.md`
-- Зафиксировать ref-based модель ERP documents: `seller_id`, `buyer_id`, `store_id` допустимы только в `payload_meta.refs`
+- Добавить и задокументировать flat ref fields в `contract/document/header.go` (`seller_id`, `buyer_id`, `store_id`)
+- Добавить и задокументировать flat ref field `item_id` в `contract/document/position.go`
+- Обновить `contract/README.md` под flat ref-based ERP model
 
 ### 1. `etl.proto`
 #### `ERPDataItem` — убрать:
@@ -63,7 +63,7 @@
 - Изменения `.proto` АТОМАРНО: правка schema + regenerate + обновление кода в том же проходе.
 
 ## Критерии готовности
-- [ ] Contract docs описывают `Meta.Refs` и ref-based ERP model
+- [ ] Contract docs описывают flat ref model (`seller_id`, `buyer_id`, `store_id`, `item_id`)
 - [ ] `etl.proto` не содержит legacy transport полей
 - [ ] `queries.proto` приведён к финальной модели с сохранением projection fields
 - [ ] `docmatching.proto` использует `amount_with_tax`

@@ -1261,6 +1261,7 @@ type ERPDocumentItem struct {
 	ErpDeletedAt   *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=erp_deleted_at,json=erpDeletedAt,proto3" json:"erp_deleted_at,omitempty"`
 	ErpArchived    bool                   `protobuf:"varint,11,opt,name=erp_archived,json=erpArchived,proto3" json:"erp_archived,omitempty"`
 	Archived       bool                   `protobuf:"varint,12,opt,name=archived,proto3" json:"archived,omitempty"`
+	PayloadHeader  []byte                 `protobuf:"bytes,13,opt,name=payload_header,json=payloadHeader,proto3" json:"payload_header,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -1377,6 +1378,13 @@ func (x *ERPDocumentItem) GetArchived() bool {
 		return x.Archived
 	}
 	return false
+}
+
+func (x *ERPDocumentItem) GetPayloadHeader() []byte {
+	if x != nil {
+		return x.PayloadHeader
+	}
+	return nil
 }
 
 type GetERPDocumentRequest struct {
@@ -1931,7 +1939,7 @@ const file_core_v1_queries_proto_rawDesc = "" +
 	"\x18ListERPDocumentsResponse\x126\n" +
 	"\x05items\x18\x01 \x03(\v2 .documan.core.v1.ERPDocumentItemR\x05items\x12\x1f\n" +
 	"\vtotal_count\x18\x02 \x01(\x05R\n" +
-	"totalCount\"\xaf\x04\n" +
+	"totalCount\"\xd6\x04\n" +
 	"\x0fERPDocumentItem\x12\x1b\n" +
 	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12#\n" +
 	"\rconnection_id\x18\x02 \x01(\tR\fconnectionId\x12'\n" +
@@ -1945,7 +1953,8 @@ const file_core_v1_queries_proto_rawDesc = "" +
 	"\x0eerp_deleted_at\x18\n" +
 	" \x01(\v2\x1a.google.protobuf.TimestampR\ferpDeletedAt\x12!\n" +
 	"\ferp_archived\x18\v \x01(\bR\verpArchived\x12\x1a\n" +
-	"\barchived\x18\f \x01(\bR\barchived\"\xa5\x01\n" +
+	"\barchived\x18\f \x01(\bR\barchived\x12%\n" +
+	"\x0epayload_header\x18\r \x01(\fR\rpayloadHeader\"\xa5\x01\n" +
 	"\x15GetERPDocumentRequest\x12\x1b\n" +
 	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12#\n" +
 	"\rconnection_id\x18\x02 \x01(\tR\fconnectionId\x12&\n" +

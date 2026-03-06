@@ -48,20 +48,20 @@ grep -rn "amount_with_vat\|source_name\|line_no\|commodity_code\|unit_price_with
 
 Любые найденные legacy payload references к финалу миграции = **major**.
 
-### 2b. Grep-аудит refs-context для seller_id / buyer_id / store_id
+### 2b. Grep-аудит flat ref-context для seller_id / buyer_id / store_id / item_id
 ```bash
-# Эти идентификаторы разрешены только в contract/document/refs.go,
-# document.Meta.Refs и коде core/connector, который читает или пишет payload_meta.refs.
-grep -rn "seller_id\|buyer_id\|store_id" \
+# Эти идентификаторы разрешены только как согласованные contract ref fields
+# в payload_header / payload_positions и в коде core/connector, который их пишет или читает.
+grep -rn "seller_id\|buyer_id\|store_id\|item_id" \
   documan-pkg/ documan-core/ documan-connector-ms/ documan-ingest/ documan-bff/ documan-fe-my/ \
   --include="*.go" --include="*.proto" --include="*.vue" --include="*.ts" \
   | grep -v "node_modules" | grep -v ".gen." | grep -v "_archive_del"
 ```
 
 Ручная проверка результатов обязательна:
-- Разрешено: `contract/document/refs.go`, `document.Meta.Refs`, код `connector-ms`/`core`, который пишет или читает `payload_meta.refs.*`
-- Запрещено: `Header`, top-level payload fields, ожидания UI/BFF от raw payload `seller_id/buyer_id/store_id`
-- Любое нарушение refs-context = **major**
+- Разрешено: contract fields `Header.seller_id/buyer_id/store_id`, `Position.item_id`, код `connector-ms`/`core`, который пишет или читает эти поля
+- Запрещено: ids в business fields (`seller_name`, `seller_inn`, `article`, `item_code`, `name` и т.д.), ожидания UI/BFF от raw payload ids, ad-hoc legacy поля вне контракта
+- Любое нарушение flat ref-context = **major**
 
 ### 3. Grep-аудит терминологического rename (все типы файлов)
 ```bash
@@ -89,7 +89,7 @@ find documan-connector-ms/ documan-ingest/ -name ".env*" \
 - Все перечисленные изменения выполнены
 - Нет пропущенных файлов
 - Нет оставшихся legacy references
-- `seller_id` / `buyer_id` / `store_id` используются только в допустимом refs-context
+- `seller_id` / `buyer_id` / `store_id` / `item_id` используются только в допустимом flat ref-context
 
 ### 6. Проверка proto/gen синхронизации
 ```bash
@@ -143,7 +143,7 @@ grep -rn "bridge\|compat\|wrapper\|alias\|legacy\|backward\|fallback.*legacy\|du
 ## Критерии готовности
 - [ ] Cross-repo build — все pass
 - [ ] Grep-аудит legacy payload — чисто
-- [ ] Refs-context audit для `seller_id` / `buyer_id` / `store_id` пройден
+- [ ] Flat ref-context audit для `seller_id` / `buyer_id` / `store_id` / `item_id` пройден
 - [ ] Grep-аудит rename — чисто
 - [ ] Bruno обновлён
 - [ ] Аудит по ТЗ — все разделы покрыты
