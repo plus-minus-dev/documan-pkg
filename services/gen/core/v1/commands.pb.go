@@ -22,17 +22,19 @@ const (
 )
 
 type CreateConnectionRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	TenantId      string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
-	ErpType       string                 `protobuf:"bytes,2,opt,name=erp_type,json=erpType,proto3" json:"erp_type,omitempty"`                  // "moysklad"
-	ErpAccountId  string                 `protobuf:"bytes,3,opt,name=erp_account_id,json=erpAccountId,proto3" json:"erp_account_id,omitempty"` // ID аккаунта в ERP (UNIQUE per tenant)
-	Name          string                 `protobuf:"bytes,4,opt,name=name,proto3" json:"name,omitempty"`
-	AuthType      string                 `protobuf:"bytes,5,opt,name=auth_type,json=authType,proto3" json:"auth_type,omitempty"` // "token" | "login_password"
-	Token         string                 `protobuf:"bytes,6,opt,name=token,proto3" json:"token,omitempty"`                       // если auth_type = "token"
-	Login         string                 `protobuf:"bytes,7,opt,name=login,proto3" json:"login,omitempty"`                       // если auth_type = "login_password"
-	Password      string                 `protobuf:"bytes,8,opt,name=password,proto3" json:"password,omitempty"`                 // если auth_type = "login_password"
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	TenantId        string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
+	ErpType         string                 `protobuf:"bytes,2,opt,name=erp_type,json=erpType,proto3" json:"erp_type,omitempty"`                  // "moysklad"
+	ErpAccountId    string                 `protobuf:"bytes,3,opt,name=erp_account_id,json=erpAccountId,proto3" json:"erp_account_id,omitempty"` // ID аккаунта в ERP
+	Name            string                 `protobuf:"bytes,4,opt,name=name,proto3" json:"name,omitempty"`
+	AuthType        string                 `protobuf:"bytes,5,opt,name=auth_type,json=authType,proto3" json:"auth_type,omitempty"`                      // "vendor_app" | "json_api" | "token" | "login_password"
+	Token           string                 `protobuf:"bytes,6,opt,name=token,proto3" json:"token,omitempty"`                                            // runtime token auth-context
+	Login           string                 `protobuf:"bytes,7,opt,name=login,proto3" json:"login,omitempty"`                                            // если auth_type = "login_password"
+	Password        string                 `protobuf:"bytes,8,opt,name=password,proto3" json:"password,omitempty"`                                      // если auth_type = "login_password"
+	ProviderPayload []byte                 `protobuf:"bytes,9,opt,name=provider_payload,json=providerPayload,proto3" json:"provider_payload,omitempty"` // JSONB: vendor/json_api метаданные (appId, cause, tariff, ...)
+	EtlEligible     bool                   `protobuf:"varint,10,opt,name=etl_eligible,json=etlEligible,proto3" json:"etl_eligible,omitempty"`           // участвует ли connection в ETL-выборе
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *CreateConnectionRequest) Reset() {
@@ -121,6 +123,20 @@ func (x *CreateConnectionRequest) GetPassword() string {
 	return ""
 }
 
+func (x *CreateConnectionRequest) GetProviderPayload() []byte {
+	if x != nil {
+		return x.ProviderPayload
+	}
+	return nil
+}
+
+func (x *CreateConnectionRequest) GetEtlEligible() bool {
+	if x != nil {
+		return x.EtlEligible
+	}
+	return false
+}
+
 type CreateConnectionResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	ConnectionId  string                 `protobuf:"bytes,1,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
@@ -166,15 +182,17 @@ func (x *CreateConnectionResponse) GetConnectionId() string {
 }
 
 type UpdateConnectionRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	TenantId      string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
-	ConnectionId  string                 `protobuf:"bytes,2,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
-	Name          *string                `protobuf:"bytes,3,opt,name=name,proto3,oneof" json:"name,omitempty"`
-	Token         *string                `protobuf:"bytes,4,opt,name=token,proto3,oneof" json:"token,omitempty"`
-	Login         *string                `protobuf:"bytes,5,opt,name=login,proto3,oneof" json:"login,omitempty"`
-	Password      *string                `protobuf:"bytes,6,opt,name=password,proto3,oneof" json:"password,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	TenantId        string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
+	ConnectionId    string                 `protobuf:"bytes,2,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
+	Name            *string                `protobuf:"bytes,3,opt,name=name,proto3,oneof" json:"name,omitempty"`
+	Token           *string                `protobuf:"bytes,4,opt,name=token,proto3,oneof" json:"token,omitempty"`
+	Login           *string                `protobuf:"bytes,5,opt,name=login,proto3,oneof" json:"login,omitempty"`
+	Password        *string                `protobuf:"bytes,6,opt,name=password,proto3,oneof" json:"password,omitempty"`
+	ProviderPayload []byte                 `protobuf:"bytes,7,opt,name=provider_payload,json=providerPayload,proto3,oneof" json:"provider_payload,omitempty"`
+	EtlEligible     *bool                  `protobuf:"varint,8,opt,name=etl_eligible,json=etlEligible,proto3,oneof" json:"etl_eligible,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *UpdateConnectionRequest) Reset() {
@@ -247,6 +265,20 @@ func (x *UpdateConnectionRequest) GetPassword() string {
 		return *x.Password
 	}
 	return ""
+}
+
+func (x *UpdateConnectionRequest) GetProviderPayload() []byte {
+	if x != nil {
+		return x.ProviderPayload
+	}
+	return nil
+}
+
+func (x *UpdateConnectionRequest) GetEtlEligible() bool {
+	if x != nil && x.EtlEligible != nil {
+		return *x.EtlEligible
+	}
+	return false
 }
 
 type UpdateConnectionResponse struct {
@@ -553,7 +585,7 @@ var File_core_v1_commands_proto protoreflect.FileDescriptor
 
 const file_core_v1_commands_proto_rawDesc = "" +
 	"\n" +
-	"\x16core/v1/commands.proto\x12\x0fdocuman.core.v1\"\xf0\x01\n" +
+	"\x16core/v1/commands.proto\x12\x0fdocuman.core.v1\"\xbe\x02\n" +
 	"\x17CreateConnectionRequest\x12\x1b\n" +
 	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12\x19\n" +
 	"\berp_type\x18\x02 \x01(\tR\aerpType\x12$\n" +
@@ -562,20 +594,27 @@ const file_core_v1_commands_proto_rawDesc = "" +
 	"\tauth_type\x18\x05 \x01(\tR\bauthType\x12\x14\n" +
 	"\x05token\x18\x06 \x01(\tR\x05token\x12\x14\n" +
 	"\x05login\x18\a \x01(\tR\x05login\x12\x1a\n" +
-	"\bpassword\x18\b \x01(\tR\bpassword\"?\n" +
+	"\bpassword\x18\b \x01(\tR\bpassword\x12)\n" +
+	"\x10provider_payload\x18\t \x01(\fR\x0fproviderPayload\x12!\n" +
+	"\fetl_eligible\x18\n" +
+	" \x01(\bR\vetlEligible\"?\n" +
 	"\x18CreateConnectionResponse\x12#\n" +
-	"\rconnection_id\x18\x01 \x01(\tR\fconnectionId\"\xf5\x01\n" +
+	"\rconnection_id\x18\x01 \x01(\tR\fconnectionId\"\xf3\x02\n" +
 	"\x17UpdateConnectionRequest\x12\x1b\n" +
 	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12#\n" +
 	"\rconnection_id\x18\x02 \x01(\tR\fconnectionId\x12\x17\n" +
 	"\x04name\x18\x03 \x01(\tH\x00R\x04name\x88\x01\x01\x12\x19\n" +
 	"\x05token\x18\x04 \x01(\tH\x01R\x05token\x88\x01\x01\x12\x19\n" +
 	"\x05login\x18\x05 \x01(\tH\x02R\x05login\x88\x01\x01\x12\x1f\n" +
-	"\bpassword\x18\x06 \x01(\tH\x03R\bpassword\x88\x01\x01B\a\n" +
+	"\bpassword\x18\x06 \x01(\tH\x03R\bpassword\x88\x01\x01\x12.\n" +
+	"\x10provider_payload\x18\a \x01(\fH\x04R\x0fproviderPayload\x88\x01\x01\x12&\n" +
+	"\fetl_eligible\x18\b \x01(\bH\x05R\vetlEligible\x88\x01\x01B\a\n" +
 	"\x05_nameB\b\n" +
 	"\x06_tokenB\b\n" +
 	"\x06_loginB\v\n" +
-	"\t_password\"\x1a\n" +
+	"\t_passwordB\x13\n" +
+	"\x11_provider_payloadB\x0f\n" +
+	"\r_etl_eligible\"\x1a\n" +
 	"\x18UpdateConnectionResponse\"[\n" +
 	"\x17EnableConnectionRequest\x12\x1b\n" +
 	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12#\n" +

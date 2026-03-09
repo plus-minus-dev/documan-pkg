@@ -16,13 +16,15 @@ service CoreCommandService {
 
 message CreateConnectionRequest {
   string tenant_id = 1;
-  string erp_type = 2;        // "moysklad"
-  string erp_account_id = 3;  // ID аккаунта в ERP (UNIQUE per tenant)
+  string erp_type = 2;            // "moysklad"
+  string erp_account_id = 3;      // ID аккаунта в ERP
   string name = 4;
-  string auth_type = 5;       // "token" | "login_password"
-  string token = 6;           // если auth_type = "token"
-  string login = 7;           // если auth_type = "login_password"
-  string password = 8;        // если auth_type = "login_password"
+  string auth_type = 5;           // "vendor_app" | "json_api" | "token" | "login_password"
+  string token = 6;               // runtime token auth-context
+  string login = 7;               // если auth_type = "login_password"
+  string password = 8;            // если auth_type = "login_password"
+  bytes provider_payload = 9;     // JSONB: vendor/json_api метаданные (appId, cause, tariff, ...)
+  bool etl_eligible = 10;         // участвует ли connection в ETL-выборе
 }
 
 message CreateConnectionResponse {
@@ -38,6 +40,8 @@ message UpdateConnectionRequest {
   optional string token = 4;
   optional string login = 5;
   optional string password = 6;
+  optional bytes provider_payload = 7;
+  optional bool etl_eligible = 8;
 }
 
 message UpdateConnectionResponse {}

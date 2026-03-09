@@ -232,8 +232,7 @@ func (x *GetSyncStatusResponse) GetHasAuditCursor() bool {
 
 type InspectAccountRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	TenantId      string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
-	AccountId     string                 `protobuf:"bytes,2,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"`
+	ConnectionId  string                 `protobuf:"bytes,1,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"` // inspect работает token конкретного connection
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -268,16 +267,9 @@ func (*InspectAccountRequest) Descriptor() ([]byte, []int) {
 	return file_connector_ms_v1_connector_ms_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *InspectAccountRequest) GetTenantId() string {
+func (x *InspectAccountRequest) GetConnectionId() string {
 	if x != nil {
-		return x.TenantId
-	}
-	return ""
-}
-
-func (x *InspectAccountRequest) GetAccountId() string {
-	if x != nil {
-		return x.AccountId
+		return x.ConnectionId
 	}
 	return ""
 }
@@ -344,11 +336,9 @@ const file_connector_ms_v1_connector_ms_proto_rawDesc = "" +
 	"account_id\x18\x02 \x01(\tR\taccountId\"^\n" +
 	"\x15GetSyncStatusResponse\x12\x1b\n" +
 	"\tsync_mode\x18\x01 \x01(\tR\bsyncMode\x12(\n" +
-	"\x10has_audit_cursor\x18\x02 \x01(\bR\x0ehasAuditCursor\"S\n" +
-	"\x15InspectAccountRequest\x12\x1b\n" +
-	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12\x1d\n" +
-	"\n" +
-	"account_id\x18\x02 \x01(\tR\taccountId\"\xc9\x01\n" +
+	"\x10has_audit_cursor\x18\x02 \x01(\bR\x0ehasAuditCursor\"<\n" +
+	"\x15InspectAccountRequest\x12#\n" +
+	"\rconnection_id\x18\x01 \x01(\tR\fconnectionId\"\xc9\x01\n" +
 	"\x16InspectAccountResponse\x12l\n" +
 	"\x0fresource_counts\x18\x01 \x03(\v2C.documan.connector_ms.v1.InspectAccountResponse.ResourceCountsEntryR\x0eresourceCounts\x1aA\n" +
 	"\x13ResourceCountsEntry\x12\x10\n" +

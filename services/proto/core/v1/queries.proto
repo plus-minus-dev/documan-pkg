@@ -54,6 +54,8 @@ message ConnectionItem {
   google.protobuf.Timestamp last_sync_at = 9;
   google.protobuf.Timestamp created_at = 10;
   google.protobuf.Timestamp updated_at = 11;
+  bytes provider_payload = 12;     // JSONB: vendor/json_api метаданные
+  bool etl_eligible = 13;          // участвует ли connection в ETL-выборе
 }
 
 // ===== OriginalDocument =====

@@ -101,6 +101,8 @@ message ActiveConnection {
   string erp_account_id = 4;
   bool enabled = 5;
   string status = 6;
-  string auth_type = 7;                               // "token" | "vendor_app"
-  string erp_token = 8;                               // токен доступа к ERP API
+  string auth_type = 7;                               // "vendor_app" | "json_api" | "token" | "login_password"
+  string erp_token = 8;                               // токен доступа к ERP API (auth-context)
+  bytes provider_payload = 9;                          // JSONB: vendor/json_api метаданные
+  bool etl_eligible = 10;                              // участвует ли connection в ETL-выборе
 }

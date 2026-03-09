@@ -232,20 +232,22 @@ func (x *ListConnectionsResponse) GetTotalCount() int32 {
 }
 
 type ConnectionItem struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	ConnectionId  string                 `protobuf:"bytes,1,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
-	TenantId      string                 `protobuf:"bytes,2,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
-	ErpType       string                 `protobuf:"bytes,3,opt,name=erp_type,json=erpType,proto3" json:"erp_type,omitempty"`
-	ErpAccountId  string                 `protobuf:"bytes,4,opt,name=erp_account_id,json=erpAccountId,proto3" json:"erp_account_id,omitempty"`
-	Name          string                 `protobuf:"bytes,5,opt,name=name,proto3" json:"name,omitempty"`
-	AuthType      string                 `protobuf:"bytes,6,opt,name=auth_type,json=authType,proto3" json:"auth_type,omitempty"`
-	Enabled       bool                   `protobuf:"varint,7,opt,name=enabled,proto3" json:"enabled,omitempty"`
-	Status        string                 `protobuf:"bytes,8,opt,name=status,proto3" json:"status,omitempty"`
-	LastSyncAt    *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=last_sync_at,json=lastSyncAt,proto3" json:"last_sync_at,omitempty"`
-	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	ConnectionId    string                 `protobuf:"bytes,1,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
+	TenantId        string                 `protobuf:"bytes,2,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
+	ErpType         string                 `protobuf:"bytes,3,opt,name=erp_type,json=erpType,proto3" json:"erp_type,omitempty"`
+	ErpAccountId    string                 `protobuf:"bytes,4,opt,name=erp_account_id,json=erpAccountId,proto3" json:"erp_account_id,omitempty"`
+	Name            string                 `protobuf:"bytes,5,opt,name=name,proto3" json:"name,omitempty"`
+	AuthType        string                 `protobuf:"bytes,6,opt,name=auth_type,json=authType,proto3" json:"auth_type,omitempty"`
+	Enabled         bool                   `protobuf:"varint,7,opt,name=enabled,proto3" json:"enabled,omitempty"`
+	Status          string                 `protobuf:"bytes,8,opt,name=status,proto3" json:"status,omitempty"`
+	LastSyncAt      *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=last_sync_at,json=lastSyncAt,proto3" json:"last_sync_at,omitempty"`
+	CreatedAt       *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt       *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	ProviderPayload []byte                 `protobuf:"bytes,12,opt,name=provider_payload,json=providerPayload,proto3" json:"provider_payload,omitempty"` // JSONB: vendor/json_api метаданные
+	EtlEligible     bool                   `protobuf:"varint,13,opt,name=etl_eligible,json=etlEligible,proto3" json:"etl_eligible,omitempty"`            // участвует ли connection в ETL-выборе
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *ConnectionItem) Reset() {
@@ -353,6 +355,20 @@ func (x *ConnectionItem) GetUpdatedAt() *timestamppb.Timestamp {
 		return x.UpdatedAt
 	}
 	return nil
+}
+
+func (x *ConnectionItem) GetProviderPayload() []byte {
+	if x != nil {
+		return x.ProviderPayload
+	}
+	return nil
+}
+
+func (x *ConnectionItem) GetEtlEligible() bool {
+	if x != nil {
+		return x.EtlEligible
+	}
+	return false
 }
 
 type ListOriginalDocumentsRequest struct {
@@ -1838,7 +1854,7 @@ const file_core_v1_queries_proto_rawDesc = "" +
 	"\x17ListConnectionsResponse\x125\n" +
 	"\x05items\x18\x01 \x03(\v2\x1f.documan.core.v1.ConnectionItemR\x05items\x12\x1f\n" +
 	"\vtotal_count\x18\x02 \x01(\x05R\n" +
-	"totalCount\"\xaa\x03\n" +
+	"totalCount\"\xf8\x03\n" +
 	"\x0eConnectionItem\x12#\n" +
 	"\rconnection_id\x18\x01 \x01(\tR\fconnectionId\x12\x1b\n" +
 	"\ttenant_id\x18\x02 \x01(\tR\btenantId\x12\x19\n" +
@@ -1854,7 +1870,9 @@ const file_core_v1_queries_proto_rawDesc = "" +
 	"created_at\x18\n" +
 	" \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
-	"updated_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"\x84\x01\n" +
+	"updated_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12)\n" +
+	"\x10provider_payload\x18\f \x01(\fR\x0fproviderPayload\x12!\n" +
+	"\fetl_eligible\x18\r \x01(\bR\vetlEligible\"\x84\x01\n" +
 	"\x1cListOriginalDocumentsRequest\x12\x1b\n" +
 	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12\x19\n" +
 	"\bdoc_type\x18\x02 \x01(\tR\adocType\x12\x14\n" +
