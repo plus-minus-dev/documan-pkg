@@ -1,0 +1,164 @@
+syntax = "proto3";
+package documan.core.v1;
+
+option go_package = "github.com/plus-minus-dev/documan-pkg/services/gen/core/v1";
+
+import "google/protobuf/timestamp.proto";
+
+// CoreVendorService -- lifecycle и subscription management для Vendor API.
+// Вызывается BFF при обработке lifecycle callbacks от ERP-провайдеров (МойСклад и др.).
+service CoreVendorService {
+  // UpsertTemporaryOnboarding -- install/resume/tariff/autoprolongation/suspend/uninstall.
+  // Idempotent upsert по (provider, erp_type, external_account_id, external_app_id).
+  rpc UpsertTemporaryOnboarding(UpsertTemporaryOnboardingRequest) returns (UpsertTemporaryOnboardingResponse);
+
+  // GetTemporaryOnboardingByAccount -- получить pending onboarding по provider+account+app.
+  rpc GetTemporaryOnboardingByAccount(GetTemporaryOnboardingByAccountRequest) returns (GetTemporaryOnboardingByAccountResponse);
+
+  // BindTemporaryOnboarding -- привязать onboarding к tenant.
+  // Создаёт vendor_app connection + tenant_subscription, переносит token, очищает onboarding.
+  rpc BindTemporaryOnboarding(BindTemporaryOnboardingRequest) returns (BindTemporaryOnboardingResponse);
+
+  // UpdateVendorSubscriptionLifecycle -- обновить subscription по lifecycle event (после bind).
+  // Resume, TariffChanged, Autoprolongation, Suspend, Uninstall.
+  rpc UpdateVendorSubscriptionLifecycle(UpdateVendorSubscriptionLifecycleRequest) returns (UpdateVendorSubscriptionLifecycleResponse);
+
+  // GetVendorSubscriptionState -- текущее состояние subscription для tenant+provider+app.
+  rpc GetVendorSubscriptionState(GetVendorSubscriptionStateRequest) returns (GetVendorSubscriptionStateResponse);
+
+  // GetQuota -- получить лимиты (docsLimit, docsUsed).
+  rpc GetQuota(GetQuotaRequest) returns (GetQuotaResponse);
+
+  // ConsumeQuota -- инкрементировать docsUsed.
+  rpc ConsumeQuota(ConsumeQuotaRequest) returns (ConsumeQuotaResponse);
+}
+
+// ===== TemporaryOnboarding =====
+
+message TemporaryOnboardingItem {
+  string id = 1;
+  string provider = 2;                               // "ms" | "direct" | ...
+  string erp_type = 3;                               // "ms" | "1c" | ...
+  string external_account_id = 4;                     // accountId ERP
+  string external_app_id = 5;                         // appId (для ms)
+  string status = 6;                                  // "pending" | "suspended" | "cancelled"
+  bytes payload = 7;                                  // typed versioned JSON
+  google.protobuf.Timestamp created_at = 8;
+  google.protobuf.Timestamp updated_at = 9;
+}
+
+// --- UpsertTemporaryOnboarding ---
+
+message UpsertTemporaryOnboardingRequest {
+  string provider = 1;                               // "ms"
+  string erp_type = 2;                               // "ms"
+  string external_account_id = 3;                     // accountId
+  string external_app_id = 4;                         // appId
+  string status = 5;                                  // "pending" | "suspended" | "cancelled"
+  bytes token_encrypted = 6;                          // runtime token (до bind)
+  bytes payload = 7;                                  // typed versioned JSON
+}
+
+message UpsertTemporaryOnboardingResponse {
+  string onboarding_id = 1;
+  bool already_bound = 2;                             // true если account уже привязан к tenant
+  string bound_tenant_id = 3;                         // если already_bound = true
+  string bound_connection_id = 4;                     // если already_bound = true
+}
+
+// --- GetTemporaryOnboardingByAccount ---
+
+message GetTemporaryOnboardingByAccountRequest {
+  string provider = 1;
+  string erp_type = 2;
+  string external_account_id = 3;
+  string external_app_id = 4;
+}
+
+message GetTemporaryOnboardingByAccountResponse {
+  TemporaryOnboardingItem onboarding = 1;             // null если не найден
+  bool found = 2;
+}
+
+// --- BindTemporaryOnboarding ---
+
+message BindTemporaryOnboardingRequest {
+  string onboarding_id = 1;                           // из UpsertTemporaryOnboarding
+  string tenant_id = 2;                               // tenant для привязки
+  string connection_name = 3;                         // имя для создаваемого connection
+  string product_code = 4;                            // код продукта для subscription
+}
+
+message BindTemporaryOnboardingResponse {
+  string connection_id = 1;                           // созданный vendor_app connection
+  string subscription_id = 2;                         // созданный tenant_subscription
+}
+
+// --- UpdateVendorSubscriptionLifecycle ---
+
+message UpdateVendorSubscriptionLifecycleRequest {
+  string provider = 1;                               // "ms"
+  string erp_type = 2;                               // "ms"
+  string external_account_id = 3;                     // accountId
+  string external_app_id = 4;                         // appId
+  string cause = 5;                                   // "Resume" | "TariffChanged" | "Autoprolongation" | "Suspend" | "Uninstall"
+  bytes token_encrypted = 6;                          // новый token (Resume)
+  bytes subscription_payload = 7;                     // обновлённый payload для tenant_subscription
+  bytes provider_payload = 8;                         // обновлённый payload для connection.provider_payload
+}
+
+message UpdateVendorSubscriptionLifecycleResponse {}
+
+// --- GetVendorSubscriptionState ---
+
+message GetVendorSubscriptionStateRequest {
+  string tenant_id = 1;
+  string provider = 2;                               // "ms" | "direct"
+  string provider_app_id = 3;                         // appId (для ms)
+  string product_code = 4;
+}
+
+message GetVendorSubscriptionStateResponse {
+  TenantSubscriptionItem subscription = 1;
+  bool found = 2;
+}
+
+// ===== TenantSubscription =====
+
+message TenantSubscriptionItem {
+  string id = 1;
+  string tenant_id = 2;
+  string connection_id = 3;
+  string product_code = 4;
+  string provider = 5;                               // "ms" | "direct"
+  string provider_app_id = 6;
+  string status = 7;                                  // "active" | "suspended" | "cancelled"
+  bytes payload = 8;                                  // typed versioned JSON (tariff, period, limits)
+  google.protobuf.Timestamp created_at = 9;
+  google.protobuf.Timestamp updated_at = 10;
+}
+
+// --- GetQuota ---
+
+message GetQuotaRequest {
+  string tenant_id = 1;
+  string product_code = 2;
+}
+
+message GetQuotaResponse {
+  int64 docs_limit = 1;
+  int64 docs_used = 2;
+}
+
+// --- ConsumeQuota ---
+
+message ConsumeQuotaRequest {
+  string tenant_id = 1;
+  string product_code = 2;
+  int64 count = 3;                                    // сколько документов добавить к docsUsed
+}
+
+message ConsumeQuotaResponse {
+  int64 docs_used = 1;                                // обновлённое значение
+  bool quota_exceeded = 2;                            // true если docs_used > docs_limit
+}
