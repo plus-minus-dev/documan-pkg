@@ -50,7 +50,7 @@ type AuthServiceClient interface {
 	// GetUser возвращает пользователя по ID.
 	// Ошибки: NOT_FOUND (пользователь не найден).
 	GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*GetUserResponse, error)
-	// UpdateUser обновляет профиль пользователя (name, phone, role).
+	// UpdateUser обновляет профиль пользователя (name, phone, role, email).
 	// Ошибки: NOT_FOUND, INVALID_ARGUMENT.
 	UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*UpdateUserResponse, error)
 	// DeactivateUser деактивирует пользователя. Сессии остаются, но ValidateSession вернёт ошибку.
@@ -233,7 +233,7 @@ type AuthServiceServer interface {
 	// GetUser возвращает пользователя по ID.
 	// Ошибки: NOT_FOUND (пользователь не найден).
 	GetUser(context.Context, *GetUserRequest) (*GetUserResponse, error)
-	// UpdateUser обновляет профиль пользователя (name, phone, role).
+	// UpdateUser обновляет профиль пользователя (name, phone, role, email).
 	// Ошибки: NOT_FOUND, INVALID_ARGUMENT.
 	UpdateUser(context.Context, *UpdateUserRequest) (*UpdateUserResponse, error)
 	// DeactivateUser деактивирует пользователя. Сессии остаются, но ValidateSession вернёт ошибку.

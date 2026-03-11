@@ -813,6 +813,7 @@ type UpdateUserRequest struct {
 	Name          *string                `protobuf:"bytes,2,opt,name=name,proto3,oneof" json:"name,omitempty"`
 	Phone         *string                `protobuf:"bytes,3,opt,name=phone,proto3,oneof" json:"phone,omitempty"`
 	Role          *Role                  `protobuf:"varint,4,opt,name=role,proto3,enum=documan.auth.v1.Role,oneof" json:"role,omitempty"`
+	Email         *string                `protobuf:"bytes,5,opt,name=email,proto3,oneof" json:"email,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -873,6 +874,13 @@ func (x *UpdateUserRequest) GetRole() Role {
 		return *x.Role
 	}
 	return Role_ROLE_UNSPECIFIED
+}
+
+func (x *UpdateUserRequest) GetEmail() string {
+	if x != nil && x.Email != nil {
+		return *x.Email
+	}
+	return ""
 }
 
 type UpdateUserResponse struct {
@@ -1736,15 +1744,17 @@ const file_auth_v1_auth_proto_rawDesc = "" +
 	"\x0eGetUserRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\"@\n" +
 	"\x0fGetUserResponse\x12-\n" +
-	"\x04user\x18\x01 \x01(\v2\x19.documan.auth.v1.UserInfoR\x04user\"\xa3\x01\n" +
+	"\x04user\x18\x01 \x01(\v2\x19.documan.auth.v1.UserInfoR\x04user\"\xc8\x01\n" +
 	"\x11UpdateUserRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x17\n" +
 	"\x04name\x18\x02 \x01(\tH\x00R\x04name\x88\x01\x01\x12\x19\n" +
 	"\x05phone\x18\x03 \x01(\tH\x01R\x05phone\x88\x01\x01\x12.\n" +
-	"\x04role\x18\x04 \x01(\x0e2\x15.documan.auth.v1.RoleH\x02R\x04role\x88\x01\x01B\a\n" +
+	"\x04role\x18\x04 \x01(\x0e2\x15.documan.auth.v1.RoleH\x02R\x04role\x88\x01\x01\x12\x19\n" +
+	"\x05email\x18\x05 \x01(\tH\x03R\x05email\x88\x01\x01B\a\n" +
 	"\x05_nameB\b\n" +
 	"\x06_phoneB\a\n" +
-	"\x05_role\"C\n" +
+	"\x05_roleB\b\n" +
+	"\x06_email\"C\n" +
 	"\x12UpdateUserResponse\x12-\n" +
 	"\x04user\x18\x01 \x01(\v2\x19.documan.auth.v1.UserInfoR\x04user\"'\n" +
 	"\x15DeactivateUserRequest\x12\x0e\n" +

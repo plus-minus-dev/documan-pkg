@@ -23,7 +23,7 @@ service AuthService {
   // Ошибки: NOT_FOUND (пользователь не найден).
   rpc GetUser(GetUserRequest) returns (GetUserResponse);
 
-  // UpdateUser обновляет профиль пользователя (name, phone, role).
+  // UpdateUser обновляет профиль пользователя (name, phone, role, email).
   // Ошибки: NOT_FOUND, INVALID_ARGUMENT.
   rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse);
 
@@ -170,6 +170,7 @@ message UpdateUserRequest {
   optional string name = 2;
   optional string phone = 3;
   optional Role role = 4;
+  optional string email = 5;
 }
 
 message UpdateUserResponse {

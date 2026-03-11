@@ -667,13 +667,17 @@ func (*UpdateVendorSubscriptionLifecycleResponse) Descriptor() ([]byte, []int) {
 }
 
 type GetVendorSubscriptionStateRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	TenantId      string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
-	Provider      string                 `protobuf:"bytes,2,opt,name=provider,proto3" json:"provider,omitempty"`                                  // "ms" | "direct"
-	ProviderAppId string                 `protobuf:"bytes,3,opt,name=provider_app_id,json=providerAppId,proto3" json:"provider_app_id,omitempty"` // appId (для ms)
-	ProductCode   string                 `protobuf:"bytes,4,opt,name=product_code,json=productCode,proto3" json:"product_code,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Режим 1: lookup по tenant
+	TenantId      string `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
+	Provider      string `protobuf:"bytes,2,opt,name=provider,proto3" json:"provider,omitempty"`                                  // "ms" | "direct"
+	ProviderAppId string `protobuf:"bytes,3,opt,name=provider_app_id,json=providerAppId,proto3" json:"provider_app_id,omitempty"` // appId (для ms)
+	ProductCode   string `protobuf:"bytes,4,opt,name=product_code,json=productCode,proto3" json:"product_code,omitempty"`
+	// Режим 2: lookup по account/app (используется BFF при ResolveContext из iframe)
+	ExternalAccountId string `protobuf:"bytes,5,opt,name=external_account_id,json=externalAccountId,proto3" json:"external_account_id,omitempty"` // accountId ERP
+	ErpType           string `protobuf:"bytes,6,opt,name=erp_type,json=erpType,proto3" json:"erp_type,omitempty"`                                 // "ms" | "1c" | ...
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
 }
 
 func (x *GetVendorSubscriptionStateRequest) Reset() {
@@ -730,6 +734,20 @@ func (x *GetVendorSubscriptionStateRequest) GetProviderAppId() string {
 func (x *GetVendorSubscriptionStateRequest) GetProductCode() string {
 	if x != nil {
 		return x.ProductCode
+	}
+	return ""
+}
+
+func (x *GetVendorSubscriptionStateRequest) GetExternalAccountId() string {
+	if x != nil {
+		return x.ExternalAccountId
+	}
+	return ""
+}
+
+func (x *GetVendorSubscriptionStateRequest) GetErpType() string {
+	if x != nil {
+		return x.ErpType
 	}
 	return ""
 }
@@ -1175,12 +1193,14 @@ const file_core_v1_vendor_proto_rawDesc = "" +
 	"\x0ftoken_encrypted\x18\x06 \x01(\fR\x0etokenEncrypted\x121\n" +
 	"\x14subscription_payload\x18\a \x01(\fR\x13subscriptionPayload\x12)\n" +
 	"\x10provider_payload\x18\b \x01(\fR\x0fproviderPayload\"+\n" +
-	")UpdateVendorSubscriptionLifecycleResponse\"\xa7\x01\n" +
+	")UpdateVendorSubscriptionLifecycleResponse\"\xf2\x01\n" +
 	"!GetVendorSubscriptionStateRequest\x12\x1b\n" +
 	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12\x1a\n" +
 	"\bprovider\x18\x02 \x01(\tR\bprovider\x12&\n" +
 	"\x0fprovider_app_id\x18\x03 \x01(\tR\rproviderAppId\x12!\n" +
-	"\fproduct_code\x18\x04 \x01(\tR\vproductCode\"\x87\x01\n" +
+	"\fproduct_code\x18\x04 \x01(\tR\vproductCode\x12.\n" +
+	"\x13external_account_id\x18\x05 \x01(\tR\x11externalAccountId\x12\x19\n" +
+	"\berp_type\x18\x06 \x01(\tR\aerpType\"\x87\x01\n" +
 	"\"GetVendorSubscriptionStateResponse\x12K\n" +
 	"\fsubscription\x18\x01 \x01(\v2'.documan.core.v1.TenantSubscriptionItemR\fsubscription\x12\x14\n" +
 	"\x05found\x18\x02 \x01(\bR\x05found\"\xf9\x02\n" +

@@ -110,12 +110,22 @@ message UpdateVendorSubscriptionLifecycleRequest {
 message UpdateVendorSubscriptionLifecycleResponse {}
 
 // --- GetVendorSubscriptionState ---
+//
+// Два взаимоисключающих режима lookup:
+//   Режим 1 (по tenant): tenant_id + provider + provider_app_id + product_code
+//   Режим 2 (по account): external_account_id + erp_type + provider_app_id
+// Одновременная передача tenant_id и external_account_id — ошибка валидации.
 
 message GetVendorSubscriptionStateRequest {
+  // Режим 1: lookup по tenant
   string tenant_id = 1;
   string provider = 2;                               // "ms" | "direct"
   string provider_app_id = 3;                         // appId (для ms)
   string product_code = 4;
+
+  // Режим 2: lookup по account/app (используется BFF при ResolveContext из iframe)
+  string external_account_id = 5;                     // accountId ERP
+  string erp_type = 6;                                // "ms" | "1c" | ...
 }
 
 message GetVendorSubscriptionStateResponse {
