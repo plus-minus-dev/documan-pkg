@@ -306,6 +306,126 @@ func (*AckPushCompleteResponse) Descriptor() ([]byte, []int) {
 	return file_core_v1_push_to_ms_proto_rawDescGZIP(), []int{4}
 }
 
+type CreatePushTaskRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TenantId      string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
+	ConnectionId  string                 `protobuf:"bytes,2,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
+	ErpEntityType string                 `protobuf:"bytes,3,opt,name=erp_entity_type,json=erpEntityType,proto3" json:"erp_entity_type,omitempty"` // "supply", "invoicein", ...
+	ErpEntityId   string                 `protobuf:"bytes,4,opt,name=erp_entity_id,json=erpEntityId,proto3" json:"erp_entity_id,omitempty"`       // UUID сущности (пустой при create)
+	Payload       []byte                 `protobuf:"bytes,5,opt,name=payload,proto3" json:"payload,omitempty"`                                    // JSON для отправки в ERP
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreatePushTaskRequest) Reset() {
+	*x = CreatePushTaskRequest{}
+	mi := &file_core_v1_push_to_ms_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreatePushTaskRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreatePushTaskRequest) ProtoMessage() {}
+
+func (x *CreatePushTaskRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_push_to_ms_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreatePushTaskRequest.ProtoReflect.Descriptor instead.
+func (*CreatePushTaskRequest) Descriptor() ([]byte, []int) {
+	return file_core_v1_push_to_ms_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *CreatePushTaskRequest) GetTenantId() string {
+	if x != nil {
+		return x.TenantId
+	}
+	return ""
+}
+
+func (x *CreatePushTaskRequest) GetConnectionId() string {
+	if x != nil {
+		return x.ConnectionId
+	}
+	return ""
+}
+
+func (x *CreatePushTaskRequest) GetErpEntityType() string {
+	if x != nil {
+		return x.ErpEntityType
+	}
+	return ""
+}
+
+func (x *CreatePushTaskRequest) GetErpEntityId() string {
+	if x != nil {
+		return x.ErpEntityId
+	}
+	return ""
+}
+
+func (x *CreatePushTaskRequest) GetPayload() []byte {
+	if x != nil {
+		return x.Payload
+	}
+	return nil
+}
+
+type CreatePushTaskResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TaskId        string                 `protobuf:"bytes,1,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreatePushTaskResponse) Reset() {
+	*x = CreatePushTaskResponse{}
+	mi := &file_core_v1_push_to_ms_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreatePushTaskResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreatePushTaskResponse) ProtoMessage() {}
+
+func (x *CreatePushTaskResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_push_to_ms_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreatePushTaskResponse.ProtoReflect.Descriptor instead.
+func (*CreatePushTaskResponse) Descriptor() ([]byte, []int) {
+	return file_core_v1_push_to_ms_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *CreatePushTaskResponse) GetTaskId() string {
+	if x != nil {
+		return x.TaskId
+	}
+	return ""
+}
+
 var File_core_v1_push_to_ms_proto protoreflect.FileDescriptor
 
 const file_core_v1_push_to_ms_proto_rawDesc = "" +
@@ -329,10 +449,19 @@ const file_core_v1_push_to_ms_proto_rawDesc = "" +
 	"\atask_id\x18\x01 \x01(\tR\x06taskId\x12\x18\n" +
 	"\asuccess\x18\x02 \x01(\bR\asuccess\x12#\n" +
 	"\rerror_message\x18\x03 \x01(\tR\ferrorMessage\"\x19\n" +
-	"\x17AckPushCompleteResponse2\xd4\x01\n" +
+	"\x17AckPushCompleteResponse\"\xbf\x01\n" +
+	"\x15CreatePushTaskRequest\x12\x1b\n" +
+	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12#\n" +
+	"\rconnection_id\x18\x02 \x01(\tR\fconnectionId\x12&\n" +
+	"\x0ferp_entity_type\x18\x03 \x01(\tR\rerpEntityType\x12\"\n" +
+	"\rerp_entity_id\x18\x04 \x01(\tR\verpEntityId\x12\x18\n" +
+	"\apayload\x18\x05 \x01(\fR\apayload\"1\n" +
+	"\x16CreatePushTaskResponse\x12\x17\n" +
+	"\atask_id\x18\x01 \x01(\tR\x06taskId2\xb7\x02\n" +
 	"\x0fCorePushService\x12[\n" +
 	"\fGetPushTasks\x12$.documan.core.v1.GetPushTasksRequest\x1a%.documan.core.v1.GetPushTasksResponse\x12d\n" +
-	"\x0fAckPushComplete\x12'.documan.core.v1.AckPushCompleteRequest\x1a(.documan.core.v1.AckPushCompleteResponseB<Z:github.com/plus-minus-dev/documan-pkg/services/gen/core/v1b\x06proto3"
+	"\x0fAckPushComplete\x12'.documan.core.v1.AckPushCompleteRequest\x1a(.documan.core.v1.AckPushCompleteResponse\x12a\n" +
+	"\x0eCreatePushTask\x12&.documan.core.v1.CreatePushTaskRequest\x1a'.documan.core.v1.CreatePushTaskResponseB<Z:github.com/plus-minus-dev/documan-pkg/services/gen/core/v1b\x06proto3"
 
 var (
 	file_core_v1_push_to_ms_proto_rawDescOnce sync.Once
@@ -346,24 +475,28 @@ func file_core_v1_push_to_ms_proto_rawDescGZIP() []byte {
 	return file_core_v1_push_to_ms_proto_rawDescData
 }
 
-var file_core_v1_push_to_ms_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_core_v1_push_to_ms_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_core_v1_push_to_ms_proto_goTypes = []any{
 	(*GetPushTasksRequest)(nil),     // 0: documan.core.v1.GetPushTasksRequest
 	(*GetPushTasksResponse)(nil),    // 1: documan.core.v1.GetPushTasksResponse
 	(*PushTask)(nil),                // 2: documan.core.v1.PushTask
 	(*AckPushCompleteRequest)(nil),  // 3: documan.core.v1.AckPushCompleteRequest
 	(*AckPushCompleteResponse)(nil), // 4: documan.core.v1.AckPushCompleteResponse
-	(*timestamppb.Timestamp)(nil),   // 5: google.protobuf.Timestamp
+	(*CreatePushTaskRequest)(nil),   // 5: documan.core.v1.CreatePushTaskRequest
+	(*CreatePushTaskResponse)(nil),  // 6: documan.core.v1.CreatePushTaskResponse
+	(*timestamppb.Timestamp)(nil),   // 7: google.protobuf.Timestamp
 }
 var file_core_v1_push_to_ms_proto_depIdxs = []int32{
 	2, // 0: documan.core.v1.GetPushTasksResponse.items:type_name -> documan.core.v1.PushTask
-	5, // 1: documan.core.v1.PushTask.created_at:type_name -> google.protobuf.Timestamp
+	7, // 1: documan.core.v1.PushTask.created_at:type_name -> google.protobuf.Timestamp
 	0, // 2: documan.core.v1.CorePushService.GetPushTasks:input_type -> documan.core.v1.GetPushTasksRequest
 	3, // 3: documan.core.v1.CorePushService.AckPushComplete:input_type -> documan.core.v1.AckPushCompleteRequest
-	1, // 4: documan.core.v1.CorePushService.GetPushTasks:output_type -> documan.core.v1.GetPushTasksResponse
-	4, // 5: documan.core.v1.CorePushService.AckPushComplete:output_type -> documan.core.v1.AckPushCompleteResponse
-	4, // [4:6] is the sub-list for method output_type
-	2, // [2:4] is the sub-list for method input_type
+	5, // 4: documan.core.v1.CorePushService.CreatePushTask:input_type -> documan.core.v1.CreatePushTaskRequest
+	1, // 5: documan.core.v1.CorePushService.GetPushTasks:output_type -> documan.core.v1.GetPushTasksResponse
+	4, // 6: documan.core.v1.CorePushService.AckPushComplete:output_type -> documan.core.v1.AckPushCompleteResponse
+	6, // 7: documan.core.v1.CorePushService.CreatePushTask:output_type -> documan.core.v1.CreatePushTaskResponse
+	5, // [5:8] is the sub-list for method output_type
+	2, // [2:5] is the sub-list for method input_type
 	2, // [2:2] is the sub-list for extension type_name
 	2, // [2:2] is the sub-list for extension extendee
 	0, // [0:2] is the sub-list for field type_name
@@ -380,7 +513,7 @@ func file_core_v1_push_to_ms_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_core_v1_push_to_ms_proto_rawDesc), len(file_core_v1_push_to_ms_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   5,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

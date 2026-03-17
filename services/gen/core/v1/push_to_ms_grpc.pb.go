@@ -21,6 +21,7 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	CorePushService_GetPushTasks_FullMethodName    = "/documan.core.v1.CorePushService/GetPushTasks"
 	CorePushService_AckPushComplete_FullMethodName = "/documan.core.v1.CorePushService/AckPushComplete"
+	CorePushService_CreatePushTask_FullMethodName  = "/documan.core.v1.CorePushService/CreatePushTask"
 )
 
 // CorePushServiceClient is the client API for CorePushService service.
@@ -34,6 +35,8 @@ type CorePushServiceClient interface {
 	GetPushTasks(ctx context.Context, in *GetPushTasksRequest, opts ...grpc.CallOption) (*GetPushTasksResponse, error)
 	// connector: "push выполнен"
 	AckPushComplete(ctx context.Context, in *AckPushCompleteRequest, opts ...grpc.CallOption) (*AckPushCompleteResponse, error)
+	// BFF/solution: "создай задачу на push в ERP"
+	CreatePushTask(ctx context.Context, in *CreatePushTaskRequest, opts ...grpc.CallOption) (*CreatePushTaskResponse, error)
 }
 
 type corePushServiceClient struct {
@@ -64,6 +67,16 @@ func (c *corePushServiceClient) AckPushComplete(ctx context.Context, in *AckPush
 	return out, nil
 }
 
+func (c *corePushServiceClient) CreatePushTask(ctx context.Context, in *CreatePushTaskRequest, opts ...grpc.CallOption) (*CreatePushTaskResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreatePushTaskResponse)
+	err := c.cc.Invoke(ctx, CorePushService_CreatePushTask_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CorePushServiceServer is the server API for CorePushService service.
 // All implementations must embed UnimplementedCorePushServiceServer
 // for forward compatibility.
@@ -75,6 +88,8 @@ type CorePushServiceServer interface {
 	GetPushTasks(context.Context, *GetPushTasksRequest) (*GetPushTasksResponse, error)
 	// connector: "push выполнен"
 	AckPushComplete(context.Context, *AckPushCompleteRequest) (*AckPushCompleteResponse, error)
+	// BFF/solution: "создай задачу на push в ERP"
+	CreatePushTask(context.Context, *CreatePushTaskRequest) (*CreatePushTaskResponse, error)
 	mustEmbedUnimplementedCorePushServiceServer()
 }
 
@@ -90,6 +105,9 @@ func (UnimplementedCorePushServiceServer) GetPushTasks(context.Context, *GetPush
 }
 func (UnimplementedCorePushServiceServer) AckPushComplete(context.Context, *AckPushCompleteRequest) (*AckPushCompleteResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method AckPushComplete not implemented")
+}
+func (UnimplementedCorePushServiceServer) CreatePushTask(context.Context, *CreatePushTaskRequest) (*CreatePushTaskResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreatePushTask not implemented")
 }
 func (UnimplementedCorePushServiceServer) mustEmbedUnimplementedCorePushServiceServer() {}
 func (UnimplementedCorePushServiceServer) testEmbeddedByValue()                         {}
@@ -148,6 +166,24 @@ func _CorePushService_AckPushComplete_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CorePushService_CreatePushTask_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreatePushTaskRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CorePushServiceServer).CreatePushTask(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CorePushService_CreatePushTask_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CorePushServiceServer).CreatePushTask(ctx, req.(*CreatePushTaskRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CorePushService_ServiceDesc is the grpc.ServiceDesc for CorePushService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -162,6 +198,10 @@ var CorePushService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AckPushComplete",
 			Handler:    _CorePushService_AckPushComplete_Handler,
+		},
+		{
+			MethodName: "CreatePushTask",
+			Handler:    _CorePushService_CreatePushTask_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

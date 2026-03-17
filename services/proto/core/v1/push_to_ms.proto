@@ -13,6 +13,9 @@ service CorePushService {
 
   // connector: "push выполнен"
   rpc AckPushComplete(AckPushCompleteRequest) returns (AckPushCompleteResponse);
+
+  // BFF/solution: "создай задачу на push в ERP"
+  rpc CreatePushTask(CreatePushTaskRequest) returns (CreatePushTaskResponse);
 }
 
 // ===== GetPushTasks =====
@@ -45,3 +48,17 @@ message AckPushCompleteRequest {
 }
 
 message AckPushCompleteResponse {}
+
+// ===== CreatePushTask =====
+
+message CreatePushTaskRequest {
+  string tenant_id = 1;
+  string connection_id = 2;
+  string erp_entity_type = 3;                         // "supply", "invoicein", ...
+  string erp_entity_id = 4;                           // UUID сущности (пустой при create)
+  bytes payload = 5;                                   // JSON для отправки в ERP
+}
+
+message CreatePushTaskResponse {
+  string task_id = 1;
+}
