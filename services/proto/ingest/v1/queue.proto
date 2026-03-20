@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+package documan.ingest.v1;
+
+option go_package = "github.com/plus-minus-dev/documan-pkg/services/gen/ingest/v1;ingestv1";
+
+import "google/protobuf/timestamp.proto";
+
+// IngestQueueService -- управление серверной очередью документов в ingest.
+// Вызывается solution-BFF: upload/enqueue остаётся по HTTP, а list/process/delete идут по gRPC.
+service IngestQueueService {
+  // ListQueue -- получить текущие элементы очереди tenant.
+  rpc ListQueue(ListQueueRequest) returns (ListQueueResponse);
+
+  // ProcessQueue -- перевести queued элементы в pending.
+  rpc ProcessQueue(ProcessQueueRequest) returns (ProcessQueueResponse);
+
+  // DeleteQueueItem -- удалить один queued элемент очереди.
+  rpc DeleteQueueItem(DeleteQueueItemRequest) returns (DeleteQueueItemResponse);
+}
+
+message ListQueueRequest {
+  string tenant_id = 1;
+  int32 limit = 2;
+  int32 offset = 3;
+}
+
+message ListQueueResponse {
+  repeated QueueItem items = 1;
+  int32 total_count = 2;
+}
+
+message QueueItem {
+  string batch_id = 1;
+  string doc_id = 2;
+  string file_name = 3;
+  string file_ext = 4;
+  string status = 5; // queued | pending | ready | sending
+  google.protobuf.Timestamp created_at = 6;
+  google.protobuf.Timestamp updated_at = 7;
+  google.protobuf.Timestamp cleared_at = 8;
+  string source = 9;
+  string entity_type = 10;
+}
+
+message ProcessQueueRequest {
+  string tenant_id = 1;
+  repeated string batch_ids = 2;
+}
+
+message ProcessQueueResponse {
+  repeated string processed_batch_ids = 1;
+}
+
+message DeleteQueueItemRequest {
+  string tenant_id = 1;
+  string batch_id = 2;
+}
+
+message DeleteQueueItemResponse {
+  string batch_id = 1;
+  int64 soft_deleted_rows = 2;
+  int32 deleted_objects = 3;
+  repeated string failed_keys = 4;
+}
