@@ -21,6 +21,9 @@ type Meta struct {
 	FileName       string `json:"file_name,omitempty"`
 	FileExt        string `json:"file_ext,omitempty"`
 	FileHash       string `json:"file_hash,omitempty"`        // SHA256
+	FileSize       int64  `json:"file_size,omitempty"`        // размер файла в байтах
+	FilePages      int    `json:"file_pages,omitempty"`       // количество страниц (PDF) или листов (XLSX/XLS)
+	FileMime       string `json:"file_mime,omitempty"`        // MIME type (application/pdf, application/vnd.ms-excel, ...)
 	FileModifiedAt string `json:"file_modified_at,omitempty"` // RFC3339 UTC, если известно
 
 	// S3
