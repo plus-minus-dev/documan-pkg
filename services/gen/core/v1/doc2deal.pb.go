@@ -1014,6 +1014,94 @@ func (*SetGraphDirtyResponse) Descriptor() ([]byte, []int) {
 	return file_core_v1_doc2deal_proto_rawDescGZIP(), []int{19}
 }
 
+type BackfillFullGraphRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *BackfillFullGraphRequest) Reset() {
+	*x = BackfillFullGraphRequest{}
+	mi := &file_core_v1_doc2deal_proto_msgTypes[20]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *BackfillFullGraphRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BackfillFullGraphRequest) ProtoMessage() {}
+
+func (x *BackfillFullGraphRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_doc2deal_proto_msgTypes[20]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BackfillFullGraphRequest.ProtoReflect.Descriptor instead.
+func (*BackfillFullGraphRequest) Descriptor() ([]byte, []int) {
+	return file_core_v1_doc2deal_proto_rawDescGZIP(), []int{20}
+}
+
+type BackfillFullGraphResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Processed     int32                  `protobuf:"varint,1,opt,name=processed,proto3" json:"processed,omitempty"`
+	Skipped       int32                  `protobuf:"varint,2,opt,name=skipped,proto3" json:"skipped,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *BackfillFullGraphResponse) Reset() {
+	*x = BackfillFullGraphResponse{}
+	mi := &file_core_v1_doc2deal_proto_msgTypes[21]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *BackfillFullGraphResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BackfillFullGraphResponse) ProtoMessage() {}
+
+func (x *BackfillFullGraphResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_doc2deal_proto_msgTypes[21]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BackfillFullGraphResponse.ProtoReflect.Descriptor instead.
+func (*BackfillFullGraphResponse) Descriptor() ([]byte, []int) {
+	return file_core_v1_doc2deal_proto_rawDescGZIP(), []int{21}
+}
+
+func (x *BackfillFullGraphResponse) GetProcessed() int32 {
+	if x != nil {
+		return x.Processed
+	}
+	return 0
+}
+
+func (x *BackfillFullGraphResponse) GetSkipped() int32 {
+	if x != nil {
+		return x.Skipped
+	}
+	return 0
+}
+
 type DealItem struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -1029,7 +1117,7 @@ type DealItem struct {
 
 func (x *DealItem) Reset() {
 	*x = DealItem{}
-	mi := &file_core_v1_doc2deal_proto_msgTypes[20]
+	mi := &file_core_v1_doc2deal_proto_msgTypes[22]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1041,7 +1129,7 @@ func (x *DealItem) String() string {
 func (*DealItem) ProtoMessage() {}
 
 func (x *DealItem) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_doc2deal_proto_msgTypes[20]
+	mi := &file_core_v1_doc2deal_proto_msgTypes[22]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1054,7 +1142,7 @@ func (x *DealItem) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DealItem.ProtoReflect.Descriptor instead.
 func (*DealItem) Descriptor() ([]byte, []int) {
-	return file_core_v1_doc2deal_proto_rawDescGZIP(), []int{20}
+	return file_core_v1_doc2deal_proto_rawDescGZIP(), []int{22}
 }
 
 func (x *DealItem) GetId() string {
@@ -1118,7 +1206,7 @@ type DealDocumentItem struct {
 
 func (x *DealDocumentItem) Reset() {
 	*x = DealDocumentItem{}
-	mi := &file_core_v1_doc2deal_proto_msgTypes[21]
+	mi := &file_core_v1_doc2deal_proto_msgTypes[23]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1130,7 +1218,7 @@ func (x *DealDocumentItem) String() string {
 func (*DealDocumentItem) ProtoMessage() {}
 
 func (x *DealDocumentItem) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_doc2deal_proto_msgTypes[21]
+	mi := &file_core_v1_doc2deal_proto_msgTypes[23]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1143,7 +1231,7 @@ func (x *DealDocumentItem) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DealDocumentItem.ProtoReflect.Descriptor instead.
 func (*DealDocumentItem) Descriptor() ([]byte, []int) {
-	return file_core_v1_doc2deal_proto_rawDescGZIP(), []int{21}
+	return file_core_v1_doc2deal_proto_rawDescGZIP(), []int{23}
 }
 
 func (x *DealDocumentItem) GetDealId() string {
@@ -1187,7 +1275,7 @@ type ComponentItem struct {
 
 func (x *ComponentItem) Reset() {
 	*x = ComponentItem{}
-	mi := &file_core_v1_doc2deal_proto_msgTypes[22]
+	mi := &file_core_v1_doc2deal_proto_msgTypes[24]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1199,7 +1287,7 @@ func (x *ComponentItem) String() string {
 func (*ComponentItem) ProtoMessage() {}
 
 func (x *ComponentItem) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_doc2deal_proto_msgTypes[22]
+	mi := &file_core_v1_doc2deal_proto_msgTypes[24]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1212,7 +1300,7 @@ func (x *ComponentItem) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ComponentItem.ProtoReflect.Descriptor instead.
 func (*ComponentItem) Descriptor() ([]byte, []int) {
-	return file_core_v1_doc2deal_proto_rawDescGZIP(), []int{22}
+	return file_core_v1_doc2deal_proto_rawDescGZIP(), []int{24}
 }
 
 func (x *ComponentItem) GetId() string {
@@ -1312,7 +1400,11 @@ const file_core_v1_doc2deal_proto_rawDesc = "" +
 	"\x14SetGraphDirtyRequest\x12\x1b\n" +
 	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12#\n" +
 	"\rconnection_id\x18\x02 \x01(\tR\fconnectionId\"\x17\n" +
-	"\x15SetGraphDirtyResponse\"\x8d\x02\n" +
+	"\x15SetGraphDirtyResponse\"\x1a\n" +
+	"\x18BackfillFullGraphRequest\"S\n" +
+	"\x19BackfillFullGraphResponse\x12\x1c\n" +
+	"\tprocessed\x18\x01 \x01(\x05R\tprocessed\x12\x18\n" +
+	"\askipped\x18\x02 \x01(\x05R\askipped\"\x8d\x02\n" +
 	"\bDealItem\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
 	"\ttenant_id\x18\x02 \x01(\tR\btenantId\x12#\n" +
@@ -1334,7 +1426,7 @@ const file_core_v1_doc2deal_proto_rawDesc = "" +
 	"\asku_ids\x18\x03 \x03(\tR\x06skuIds\x12\x19\n" +
 	"\bdeal_ids\x18\x04 \x03(\tR\adealIds\x12;\n" +
 	"\vcomputed_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\n" +
-	"computedAt2\xdb\a\n" +
+	"computedAt2\xc7\b\n" +
 	"\x13CoreDoc2DealService\x12U\n" +
 	"\n" +
 	"CreateDeal\x12\".documan.core.v1.CreateDealRequest\x1a#.documan.core.v1.CreateDealResponse\x12R\n" +
@@ -1347,7 +1439,8 @@ const file_core_v1_doc2deal_proto_rawDesc = "" +
 	"\x10GetDealDocuments\x12(.documan.core.v1.GetDealDocumentsRequest\x1a).documan.core.v1.GetDealDocumentsResponse\x12^\n" +
 	"\rGetComponents\x12%.documan.core.v1.GetComponentsRequest\x1a&.documan.core.v1.GetComponentsResponse\x12a\n" +
 	"\x0eGetActiveGraph\x12&.documan.core.v1.GetActiveGraphRequest\x1a'.documan.core.v1.GetActiveGraphResponse\x12^\n" +
-	"\rSetGraphDirty\x12%.documan.core.v1.SetGraphDirtyRequest\x1a&.documan.core.v1.SetGraphDirtyResponseB<Z:github.com/plus-minus-dev/documan-pkg/services/gen/core/v1b\x06proto3"
+	"\rSetGraphDirty\x12%.documan.core.v1.SetGraphDirtyRequest\x1a&.documan.core.v1.SetGraphDirtyResponse\x12j\n" +
+	"\x11BackfillFullGraph\x12).documan.core.v1.BackfillFullGraphRequest\x1a*.documan.core.v1.BackfillFullGraphResponseB<Z:github.com/plus-minus-dev/documan-pkg/services/gen/core/v1b\x06proto3"
 
 var (
 	file_core_v1_doc2deal_proto_rawDescOnce sync.Once
@@ -1361,7 +1454,7 @@ func file_core_v1_doc2deal_proto_rawDescGZIP() []byte {
 	return file_core_v1_doc2deal_proto_rawDescData
 }
 
-var file_core_v1_doc2deal_proto_msgTypes = make([]protoimpl.MessageInfo, 23)
+var file_core_v1_doc2deal_proto_msgTypes = make([]protoimpl.MessageInfo, 25)
 var file_core_v1_doc2deal_proto_goTypes = []any{
 	(*CreateDealRequest)(nil),              // 0: documan.core.v1.CreateDealRequest
 	(*CreateDealResponse)(nil),             // 1: documan.core.v1.CreateDealResponse
@@ -1383,22 +1476,24 @@ var file_core_v1_doc2deal_proto_goTypes = []any{
 	(*GetActiveGraphResponse)(nil),         // 17: documan.core.v1.GetActiveGraphResponse
 	(*SetGraphDirtyRequest)(nil),           // 18: documan.core.v1.SetGraphDirtyRequest
 	(*SetGraphDirtyResponse)(nil),          // 19: documan.core.v1.SetGraphDirtyResponse
-	(*DealItem)(nil),                       // 20: documan.core.v1.DealItem
-	(*DealDocumentItem)(nil),               // 21: documan.core.v1.DealDocumentItem
-	(*ComponentItem)(nil),                  // 22: documan.core.v1.ComponentItem
-	(*timestamppb.Timestamp)(nil),          // 23: google.protobuf.Timestamp
+	(*BackfillFullGraphRequest)(nil),       // 20: documan.core.v1.BackfillFullGraphRequest
+	(*BackfillFullGraphResponse)(nil),      // 21: documan.core.v1.BackfillFullGraphResponse
+	(*DealItem)(nil),                       // 22: documan.core.v1.DealItem
+	(*DealDocumentItem)(nil),               // 23: documan.core.v1.DealDocumentItem
+	(*ComponentItem)(nil),                  // 24: documan.core.v1.ComponentItem
+	(*timestamppb.Timestamp)(nil),          // 25: google.protobuf.Timestamp
 }
 var file_core_v1_doc2deal_proto_depIdxs = []int32{
-	20, // 0: documan.core.v1.CreateDealResponse.deal:type_name -> documan.core.v1.DealItem
-	20, // 1: documan.core.v1.GetDealResponse.deal:type_name -> documan.core.v1.DealItem
-	21, // 2: documan.core.v1.GetDealDocumentsResponse.documents:type_name -> documan.core.v1.DealDocumentItem
-	22, // 3: documan.core.v1.GetComponentsResponse.components:type_name -> documan.core.v1.ComponentItem
-	22, // 4: documan.core.v1.GetActiveGraphResponse.components:type_name -> documan.core.v1.ComponentItem
-	20, // 5: documan.core.v1.GetActiveGraphResponse.deals:type_name -> documan.core.v1.DealItem
-	23, // 6: documan.core.v1.DealItem.created_at:type_name -> google.protobuf.Timestamp
-	23, // 7: documan.core.v1.DealItem.updated_at:type_name -> google.protobuf.Timestamp
-	23, // 8: documan.core.v1.DealDocumentItem.linked_at:type_name -> google.protobuf.Timestamp
-	23, // 9: documan.core.v1.ComponentItem.computed_at:type_name -> google.protobuf.Timestamp
+	22, // 0: documan.core.v1.CreateDealResponse.deal:type_name -> documan.core.v1.DealItem
+	22, // 1: documan.core.v1.GetDealResponse.deal:type_name -> documan.core.v1.DealItem
+	23, // 2: documan.core.v1.GetDealDocumentsResponse.documents:type_name -> documan.core.v1.DealDocumentItem
+	24, // 3: documan.core.v1.GetComponentsResponse.components:type_name -> documan.core.v1.ComponentItem
+	24, // 4: documan.core.v1.GetActiveGraphResponse.components:type_name -> documan.core.v1.ComponentItem
+	22, // 5: documan.core.v1.GetActiveGraphResponse.deals:type_name -> documan.core.v1.DealItem
+	25, // 6: documan.core.v1.DealItem.created_at:type_name -> google.protobuf.Timestamp
+	25, // 7: documan.core.v1.DealItem.updated_at:type_name -> google.protobuf.Timestamp
+	25, // 8: documan.core.v1.DealDocumentItem.linked_at:type_name -> google.protobuf.Timestamp
+	25, // 9: documan.core.v1.ComponentItem.computed_at:type_name -> google.protobuf.Timestamp
 	0,  // 10: documan.core.v1.CoreDoc2DealService.CreateDeal:input_type -> documan.core.v1.CreateDealRequest
 	2,  // 11: documan.core.v1.CoreDoc2DealService.CloseDeal:input_type -> documan.core.v1.CloseDealRequest
 	4,  // 12: documan.core.v1.CoreDoc2DealService.ReopenDeal:input_type -> documan.core.v1.ReopenDealRequest
@@ -1409,18 +1504,20 @@ var file_core_v1_doc2deal_proto_depIdxs = []int32{
 	14, // 17: documan.core.v1.CoreDoc2DealService.GetComponents:input_type -> documan.core.v1.GetComponentsRequest
 	16, // 18: documan.core.v1.CoreDoc2DealService.GetActiveGraph:input_type -> documan.core.v1.GetActiveGraphRequest
 	18, // 19: documan.core.v1.CoreDoc2DealService.SetGraphDirty:input_type -> documan.core.v1.SetGraphDirtyRequest
-	1,  // 20: documan.core.v1.CoreDoc2DealService.CreateDeal:output_type -> documan.core.v1.CreateDealResponse
-	3,  // 21: documan.core.v1.CoreDoc2DealService.CloseDeal:output_type -> documan.core.v1.CloseDealResponse
-	5,  // 22: documan.core.v1.CoreDoc2DealService.ReopenDeal:output_type -> documan.core.v1.ReopenDealResponse
-	7,  // 23: documan.core.v1.CoreDoc2DealService.LinkDocumentToDeal:output_type -> documan.core.v1.LinkDocumentToDealResponse
-	9,  // 24: documan.core.v1.CoreDoc2DealService.UnlinkDocumentFromDeal:output_type -> documan.core.v1.UnlinkDocumentFromDealResponse
-	11, // 25: documan.core.v1.CoreDoc2DealService.GetDeal:output_type -> documan.core.v1.GetDealResponse
-	13, // 26: documan.core.v1.CoreDoc2DealService.GetDealDocuments:output_type -> documan.core.v1.GetDealDocumentsResponse
-	15, // 27: documan.core.v1.CoreDoc2DealService.GetComponents:output_type -> documan.core.v1.GetComponentsResponse
-	17, // 28: documan.core.v1.CoreDoc2DealService.GetActiveGraph:output_type -> documan.core.v1.GetActiveGraphResponse
-	19, // 29: documan.core.v1.CoreDoc2DealService.SetGraphDirty:output_type -> documan.core.v1.SetGraphDirtyResponse
-	20, // [20:30] is the sub-list for method output_type
-	10, // [10:20] is the sub-list for method input_type
+	20, // 20: documan.core.v1.CoreDoc2DealService.BackfillFullGraph:input_type -> documan.core.v1.BackfillFullGraphRequest
+	1,  // 21: documan.core.v1.CoreDoc2DealService.CreateDeal:output_type -> documan.core.v1.CreateDealResponse
+	3,  // 22: documan.core.v1.CoreDoc2DealService.CloseDeal:output_type -> documan.core.v1.CloseDealResponse
+	5,  // 23: documan.core.v1.CoreDoc2DealService.ReopenDeal:output_type -> documan.core.v1.ReopenDealResponse
+	7,  // 24: documan.core.v1.CoreDoc2DealService.LinkDocumentToDeal:output_type -> documan.core.v1.LinkDocumentToDealResponse
+	9,  // 25: documan.core.v1.CoreDoc2DealService.UnlinkDocumentFromDeal:output_type -> documan.core.v1.UnlinkDocumentFromDealResponse
+	11, // 26: documan.core.v1.CoreDoc2DealService.GetDeal:output_type -> documan.core.v1.GetDealResponse
+	13, // 27: documan.core.v1.CoreDoc2DealService.GetDealDocuments:output_type -> documan.core.v1.GetDealDocumentsResponse
+	15, // 28: documan.core.v1.CoreDoc2DealService.GetComponents:output_type -> documan.core.v1.GetComponentsResponse
+	17, // 29: documan.core.v1.CoreDoc2DealService.GetActiveGraph:output_type -> documan.core.v1.GetActiveGraphResponse
+	19, // 30: documan.core.v1.CoreDoc2DealService.SetGraphDirty:output_type -> documan.core.v1.SetGraphDirtyResponse
+	21, // 31: documan.core.v1.CoreDoc2DealService.BackfillFullGraph:output_type -> documan.core.v1.BackfillFullGraphResponse
+	21, // [21:32] is the sub-list for method output_type
+	10, // [10:21] is the sub-list for method input_type
 	10, // [10:10] is the sub-list for extension type_name
 	10, // [10:10] is the sub-list for extension extendee
 	0,  // [0:10] is the sub-list for field type_name
@@ -1437,7 +1534,7 @@ func file_core_v1_doc2deal_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_core_v1_doc2deal_proto_rawDesc), len(file_core_v1_doc2deal_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   23,
+			NumMessages:   25,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

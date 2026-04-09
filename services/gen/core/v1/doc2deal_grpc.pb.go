@@ -29,6 +29,7 @@ const (
 	CoreDoc2DealService_GetComponents_FullMethodName          = "/documan.core.v1.CoreDoc2DealService/GetComponents"
 	CoreDoc2DealService_GetActiveGraph_FullMethodName         = "/documan.core.v1.CoreDoc2DealService/GetActiveGraph"
 	CoreDoc2DealService_SetGraphDirty_FullMethodName          = "/documan.core.v1.CoreDoc2DealService/SetGraphDirty"
+	CoreDoc2DealService_BackfillFullGraph_FullMethodName      = "/documan.core.v1.CoreDoc2DealService/BackfillFullGraph"
 )
 
 // CoreDoc2DealServiceClient is the client API for CoreDoc2DealService service.
@@ -57,6 +58,8 @@ type CoreDoc2DealServiceClient interface {
 	GetActiveGraph(ctx context.Context, in *GetActiveGraphRequest, opts ...grpc.CallOption) (*GetActiveGraphResponse, error)
 	// Установить dirty (internal, вызывается ETL)
 	SetGraphDirty(ctx context.Context, in *SetGraphDirtyRequest, opts ...grpc.CallOption) (*SetGraphDirtyResponse, error)
+	// Backfill: построить Full Graph для всех существующих ERP-документов (одноразовая операция)
+	BackfillFullGraph(ctx context.Context, in *BackfillFullGraphRequest, opts ...grpc.CallOption) (*BackfillFullGraphResponse, error)
 }
 
 type coreDoc2DealServiceClient struct {
@@ -167,6 +170,16 @@ func (c *coreDoc2DealServiceClient) SetGraphDirty(ctx context.Context, in *SetGr
 	return out, nil
 }
 
+func (c *coreDoc2DealServiceClient) BackfillFullGraph(ctx context.Context, in *BackfillFullGraphRequest, opts ...grpc.CallOption) (*BackfillFullGraphResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(BackfillFullGraphResponse)
+	err := c.cc.Invoke(ctx, CoreDoc2DealService_BackfillFullGraph_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CoreDoc2DealServiceServer is the server API for CoreDoc2DealService service.
 // All implementations must embed UnimplementedCoreDoc2DealServiceServer
 // for forward compatibility.
@@ -193,6 +206,8 @@ type CoreDoc2DealServiceServer interface {
 	GetActiveGraph(context.Context, *GetActiveGraphRequest) (*GetActiveGraphResponse, error)
 	// Установить dirty (internal, вызывается ETL)
 	SetGraphDirty(context.Context, *SetGraphDirtyRequest) (*SetGraphDirtyResponse, error)
+	// Backfill: построить Full Graph для всех существующих ERP-документов (одноразовая операция)
+	BackfillFullGraph(context.Context, *BackfillFullGraphRequest) (*BackfillFullGraphResponse, error)
 	mustEmbedUnimplementedCoreDoc2DealServiceServer()
 }
 
@@ -232,6 +247,9 @@ func (UnimplementedCoreDoc2DealServiceServer) GetActiveGraph(context.Context, *G
 }
 func (UnimplementedCoreDoc2DealServiceServer) SetGraphDirty(context.Context, *SetGraphDirtyRequest) (*SetGraphDirtyResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method SetGraphDirty not implemented")
+}
+func (UnimplementedCoreDoc2DealServiceServer) BackfillFullGraph(context.Context, *BackfillFullGraphRequest) (*BackfillFullGraphResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method BackfillFullGraph not implemented")
 }
 func (UnimplementedCoreDoc2DealServiceServer) mustEmbedUnimplementedCoreDoc2DealServiceServer() {}
 func (UnimplementedCoreDoc2DealServiceServer) testEmbeddedByValue()                             {}
@@ -434,6 +452,24 @@ func _CoreDoc2DealService_SetGraphDirty_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CoreDoc2DealService_BackfillFullGraph_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BackfillFullGraphRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CoreDoc2DealServiceServer).BackfillFullGraph(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CoreDoc2DealService_BackfillFullGraph_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CoreDoc2DealServiceServer).BackfillFullGraph(ctx, req.(*BackfillFullGraphRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CoreDoc2DealService_ServiceDesc is the grpc.ServiceDesc for CoreDoc2DealService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -480,6 +516,10 @@ var CoreDoc2DealService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SetGraphDirty",
 			Handler:    _CoreDoc2DealService_SetGraphDirty_Handler,
+		},
+		{
+			MethodName: "BackfillFullGraph",
+			Handler:    _CoreDoc2DealService_BackfillFullGraph_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
