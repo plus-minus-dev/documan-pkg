@@ -12,7 +12,7 @@ type Position struct {
 	// Идентификация строки
 	LineNumber int    `json:"line_number"`          // нормализованный 1-based индекс строки в payload
 	LineLabel  string `json:"line_label,omitempty"` // исходное значение номера строки из документа: "1", "1а", "I" ...
-	ItemType   string `json:"item_type,omitempty"`  // "product" | "service" | "work" | "rights"
+	ItemType   string `json:"item_type,omitempty"`  // "product" | "service" | "bundle" | "variant"
 
 	// Reference field (ERP/source ref)
 	ItemID string `json:"item_id,omitempty"` // source entity id товара/услуги в ERP
