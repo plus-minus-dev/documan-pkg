@@ -1,0 +1,163 @@
+syntax = "proto3";
+package documan.core.v1;
+
+option go_package = "github.com/plus-minus-dev/documan-pkg/services/gen/core/v1";
+
+import "google/protobuf/timestamp.proto";
+
+// CoreDoc2DealService — управление графом документов и сделок.
+service CoreDoc2DealService {
+  // Создать новую сделку
+  rpc CreateDeal(CreateDealRequest) returns (CreateDealResponse);
+
+  // Закрыть сделку
+  rpc CloseDeal(CloseDealRequest) returns (CloseDealResponse);
+
+  // Переоткрыть сделку
+  rpc ReopenDeal(ReopenDealRequest) returns (ReopenDealResponse);
+
+  // Привязать документ к сделке
+  rpc LinkDocumentToDeal(LinkDocumentToDealRequest) returns (LinkDocumentToDealResponse);
+
+  // Отвязать документ от сделки
+  rpc UnlinkDocumentFromDeal(UnlinkDocumentFromDealRequest) returns (UnlinkDocumentFromDealResponse);
+
+  // Получить сделку
+  rpc GetDeal(GetDealRequest) returns (GetDealResponse);
+
+  // Получить документы сделки
+  rpc GetDealDocuments(GetDealDocumentsRequest) returns (GetDealDocumentsResponse);
+
+  // Получить компоненты связности
+  rpc GetComponents(GetComponentsRequest) returns (GetComponentsResponse);
+
+  // Получить Active Graph (компоненты + сделки)
+  rpc GetActiveGraph(GetActiveGraphRequest) returns (GetActiveGraphResponse);
+
+  // Установить dirty (internal, вызывается ETL)
+  rpc SetGraphDirty(SetGraphDirtyRequest) returns (SetGraphDirtyResponse);
+}
+
+// --- Deals ---
+
+message CreateDealRequest {
+  string tenant_id = 1;
+  string connection_id = 2;
+}
+
+message CreateDealResponse {
+  DealItem deal = 1;
+}
+
+message CloseDealRequest {
+  string tenant_id = 1;
+  string deal_id = 2;
+  string close_reason = 3;
+}
+
+message CloseDealResponse {}
+
+message ReopenDealRequest {
+  string tenant_id = 1;
+  string deal_id = 2;
+}
+
+message ReopenDealResponse {}
+
+// --- Document linking ---
+
+message LinkDocumentToDealRequest {
+  string tenant_id = 1;
+  string connection_id = 2;
+  string deal_id = 3;
+  string erp_entity_type = 4;  // "purchaseorder" | "invoicein" | "supply"
+  string erp_entity_id = 5;
+  string linked_by = 6;
+}
+
+message LinkDocumentToDealResponse {}
+
+message UnlinkDocumentFromDealRequest {
+  string tenant_id = 1;
+  string connection_id = 2;
+  string deal_id = 3;
+  string erp_entity_type = 4;
+  string erp_entity_id = 5;
+}
+
+message UnlinkDocumentFromDealResponse {}
+
+// --- Queries ---
+
+message GetDealRequest {
+  string tenant_id = 1;
+  string deal_id = 2;
+}
+
+message GetDealResponse {
+  DealItem deal = 1;
+}
+
+message GetDealDocumentsRequest {
+  string tenant_id = 1;
+  string deal_id = 2;
+}
+
+message GetDealDocumentsResponse {
+  repeated DealDocumentItem documents = 1;
+}
+
+message GetComponentsRequest {
+  string tenant_id = 1;
+  string connection_id = 2;
+}
+
+message GetComponentsResponse {
+  repeated ComponentItem components = 1;
+}
+
+message GetActiveGraphRequest {
+  string tenant_id = 1;
+  string connection_id = 2;
+}
+
+message GetActiveGraphResponse {
+  repeated ComponentItem components = 1;
+  repeated DealItem deals = 2;
+}
+
+// --- Internal ---
+
+message SetGraphDirtyRequest {
+  string tenant_id = 1;
+  string connection_id = 2;
+}
+
+message SetGraphDirtyResponse {}
+
+// --- Shared messages ---
+
+message DealItem {
+  string id = 1;
+  string tenant_id = 2;
+  string connection_id = 3;
+  string status = 4;            // "open" | "closed"
+  string close_reason = 5;
+  google.protobuf.Timestamp created_at = 6;
+  google.protobuf.Timestamp updated_at = 7;
+}
+
+message DealDocumentItem {
+  string deal_id = 1;
+  string erp_entity_id = 2;
+  string linked_by = 3;
+  google.protobuf.Timestamp linked_at = 4;
+}
+
+message ComponentItem {
+  string id = 1;
+  repeated string document_ids = 2;
+  repeated string sku_ids = 3;
+  repeated string deal_ids = 4;
+  google.protobuf.Timestamp computed_at = 5;
+}
