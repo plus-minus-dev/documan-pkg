@@ -37,6 +37,7 @@ message ERPDataEntry {
   bytes payload_summary = 5;
   bytes payload_positions = 6;
   bytes payload_footer = 8;
+  bytes payload_attributes = 9;
 
   string payload_hash = 7;                             // SHA-256 от payload
 }
@@ -57,6 +58,7 @@ message IngestDataEntry {
   bytes payload_summary = 4;
   bytes payload_positions = 5;
   bytes payload_footer = 8;
+  bytes payload_attributes = 9;
 
   string payload_hash = 6;                             // SHA-256 от payload
 }

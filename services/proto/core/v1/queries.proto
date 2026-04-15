@@ -84,6 +84,7 @@ message OriginalDocumentEntry {
   bytes payload_summary = 11;
   bytes payload_positions = 12;
   bytes payload_footer = 17;
+  bytes payload_attributes = 18;
   string payload_hash = 8;
   google.protobuf.Timestamp payloaded_at = 13;
 }
@@ -137,6 +138,7 @@ message ERPDocumentEntry {
   bytes payload_summary = 8;
   bytes payload_positions = 9;
   bytes payload_footer = 17;
+  bytes payload_attributes = 18;
   string payload_hash = 10;
   google.protobuf.Timestamp payloaded_at = 11;
 }

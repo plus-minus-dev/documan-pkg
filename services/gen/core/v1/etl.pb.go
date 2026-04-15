@@ -93,15 +93,16 @@ type ERPDataEntry struct {
 	state    protoimpl.MessageState `protogen:"open.v1"`
 	EntityId string                 `protobuf:"bytes,1,opt,name=entity_id,json=entityId,proto3" json:"entity_id,omitempty"`
 	// Payload JSON (bytes = []byte в Go = JSONB в Postgres)
-	PayloadEntity    []byte `protobuf:"bytes,2,opt,name=payload_entity,json=payloadEntity,proto3" json:"payload_entity,omitempty"` // entities: единственный payload
-	PayloadMeta      []byte `protobuf:"bytes,3,opt,name=payload_meta,json=payloadMeta,proto3" json:"payload_meta,omitempty"`       // documents: 5 payload
-	PayloadHeader    []byte `protobuf:"bytes,4,opt,name=payload_header,json=payloadHeader,proto3" json:"payload_header,omitempty"`
-	PayloadSummary   []byte `protobuf:"bytes,5,opt,name=payload_summary,json=payloadSummary,proto3" json:"payload_summary,omitempty"`
-	PayloadPositions []byte `protobuf:"bytes,6,opt,name=payload_positions,json=payloadPositions,proto3" json:"payload_positions,omitempty"`
-	PayloadFooter    []byte `protobuf:"bytes,8,opt,name=payload_footer,json=payloadFooter,proto3" json:"payload_footer,omitempty"`
-	PayloadHash      string `protobuf:"bytes,7,opt,name=payload_hash,json=payloadHash,proto3" json:"payload_hash,omitempty"` // SHA-256 от payload
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
+	PayloadEntity     []byte `protobuf:"bytes,2,opt,name=payload_entity,json=payloadEntity,proto3" json:"payload_entity,omitempty"` // entities: единственный payload
+	PayloadMeta       []byte `protobuf:"bytes,3,opt,name=payload_meta,json=payloadMeta,proto3" json:"payload_meta,omitempty"`       // documents: 5 payload
+	PayloadHeader     []byte `protobuf:"bytes,4,opt,name=payload_header,json=payloadHeader,proto3" json:"payload_header,omitempty"`
+	PayloadSummary    []byte `protobuf:"bytes,5,opt,name=payload_summary,json=payloadSummary,proto3" json:"payload_summary,omitempty"`
+	PayloadPositions  []byte `protobuf:"bytes,6,opt,name=payload_positions,json=payloadPositions,proto3" json:"payload_positions,omitempty"`
+	PayloadFooter     []byte `protobuf:"bytes,8,opt,name=payload_footer,json=payloadFooter,proto3" json:"payload_footer,omitempty"`
+	PayloadAttributes []byte `protobuf:"bytes,9,opt,name=payload_attributes,json=payloadAttributes,proto3" json:"payload_attributes,omitempty"`
+	PayloadHash       string `protobuf:"bytes,7,opt,name=payload_hash,json=payloadHash,proto3" json:"payload_hash,omitempty"` // SHA-256 от payload
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
 }
 
 func (x *ERPDataEntry) Reset() {
@@ -183,6 +184,13 @@ func (x *ERPDataEntry) GetPayloadFooter() []byte {
 	return nil
 }
 
+func (x *ERPDataEntry) GetPayloadAttributes() []byte {
+	if x != nil {
+		return x.PayloadAttributes
+	}
+	return nil
+}
+
 func (x *ERPDataEntry) GetPayloadHash() string {
 	if x != nil {
 		return x.PayloadHash
@@ -246,14 +254,15 @@ type IngestDataEntry struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	Id    string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"` // UUID документа (генерируется ingest)
 	// Payload JSON
-	PayloadMeta      []byte `protobuf:"bytes,2,opt,name=payload_meta,json=payloadMeta,proto3" json:"payload_meta,omitempty"` // S3 bucket/key внутри meta
-	PayloadHeader    []byte `protobuf:"bytes,3,opt,name=payload_header,json=payloadHeader,proto3" json:"payload_header,omitempty"`
-	PayloadSummary   []byte `protobuf:"bytes,4,opt,name=payload_summary,json=payloadSummary,proto3" json:"payload_summary,omitempty"`
-	PayloadPositions []byte `protobuf:"bytes,5,opt,name=payload_positions,json=payloadPositions,proto3" json:"payload_positions,omitempty"`
-	PayloadFooter    []byte `protobuf:"bytes,8,opt,name=payload_footer,json=payloadFooter,proto3" json:"payload_footer,omitempty"`
-	PayloadHash      string `protobuf:"bytes,6,opt,name=payload_hash,json=payloadHash,proto3" json:"payload_hash,omitempty"` // SHA-256 от payload
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
+	PayloadMeta       []byte `protobuf:"bytes,2,opt,name=payload_meta,json=payloadMeta,proto3" json:"payload_meta,omitempty"` // S3 bucket/key внутри meta
+	PayloadHeader     []byte `protobuf:"bytes,3,opt,name=payload_header,json=payloadHeader,proto3" json:"payload_header,omitempty"`
+	PayloadSummary    []byte `protobuf:"bytes,4,opt,name=payload_summary,json=payloadSummary,proto3" json:"payload_summary,omitempty"`
+	PayloadPositions  []byte `protobuf:"bytes,5,opt,name=payload_positions,json=payloadPositions,proto3" json:"payload_positions,omitempty"`
+	PayloadFooter     []byte `protobuf:"bytes,8,opt,name=payload_footer,json=payloadFooter,proto3" json:"payload_footer,omitempty"`
+	PayloadAttributes []byte `protobuf:"bytes,9,opt,name=payload_attributes,json=payloadAttributes,proto3" json:"payload_attributes,omitempty"`
+	PayloadHash       string `protobuf:"bytes,6,opt,name=payload_hash,json=payloadHash,proto3" json:"payload_hash,omitempty"` // SHA-256 от payload
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
 }
 
 func (x *IngestDataEntry) Reset() {
@@ -324,6 +333,13 @@ func (x *IngestDataEntry) GetPayloadPositions() []byte {
 func (x *IngestDataEntry) GetPayloadFooter() []byte {
 	if x != nil {
 		return x.PayloadFooter
+	}
+	return nil
+}
+
+func (x *IngestDataEntry) GetPayloadAttributes() []byte {
+	if x != nil {
+		return x.PayloadAttributes
 	}
 	return nil
 }
@@ -697,7 +713,7 @@ const file_core_v1_etl_proto_rawDesc = "" +
 	"\rconnection_id\x18\x02 \x01(\tR\fconnectionId\x12\x1f\n" +
 	"\ventity_type\x18\x04 \x01(\tR\n" +
 	"entityType\x123\n" +
-	"\x05items\x18\x05 \x03(\v2\x1d.documan.core.v1.ERPDataEntryR\x05items\"\xbc\x02\n" +
+	"\x05items\x18\x05 \x03(\v2\x1d.documan.core.v1.ERPDataEntryR\x05items\"\xeb\x02\n" +
 	"\fERPDataEntry\x12\x1b\n" +
 	"\tentity_id\x18\x01 \x01(\tR\bentityId\x12%\n" +
 	"\x0epayload_entity\x18\x02 \x01(\fR\rpayloadEntity\x12!\n" +
@@ -705,18 +721,20 @@ const file_core_v1_etl_proto_rawDesc = "" +
 	"\x0epayload_header\x18\x04 \x01(\fR\rpayloadHeader\x12'\n" +
 	"\x0fpayload_summary\x18\x05 \x01(\fR\x0epayloadSummary\x12+\n" +
 	"\x11payload_positions\x18\x06 \x01(\fR\x10payloadPositions\x12%\n" +
-	"\x0epayload_footer\x18\b \x01(\fR\rpayloadFooter\x12!\n" +
+	"\x0epayload_footer\x18\b \x01(\fR\rpayloadFooter\x12-\n" +
+	"\x12payload_attributes\x18\t \x01(\fR\x11payloadAttributes\x12!\n" +
 	"\fpayload_hash\x18\a \x01(\tR\vpayloadHash\"s\n" +
 	"\x1cNotifyIngestDataReadyRequest\x12\x1b\n" +
 	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x126\n" +
-	"\x05items\x18\x04 \x03(\v2 .documan.core.v1.IngestDataEntryR\x05items\"\x8b\x02\n" +
+	"\x05items\x18\x04 \x03(\v2 .documan.core.v1.IngestDataEntryR\x05items\"\xba\x02\n" +
 	"\x0fIngestDataEntry\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12!\n" +
 	"\fpayload_meta\x18\x02 \x01(\fR\vpayloadMeta\x12%\n" +
 	"\x0epayload_header\x18\x03 \x01(\fR\rpayloadHeader\x12'\n" +
 	"\x0fpayload_summary\x18\x04 \x01(\fR\x0epayloadSummary\x12+\n" +
 	"\x11payload_positions\x18\x05 \x01(\fR\x10payloadPositions\x12%\n" +
-	"\x0epayload_footer\x18\b \x01(\fR\rpayloadFooter\x12!\n" +
+	"\x0epayload_footer\x18\b \x01(\fR\rpayloadFooter\x12-\n" +
+	"\x12payload_attributes\x18\t \x01(\fR\x11payloadAttributes\x12!\n" +
 	"\fpayload_hash\x18\x06 \x01(\tR\vpayloadHash\"6\n" +
 	"\fRejectedItem\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x16\n" +

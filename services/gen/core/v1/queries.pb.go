@@ -579,18 +579,19 @@ func (x *GetOriginalDocumentResponse) GetDocument() *OriginalDocumentEntry {
 }
 
 type OriginalDocumentEntry struct {
-	state            protoimpl.MessageState `protogen:"open.v1"`
-	TenantId         string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
-	Id               string                 `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
-	PayloadMeta      []byte                 `protobuf:"bytes,9,opt,name=payload_meta,json=payloadMeta,proto3" json:"payload_meta,omitempty"`
-	PayloadHeader    []byte                 `protobuf:"bytes,10,opt,name=payload_header,json=payloadHeader,proto3" json:"payload_header,omitempty"`
-	PayloadSummary   []byte                 `protobuf:"bytes,11,opt,name=payload_summary,json=payloadSummary,proto3" json:"payload_summary,omitempty"`
-	PayloadPositions []byte                 `protobuf:"bytes,12,opt,name=payload_positions,json=payloadPositions,proto3" json:"payload_positions,omitempty"`
-	PayloadFooter    []byte                 `protobuf:"bytes,17,opt,name=payload_footer,json=payloadFooter,proto3" json:"payload_footer,omitempty"`
-	PayloadHash      string                 `protobuf:"bytes,8,opt,name=payload_hash,json=payloadHash,proto3" json:"payload_hash,omitempty"`
-	PayloadedAt      *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=payloaded_at,json=payloadedAt,proto3" json:"payloaded_at,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	TenantId          string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
+	Id                string                 `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
+	PayloadMeta       []byte                 `protobuf:"bytes,9,opt,name=payload_meta,json=payloadMeta,proto3" json:"payload_meta,omitempty"`
+	PayloadHeader     []byte                 `protobuf:"bytes,10,opt,name=payload_header,json=payloadHeader,proto3" json:"payload_header,omitempty"`
+	PayloadSummary    []byte                 `protobuf:"bytes,11,opt,name=payload_summary,json=payloadSummary,proto3" json:"payload_summary,omitempty"`
+	PayloadPositions  []byte                 `protobuf:"bytes,12,opt,name=payload_positions,json=payloadPositions,proto3" json:"payload_positions,omitempty"`
+	PayloadFooter     []byte                 `protobuf:"bytes,17,opt,name=payload_footer,json=payloadFooter,proto3" json:"payload_footer,omitempty"`
+	PayloadAttributes []byte                 `protobuf:"bytes,18,opt,name=payload_attributes,json=payloadAttributes,proto3" json:"payload_attributes,omitempty"`
+	PayloadHash       string                 `protobuf:"bytes,8,opt,name=payload_hash,json=payloadHash,proto3" json:"payload_hash,omitempty"`
+	PayloadedAt       *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=payloaded_at,json=payloadedAt,proto3" json:"payloaded_at,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
 }
 
 func (x *OriginalDocumentEntry) Reset() {
@@ -668,6 +669,13 @@ func (x *OriginalDocumentEntry) GetPayloadPositions() []byte {
 func (x *OriginalDocumentEntry) GetPayloadFooter() []byte {
 	if x != nil {
 		return x.PayloadFooter
+	}
+	return nil
+}
+
+func (x *OriginalDocumentEntry) GetPayloadAttributes() []byte {
+	if x != nil {
+		return x.PayloadAttributes
 	}
 	return nil
 }
@@ -1027,20 +1035,21 @@ func (x *ListERPDocumentsResponse) GetTotalCount() int32 {
 }
 
 type ERPDocumentEntry struct {
-	state            protoimpl.MessageState `protogen:"open.v1"`
-	TenantId         string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
-	AccountId        string                 `protobuf:"bytes,2,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"`
-	EntityType       string                 `protobuf:"bytes,4,opt,name=entity_type,json=entityType,proto3" json:"entity_type,omitempty"`
-	EntityId         string                 `protobuf:"bytes,5,opt,name=entity_id,json=entityId,proto3" json:"entity_id,omitempty"`
-	PayloadMeta      []byte                 `protobuf:"bytes,6,opt,name=payload_meta,json=payloadMeta,proto3" json:"payload_meta,omitempty"`
-	PayloadHeader    []byte                 `protobuf:"bytes,7,opt,name=payload_header,json=payloadHeader,proto3" json:"payload_header,omitempty"`
-	PayloadSummary   []byte                 `protobuf:"bytes,8,opt,name=payload_summary,json=payloadSummary,proto3" json:"payload_summary,omitempty"`
-	PayloadPositions []byte                 `protobuf:"bytes,9,opt,name=payload_positions,json=payloadPositions,proto3" json:"payload_positions,omitempty"`
-	PayloadFooter    []byte                 `protobuf:"bytes,17,opt,name=payload_footer,json=payloadFooter,proto3" json:"payload_footer,omitempty"`
-	PayloadHash      string                 `protobuf:"bytes,10,opt,name=payload_hash,json=payloadHash,proto3" json:"payload_hash,omitempty"`
-	PayloadedAt      *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=payloaded_at,json=payloadedAt,proto3" json:"payloaded_at,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	TenantId          string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
+	AccountId         string                 `protobuf:"bytes,2,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"`
+	EntityType        string                 `protobuf:"bytes,4,opt,name=entity_type,json=entityType,proto3" json:"entity_type,omitempty"`
+	EntityId          string                 `protobuf:"bytes,5,opt,name=entity_id,json=entityId,proto3" json:"entity_id,omitempty"`
+	PayloadMeta       []byte                 `protobuf:"bytes,6,opt,name=payload_meta,json=payloadMeta,proto3" json:"payload_meta,omitempty"`
+	PayloadHeader     []byte                 `protobuf:"bytes,7,opt,name=payload_header,json=payloadHeader,proto3" json:"payload_header,omitempty"`
+	PayloadSummary    []byte                 `protobuf:"bytes,8,opt,name=payload_summary,json=payloadSummary,proto3" json:"payload_summary,omitempty"`
+	PayloadPositions  []byte                 `protobuf:"bytes,9,opt,name=payload_positions,json=payloadPositions,proto3" json:"payload_positions,omitempty"`
+	PayloadFooter     []byte                 `protobuf:"bytes,17,opt,name=payload_footer,json=payloadFooter,proto3" json:"payload_footer,omitempty"`
+	PayloadAttributes []byte                 `protobuf:"bytes,18,opt,name=payload_attributes,json=payloadAttributes,proto3" json:"payload_attributes,omitempty"`
+	PayloadHash       string                 `protobuf:"bytes,10,opt,name=payload_hash,json=payloadHash,proto3" json:"payload_hash,omitempty"`
+	PayloadedAt       *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=payloaded_at,json=payloadedAt,proto3" json:"payloaded_at,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
 }
 
 func (x *ERPDocumentEntry) Reset() {
@@ -1132,6 +1141,13 @@ func (x *ERPDocumentEntry) GetPayloadPositions() []byte {
 func (x *ERPDocumentEntry) GetPayloadFooter() []byte {
 	if x != nil {
 		return x.PayloadFooter
+	}
+	return nil
+}
+
+func (x *ERPDocumentEntry) GetPayloadAttributes() []byte {
+	if x != nil {
+		return x.PayloadAttributes
 	}
 	return nil
 }
@@ -1460,7 +1476,7 @@ const file_core_v1_queries_proto_rawDesc = "" +
 	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12\x0e\n" +
 	"\x02id\x18\x02 \x01(\tR\x02id\"a\n" +
 	"\x1bGetOriginalDocumentResponse\x12B\n" +
-	"\bdocument\x18\x01 \x01(\v2&.documan.core.v1.OriginalDocumentEntryR\bdocument\"\xed\x02\n" +
+	"\bdocument\x18\x01 \x01(\v2&.documan.core.v1.OriginalDocumentEntryR\bdocument\"\x9c\x03\n" +
 	"\x15OriginalDocumentEntry\x12\x1b\n" +
 	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12\x0e\n" +
 	"\x02id\x18\x02 \x01(\tR\x02id\x12!\n" +
@@ -1469,7 +1485,8 @@ const file_core_v1_queries_proto_rawDesc = "" +
 	" \x01(\fR\rpayloadHeader\x12'\n" +
 	"\x0fpayload_summary\x18\v \x01(\fR\x0epayloadSummary\x12+\n" +
 	"\x11payload_positions\x18\f \x01(\fR\x10payloadPositions\x12%\n" +
-	"\x0epayload_footer\x18\x11 \x01(\fR\rpayloadFooter\x12!\n" +
+	"\x0epayload_footer\x18\x11 \x01(\fR\rpayloadFooter\x12-\n" +
+	"\x12payload_attributes\x18\x12 \x01(\fR\x11payloadAttributes\x12!\n" +
 	"\fpayload_hash\x18\b \x01(\tR\vpayloadHash\x12=\n" +
 	"\fpayloaded_at\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\vpayloadedAt\"\xa9\x01\n" +
 	"\x16ListERPEntitiesRequest\x12\x1b\n" +
@@ -1502,7 +1519,7 @@ const file_core_v1_queries_proto_rawDesc = "" +
 	"\x18ListERPDocumentsResponse\x127\n" +
 	"\x05items\x18\x01 \x03(\v2!.documan.core.v1.ERPDocumentEntryR\x05items\x12\x1f\n" +
 	"\vtotal_count\x18\x02 \x01(\x05R\n" +
-	"totalCount\"\xb5\x03\n" +
+	"totalCount\"\xe4\x03\n" +
 	"\x10ERPDocumentEntry\x12\x1b\n" +
 	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12\x1d\n" +
 	"\n" +
@@ -1514,7 +1531,8 @@ const file_core_v1_queries_proto_rawDesc = "" +
 	"\x0epayload_header\x18\a \x01(\fR\rpayloadHeader\x12'\n" +
 	"\x0fpayload_summary\x18\b \x01(\fR\x0epayloadSummary\x12+\n" +
 	"\x11payload_positions\x18\t \x01(\fR\x10payloadPositions\x12%\n" +
-	"\x0epayload_footer\x18\x11 \x01(\fR\rpayloadFooter\x12!\n" +
+	"\x0epayload_footer\x18\x11 \x01(\fR\rpayloadFooter\x12-\n" +
+	"\x12payload_attributes\x18\x12 \x01(\fR\x11payloadAttributes\x12!\n" +
 	"\fpayload_hash\x18\n" +
 	" \x01(\tR\vpayloadHash\x12=\n" +
 	"\fpayloaded_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\vpayloadedAt\"\x97\x01\n" +
