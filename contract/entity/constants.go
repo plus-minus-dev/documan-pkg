@@ -1,8 +1,3 @@
 package entity
 
-// Source status in origin system.
-const (
-	SourceStatusActive   = "active"
-	SourceStatusArchived = "archived"
-	SourceStatusDeleted  = "deleted"
-)
+// SourceStatus* constants removed — SourceArchived bool replaces the derived status.

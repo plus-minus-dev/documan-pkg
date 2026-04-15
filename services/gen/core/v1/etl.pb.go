@@ -7,7 +7,6 @@
 package v1
 
 import (
-	v1 "github.com/plus-minus-dev/documan-pkg/services/gen/common/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -23,14 +22,13 @@ const (
 )
 
 type NotifyERPDataReadyRequest struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
-	TenantId       string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
-	ConnectionId   string                 `protobuf:"bytes,2,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
-	ConnectionType string                 `protobuf:"bytes,3,opt,name=connection_type,json=connectionType,proto3" json:"connection_type,omitempty"` // "ms"
-	ErpEntityType  string                 `protobuf:"bytes,4,opt,name=erp_entity_type,json=erpEntityType,proto3" json:"erp_entity_type,omitempty"`  // "product", "supply", ...
-	Items          []*ERPDataItem         `protobuf:"bytes,5,rep,name=items,proto3" json:"items,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TenantId      string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
+	ConnectionId  string                 `protobuf:"bytes,2,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
+	EntityType    string                 `protobuf:"bytes,4,opt,name=entity_type,json=entityType,proto3" json:"entity_type,omitempty"` // "product", "supply", ...
+	Items         []*ERPDataEntry        `protobuf:"bytes,5,rep,name=items,proto3" json:"items,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *NotifyERPDataReadyRequest) Reset() {
@@ -77,55 +75,49 @@ func (x *NotifyERPDataReadyRequest) GetConnectionId() string {
 	return ""
 }
 
-func (x *NotifyERPDataReadyRequest) GetConnectionType() string {
+func (x *NotifyERPDataReadyRequest) GetEntityType() string {
 	if x != nil {
-		return x.ConnectionType
+		return x.EntityType
 	}
 	return ""
 }
 
-func (x *NotifyERPDataReadyRequest) GetErpEntityType() string {
-	if x != nil {
-		return x.ErpEntityType
-	}
-	return ""
-}
-
-func (x *NotifyERPDataReadyRequest) GetItems() []*ERPDataItem {
+func (x *NotifyERPDataReadyRequest) GetItems() []*ERPDataEntry {
 	if x != nil {
 		return x.Items
 	}
 	return nil
 }
 
-type ERPDataItem struct {
-	state       protoimpl.MessageState `protogen:"open.v1"`
-	ErpEntityId string                 `protobuf:"bytes,1,opt,name=erp_entity_id,json=erpEntityId,proto3" json:"erp_entity_id,omitempty"`
-	// Payload JSON напрямую (bytes = []byte в Go = JSONB в Postgres)
-	PayloadEntity    []byte `protobuf:"bytes,2,opt,name=payload_entity,json=payloadEntity,proto3" json:"payload_entity,omitempty"` // erp_entities: 1 payload
-	PayloadMeta      []byte `protobuf:"bytes,3,opt,name=payload_meta,json=payloadMeta,proto3" json:"payload_meta,omitempty"`       // erp_documents: 4 payload
+type ERPDataEntry struct {
+	state    protoimpl.MessageState `protogen:"open.v1"`
+	EntityId string                 `protobuf:"bytes,1,opt,name=entity_id,json=entityId,proto3" json:"entity_id,omitempty"`
+	// Payload JSON (bytes = []byte в Go = JSONB в Postgres)
+	PayloadEntity    []byte `protobuf:"bytes,2,opt,name=payload_entity,json=payloadEntity,proto3" json:"payload_entity,omitempty"` // entities: единственный payload
+	PayloadMeta      []byte `protobuf:"bytes,3,opt,name=payload_meta,json=payloadMeta,proto3" json:"payload_meta,omitempty"`       // documents: 5 payload
 	PayloadHeader    []byte `protobuf:"bytes,4,opt,name=payload_header,json=payloadHeader,proto3" json:"payload_header,omitempty"`
 	PayloadSummary   []byte `protobuf:"bytes,5,opt,name=payload_summary,json=payloadSummary,proto3" json:"payload_summary,omitempty"`
 	PayloadPositions []byte `protobuf:"bytes,6,opt,name=payload_positions,json=payloadPositions,proto3" json:"payload_positions,omitempty"`
+	PayloadFooter    []byte `protobuf:"bytes,8,opt,name=payload_footer,json=payloadFooter,proto3" json:"payload_footer,omitempty"`
 	PayloadHash      string `protobuf:"bytes,7,opt,name=payload_hash,json=payloadHash,proto3" json:"payload_hash,omitempty"` // SHA-256 от payload
 	unknownFields    protoimpl.UnknownFields
 	sizeCache        protoimpl.SizeCache
 }
 
-func (x *ERPDataItem) Reset() {
-	*x = ERPDataItem{}
+func (x *ERPDataEntry) Reset() {
+	*x = ERPDataEntry{}
 	mi := &file_core_v1_etl_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ERPDataItem) String() string {
+func (x *ERPDataEntry) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ERPDataItem) ProtoMessage() {}
+func (*ERPDataEntry) ProtoMessage() {}
 
-func (x *ERPDataItem) ProtoReflect() protoreflect.Message {
+func (x *ERPDataEntry) ProtoReflect() protoreflect.Message {
 	mi := &file_core_v1_etl_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -137,54 +129,61 @@ func (x *ERPDataItem) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ERPDataItem.ProtoReflect.Descriptor instead.
-func (*ERPDataItem) Descriptor() ([]byte, []int) {
+// Deprecated: Use ERPDataEntry.ProtoReflect.Descriptor instead.
+func (*ERPDataEntry) Descriptor() ([]byte, []int) {
 	return file_core_v1_etl_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *ERPDataItem) GetErpEntityId() string {
+func (x *ERPDataEntry) GetEntityId() string {
 	if x != nil {
-		return x.ErpEntityId
+		return x.EntityId
 	}
 	return ""
 }
 
-func (x *ERPDataItem) GetPayloadEntity() []byte {
+func (x *ERPDataEntry) GetPayloadEntity() []byte {
 	if x != nil {
 		return x.PayloadEntity
 	}
 	return nil
 }
 
-func (x *ERPDataItem) GetPayloadMeta() []byte {
+func (x *ERPDataEntry) GetPayloadMeta() []byte {
 	if x != nil {
 		return x.PayloadMeta
 	}
 	return nil
 }
 
-func (x *ERPDataItem) GetPayloadHeader() []byte {
+func (x *ERPDataEntry) GetPayloadHeader() []byte {
 	if x != nil {
 		return x.PayloadHeader
 	}
 	return nil
 }
 
-func (x *ERPDataItem) GetPayloadSummary() []byte {
+func (x *ERPDataEntry) GetPayloadSummary() []byte {
 	if x != nil {
 		return x.PayloadSummary
 	}
 	return nil
 }
 
-func (x *ERPDataItem) GetPayloadPositions() []byte {
+func (x *ERPDataEntry) GetPayloadPositions() []byte {
 	if x != nil {
 		return x.PayloadPositions
 	}
 	return nil
 }
 
-func (x *ERPDataItem) GetPayloadHash() string {
+func (x *ERPDataEntry) GetPayloadFooter() []byte {
+	if x != nil {
+		return x.PayloadFooter
+	}
+	return nil
+}
+
+func (x *ERPDataEntry) GetPayloadHash() string {
 	if x != nil {
 		return x.PayloadHash
 	}
@@ -194,9 +193,7 @@ func (x *ERPDataItem) GetPayloadHash() string {
 type NotifyIngestDataReadyRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	TenantId      string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
-	FileBatch     string                 `protobuf:"bytes,2,opt,name=file_batch,json=fileBatch,proto3" json:"file_batch,omitempty"`
-	DocType       string                 `protobuf:"bytes,3,opt,name=doc_type,json=docType,proto3" json:"doc_type,omitempty"` // "upd", "torg-12", ...
-	Items         []*IngestDataItem      `protobuf:"bytes,4,rep,name=items,proto3" json:"items,omitempty"`
+	Items         []*IngestDataEntry     `protobuf:"bytes,4,rep,name=items,proto3" json:"items,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -238,56 +235,41 @@ func (x *NotifyIngestDataReadyRequest) GetTenantId() string {
 	return ""
 }
 
-func (x *NotifyIngestDataReadyRequest) GetFileBatch() string {
-	if x != nil {
-		return x.FileBatch
-	}
-	return ""
-}
-
-func (x *NotifyIngestDataReadyRequest) GetDocType() string {
-	if x != nil {
-		return x.DocType
-	}
-	return ""
-}
-
-func (x *NotifyIngestDataReadyRequest) GetItems() []*IngestDataItem {
+func (x *NotifyIngestDataReadyRequest) GetItems() []*IngestDataEntry {
 	if x != nil {
 		return x.Items
 	}
 	return nil
 }
 
-type IngestDataItem struct {
+type IngestDataEntry struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
-	DocId string                 `protobuf:"bytes,1,opt,name=doc_id,json=docId,proto3" json:"doc_id,omitempty"`
-	// Payload JSON напрямую
-	PayloadMeta      []byte `protobuf:"bytes,2,opt,name=payload_meta,json=payloadMeta,proto3" json:"payload_meta,omitempty"`
+	Id    string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"` // UUID документа (генерируется ingest)
+	// Payload JSON
+	PayloadMeta      []byte `protobuf:"bytes,2,opt,name=payload_meta,json=payloadMeta,proto3" json:"payload_meta,omitempty"` // S3 bucket/key внутри meta
 	PayloadHeader    []byte `protobuf:"bytes,3,opt,name=payload_header,json=payloadHeader,proto3" json:"payload_header,omitempty"`
 	PayloadSummary   []byte `protobuf:"bytes,4,opt,name=payload_summary,json=payloadSummary,proto3" json:"payload_summary,omitempty"`
 	PayloadPositions []byte `protobuf:"bytes,5,opt,name=payload_positions,json=payloadPositions,proto3" json:"payload_positions,omitempty"`
+	PayloadFooter    []byte `protobuf:"bytes,8,opt,name=payload_footer,json=payloadFooter,proto3" json:"payload_footer,omitempty"`
 	PayloadHash      string `protobuf:"bytes,6,opt,name=payload_hash,json=payloadHash,proto3" json:"payload_hash,omitempty"` // SHA-256 от payload
-	// Ссылка на оригинальный файл в S3 (PDF/XML/...) для скачивания через BFF
-	OriginalFile  *v1.S3Ref `protobuf:"bytes,7,opt,name=original_file,json=originalFile,proto3" json:"original_file,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
-func (x *IngestDataItem) Reset() {
-	*x = IngestDataItem{}
+func (x *IngestDataEntry) Reset() {
+	*x = IngestDataEntry{}
 	mi := &file_core_v1_etl_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *IngestDataItem) String() string {
+func (x *IngestDataEntry) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*IngestDataItem) ProtoMessage() {}
+func (*IngestDataEntry) ProtoMessage() {}
 
-func (x *IngestDataItem) ProtoReflect() protoreflect.Message {
+func (x *IngestDataEntry) ProtoReflect() protoreflect.Message {
 	mi := &file_core_v1_etl_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -299,64 +281,64 @@ func (x *IngestDataItem) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use IngestDataItem.ProtoReflect.Descriptor instead.
-func (*IngestDataItem) Descriptor() ([]byte, []int) {
+// Deprecated: Use IngestDataEntry.ProtoReflect.Descriptor instead.
+func (*IngestDataEntry) Descriptor() ([]byte, []int) {
 	return file_core_v1_etl_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *IngestDataItem) GetDocId() string {
+func (x *IngestDataEntry) GetId() string {
 	if x != nil {
-		return x.DocId
+		return x.Id
 	}
 	return ""
 }
 
-func (x *IngestDataItem) GetPayloadMeta() []byte {
+func (x *IngestDataEntry) GetPayloadMeta() []byte {
 	if x != nil {
 		return x.PayloadMeta
 	}
 	return nil
 }
 
-func (x *IngestDataItem) GetPayloadHeader() []byte {
+func (x *IngestDataEntry) GetPayloadHeader() []byte {
 	if x != nil {
 		return x.PayloadHeader
 	}
 	return nil
 }
 
-func (x *IngestDataItem) GetPayloadSummary() []byte {
+func (x *IngestDataEntry) GetPayloadSummary() []byte {
 	if x != nil {
 		return x.PayloadSummary
 	}
 	return nil
 }
 
-func (x *IngestDataItem) GetPayloadPositions() []byte {
+func (x *IngestDataEntry) GetPayloadPositions() []byte {
 	if x != nil {
 		return x.PayloadPositions
 	}
 	return nil
 }
 
-func (x *IngestDataItem) GetPayloadHash() string {
+func (x *IngestDataEntry) GetPayloadFooter() []byte {
+	if x != nil {
+		return x.PayloadFooter
+	}
+	return nil
+}
+
+func (x *IngestDataEntry) GetPayloadHash() string {
 	if x != nil {
 		return x.PayloadHash
 	}
 	return ""
 }
 
-func (x *IngestDataItem) GetOriginalFile() *v1.S3Ref {
-	if x != nil {
-		return x.OriginalFile
-	}
-	return nil
-}
-
 type RejectedItem struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	EntityId      string                 `protobuf:"bytes,1,opt,name=entity_id,json=entityId,proto3" json:"entity_id,omitempty"` // erp_entity_id или doc_id
-	Reason        string                 `protobuf:"bytes,2,opt,name=reason,proto3" json:"reason,omitempty"`                     // причина отклонения
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"` // entity_id или document id
+	Reason        string                 `protobuf:"bytes,2,opt,name=reason,proto3" json:"reason,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -391,9 +373,9 @@ func (*RejectedItem) Descriptor() ([]byte, []int) {
 	return file_core_v1_etl_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *RejectedItem) GetEntityId() string {
+func (x *RejectedItem) GetId() string {
 	if x != nil {
-		return x.EntityId
+		return x.Id
 	}
 	return ""
 }
@@ -407,8 +389,8 @@ func (x *RejectedItem) GetReason() string {
 
 type NotifyERPDataReadyResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Accepted      int32                  `protobuf:"varint,1,opt,name=accepted,proto3" json:"accepted,omitempty"` // сколько items принято
-	Rejected      []*RejectedItem        `protobuf:"bytes,2,rep,name=rejected,proto3" json:"rejected,omitempty"`  // отклонённые items
+	Accepted      int32                  `protobuf:"varint,1,opt,name=accepted,proto3" json:"accepted,omitempty"`
+	Rejected      []*RejectedItem        `protobuf:"bytes,2,rep,name=rejected,proto3" json:"rejected,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -459,8 +441,8 @@ func (x *NotifyERPDataReadyResponse) GetRejected() []*RejectedItem {
 
 type NotifyIngestDataReadyResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Accepted      int32                  `protobuf:"varint,1,opt,name=accepted,proto3" json:"accepted,omitempty"` // сколько items принято
-	Rejected      []*RejectedItem        `protobuf:"bytes,2,rep,name=rejected,proto3" json:"rejected,omitempty"`  // отклонённые items
+	Accepted      int32                  `protobuf:"varint,1,opt,name=accepted,proto3" json:"accepted,omitempty"`
+	Rejected      []*RejectedItem        `protobuf:"bytes,2,rep,name=rejected,proto3" json:"rejected,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -598,9 +580,9 @@ type ActiveConnection struct {
 	Enabled         bool                   `protobuf:"varint,5,opt,name=enabled,proto3" json:"enabled,omitempty"`
 	Status          string                 `protobuf:"bytes,6,opt,name=status,proto3" json:"status,omitempty"`
 	AuthType        string                 `protobuf:"bytes,7,opt,name=auth_type,json=authType,proto3" json:"auth_type,omitempty"`                      // "vendor_app" | "json_api" | "token" | "login_password"
-	ErpToken        string                 `protobuf:"bytes,8,opt,name=erp_token,json=erpToken,proto3" json:"erp_token,omitempty"`                      // токен доступа к ERP API (auth-context)
+	ErpToken        string                 `protobuf:"bytes,8,opt,name=erp_token,json=erpToken,proto3" json:"erp_token,omitempty"`                      // токен доступа к ERP API
 	ProviderPayload []byte                 `protobuf:"bytes,9,opt,name=provider_payload,json=providerPayload,proto3" json:"provider_payload,omitempty"` // JSONB: vendor/json_api метаданные
-	EtlEligible     bool                   `protobuf:"varint,10,opt,name=etl_eligible,json=etlEligible,proto3" json:"etl_eligible,omitempty"`           // участвует ли connection в ETL-выборе
+	EtlEligible     bool                   `protobuf:"varint,10,opt,name=etl_eligible,json=etlEligible,proto3" json:"etl_eligible,omitempty"`           // участвует ли connection в ETL
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -709,37 +691,35 @@ var File_core_v1_etl_proto protoreflect.FileDescriptor
 
 const file_core_v1_etl_proto_rawDesc = "" +
 	"\n" +
-	"\x11core/v1/etl.proto\x12\x0fdocuman.core.v1\x1a\x15common/v1/types.proto\"\xe2\x01\n" +
+	"\x11core/v1/etl.proto\x12\x0fdocuman.core.v1\"\xb3\x01\n" +
 	"\x19NotifyERPDataReadyRequest\x12\x1b\n" +
 	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12#\n" +
-	"\rconnection_id\x18\x02 \x01(\tR\fconnectionId\x12'\n" +
-	"\x0fconnection_type\x18\x03 \x01(\tR\x0econnectionType\x12&\n" +
-	"\x0ferp_entity_type\x18\x04 \x01(\tR\rerpEntityType\x122\n" +
-	"\x05items\x18\x05 \x03(\v2\x1c.documan.core.v1.ERPDataItemR\x05items\"\x9b\x02\n" +
-	"\vERPDataItem\x12\"\n" +
-	"\rerp_entity_id\x18\x01 \x01(\tR\verpEntityId\x12%\n" +
+	"\rconnection_id\x18\x02 \x01(\tR\fconnectionId\x12\x1f\n" +
+	"\ventity_type\x18\x04 \x01(\tR\n" +
+	"entityType\x123\n" +
+	"\x05items\x18\x05 \x03(\v2\x1d.documan.core.v1.ERPDataEntryR\x05items\"\xbc\x02\n" +
+	"\fERPDataEntry\x12\x1b\n" +
+	"\tentity_id\x18\x01 \x01(\tR\bentityId\x12%\n" +
 	"\x0epayload_entity\x18\x02 \x01(\fR\rpayloadEntity\x12!\n" +
 	"\fpayload_meta\x18\x03 \x01(\fR\vpayloadMeta\x12%\n" +
 	"\x0epayload_header\x18\x04 \x01(\fR\rpayloadHeader\x12'\n" +
 	"\x0fpayload_summary\x18\x05 \x01(\fR\x0epayloadSummary\x12+\n" +
-	"\x11payload_positions\x18\x06 \x01(\fR\x10payloadPositions\x12!\n" +
-	"\fpayload_hash\x18\a \x01(\tR\vpayloadHash\"\xac\x01\n" +
+	"\x11payload_positions\x18\x06 \x01(\fR\x10payloadPositions\x12%\n" +
+	"\x0epayload_footer\x18\b \x01(\fR\rpayloadFooter\x12!\n" +
+	"\fpayload_hash\x18\a \x01(\tR\vpayloadHash\"s\n" +
 	"\x1cNotifyIngestDataReadyRequest\x12\x1b\n" +
-	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12\x1d\n" +
-	"\n" +
-	"file_batch\x18\x02 \x01(\tR\tfileBatch\x12\x19\n" +
-	"\bdoc_type\x18\x03 \x01(\tR\adocType\x125\n" +
-	"\x05items\x18\x04 \x03(\v2\x1f.documan.core.v1.IngestDataItemR\x05items\"\xa9\x02\n" +
-	"\x0eIngestDataItem\x12\x15\n" +
-	"\x06doc_id\x18\x01 \x01(\tR\x05docId\x12!\n" +
+	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x126\n" +
+	"\x05items\x18\x04 \x03(\v2 .documan.core.v1.IngestDataEntryR\x05items\"\x8b\x02\n" +
+	"\x0fIngestDataEntry\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12!\n" +
 	"\fpayload_meta\x18\x02 \x01(\fR\vpayloadMeta\x12%\n" +
 	"\x0epayload_header\x18\x03 \x01(\fR\rpayloadHeader\x12'\n" +
 	"\x0fpayload_summary\x18\x04 \x01(\fR\x0epayloadSummary\x12+\n" +
-	"\x11payload_positions\x18\x05 \x01(\fR\x10payloadPositions\x12!\n" +
-	"\fpayload_hash\x18\x06 \x01(\tR\vpayloadHash\x12=\n" +
-	"\roriginal_file\x18\a \x01(\v2\x18.documan.common.v1.S3RefR\foriginalFile\"C\n" +
-	"\fRejectedItem\x12\x1b\n" +
-	"\tentity_id\x18\x01 \x01(\tR\bentityId\x12\x16\n" +
+	"\x11payload_positions\x18\x05 \x01(\fR\x10payloadPositions\x12%\n" +
+	"\x0epayload_footer\x18\b \x01(\fR\rpayloadFooter\x12!\n" +
+	"\fpayload_hash\x18\x06 \x01(\tR\vpayloadHash\"6\n" +
+	"\fRejectedItem\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x16\n" +
 	"\x06reason\x18\x02 \x01(\tR\x06reason\"s\n" +
 	"\x1aNotifyERPDataReadyResponse\x12\x1a\n" +
 	"\baccepted\x18\x01 \x01(\x05R\baccepted\x129\n" +
@@ -782,35 +762,33 @@ func file_core_v1_etl_proto_rawDescGZIP() []byte {
 var file_core_v1_etl_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_core_v1_etl_proto_goTypes = []any{
 	(*NotifyERPDataReadyRequest)(nil),     // 0: documan.core.v1.NotifyERPDataReadyRequest
-	(*ERPDataItem)(nil),                   // 1: documan.core.v1.ERPDataItem
+	(*ERPDataEntry)(nil),                  // 1: documan.core.v1.ERPDataEntry
 	(*NotifyIngestDataReadyRequest)(nil),  // 2: documan.core.v1.NotifyIngestDataReadyRequest
-	(*IngestDataItem)(nil),                // 3: documan.core.v1.IngestDataItem
+	(*IngestDataEntry)(nil),               // 3: documan.core.v1.IngestDataEntry
 	(*RejectedItem)(nil),                  // 4: documan.core.v1.RejectedItem
 	(*NotifyERPDataReadyResponse)(nil),    // 5: documan.core.v1.NotifyERPDataReadyResponse
 	(*NotifyIngestDataReadyResponse)(nil), // 6: documan.core.v1.NotifyIngestDataReadyResponse
 	(*GetActiveConnectionsRequest)(nil),   // 7: documan.core.v1.GetActiveConnectionsRequest
 	(*GetActiveConnectionsResponse)(nil),  // 8: documan.core.v1.GetActiveConnectionsResponse
 	(*ActiveConnection)(nil),              // 9: documan.core.v1.ActiveConnection
-	(*v1.S3Ref)(nil),                      // 10: documan.common.v1.S3Ref
 }
 var file_core_v1_etl_proto_depIdxs = []int32{
-	1,  // 0: documan.core.v1.NotifyERPDataReadyRequest.items:type_name -> documan.core.v1.ERPDataItem
-	3,  // 1: documan.core.v1.NotifyIngestDataReadyRequest.items:type_name -> documan.core.v1.IngestDataItem
-	10, // 2: documan.core.v1.IngestDataItem.original_file:type_name -> documan.common.v1.S3Ref
-	4,  // 3: documan.core.v1.NotifyERPDataReadyResponse.rejected:type_name -> documan.core.v1.RejectedItem
-	4,  // 4: documan.core.v1.NotifyIngestDataReadyResponse.rejected:type_name -> documan.core.v1.RejectedItem
-	9,  // 5: documan.core.v1.GetActiveConnectionsResponse.items:type_name -> documan.core.v1.ActiveConnection
-	0,  // 6: documan.core.v1.CoreETLService.NotifyERPDataReady:input_type -> documan.core.v1.NotifyERPDataReadyRequest
-	2,  // 7: documan.core.v1.CoreETLService.NotifyIngestDataReady:input_type -> documan.core.v1.NotifyIngestDataReadyRequest
-	7,  // 8: documan.core.v1.CoreETLService.GetActiveConnections:input_type -> documan.core.v1.GetActiveConnectionsRequest
-	5,  // 9: documan.core.v1.CoreETLService.NotifyERPDataReady:output_type -> documan.core.v1.NotifyERPDataReadyResponse
-	6,  // 10: documan.core.v1.CoreETLService.NotifyIngestDataReady:output_type -> documan.core.v1.NotifyIngestDataReadyResponse
-	8,  // 11: documan.core.v1.CoreETLService.GetActiveConnections:output_type -> documan.core.v1.GetActiveConnectionsResponse
-	9,  // [9:12] is the sub-list for method output_type
-	6,  // [6:9] is the sub-list for method input_type
-	6,  // [6:6] is the sub-list for extension type_name
-	6,  // [6:6] is the sub-list for extension extendee
-	0,  // [0:6] is the sub-list for field type_name
+	1, // 0: documan.core.v1.NotifyERPDataReadyRequest.items:type_name -> documan.core.v1.ERPDataEntry
+	3, // 1: documan.core.v1.NotifyIngestDataReadyRequest.items:type_name -> documan.core.v1.IngestDataEntry
+	4, // 2: documan.core.v1.NotifyERPDataReadyResponse.rejected:type_name -> documan.core.v1.RejectedItem
+	4, // 3: documan.core.v1.NotifyIngestDataReadyResponse.rejected:type_name -> documan.core.v1.RejectedItem
+	9, // 4: documan.core.v1.GetActiveConnectionsResponse.items:type_name -> documan.core.v1.ActiveConnection
+	0, // 5: documan.core.v1.CoreETLService.NotifyERPDataReady:input_type -> documan.core.v1.NotifyERPDataReadyRequest
+	2, // 6: documan.core.v1.CoreETLService.NotifyIngestDataReady:input_type -> documan.core.v1.NotifyIngestDataReadyRequest
+	7, // 7: documan.core.v1.CoreETLService.GetActiveConnections:input_type -> documan.core.v1.GetActiveConnectionsRequest
+	5, // 8: documan.core.v1.CoreETLService.NotifyERPDataReady:output_type -> documan.core.v1.NotifyERPDataReadyResponse
+	6, // 9: documan.core.v1.CoreETLService.NotifyIngestDataReady:output_type -> documan.core.v1.NotifyIngestDataReadyResponse
+	8, // 10: documan.core.v1.CoreETLService.GetActiveConnections:output_type -> documan.core.v1.GetActiveConnectionsResponse
+	8, // [8:11] is the sub-list for method output_type
+	5, // [5:8] is the sub-list for method input_type
+	5, // [5:5] is the sub-list for extension type_name
+	5, // [5:5] is the sub-list for extension extendee
+	0, // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_core_v1_etl_proto_init() }

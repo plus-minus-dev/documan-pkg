@@ -28,14 +28,14 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
-// CoreETLService -- приём данных от connector-ms и ingest.
-// Payload передаётся напрямую через gRPC как bytes (JSON, до ~1000 строк).
+// CoreETLService — приём данных от connector-ms и ingest.
+// Payload передаётся как bytes (JSON).
 type CoreETLServiceClient interface {
-	// connector-ms: "вот справочники/документы из ERP"
+	// connector-ms: справочники/документы из ERP
 	NotifyERPDataReady(ctx context.Context, in *NotifyERPDataReadyRequest, opts ...grpc.CallOption) (*NotifyERPDataReadyResponse, error)
-	// ingest: "вот распарсенные документы"
+	// ingest: распарсенные оригинальные документы
 	NotifyIngestDataReady(ctx context.Context, in *NotifyIngestDataReadyRequest, opts ...grpc.CallOption) (*NotifyIngestDataReadyResponse, error)
-	// connector-ms poll: "какие подключения мне обслуживать?"
+	// connector-ms poll: какие подключения обслуживать?
 	GetActiveConnections(ctx context.Context, in *GetActiveConnectionsRequest, opts ...grpc.CallOption) (*GetActiveConnectionsResponse, error)
 }
 
@@ -81,14 +81,14 @@ func (c *coreETLServiceClient) GetActiveConnections(ctx context.Context, in *Get
 // All implementations must embed UnimplementedCoreETLServiceServer
 // for forward compatibility.
 //
-// CoreETLService -- приём данных от connector-ms и ingest.
-// Payload передаётся напрямую через gRPC как bytes (JSON, до ~1000 строк).
+// CoreETLService — приём данных от connector-ms и ingest.
+// Payload передаётся как bytes (JSON).
 type CoreETLServiceServer interface {
-	// connector-ms: "вот справочники/документы из ERP"
+	// connector-ms: справочники/документы из ERP
 	NotifyERPDataReady(context.Context, *NotifyERPDataReadyRequest) (*NotifyERPDataReadyResponse, error)
-	// ingest: "вот распарсенные документы"
+	// ingest: распарсенные оригинальные документы
 	NotifyIngestDataReady(context.Context, *NotifyIngestDataReadyRequest) (*NotifyIngestDataReadyResponse, error)
-	// connector-ms poll: "какие подключения мне обслуживать?"
+	// connector-ms poll: какие подключения обслуживать?
 	GetActiveConnections(context.Context, *GetActiveConnectionsRequest) (*GetActiveConnectionsResponse, error)
 	mustEmbedUnimplementedCoreETLServiceServer()
 }

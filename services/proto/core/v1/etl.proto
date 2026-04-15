@@ -3,42 +3,40 @@ package documan.core.v1;
 
 option go_package = "github.com/plus-minus-dev/documan-pkg/services/gen/core/v1";
 
-import "common/v1/types.proto";
-
-// CoreETLService -- приём данных от connector-ms и ingest.
-// Payload передаётся напрямую через gRPC как bytes (JSON, до ~1000 строк).
+// CoreETLService — приём данных от connector-ms и ingest.
+// Payload передаётся как bytes (JSON).
 service CoreETLService {
-  // connector-ms: "вот справочники/документы из ERP"
+  // connector-ms: справочники/документы из ERP
   rpc NotifyERPDataReady(NotifyERPDataReadyRequest) returns (NotifyERPDataReadyResponse);
 
-  // ingest: "вот распарсенные документы"
+  // ingest: распарсенные оригинальные документы
   rpc NotifyIngestDataReady(NotifyIngestDataReadyRequest) returns (NotifyIngestDataReadyResponse);
 
-  // connector-ms poll: "какие подключения мне обслуживать?"
+  // connector-ms poll: какие подключения обслуживать?
   rpc GetActiveConnections(GetActiveConnectionsRequest) returns (GetActiveConnectionsResponse);
 }
 
 // ===== NotifyERPDataReady =====
-// Для erp_entities: 1 payload (payload_entity)
-// Для erp_documents: 4 payload (meta, header, summary, positions)
+// entities: payload_entity
+// documents: payload_meta + header + summary + positions + footer
 
 message NotifyERPDataReadyRequest {
   string tenant_id = 1;
   string connection_id = 2;
-  string connection_type = 3;                          // "ms"
-  string erp_entity_type = 4;                          // "product", "supply", ...
-  repeated ERPDataItem items = 5;
+  string entity_type = 4;                              // "product", "supply", ...
+  repeated ERPDataEntry items = 5;
 }
 
-message ERPDataItem {
-  string erp_entity_id = 1;
+message ERPDataEntry {
+  string entity_id = 1;
 
-  // Payload JSON напрямую (bytes = []byte в Go = JSONB в Postgres)
-  bytes payload_entity = 2;                            // erp_entities: 1 payload
-  bytes payload_meta = 3;                              // erp_documents: 4 payload
+  // Payload JSON (bytes = []byte в Go = JSONB в Postgres)
+  bytes payload_entity = 2;                            // entities: единственный payload
+  bytes payload_meta = 3;                              // documents: 5 payload
   bytes payload_header = 4;
   bytes payload_summary = 5;
   bytes payload_positions = 6;
+  bytes payload_footer = 8;
 
   string payload_hash = 7;                             // SHA-256 от payload
 }
@@ -47,48 +45,42 @@ message ERPDataItem {
 
 message NotifyIngestDataReadyRequest {
   string tenant_id = 1;
-  string file_batch = 2;
-  string doc_type = 3;                                 // "upd", "torg-12", ...
-  repeated IngestDataItem items = 4;
+  repeated IngestDataEntry items = 4;
 }
 
-message IngestDataItem {
-  string doc_id = 1;
+message IngestDataEntry {
+  string id = 1;                                       // UUID документа (генерируется ingest)
 
-  // Payload JSON напрямую
-  bytes payload_meta = 2;
+  // Payload JSON
+  bytes payload_meta = 2;                              // S3 bucket/key внутри meta
   bytes payload_header = 3;
   bytes payload_summary = 4;
   bytes payload_positions = 5;
+  bytes payload_footer = 8;
 
   string payload_hash = 6;                             // SHA-256 от payload
-
-  // Ссылка на оригинальный файл в S3 (PDF/XML/...) для скачивания через BFF
-  documan.common.v1.S3Ref original_file = 7;
 }
 
 // ===== Responses =====
 
 message RejectedItem {
-  string entity_id = 1;                                // erp_entity_id или doc_id
-  string reason = 2;                                   // причина отклонения
+  string id = 1;                                       // entity_id или document id
+  string reason = 2;
 }
 
 message NotifyERPDataReadyResponse {
-  int32 accepted = 1;                                  // сколько items принято
-  repeated RejectedItem rejected = 2;                  // отклонённые items
+  int32 accepted = 1;
+  repeated RejectedItem rejected = 2;
 }
 
 message NotifyIngestDataReadyResponse {
-  int32 accepted = 1;                                  // сколько items принято
-  repeated RejectedItem rejected = 2;                  // отклонённые items
+  int32 accepted = 1;
+  repeated RejectedItem rejected = 2;
 }
 
 // ===== GetActiveConnections =====
 
-message GetActiveConnectionsRequest {
-  // пусто -- connector получает все активные подключения
-}
+message GetActiveConnectionsRequest {}
 
 message GetActiveConnectionsResponse {
   repeated ActiveConnection items = 1;
@@ -102,7 +94,7 @@ message ActiveConnection {
   bool enabled = 5;
   string status = 6;
   string auth_type = 7;                               // "vendor_app" | "json_api" | "token" | "login_password"
-  string erp_token = 8;                               // токен доступа к ERP API (auth-context)
+  string erp_token = 8;                               // токен доступа к ERP API
   bytes provider_payload = 9;                          // JSONB: vendor/json_api метаданные
-  bool etl_eligible = 10;                              // участвует ли connection в ETL-выборе
+  bool etl_eligible = 10;                              // участвует ли connection в ETL
 }
