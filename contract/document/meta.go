@@ -3,19 +3,21 @@ package document
 // Meta — payload_meta: служебная информация о документе и его источнике.
 type Meta struct {
 	// Источник
-	Source          string `json:"source,omitempty"`            // "ingest", "connector-ms", "connector-1c"
+	Source string `json:"source,omitempty"` // для original: "ms_files", "ms_dnd", "web" или "my_dnd" или "ui_dnd". Для erp: "connector-ms", "connector-1c"
+
 	SourceAccountID string `json:"source_account_id,omitempty"` // opaque account id источника, не обязательно UUID
 
 	// Номер/дата в системе-источнике (ERP internal name/moment)
 	SourceNumber string `json:"source_number,omitempty"`
 	SourceDate   string `json:"source_date,omitempty"` // YYYY-MM-DD
 
-	// Состояние в системе-источнике.
-	// Приоритет вычисления: deleted -> archived -> active.
+	// Состояние в системе-источнике
 	SourceCreatedAt string `json:"source_created_at,omitempty"` // RFC3339 UTC
 	SourceUpdatedAt string `json:"source_updated_at,omitempty"` // RFC3339 UTC
 	SourceDeletedAt string `json:"source_deleted_at,omitempty"` // RFC3339 UTC
-	SourceStatus    string `json:"source_status,omitempty"`     // active | archived | deleted
+	SourceState       string `json:"source_state,omitempty"`       // статус документа в ERP
+	SourceRate        string `json:"source_rate,omitempty"`        // курс валюты в источнике
+	SourceDescription string `json:"source_description,omitempty"` // описание / примечание к документу из источника
 
 	// Файл-оригинал (ingest)
 	FileName       string `json:"file_name,omitempty"`
@@ -34,7 +36,14 @@ type Meta struct {
 	ParseRule  string `json:"parse_rule,omitempty"` // e.g. "invoice_xlsx", "upd_pdf", "ms_supply"
 	ParseError string `json:"parse_error,omitempty"`
 
-	// Служебные даты
+	// Служебные даты и состояние записи в Documan
 	CreatedAt   string `json:"created_at,omitempty"`   // RFC3339 UTC, запись создана
+	UpdatedAt   string `json:"updated_at,omitempty"`   // RFC3339 UTC, запись обновлена
+	DeletedAt   string `json:"deleted_at,omitempty"`   // RFC3339 UTC, запись удалена (soft delete)
 	PayloadedAt string `json:"payloaded_at,omitempty"` // RFC3339 UTC, payload сформирован
+	Archived    bool   `json:"archived,omitempty"`     // soft delete флаг записи в Documan
+
+	// Трассировка (закомментировано — раскомментировать при необходимости)
+	// ConnectionType         string `json:"connection_type,omitempty"`          // auth type соединения (json_api, vendor_app, ...)
+	// LastSourceConnectionID string `json:"last_source_connection_id,omitempty"` // UUID connection, который последним обновил запись
 }

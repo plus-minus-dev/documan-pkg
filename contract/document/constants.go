@@ -15,9 +15,4 @@ const (
 	DirectionReverse = "reverse"
 )
 
-// Source status in origin system.
-const (
-	SourceStatusActive   = "active"
-	SourceStatusArchived = "archived"
-	SourceStatusDeleted  = "deleted"
-)
+// SourceStatus* constants removed — replaced by Meta.SourceState (raw ERP status).
