@@ -4,9 +4,7 @@ package documan.core.v1;
 option go_package = "github.com/plus-minus-dev/documan-pkg/services/gen/core/v1";
 
 import "google/protobuf/timestamp.proto";
-import "common/v1/types.proto";
 
-// CoreQueryService -- чтение, вызывает BFF.
 service CoreQueryService {
   rpc GetConnection(GetConnectionRequest) returns (GetConnectionResponse);
   rpc ListConnections(ListConnectionsRequest) returns (ListConnectionsResponse);
@@ -15,8 +13,6 @@ service CoreQueryService {
   rpc ListERPEntities(ListERPEntitiesRequest) returns (ListERPEntitiesResponse);
   rpc ListERPDocuments(ListERPDocumentsRequest) returns (ListERPDocumentsResponse);
   rpc GetERPDocument(GetERPDocumentRequest) returns (GetERPDocumentResponse);
-
-  // ERP document counts per entity type for a connection
   rpc GetERPDocumentCounts(GetERPDocumentCountsRequest) returns (GetERPDocumentCountsResponse);
 }
 
@@ -54,64 +50,42 @@ message ConnectionItem {
   google.protobuf.Timestamp last_sync_at = 9;
   google.protobuf.Timestamp created_at = 10;
   google.protobuf.Timestamp updated_at = 11;
-  bytes provider_payload = 12;     // JSONB: vendor/json_api метаданные
-  bool etl_eligible = 13;          // участвует ли connection в ETL-выборе
+  bytes provider_payload = 12;
+  bool etl_eligible = 13;
 }
 
 // ===== OriginalDocument =====
 
 message ListOriginalDocumentsRequest {
   string tenant_id = 1;
-  string doc_type = 2;                        // фильтр, пустой = все
   int32 limit = 3;
   int32 offset = 4;
 }
 
 message ListOriginalDocumentsResponse {
-  repeated OriginalDocumentItem items = 1;
+  repeated OriginalDocumentEntry items = 1;
   int32 total_count = 2;
 }
 
 message GetOriginalDocumentRequest {
   string tenant_id = 1;
-  string doc_id = 2;
+  string id = 2;
 }
 
 message GetOriginalDocumentResponse {
-  OriginalDocumentDetails document = 1;
+  OriginalDocumentEntry document = 1;
 }
 
-message OriginalDocumentItem {
+message OriginalDocumentEntry {
   string tenant_id = 1;
-  string doc_id = 2;
-  string doc_type = 3;
-  string file_batch = 4;
-  string file_name = 5;
-  string file_ext = 6;
-  string file_hash = 7;
-  string payload_hash = 8;
-  google.protobuf.Timestamp payloaded_at = 9;
-  google.protobuf.Timestamp created_at = 10;
-  google.protobuf.Timestamp updated_at = 11;
-}
-
-message OriginalDocumentDetails {
-  string tenant_id = 1;
-  string doc_id = 2;
-  string doc_type = 3;
-  string file_batch = 4;
-  string file_name = 5;
-  string file_ext = 6;
-  string file_hash = 7;
-  string payload_hash = 8;
+  string id = 2;
   bytes payload_meta = 9;
   bytes payload_header = 10;
   bytes payload_summary = 11;
   bytes payload_positions = 12;
+  bytes payload_footer = 17;
+  string payload_hash = 8;
   google.protobuf.Timestamp payloaded_at = 13;
-  google.protobuf.Timestamp created_at = 14;
-  google.protobuf.Timestamp updated_at = 15;
-  documan.common.v1.S3Ref original_file = 16;
 }
 
 // ===== ERPEntity =====
@@ -119,29 +93,23 @@ message OriginalDocumentDetails {
 message ListERPEntitiesRequest {
   string tenant_id = 1;
   string connection_id = 2;
-  string erp_entity_type = 3;                // "product", "counterparty", ... пустой = все
+  string entity_type = 3;
   int32 limit = 4;
   int32 offset = 5;
 }
 
 message ListERPEntitiesResponse {
-  repeated ERPEntityItem items = 1;
+  repeated ERPEntityEntry items = 1;
   int32 total_count = 2;
 }
 
-message ERPEntityItem {
+message ERPEntityEntry {
   string tenant_id = 1;
-  string connection_id = 2;
-  string connection_type = 3;
-  string erp_entity_type = 4;
-  string erp_entity_id = 5;
-  string payload_hash = 6;
+  string account_id = 2;
+  string entity_type = 4;
+  string id = 5;
+  bytes payload_entity = 13;
   google.protobuf.Timestamp payloaded_at = 7;
-  google.protobuf.Timestamp erp_updated_at = 8;
-  google.protobuf.Timestamp erp_created_at = 9;
-  google.protobuf.Timestamp erp_deleted_at = 10;
-  bool erp_archived = 11;
-  bool archived = 12;
 }
 
 // ===== ERPDocument =====
@@ -149,61 +117,39 @@ message ERPEntityItem {
 message ListERPDocumentsRequest {
   string tenant_id = 1;
   string connection_id = 2;
-  string erp_entity_type = 3;                // "supply", "invoicein", ... пустой = все
+  string entity_type = 3;
   int32 limit = 4;
   int32 offset = 5;
 }
 
 message ListERPDocumentsResponse {
-  repeated ERPDocumentItem items = 1;
+  repeated ERPDocumentEntry items = 1;
   int32 total_count = 2;
 }
 
-message ERPDocumentItem {
+message ERPDocumentEntry {
   string tenant_id = 1;
-  string connection_id = 2;
-  string connection_type = 3;
-  string erp_entity_type = 4;
-  string erp_entity_id = 5;
-  string payload_hash = 6;
-  google.protobuf.Timestamp payloaded_at = 7;
-  google.protobuf.Timestamp erp_updated_at = 8;
-  google.protobuf.Timestamp erp_created_at = 9;
-  google.protobuf.Timestamp erp_deleted_at = 10;
-  bool erp_archived = 11;
-  bool archived = 12;
-  bytes payload_header = 13;
-}
-
-
-message GetERPDocumentRequest {
-  string tenant_id = 1;
-  string connection_id = 2;
-  string erp_entity_type = 3;
-  string erp_entity_id = 4;
-}
-
-message GetERPDocumentResponse {
-  ERPDocumentDetails document = 1;
-}
-
-message ERPDocumentDetails {
-  string tenant_id = 1;
-  string connection_id = 2;
-  string connection_type = 3;
-  string erp_entity_type = 4;
-  string erp_entity_id = 5;
+  string account_id = 2;
+  string entity_type = 4;
+  string entity_id = 5;
   bytes payload_meta = 6;
   bytes payload_header = 7;
   bytes payload_summary = 8;
   bytes payload_positions = 9;
+  bytes payload_footer = 17;
   string payload_hash = 10;
   google.protobuf.Timestamp payloaded_at = 11;
-  google.protobuf.Timestamp erp_updated_at = 12;
-  google.protobuf.Timestamp erp_created_at = 13;
-  google.protobuf.Timestamp erp_deleted_at = 14;
-  bool erp_archived = 15;
-  bool archived = 16;
+}
+
+message GetERPDocumentRequest {
+  string tenant_id = 1;
+  string connection_id = 2;
+  string entity_type = 3;
+  string entity_id = 4;
+}
+
+message GetERPDocumentResponse {
+  ERPDocumentEntry document = 1;
 }
 
 // ===== ERPDocumentCounts =====
@@ -214,11 +160,10 @@ message GetERPDocumentCountsRequest {
 }
 
 message GetERPDocumentCountsResponse {
-  repeated ERPDocumentCountItem items = 1;
+  repeated ERPDocumentCountEntry items = 1;
 }
 
-message ERPDocumentCountItem {
-  string erp_entity_type = 1;
+message ERPDocumentCountEntry {
+  string entity_type = 1;
   int32 count = 2;
-  google.protobuf.Timestamp max_erp_updated_at = 3;
 }

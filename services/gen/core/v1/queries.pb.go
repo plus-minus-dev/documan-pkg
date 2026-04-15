@@ -7,7 +7,6 @@
 package v1
 
 import (
-	v1 "github.com/plus-minus-dev/documan-pkg/services/gen/common/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
@@ -244,8 +243,8 @@ type ConnectionItem struct {
 	LastSyncAt      *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=last_sync_at,json=lastSyncAt,proto3" json:"last_sync_at,omitempty"`
 	CreatedAt       *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	UpdatedAt       *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
-	ProviderPayload []byte                 `protobuf:"bytes,12,opt,name=provider_payload,json=providerPayload,proto3" json:"provider_payload,omitempty"` // JSONB: vendor/json_api метаданные
-	EtlEligible     bool                   `protobuf:"varint,13,opt,name=etl_eligible,json=etlEligible,proto3" json:"etl_eligible,omitempty"`            // участвует ли connection в ETL-выборе
+	ProviderPayload []byte                 `protobuf:"bytes,12,opt,name=provider_payload,json=providerPayload,proto3" json:"provider_payload,omitempty"`
+	EtlEligible     bool                   `protobuf:"varint,13,opt,name=etl_eligible,json=etlEligible,proto3" json:"etl_eligible,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
@@ -374,7 +373,6 @@ func (x *ConnectionItem) GetEtlEligible() bool {
 type ListOriginalDocumentsRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	TenantId      string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
-	DocType       string                 `protobuf:"bytes,2,opt,name=doc_type,json=docType,proto3" json:"doc_type,omitempty"` // фильтр, пустой = все
 	Limit         int32                  `protobuf:"varint,3,opt,name=limit,proto3" json:"limit,omitempty"`
 	Offset        int32                  `protobuf:"varint,4,opt,name=offset,proto3" json:"offset,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -418,13 +416,6 @@ func (x *ListOriginalDocumentsRequest) GetTenantId() string {
 	return ""
 }
 
-func (x *ListOriginalDocumentsRequest) GetDocType() string {
-	if x != nil {
-		return x.DocType
-	}
-	return ""
-}
-
 func (x *ListOriginalDocumentsRequest) GetLimit() int32 {
 	if x != nil {
 		return x.Limit
@@ -440,9 +431,9 @@ func (x *ListOriginalDocumentsRequest) GetOffset() int32 {
 }
 
 type ListOriginalDocumentsResponse struct {
-	state         protoimpl.MessageState  `protogen:"open.v1"`
-	Items         []*OriginalDocumentItem `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
-	TotalCount    int32                   `protobuf:"varint,2,opt,name=total_count,json=totalCount,proto3" json:"total_count,omitempty"`
+	state         protoimpl.MessageState   `protogen:"open.v1"`
+	Items         []*OriginalDocumentEntry `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
+	TotalCount    int32                    `protobuf:"varint,2,opt,name=total_count,json=totalCount,proto3" json:"total_count,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -477,7 +468,7 @@ func (*ListOriginalDocumentsResponse) Descriptor() ([]byte, []int) {
 	return file_core_v1_queries_proto_rawDescGZIP(), []int{6}
 }
 
-func (x *ListOriginalDocumentsResponse) GetItems() []*OriginalDocumentItem {
+func (x *ListOriginalDocumentsResponse) GetItems() []*OriginalDocumentEntry {
 	if x != nil {
 		return x.Items
 	}
@@ -494,7 +485,7 @@ func (x *ListOriginalDocumentsResponse) GetTotalCount() int32 {
 type GetOriginalDocumentRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	TenantId      string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
-	DocId         string                 `protobuf:"bytes,2,opt,name=doc_id,json=docId,proto3" json:"doc_id,omitempty"`
+	Id            string                 `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -536,16 +527,16 @@ func (x *GetOriginalDocumentRequest) GetTenantId() string {
 	return ""
 }
 
-func (x *GetOriginalDocumentRequest) GetDocId() string {
+func (x *GetOriginalDocumentRequest) GetId() string {
 	if x != nil {
-		return x.DocId
+		return x.Id
 	}
 	return ""
 }
 
 type GetOriginalDocumentResponse struct {
-	state         protoimpl.MessageState   `protogen:"open.v1"`
-	Document      *OriginalDocumentDetails `protobuf:"bytes,1,opt,name=document,proto3" json:"document,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Document      *OriginalDocumentEntry `protobuf:"bytes,1,opt,name=document,proto3" json:"document,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -580,174 +571,43 @@ func (*GetOriginalDocumentResponse) Descriptor() ([]byte, []int) {
 	return file_core_v1_queries_proto_rawDescGZIP(), []int{8}
 }
 
-func (x *GetOriginalDocumentResponse) GetDocument() *OriginalDocumentDetails {
+func (x *GetOriginalDocumentResponse) GetDocument() *OriginalDocumentEntry {
 	if x != nil {
 		return x.Document
 	}
 	return nil
 }
 
-type OriginalDocumentItem struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	TenantId      string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
-	DocId         string                 `protobuf:"bytes,2,opt,name=doc_id,json=docId,proto3" json:"doc_id,omitempty"`
-	DocType       string                 `protobuf:"bytes,3,opt,name=doc_type,json=docType,proto3" json:"doc_type,omitempty"`
-	FileBatch     string                 `protobuf:"bytes,4,opt,name=file_batch,json=fileBatch,proto3" json:"file_batch,omitempty"`
-	FileName      string                 `protobuf:"bytes,5,opt,name=file_name,json=fileName,proto3" json:"file_name,omitempty"`
-	FileExt       string                 `protobuf:"bytes,6,opt,name=file_ext,json=fileExt,proto3" json:"file_ext,omitempty"`
-	FileHash      string                 `protobuf:"bytes,7,opt,name=file_hash,json=fileHash,proto3" json:"file_hash,omitempty"`
-	PayloadHash   string                 `protobuf:"bytes,8,opt,name=payload_hash,json=payloadHash,proto3" json:"payload_hash,omitempty"`
-	PayloadedAt   *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=payloaded_at,json=payloadedAt,proto3" json:"payloaded_at,omitempty"`
-	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *OriginalDocumentItem) Reset() {
-	*x = OriginalDocumentItem{}
-	mi := &file_core_v1_queries_proto_msgTypes[9]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *OriginalDocumentItem) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*OriginalDocumentItem) ProtoMessage() {}
-
-func (x *OriginalDocumentItem) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_queries_proto_msgTypes[9]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use OriginalDocumentItem.ProtoReflect.Descriptor instead.
-func (*OriginalDocumentItem) Descriptor() ([]byte, []int) {
-	return file_core_v1_queries_proto_rawDescGZIP(), []int{9}
-}
-
-func (x *OriginalDocumentItem) GetTenantId() string {
-	if x != nil {
-		return x.TenantId
-	}
-	return ""
-}
-
-func (x *OriginalDocumentItem) GetDocId() string {
-	if x != nil {
-		return x.DocId
-	}
-	return ""
-}
-
-func (x *OriginalDocumentItem) GetDocType() string {
-	if x != nil {
-		return x.DocType
-	}
-	return ""
-}
-
-func (x *OriginalDocumentItem) GetFileBatch() string {
-	if x != nil {
-		return x.FileBatch
-	}
-	return ""
-}
-
-func (x *OriginalDocumentItem) GetFileName() string {
-	if x != nil {
-		return x.FileName
-	}
-	return ""
-}
-
-func (x *OriginalDocumentItem) GetFileExt() string {
-	if x != nil {
-		return x.FileExt
-	}
-	return ""
-}
-
-func (x *OriginalDocumentItem) GetFileHash() string {
-	if x != nil {
-		return x.FileHash
-	}
-	return ""
-}
-
-func (x *OriginalDocumentItem) GetPayloadHash() string {
-	if x != nil {
-		return x.PayloadHash
-	}
-	return ""
-}
-
-func (x *OriginalDocumentItem) GetPayloadedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.PayloadedAt
-	}
-	return nil
-}
-
-func (x *OriginalDocumentItem) GetCreatedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.CreatedAt
-	}
-	return nil
-}
-
-func (x *OriginalDocumentItem) GetUpdatedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.UpdatedAt
-	}
-	return nil
-}
-
-type OriginalDocumentDetails struct {
+type OriginalDocumentEntry struct {
 	state            protoimpl.MessageState `protogen:"open.v1"`
 	TenantId         string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
-	DocId            string                 `protobuf:"bytes,2,opt,name=doc_id,json=docId,proto3" json:"doc_id,omitempty"`
-	DocType          string                 `protobuf:"bytes,3,opt,name=doc_type,json=docType,proto3" json:"doc_type,omitempty"`
-	FileBatch        string                 `protobuf:"bytes,4,opt,name=file_batch,json=fileBatch,proto3" json:"file_batch,omitempty"`
-	FileName         string                 `protobuf:"bytes,5,opt,name=file_name,json=fileName,proto3" json:"file_name,omitempty"`
-	FileExt          string                 `protobuf:"bytes,6,opt,name=file_ext,json=fileExt,proto3" json:"file_ext,omitempty"`
-	FileHash         string                 `protobuf:"bytes,7,opt,name=file_hash,json=fileHash,proto3" json:"file_hash,omitempty"`
-	PayloadHash      string                 `protobuf:"bytes,8,opt,name=payload_hash,json=payloadHash,proto3" json:"payload_hash,omitempty"`
+	Id               string                 `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
 	PayloadMeta      []byte                 `protobuf:"bytes,9,opt,name=payload_meta,json=payloadMeta,proto3" json:"payload_meta,omitempty"`
 	PayloadHeader    []byte                 `protobuf:"bytes,10,opt,name=payload_header,json=payloadHeader,proto3" json:"payload_header,omitempty"`
 	PayloadSummary   []byte                 `protobuf:"bytes,11,opt,name=payload_summary,json=payloadSummary,proto3" json:"payload_summary,omitempty"`
 	PayloadPositions []byte                 `protobuf:"bytes,12,opt,name=payload_positions,json=payloadPositions,proto3" json:"payload_positions,omitempty"`
+	PayloadFooter    []byte                 `protobuf:"bytes,17,opt,name=payload_footer,json=payloadFooter,proto3" json:"payload_footer,omitempty"`
+	PayloadHash      string                 `protobuf:"bytes,8,opt,name=payload_hash,json=payloadHash,proto3" json:"payload_hash,omitempty"`
 	PayloadedAt      *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=payloaded_at,json=payloadedAt,proto3" json:"payloaded_at,omitempty"`
-	CreatedAt        *timestamppb.Timestamp `protobuf:"bytes,14,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	UpdatedAt        *timestamppb.Timestamp `protobuf:"bytes,15,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
-	OriginalFile     *v1.S3Ref              `protobuf:"bytes,16,opt,name=original_file,json=originalFile,proto3" json:"original_file,omitempty"`
 	unknownFields    protoimpl.UnknownFields
 	sizeCache        protoimpl.SizeCache
 }
 
-func (x *OriginalDocumentDetails) Reset() {
-	*x = OriginalDocumentDetails{}
-	mi := &file_core_v1_queries_proto_msgTypes[10]
+func (x *OriginalDocumentEntry) Reset() {
+	*x = OriginalDocumentEntry{}
+	mi := &file_core_v1_queries_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *OriginalDocumentDetails) String() string {
+func (x *OriginalDocumentEntry) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*OriginalDocumentDetails) ProtoMessage() {}
+func (*OriginalDocumentEntry) ProtoMessage() {}
 
-func (x *OriginalDocumentDetails) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_queries_proto_msgTypes[10]
+func (x *OriginalDocumentEntry) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_queries_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -758,119 +618,70 @@ func (x *OriginalDocumentDetails) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use OriginalDocumentDetails.ProtoReflect.Descriptor instead.
-func (*OriginalDocumentDetails) Descriptor() ([]byte, []int) {
-	return file_core_v1_queries_proto_rawDescGZIP(), []int{10}
+// Deprecated: Use OriginalDocumentEntry.ProtoReflect.Descriptor instead.
+func (*OriginalDocumentEntry) Descriptor() ([]byte, []int) {
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{9}
 }
 
-func (x *OriginalDocumentDetails) GetTenantId() string {
+func (x *OriginalDocumentEntry) GetTenantId() string {
 	if x != nil {
 		return x.TenantId
 	}
 	return ""
 }
 
-func (x *OriginalDocumentDetails) GetDocId() string {
+func (x *OriginalDocumentEntry) GetId() string {
 	if x != nil {
-		return x.DocId
+		return x.Id
 	}
 	return ""
 }
 
-func (x *OriginalDocumentDetails) GetDocType() string {
-	if x != nil {
-		return x.DocType
-	}
-	return ""
-}
-
-func (x *OriginalDocumentDetails) GetFileBatch() string {
-	if x != nil {
-		return x.FileBatch
-	}
-	return ""
-}
-
-func (x *OriginalDocumentDetails) GetFileName() string {
-	if x != nil {
-		return x.FileName
-	}
-	return ""
-}
-
-func (x *OriginalDocumentDetails) GetFileExt() string {
-	if x != nil {
-		return x.FileExt
-	}
-	return ""
-}
-
-func (x *OriginalDocumentDetails) GetFileHash() string {
-	if x != nil {
-		return x.FileHash
-	}
-	return ""
-}
-
-func (x *OriginalDocumentDetails) GetPayloadHash() string {
-	if x != nil {
-		return x.PayloadHash
-	}
-	return ""
-}
-
-func (x *OriginalDocumentDetails) GetPayloadMeta() []byte {
+func (x *OriginalDocumentEntry) GetPayloadMeta() []byte {
 	if x != nil {
 		return x.PayloadMeta
 	}
 	return nil
 }
 
-func (x *OriginalDocumentDetails) GetPayloadHeader() []byte {
+func (x *OriginalDocumentEntry) GetPayloadHeader() []byte {
 	if x != nil {
 		return x.PayloadHeader
 	}
 	return nil
 }
 
-func (x *OriginalDocumentDetails) GetPayloadSummary() []byte {
+func (x *OriginalDocumentEntry) GetPayloadSummary() []byte {
 	if x != nil {
 		return x.PayloadSummary
 	}
 	return nil
 }
 
-func (x *OriginalDocumentDetails) GetPayloadPositions() []byte {
+func (x *OriginalDocumentEntry) GetPayloadPositions() []byte {
 	if x != nil {
 		return x.PayloadPositions
 	}
 	return nil
 }
 
-func (x *OriginalDocumentDetails) GetPayloadedAt() *timestamppb.Timestamp {
+func (x *OriginalDocumentEntry) GetPayloadFooter() []byte {
+	if x != nil {
+		return x.PayloadFooter
+	}
+	return nil
+}
+
+func (x *OriginalDocumentEntry) GetPayloadHash() string {
+	if x != nil {
+		return x.PayloadHash
+	}
+	return ""
+}
+
+func (x *OriginalDocumentEntry) GetPayloadedAt() *timestamppb.Timestamp {
 	if x != nil {
 		return x.PayloadedAt
-	}
-	return nil
-}
-
-func (x *OriginalDocumentDetails) GetCreatedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.CreatedAt
-	}
-	return nil
-}
-
-func (x *OriginalDocumentDetails) GetUpdatedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.UpdatedAt
-	}
-	return nil
-}
-
-func (x *OriginalDocumentDetails) GetOriginalFile() *v1.S3Ref {
-	if x != nil {
-		return x.OriginalFile
 	}
 	return nil
 }
@@ -879,7 +690,7 @@ type ListERPEntitiesRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	TenantId      string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
 	ConnectionId  string                 `protobuf:"bytes,2,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
-	ErpEntityType string                 `protobuf:"bytes,3,opt,name=erp_entity_type,json=erpEntityType,proto3" json:"erp_entity_type,omitempty"` // "product", "counterparty", ... пустой = все
+	EntityType    string                 `protobuf:"bytes,3,opt,name=entity_type,json=entityType,proto3" json:"entity_type,omitempty"`
 	Limit         int32                  `protobuf:"varint,4,opt,name=limit,proto3" json:"limit,omitempty"`
 	Offset        int32                  `protobuf:"varint,5,opt,name=offset,proto3" json:"offset,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -888,7 +699,7 @@ type ListERPEntitiesRequest struct {
 
 func (x *ListERPEntitiesRequest) Reset() {
 	*x = ListERPEntitiesRequest{}
-	mi := &file_core_v1_queries_proto_msgTypes[11]
+	mi := &file_core_v1_queries_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -900,7 +711,7 @@ func (x *ListERPEntitiesRequest) String() string {
 func (*ListERPEntitiesRequest) ProtoMessage() {}
 
 func (x *ListERPEntitiesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_queries_proto_msgTypes[11]
+	mi := &file_core_v1_queries_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -913,7 +724,7 @@ func (x *ListERPEntitiesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListERPEntitiesRequest.ProtoReflect.Descriptor instead.
 func (*ListERPEntitiesRequest) Descriptor() ([]byte, []int) {
-	return file_core_v1_queries_proto_rawDescGZIP(), []int{11}
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *ListERPEntitiesRequest) GetTenantId() string {
@@ -930,9 +741,9 @@ func (x *ListERPEntitiesRequest) GetConnectionId() string {
 	return ""
 }
 
-func (x *ListERPEntitiesRequest) GetErpEntityType() string {
+func (x *ListERPEntitiesRequest) GetEntityType() string {
 	if x != nil {
-		return x.ErpEntityType
+		return x.EntityType
 	}
 	return ""
 }
@@ -953,7 +764,7 @@ func (x *ListERPEntitiesRequest) GetOffset() int32 {
 
 type ListERPEntitiesResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Items         []*ERPEntityItem       `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
+	Items         []*ERPEntityEntry      `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
 	TotalCount    int32                  `protobuf:"varint,2,opt,name=total_count,json=totalCount,proto3" json:"total_count,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -961,7 +772,7 @@ type ListERPEntitiesResponse struct {
 
 func (x *ListERPEntitiesResponse) Reset() {
 	*x = ListERPEntitiesResponse{}
-	mi := &file_core_v1_queries_proto_msgTypes[12]
+	mi := &file_core_v1_queries_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -973,7 +784,7 @@ func (x *ListERPEntitiesResponse) String() string {
 func (*ListERPEntitiesResponse) ProtoMessage() {}
 
 func (x *ListERPEntitiesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_queries_proto_msgTypes[12]
+	mi := &file_core_v1_queries_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -986,10 +797,10 @@ func (x *ListERPEntitiesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListERPEntitiesResponse.ProtoReflect.Descriptor instead.
 func (*ListERPEntitiesResponse) Descriptor() ([]byte, []int) {
-	return file_core_v1_queries_proto_rawDescGZIP(), []int{12}
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{11}
 }
 
-func (x *ListERPEntitiesResponse) GetItems() []*ERPEntityItem {
+func (x *ListERPEntitiesResponse) GetItems() []*ERPEntityEntry {
 	if x != nil {
 		return x.Items
 	}
@@ -1003,39 +814,33 @@ func (x *ListERPEntitiesResponse) GetTotalCount() int32 {
 	return 0
 }
 
-type ERPEntityItem struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
-	TenantId       string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
-	ConnectionId   string                 `protobuf:"bytes,2,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
-	ConnectionType string                 `protobuf:"bytes,3,opt,name=connection_type,json=connectionType,proto3" json:"connection_type,omitempty"`
-	ErpEntityType  string                 `protobuf:"bytes,4,opt,name=erp_entity_type,json=erpEntityType,proto3" json:"erp_entity_type,omitempty"`
-	ErpEntityId    string                 `protobuf:"bytes,5,opt,name=erp_entity_id,json=erpEntityId,proto3" json:"erp_entity_id,omitempty"`
-	PayloadHash    string                 `protobuf:"bytes,6,opt,name=payload_hash,json=payloadHash,proto3" json:"payload_hash,omitempty"`
-	PayloadedAt    *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=payloaded_at,json=payloadedAt,proto3" json:"payloaded_at,omitempty"`
-	ErpUpdatedAt   *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=erp_updated_at,json=erpUpdatedAt,proto3" json:"erp_updated_at,omitempty"`
-	ErpCreatedAt   *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=erp_created_at,json=erpCreatedAt,proto3" json:"erp_created_at,omitempty"`
-	ErpDeletedAt   *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=erp_deleted_at,json=erpDeletedAt,proto3" json:"erp_deleted_at,omitempty"`
-	ErpArchived    bool                   `protobuf:"varint,11,opt,name=erp_archived,json=erpArchived,proto3" json:"erp_archived,omitempty"`
-	Archived       bool                   `protobuf:"varint,12,opt,name=archived,proto3" json:"archived,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
+type ERPEntityEntry struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TenantId      string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
+	AccountId     string                 `protobuf:"bytes,2,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"`
+	EntityType    string                 `protobuf:"bytes,4,opt,name=entity_type,json=entityType,proto3" json:"entity_type,omitempty"`
+	Id            string                 `protobuf:"bytes,5,opt,name=id,proto3" json:"id,omitempty"`
+	PayloadEntity []byte                 `protobuf:"bytes,13,opt,name=payload_entity,json=payloadEntity,proto3" json:"payload_entity,omitempty"`
+	PayloadedAt   *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=payloaded_at,json=payloadedAt,proto3" json:"payloaded_at,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
-func (x *ERPEntityItem) Reset() {
-	*x = ERPEntityItem{}
-	mi := &file_core_v1_queries_proto_msgTypes[13]
+func (x *ERPEntityEntry) Reset() {
+	*x = ERPEntityEntry{}
+	mi := &file_core_v1_queries_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ERPEntityItem) String() string {
+func (x *ERPEntityEntry) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ERPEntityItem) ProtoMessage() {}
+func (*ERPEntityEntry) ProtoMessage() {}
 
-func (x *ERPEntityItem) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_queries_proto_msgTypes[13]
+func (x *ERPEntityEntry) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_queries_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1046,100 +851,58 @@ func (x *ERPEntityItem) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ERPEntityItem.ProtoReflect.Descriptor instead.
-func (*ERPEntityItem) Descriptor() ([]byte, []int) {
-	return file_core_v1_queries_proto_rawDescGZIP(), []int{13}
+// Deprecated: Use ERPEntityEntry.ProtoReflect.Descriptor instead.
+func (*ERPEntityEntry) Descriptor() ([]byte, []int) {
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{12}
 }
 
-func (x *ERPEntityItem) GetTenantId() string {
+func (x *ERPEntityEntry) GetTenantId() string {
 	if x != nil {
 		return x.TenantId
 	}
 	return ""
 }
 
-func (x *ERPEntityItem) GetConnectionId() string {
+func (x *ERPEntityEntry) GetAccountId() string {
 	if x != nil {
-		return x.ConnectionId
+		return x.AccountId
 	}
 	return ""
 }
 
-func (x *ERPEntityItem) GetConnectionType() string {
+func (x *ERPEntityEntry) GetEntityType() string {
 	if x != nil {
-		return x.ConnectionType
+		return x.EntityType
 	}
 	return ""
 }
 
-func (x *ERPEntityItem) GetErpEntityType() string {
+func (x *ERPEntityEntry) GetId() string {
 	if x != nil {
-		return x.ErpEntityType
+		return x.Id
 	}
 	return ""
 }
 
-func (x *ERPEntityItem) GetErpEntityId() string {
+func (x *ERPEntityEntry) GetPayloadEntity() []byte {
 	if x != nil {
-		return x.ErpEntityId
+		return x.PayloadEntity
 	}
-	return ""
+	return nil
 }
 
-func (x *ERPEntityItem) GetPayloadHash() string {
-	if x != nil {
-		return x.PayloadHash
-	}
-	return ""
-}
-
-func (x *ERPEntityItem) GetPayloadedAt() *timestamppb.Timestamp {
+func (x *ERPEntityEntry) GetPayloadedAt() *timestamppb.Timestamp {
 	if x != nil {
 		return x.PayloadedAt
 	}
 	return nil
 }
 
-func (x *ERPEntityItem) GetErpUpdatedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.ErpUpdatedAt
-	}
-	return nil
-}
-
-func (x *ERPEntityItem) GetErpCreatedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.ErpCreatedAt
-	}
-	return nil
-}
-
-func (x *ERPEntityItem) GetErpDeletedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.ErpDeletedAt
-	}
-	return nil
-}
-
-func (x *ERPEntityItem) GetErpArchived() bool {
-	if x != nil {
-		return x.ErpArchived
-	}
-	return false
-}
-
-func (x *ERPEntityItem) GetArchived() bool {
-	if x != nil {
-		return x.Archived
-	}
-	return false
-}
-
 type ListERPDocumentsRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	TenantId      string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
 	ConnectionId  string                 `protobuf:"bytes,2,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
-	ErpEntityType string                 `protobuf:"bytes,3,opt,name=erp_entity_type,json=erpEntityType,proto3" json:"erp_entity_type,omitempty"` // "supply", "invoicein", ... пустой = все
+	EntityType    string                 `protobuf:"bytes,3,opt,name=entity_type,json=entityType,proto3" json:"entity_type,omitempty"`
 	Limit         int32                  `protobuf:"varint,4,opt,name=limit,proto3" json:"limit,omitempty"`
 	Offset        int32                  `protobuf:"varint,5,opt,name=offset,proto3" json:"offset,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -1148,7 +911,7 @@ type ListERPDocumentsRequest struct {
 
 func (x *ListERPDocumentsRequest) Reset() {
 	*x = ListERPDocumentsRequest{}
-	mi := &file_core_v1_queries_proto_msgTypes[14]
+	mi := &file_core_v1_queries_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1160,7 +923,7 @@ func (x *ListERPDocumentsRequest) String() string {
 func (*ListERPDocumentsRequest) ProtoMessage() {}
 
 func (x *ListERPDocumentsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_queries_proto_msgTypes[14]
+	mi := &file_core_v1_queries_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1173,7 +936,7 @@ func (x *ListERPDocumentsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListERPDocumentsRequest.ProtoReflect.Descriptor instead.
 func (*ListERPDocumentsRequest) Descriptor() ([]byte, []int) {
-	return file_core_v1_queries_proto_rawDescGZIP(), []int{14}
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *ListERPDocumentsRequest) GetTenantId() string {
@@ -1190,9 +953,9 @@ func (x *ListERPDocumentsRequest) GetConnectionId() string {
 	return ""
 }
 
-func (x *ListERPDocumentsRequest) GetErpEntityType() string {
+func (x *ListERPDocumentsRequest) GetEntityType() string {
 	if x != nil {
-		return x.ErpEntityType
+		return x.EntityType
 	}
 	return ""
 }
@@ -1213,7 +976,7 @@ func (x *ListERPDocumentsRequest) GetOffset() int32 {
 
 type ListERPDocumentsResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Items         []*ERPDocumentItem     `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
+	Items         []*ERPDocumentEntry    `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
 	TotalCount    int32                  `protobuf:"varint,2,opt,name=total_count,json=totalCount,proto3" json:"total_count,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -1221,7 +984,7 @@ type ListERPDocumentsResponse struct {
 
 func (x *ListERPDocumentsResponse) Reset() {
 	*x = ListERPDocumentsResponse{}
-	mi := &file_core_v1_queries_proto_msgTypes[15]
+	mi := &file_core_v1_queries_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1233,7 +996,7 @@ func (x *ListERPDocumentsResponse) String() string {
 func (*ListERPDocumentsResponse) ProtoMessage() {}
 
 func (x *ListERPDocumentsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_queries_proto_msgTypes[15]
+	mi := &file_core_v1_queries_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1246,10 +1009,10 @@ func (x *ListERPDocumentsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListERPDocumentsResponse.ProtoReflect.Descriptor instead.
 func (*ListERPDocumentsResponse) Descriptor() ([]byte, []int) {
-	return file_core_v1_queries_proto_rawDescGZIP(), []int{15}
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{14}
 }
 
-func (x *ListERPDocumentsResponse) GetItems() []*ERPDocumentItem {
+func (x *ListERPDocumentsResponse) GetItems() []*ERPDocumentEntry {
 	if x != nil {
 		return x.Items
 	}
@@ -1263,40 +1026,38 @@ func (x *ListERPDocumentsResponse) GetTotalCount() int32 {
 	return 0
 }
 
-type ERPDocumentItem struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
-	TenantId       string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
-	ConnectionId   string                 `protobuf:"bytes,2,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
-	ConnectionType string                 `protobuf:"bytes,3,opt,name=connection_type,json=connectionType,proto3" json:"connection_type,omitempty"`
-	ErpEntityType  string                 `protobuf:"bytes,4,opt,name=erp_entity_type,json=erpEntityType,proto3" json:"erp_entity_type,omitempty"`
-	ErpEntityId    string                 `protobuf:"bytes,5,opt,name=erp_entity_id,json=erpEntityId,proto3" json:"erp_entity_id,omitempty"`
-	PayloadHash    string                 `protobuf:"bytes,6,opt,name=payload_hash,json=payloadHash,proto3" json:"payload_hash,omitempty"`
-	PayloadedAt    *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=payloaded_at,json=payloadedAt,proto3" json:"payloaded_at,omitempty"`
-	ErpUpdatedAt   *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=erp_updated_at,json=erpUpdatedAt,proto3" json:"erp_updated_at,omitempty"`
-	ErpCreatedAt   *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=erp_created_at,json=erpCreatedAt,proto3" json:"erp_created_at,omitempty"`
-	ErpDeletedAt   *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=erp_deleted_at,json=erpDeletedAt,proto3" json:"erp_deleted_at,omitempty"`
-	ErpArchived    bool                   `protobuf:"varint,11,opt,name=erp_archived,json=erpArchived,proto3" json:"erp_archived,omitempty"`
-	Archived       bool                   `protobuf:"varint,12,opt,name=archived,proto3" json:"archived,omitempty"`
-	PayloadHeader  []byte                 `protobuf:"bytes,13,opt,name=payload_header,json=payloadHeader,proto3" json:"payload_header,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
+type ERPDocumentEntry struct {
+	state            protoimpl.MessageState `protogen:"open.v1"`
+	TenantId         string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
+	AccountId        string                 `protobuf:"bytes,2,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"`
+	EntityType       string                 `protobuf:"bytes,4,opt,name=entity_type,json=entityType,proto3" json:"entity_type,omitempty"`
+	EntityId         string                 `protobuf:"bytes,5,opt,name=entity_id,json=entityId,proto3" json:"entity_id,omitempty"`
+	PayloadMeta      []byte                 `protobuf:"bytes,6,opt,name=payload_meta,json=payloadMeta,proto3" json:"payload_meta,omitempty"`
+	PayloadHeader    []byte                 `protobuf:"bytes,7,opt,name=payload_header,json=payloadHeader,proto3" json:"payload_header,omitempty"`
+	PayloadSummary   []byte                 `protobuf:"bytes,8,opt,name=payload_summary,json=payloadSummary,proto3" json:"payload_summary,omitempty"`
+	PayloadPositions []byte                 `protobuf:"bytes,9,opt,name=payload_positions,json=payloadPositions,proto3" json:"payload_positions,omitempty"`
+	PayloadFooter    []byte                 `protobuf:"bytes,17,opt,name=payload_footer,json=payloadFooter,proto3" json:"payload_footer,omitempty"`
+	PayloadHash      string                 `protobuf:"bytes,10,opt,name=payload_hash,json=payloadHash,proto3" json:"payload_hash,omitempty"`
+	PayloadedAt      *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=payloaded_at,json=payloadedAt,proto3" json:"payloaded_at,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
-func (x *ERPDocumentItem) Reset() {
-	*x = ERPDocumentItem{}
-	mi := &file_core_v1_queries_proto_msgTypes[16]
+func (x *ERPDocumentEntry) Reset() {
+	*x = ERPDocumentEntry{}
+	mi := &file_core_v1_queries_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ERPDocumentItem) String() string {
+func (x *ERPDocumentEntry) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ERPDocumentItem) ProtoMessage() {}
+func (*ERPDocumentEntry) ProtoMessage() {}
 
-func (x *ERPDocumentItem) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_queries_proto_msgTypes[16]
+func (x *ERPDocumentEntry) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_queries_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1307,98 +1068,84 @@ func (x *ERPDocumentItem) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ERPDocumentItem.ProtoReflect.Descriptor instead.
-func (*ERPDocumentItem) Descriptor() ([]byte, []int) {
-	return file_core_v1_queries_proto_rawDescGZIP(), []int{16}
+// Deprecated: Use ERPDocumentEntry.ProtoReflect.Descriptor instead.
+func (*ERPDocumentEntry) Descriptor() ([]byte, []int) {
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{15}
 }
 
-func (x *ERPDocumentItem) GetTenantId() string {
+func (x *ERPDocumentEntry) GetTenantId() string {
 	if x != nil {
 		return x.TenantId
 	}
 	return ""
 }
 
-func (x *ERPDocumentItem) GetConnectionId() string {
+func (x *ERPDocumentEntry) GetAccountId() string {
 	if x != nil {
-		return x.ConnectionId
+		return x.AccountId
 	}
 	return ""
 }
 
-func (x *ERPDocumentItem) GetConnectionType() string {
+func (x *ERPDocumentEntry) GetEntityType() string {
 	if x != nil {
-		return x.ConnectionType
+		return x.EntityType
 	}
 	return ""
 }
 
-func (x *ERPDocumentItem) GetErpEntityType() string {
+func (x *ERPDocumentEntry) GetEntityId() string {
 	if x != nil {
-		return x.ErpEntityType
+		return x.EntityId
 	}
 	return ""
 }
 
-func (x *ERPDocumentItem) GetErpEntityId() string {
+func (x *ERPDocumentEntry) GetPayloadMeta() []byte {
 	if x != nil {
-		return x.ErpEntityId
+		return x.PayloadMeta
 	}
-	return ""
+	return nil
 }
 
-func (x *ERPDocumentItem) GetPayloadHash() string {
+func (x *ERPDocumentEntry) GetPayloadHeader() []byte {
+	if x != nil {
+		return x.PayloadHeader
+	}
+	return nil
+}
+
+func (x *ERPDocumentEntry) GetPayloadSummary() []byte {
+	if x != nil {
+		return x.PayloadSummary
+	}
+	return nil
+}
+
+func (x *ERPDocumentEntry) GetPayloadPositions() []byte {
+	if x != nil {
+		return x.PayloadPositions
+	}
+	return nil
+}
+
+func (x *ERPDocumentEntry) GetPayloadFooter() []byte {
+	if x != nil {
+		return x.PayloadFooter
+	}
+	return nil
+}
+
+func (x *ERPDocumentEntry) GetPayloadHash() string {
 	if x != nil {
 		return x.PayloadHash
 	}
 	return ""
 }
 
-func (x *ERPDocumentItem) GetPayloadedAt() *timestamppb.Timestamp {
+func (x *ERPDocumentEntry) GetPayloadedAt() *timestamppb.Timestamp {
 	if x != nil {
 		return x.PayloadedAt
-	}
-	return nil
-}
-
-func (x *ERPDocumentItem) GetErpUpdatedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.ErpUpdatedAt
-	}
-	return nil
-}
-
-func (x *ERPDocumentItem) GetErpCreatedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.ErpCreatedAt
-	}
-	return nil
-}
-
-func (x *ERPDocumentItem) GetErpDeletedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.ErpDeletedAt
-	}
-	return nil
-}
-
-func (x *ERPDocumentItem) GetErpArchived() bool {
-	if x != nil {
-		return x.ErpArchived
-	}
-	return false
-}
-
-func (x *ERPDocumentItem) GetArchived() bool {
-	if x != nil {
-		return x.Archived
-	}
-	return false
-}
-
-func (x *ERPDocumentItem) GetPayloadHeader() []byte {
-	if x != nil {
-		return x.PayloadHeader
 	}
 	return nil
 }
@@ -1407,15 +1154,15 @@ type GetERPDocumentRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	TenantId      string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
 	ConnectionId  string                 `protobuf:"bytes,2,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
-	ErpEntityType string                 `protobuf:"bytes,3,opt,name=erp_entity_type,json=erpEntityType,proto3" json:"erp_entity_type,omitempty"`
-	ErpEntityId   string                 `protobuf:"bytes,4,opt,name=erp_entity_id,json=erpEntityId,proto3" json:"erp_entity_id,omitempty"`
+	EntityType    string                 `protobuf:"bytes,3,opt,name=entity_type,json=entityType,proto3" json:"entity_type,omitempty"`
+	EntityId      string                 `protobuf:"bytes,4,opt,name=entity_id,json=entityId,proto3" json:"entity_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *GetERPDocumentRequest) Reset() {
 	*x = GetERPDocumentRequest{}
-	mi := &file_core_v1_queries_proto_msgTypes[17]
+	mi := &file_core_v1_queries_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1427,7 +1174,7 @@ func (x *GetERPDocumentRequest) String() string {
 func (*GetERPDocumentRequest) ProtoMessage() {}
 
 func (x *GetERPDocumentRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_queries_proto_msgTypes[17]
+	mi := &file_core_v1_queries_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1440,7 +1187,7 @@ func (x *GetERPDocumentRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetERPDocumentRequest.ProtoReflect.Descriptor instead.
 func (*GetERPDocumentRequest) Descriptor() ([]byte, []int) {
-	return file_core_v1_queries_proto_rawDescGZIP(), []int{17}
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *GetERPDocumentRequest) GetTenantId() string {
@@ -1457,30 +1204,30 @@ func (x *GetERPDocumentRequest) GetConnectionId() string {
 	return ""
 }
 
-func (x *GetERPDocumentRequest) GetErpEntityType() string {
+func (x *GetERPDocumentRequest) GetEntityType() string {
 	if x != nil {
-		return x.ErpEntityType
+		return x.EntityType
 	}
 	return ""
 }
 
-func (x *GetERPDocumentRequest) GetErpEntityId() string {
+func (x *GetERPDocumentRequest) GetEntityId() string {
 	if x != nil {
-		return x.ErpEntityId
+		return x.EntityId
 	}
 	return ""
 }
 
 type GetERPDocumentResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Document      *ERPDocumentDetails    `protobuf:"bytes,1,opt,name=document,proto3" json:"document,omitempty"`
+	Document      *ERPDocumentEntry      `protobuf:"bytes,1,opt,name=document,proto3" json:"document,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *GetERPDocumentResponse) Reset() {
 	*x = GetERPDocumentResponse{}
-	mi := &file_core_v1_queries_proto_msgTypes[18]
+	mi := &file_core_v1_queries_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1492,7 +1239,7 @@ func (x *GetERPDocumentResponse) String() string {
 func (*GetERPDocumentResponse) ProtoMessage() {}
 
 func (x *GetERPDocumentResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_queries_proto_msgTypes[18]
+	mi := &file_core_v1_queries_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1505,178 +1252,14 @@ func (x *GetERPDocumentResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetERPDocumentResponse.ProtoReflect.Descriptor instead.
 func (*GetERPDocumentResponse) Descriptor() ([]byte, []int) {
-	return file_core_v1_queries_proto_rawDescGZIP(), []int{18}
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{17}
 }
 
-func (x *GetERPDocumentResponse) GetDocument() *ERPDocumentDetails {
+func (x *GetERPDocumentResponse) GetDocument() *ERPDocumentEntry {
 	if x != nil {
 		return x.Document
 	}
 	return nil
-}
-
-type ERPDocumentDetails struct {
-	state            protoimpl.MessageState `protogen:"open.v1"`
-	TenantId         string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
-	ConnectionId     string                 `protobuf:"bytes,2,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
-	ConnectionType   string                 `protobuf:"bytes,3,opt,name=connection_type,json=connectionType,proto3" json:"connection_type,omitempty"`
-	ErpEntityType    string                 `protobuf:"bytes,4,opt,name=erp_entity_type,json=erpEntityType,proto3" json:"erp_entity_type,omitempty"`
-	ErpEntityId      string                 `protobuf:"bytes,5,opt,name=erp_entity_id,json=erpEntityId,proto3" json:"erp_entity_id,omitempty"`
-	PayloadMeta      []byte                 `protobuf:"bytes,6,opt,name=payload_meta,json=payloadMeta,proto3" json:"payload_meta,omitempty"`
-	PayloadHeader    []byte                 `protobuf:"bytes,7,opt,name=payload_header,json=payloadHeader,proto3" json:"payload_header,omitempty"`
-	PayloadSummary   []byte                 `protobuf:"bytes,8,opt,name=payload_summary,json=payloadSummary,proto3" json:"payload_summary,omitempty"`
-	PayloadPositions []byte                 `protobuf:"bytes,9,opt,name=payload_positions,json=payloadPositions,proto3" json:"payload_positions,omitempty"`
-	PayloadHash      string                 `protobuf:"bytes,10,opt,name=payload_hash,json=payloadHash,proto3" json:"payload_hash,omitempty"`
-	PayloadedAt      *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=payloaded_at,json=payloadedAt,proto3" json:"payloaded_at,omitempty"`
-	ErpUpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=erp_updated_at,json=erpUpdatedAt,proto3" json:"erp_updated_at,omitempty"`
-	ErpCreatedAt     *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=erp_created_at,json=erpCreatedAt,proto3" json:"erp_created_at,omitempty"`
-	ErpDeletedAt     *timestamppb.Timestamp `protobuf:"bytes,14,opt,name=erp_deleted_at,json=erpDeletedAt,proto3" json:"erp_deleted_at,omitempty"`
-	ErpArchived      bool                   `protobuf:"varint,15,opt,name=erp_archived,json=erpArchived,proto3" json:"erp_archived,omitempty"`
-	Archived         bool                   `protobuf:"varint,16,opt,name=archived,proto3" json:"archived,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
-}
-
-func (x *ERPDocumentDetails) Reset() {
-	*x = ERPDocumentDetails{}
-	mi := &file_core_v1_queries_proto_msgTypes[19]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ERPDocumentDetails) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ERPDocumentDetails) ProtoMessage() {}
-
-func (x *ERPDocumentDetails) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_queries_proto_msgTypes[19]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ERPDocumentDetails.ProtoReflect.Descriptor instead.
-func (*ERPDocumentDetails) Descriptor() ([]byte, []int) {
-	return file_core_v1_queries_proto_rawDescGZIP(), []int{19}
-}
-
-func (x *ERPDocumentDetails) GetTenantId() string {
-	if x != nil {
-		return x.TenantId
-	}
-	return ""
-}
-
-func (x *ERPDocumentDetails) GetConnectionId() string {
-	if x != nil {
-		return x.ConnectionId
-	}
-	return ""
-}
-
-func (x *ERPDocumentDetails) GetConnectionType() string {
-	if x != nil {
-		return x.ConnectionType
-	}
-	return ""
-}
-
-func (x *ERPDocumentDetails) GetErpEntityType() string {
-	if x != nil {
-		return x.ErpEntityType
-	}
-	return ""
-}
-
-func (x *ERPDocumentDetails) GetErpEntityId() string {
-	if x != nil {
-		return x.ErpEntityId
-	}
-	return ""
-}
-
-func (x *ERPDocumentDetails) GetPayloadMeta() []byte {
-	if x != nil {
-		return x.PayloadMeta
-	}
-	return nil
-}
-
-func (x *ERPDocumentDetails) GetPayloadHeader() []byte {
-	if x != nil {
-		return x.PayloadHeader
-	}
-	return nil
-}
-
-func (x *ERPDocumentDetails) GetPayloadSummary() []byte {
-	if x != nil {
-		return x.PayloadSummary
-	}
-	return nil
-}
-
-func (x *ERPDocumentDetails) GetPayloadPositions() []byte {
-	if x != nil {
-		return x.PayloadPositions
-	}
-	return nil
-}
-
-func (x *ERPDocumentDetails) GetPayloadHash() string {
-	if x != nil {
-		return x.PayloadHash
-	}
-	return ""
-}
-
-func (x *ERPDocumentDetails) GetPayloadedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.PayloadedAt
-	}
-	return nil
-}
-
-func (x *ERPDocumentDetails) GetErpUpdatedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.ErpUpdatedAt
-	}
-	return nil
-}
-
-func (x *ERPDocumentDetails) GetErpCreatedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.ErpCreatedAt
-	}
-	return nil
-}
-
-func (x *ERPDocumentDetails) GetErpDeletedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.ErpDeletedAt
-	}
-	return nil
-}
-
-func (x *ERPDocumentDetails) GetErpArchived() bool {
-	if x != nil {
-		return x.ErpArchived
-	}
-	return false
-}
-
-func (x *ERPDocumentDetails) GetArchived() bool {
-	if x != nil {
-		return x.Archived
-	}
-	return false
 }
 
 type GetERPDocumentCountsRequest struct {
@@ -1689,7 +1272,7 @@ type GetERPDocumentCountsRequest struct {
 
 func (x *GetERPDocumentCountsRequest) Reset() {
 	*x = GetERPDocumentCountsRequest{}
-	mi := &file_core_v1_queries_proto_msgTypes[20]
+	mi := &file_core_v1_queries_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1701,7 +1284,7 @@ func (x *GetERPDocumentCountsRequest) String() string {
 func (*GetERPDocumentCountsRequest) ProtoMessage() {}
 
 func (x *GetERPDocumentCountsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_queries_proto_msgTypes[20]
+	mi := &file_core_v1_queries_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1714,7 +1297,7 @@ func (x *GetERPDocumentCountsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetERPDocumentCountsRequest.ProtoReflect.Descriptor instead.
 func (*GetERPDocumentCountsRequest) Descriptor() ([]byte, []int) {
-	return file_core_v1_queries_proto_rawDescGZIP(), []int{20}
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *GetERPDocumentCountsRequest) GetTenantId() string {
@@ -1732,15 +1315,15 @@ func (x *GetERPDocumentCountsRequest) GetConnectionId() string {
 }
 
 type GetERPDocumentCountsResponse struct {
-	state         protoimpl.MessageState  `protogen:"open.v1"`
-	Items         []*ERPDocumentCountItem `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
+	state         protoimpl.MessageState   `protogen:"open.v1"`
+	Items         []*ERPDocumentCountEntry `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *GetERPDocumentCountsResponse) Reset() {
 	*x = GetERPDocumentCountsResponse{}
-	mi := &file_core_v1_queries_proto_msgTypes[21]
+	mi := &file_core_v1_queries_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1752,7 +1335,7 @@ func (x *GetERPDocumentCountsResponse) String() string {
 func (*GetERPDocumentCountsResponse) ProtoMessage() {}
 
 func (x *GetERPDocumentCountsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_queries_proto_msgTypes[21]
+	mi := &file_core_v1_queries_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1765,40 +1348,39 @@ func (x *GetERPDocumentCountsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetERPDocumentCountsResponse.ProtoReflect.Descriptor instead.
 func (*GetERPDocumentCountsResponse) Descriptor() ([]byte, []int) {
-	return file_core_v1_queries_proto_rawDescGZIP(), []int{21}
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{19}
 }
 
-func (x *GetERPDocumentCountsResponse) GetItems() []*ERPDocumentCountItem {
+func (x *GetERPDocumentCountsResponse) GetItems() []*ERPDocumentCountEntry {
 	if x != nil {
 		return x.Items
 	}
 	return nil
 }
 
-type ERPDocumentCountItem struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
-	ErpEntityType   string                 `protobuf:"bytes,1,opt,name=erp_entity_type,json=erpEntityType,proto3" json:"erp_entity_type,omitempty"`
-	Count           int32                  `protobuf:"varint,2,opt,name=count,proto3" json:"count,omitempty"`
-	MaxErpUpdatedAt *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=max_erp_updated_at,json=maxErpUpdatedAt,proto3" json:"max_erp_updated_at,omitempty"`
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
+type ERPDocumentCountEntry struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	EntityType    string                 `protobuf:"bytes,1,opt,name=entity_type,json=entityType,proto3" json:"entity_type,omitempty"`
+	Count         int32                  `protobuf:"varint,2,opt,name=count,proto3" json:"count,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
-func (x *ERPDocumentCountItem) Reset() {
-	*x = ERPDocumentCountItem{}
-	mi := &file_core_v1_queries_proto_msgTypes[22]
+func (x *ERPDocumentCountEntry) Reset() {
+	*x = ERPDocumentCountEntry{}
+	mi := &file_core_v1_queries_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ERPDocumentCountItem) String() string {
+func (x *ERPDocumentCountEntry) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ERPDocumentCountItem) ProtoMessage() {}
+func (*ERPDocumentCountEntry) ProtoMessage() {}
 
-func (x *ERPDocumentCountItem) ProtoReflect() protoreflect.Message {
-	mi := &file_core_v1_queries_proto_msgTypes[22]
+func (x *ERPDocumentCountEntry) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_queries_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1809,37 +1391,30 @@ func (x *ERPDocumentCountItem) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ERPDocumentCountItem.ProtoReflect.Descriptor instead.
-func (*ERPDocumentCountItem) Descriptor() ([]byte, []int) {
-	return file_core_v1_queries_proto_rawDescGZIP(), []int{22}
+// Deprecated: Use ERPDocumentCountEntry.ProtoReflect.Descriptor instead.
+func (*ERPDocumentCountEntry) Descriptor() ([]byte, []int) {
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{20}
 }
 
-func (x *ERPDocumentCountItem) GetErpEntityType() string {
+func (x *ERPDocumentCountEntry) GetEntityType() string {
 	if x != nil {
-		return x.ErpEntityType
+		return x.EntityType
 	}
 	return ""
 }
 
-func (x *ERPDocumentCountItem) GetCount() int32 {
+func (x *ERPDocumentCountEntry) GetCount() int32 {
 	if x != nil {
 		return x.Count
 	}
 	return 0
 }
 
-func (x *ERPDocumentCountItem) GetMaxErpUpdatedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.MaxErpUpdatedAt
-	}
-	return nil
-}
-
 var File_core_v1_queries_proto protoreflect.FileDescriptor
 
 const file_core_v1_queries_proto_rawDesc = "" +
 	"\n" +
-	"\x15core/v1/queries.proto\x12\x0fdocuman.core.v1\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x15common/v1/types.proto\"X\n" +
+	"\x15core/v1/queries.proto\x12\x0fdocuman.core.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"X\n" +
 	"\x14GetConnectionRequest\x12\x1b\n" +
 	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12#\n" +
 	"\rconnection_id\x18\x02 \x01(\tR\fconnectionId\"X\n" +
@@ -1872,141 +1447,94 @@ const file_core_v1_queries_proto_rawDesc = "" +
 	"\n" +
 	"updated_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12)\n" +
 	"\x10provider_payload\x18\f \x01(\fR\x0fproviderPayload\x12!\n" +
-	"\fetl_eligible\x18\r \x01(\bR\vetlEligible\"\x84\x01\n" +
+	"\fetl_eligible\x18\r \x01(\bR\vetlEligible\"i\n" +
 	"\x1cListOriginalDocumentsRequest\x12\x1b\n" +
-	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12\x19\n" +
-	"\bdoc_type\x18\x02 \x01(\tR\adocType\x12\x14\n" +
+	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12\x14\n" +
 	"\x05limit\x18\x03 \x01(\x05R\x05limit\x12\x16\n" +
-	"\x06offset\x18\x04 \x01(\x05R\x06offset\"}\n" +
-	"\x1dListOriginalDocumentsResponse\x12;\n" +
-	"\x05items\x18\x01 \x03(\v2%.documan.core.v1.OriginalDocumentItemR\x05items\x12\x1f\n" +
+	"\x06offset\x18\x04 \x01(\x05R\x06offset\"~\n" +
+	"\x1dListOriginalDocumentsResponse\x12<\n" +
+	"\x05items\x18\x01 \x03(\v2&.documan.core.v1.OriginalDocumentEntryR\x05items\x12\x1f\n" +
 	"\vtotal_count\x18\x02 \x01(\x05R\n" +
-	"totalCount\"P\n" +
+	"totalCount\"I\n" +
 	"\x1aGetOriginalDocumentRequest\x12\x1b\n" +
-	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12\x15\n" +
-	"\x06doc_id\x18\x02 \x01(\tR\x05docId\"c\n" +
-	"\x1bGetOriginalDocumentResponse\x12D\n" +
-	"\bdocument\x18\x01 \x01(\v2(.documan.core.v1.OriginalDocumentDetailsR\bdocument\"\xb1\x03\n" +
-	"\x14OriginalDocumentItem\x12\x1b\n" +
-	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12\x15\n" +
-	"\x06doc_id\x18\x02 \x01(\tR\x05docId\x12\x19\n" +
-	"\bdoc_type\x18\x03 \x01(\tR\adocType\x12\x1d\n" +
-	"\n" +
-	"file_batch\x18\x04 \x01(\tR\tfileBatch\x12\x1b\n" +
-	"\tfile_name\x18\x05 \x01(\tR\bfileName\x12\x19\n" +
-	"\bfile_ext\x18\x06 \x01(\tR\afileExt\x12\x1b\n" +
-	"\tfile_hash\x18\a \x01(\tR\bfileHash\x12!\n" +
-	"\fpayload_hash\x18\b \x01(\tR\vpayloadHash\x12=\n" +
-	"\fpayloaded_at\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\vpayloadedAt\x129\n" +
-	"\n" +
-	"created_at\x18\n" +
-	" \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
-	"\n" +
-	"updated_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"\x93\x05\n" +
-	"\x17OriginalDocumentDetails\x12\x1b\n" +
-	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12\x15\n" +
-	"\x06doc_id\x18\x02 \x01(\tR\x05docId\x12\x19\n" +
-	"\bdoc_type\x18\x03 \x01(\tR\adocType\x12\x1d\n" +
-	"\n" +
-	"file_batch\x18\x04 \x01(\tR\tfileBatch\x12\x1b\n" +
-	"\tfile_name\x18\x05 \x01(\tR\bfileName\x12\x19\n" +
-	"\bfile_ext\x18\x06 \x01(\tR\afileExt\x12\x1b\n" +
-	"\tfile_hash\x18\a \x01(\tR\bfileHash\x12!\n" +
-	"\fpayload_hash\x18\b \x01(\tR\vpayloadHash\x12!\n" +
+	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12\x0e\n" +
+	"\x02id\x18\x02 \x01(\tR\x02id\"a\n" +
+	"\x1bGetOriginalDocumentResponse\x12B\n" +
+	"\bdocument\x18\x01 \x01(\v2&.documan.core.v1.OriginalDocumentEntryR\bdocument\"\xed\x02\n" +
+	"\x15OriginalDocumentEntry\x12\x1b\n" +
+	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12\x0e\n" +
+	"\x02id\x18\x02 \x01(\tR\x02id\x12!\n" +
 	"\fpayload_meta\x18\t \x01(\fR\vpayloadMeta\x12%\n" +
 	"\x0epayload_header\x18\n" +
 	" \x01(\fR\rpayloadHeader\x12'\n" +
 	"\x0fpayload_summary\x18\v \x01(\fR\x0epayloadSummary\x12+\n" +
-	"\x11payload_positions\x18\f \x01(\fR\x10payloadPositions\x12=\n" +
-	"\fpayloaded_at\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\vpayloadedAt\x129\n" +
-	"\n" +
-	"created_at\x18\x0e \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
-	"\n" +
-	"updated_at\x18\x0f \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12=\n" +
-	"\roriginal_file\x18\x10 \x01(\v2\x18.documan.common.v1.S3RefR\foriginalFile\"\xb0\x01\n" +
+	"\x11payload_positions\x18\f \x01(\fR\x10payloadPositions\x12%\n" +
+	"\x0epayload_footer\x18\x11 \x01(\fR\rpayloadFooter\x12!\n" +
+	"\fpayload_hash\x18\b \x01(\tR\vpayloadHash\x12=\n" +
+	"\fpayloaded_at\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\vpayloadedAt\"\xa9\x01\n" +
 	"\x16ListERPEntitiesRequest\x12\x1b\n" +
 	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12#\n" +
-	"\rconnection_id\x18\x02 \x01(\tR\fconnectionId\x12&\n" +
-	"\x0ferp_entity_type\x18\x03 \x01(\tR\rerpEntityType\x12\x14\n" +
+	"\rconnection_id\x18\x02 \x01(\tR\fconnectionId\x12\x1f\n" +
+	"\ventity_type\x18\x03 \x01(\tR\n" +
+	"entityType\x12\x14\n" +
 	"\x05limit\x18\x04 \x01(\x05R\x05limit\x12\x16\n" +
-	"\x06offset\x18\x05 \x01(\x05R\x06offset\"p\n" +
-	"\x17ListERPEntitiesResponse\x124\n" +
-	"\x05items\x18\x01 \x03(\v2\x1e.documan.core.v1.ERPEntityItemR\x05items\x12\x1f\n" +
+	"\x06offset\x18\x05 \x01(\x05R\x06offset\"q\n" +
+	"\x17ListERPEntitiesResponse\x125\n" +
+	"\x05items\x18\x01 \x03(\v2\x1f.documan.core.v1.ERPEntityEntryR\x05items\x12\x1f\n" +
 	"\vtotal_count\x18\x02 \x01(\x05R\n" +
-	"totalCount\"\xad\x04\n" +
-	"\rERPEntityItem\x12\x1b\n" +
-	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12#\n" +
-	"\rconnection_id\x18\x02 \x01(\tR\fconnectionId\x12'\n" +
-	"\x0fconnection_type\x18\x03 \x01(\tR\x0econnectionType\x12&\n" +
-	"\x0ferp_entity_type\x18\x04 \x01(\tR\rerpEntityType\x12\"\n" +
-	"\rerp_entity_id\x18\x05 \x01(\tR\verpEntityId\x12!\n" +
-	"\fpayload_hash\x18\x06 \x01(\tR\vpayloadHash\x12=\n" +
-	"\fpayloaded_at\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\vpayloadedAt\x12@\n" +
-	"\x0eerp_updated_at\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\ferpUpdatedAt\x12@\n" +
-	"\x0eerp_created_at\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\ferpCreatedAt\x12@\n" +
-	"\x0eerp_deleted_at\x18\n" +
-	" \x01(\v2\x1a.google.protobuf.TimestampR\ferpDeletedAt\x12!\n" +
-	"\ferp_archived\x18\v \x01(\bR\verpArchived\x12\x1a\n" +
-	"\barchived\x18\f \x01(\bR\barchived\"\xb1\x01\n" +
+	"totalCount\"\xe3\x01\n" +
+	"\x0eERPEntityEntry\x12\x1b\n" +
+	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12\x1d\n" +
+	"\n" +
+	"account_id\x18\x02 \x01(\tR\taccountId\x12\x1f\n" +
+	"\ventity_type\x18\x04 \x01(\tR\n" +
+	"entityType\x12\x0e\n" +
+	"\x02id\x18\x05 \x01(\tR\x02id\x12%\n" +
+	"\x0epayload_entity\x18\r \x01(\fR\rpayloadEntity\x12=\n" +
+	"\fpayloaded_at\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\vpayloadedAt\"\xaa\x01\n" +
 	"\x17ListERPDocumentsRequest\x12\x1b\n" +
 	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12#\n" +
-	"\rconnection_id\x18\x02 \x01(\tR\fconnectionId\x12&\n" +
-	"\x0ferp_entity_type\x18\x03 \x01(\tR\rerpEntityType\x12\x14\n" +
+	"\rconnection_id\x18\x02 \x01(\tR\fconnectionId\x12\x1f\n" +
+	"\ventity_type\x18\x03 \x01(\tR\n" +
+	"entityType\x12\x14\n" +
 	"\x05limit\x18\x04 \x01(\x05R\x05limit\x12\x16\n" +
-	"\x06offset\x18\x05 \x01(\x05R\x06offset\"s\n" +
-	"\x18ListERPDocumentsResponse\x126\n" +
-	"\x05items\x18\x01 \x03(\v2 .documan.core.v1.ERPDocumentItemR\x05items\x12\x1f\n" +
+	"\x06offset\x18\x05 \x01(\x05R\x06offset\"t\n" +
+	"\x18ListERPDocumentsResponse\x127\n" +
+	"\x05items\x18\x01 \x03(\v2!.documan.core.v1.ERPDocumentEntryR\x05items\x12\x1f\n" +
 	"\vtotal_count\x18\x02 \x01(\x05R\n" +
-	"totalCount\"\xd6\x04\n" +
-	"\x0fERPDocumentItem\x12\x1b\n" +
-	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12#\n" +
-	"\rconnection_id\x18\x02 \x01(\tR\fconnectionId\x12'\n" +
-	"\x0fconnection_type\x18\x03 \x01(\tR\x0econnectionType\x12&\n" +
-	"\x0ferp_entity_type\x18\x04 \x01(\tR\rerpEntityType\x12\"\n" +
-	"\rerp_entity_id\x18\x05 \x01(\tR\verpEntityId\x12!\n" +
-	"\fpayload_hash\x18\x06 \x01(\tR\vpayloadHash\x12=\n" +
-	"\fpayloaded_at\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\vpayloadedAt\x12@\n" +
-	"\x0eerp_updated_at\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\ferpUpdatedAt\x12@\n" +
-	"\x0eerp_created_at\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\ferpCreatedAt\x12@\n" +
-	"\x0eerp_deleted_at\x18\n" +
-	" \x01(\v2\x1a.google.protobuf.TimestampR\ferpDeletedAt\x12!\n" +
-	"\ferp_archived\x18\v \x01(\bR\verpArchived\x12\x1a\n" +
-	"\barchived\x18\f \x01(\bR\barchived\x12%\n" +
-	"\x0epayload_header\x18\r \x01(\fR\rpayloadHeader\"\xa5\x01\n" +
-	"\x15GetERPDocumentRequest\x12\x1b\n" +
-	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12#\n" +
-	"\rconnection_id\x18\x02 \x01(\tR\fconnectionId\x12&\n" +
-	"\x0ferp_entity_type\x18\x03 \x01(\tR\rerpEntityType\x12\"\n" +
-	"\rerp_entity_id\x18\x04 \x01(\tR\verpEntityId\"Y\n" +
-	"\x16GetERPDocumentResponse\x12?\n" +
-	"\bdocument\x18\x01 \x01(\v2#.documan.core.v1.ERPDocumentDetailsR\bdocument\"\xd2\x05\n" +
-	"\x12ERPDocumentDetails\x12\x1b\n" +
-	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12#\n" +
-	"\rconnection_id\x18\x02 \x01(\tR\fconnectionId\x12'\n" +
-	"\x0fconnection_type\x18\x03 \x01(\tR\x0econnectionType\x12&\n" +
-	"\x0ferp_entity_type\x18\x04 \x01(\tR\rerpEntityType\x12\"\n" +
-	"\rerp_entity_id\x18\x05 \x01(\tR\verpEntityId\x12!\n" +
+	"totalCount\"\xb5\x03\n" +
+	"\x10ERPDocumentEntry\x12\x1b\n" +
+	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12\x1d\n" +
+	"\n" +
+	"account_id\x18\x02 \x01(\tR\taccountId\x12\x1f\n" +
+	"\ventity_type\x18\x04 \x01(\tR\n" +
+	"entityType\x12\x1b\n" +
+	"\tentity_id\x18\x05 \x01(\tR\bentityId\x12!\n" +
 	"\fpayload_meta\x18\x06 \x01(\fR\vpayloadMeta\x12%\n" +
 	"\x0epayload_header\x18\a \x01(\fR\rpayloadHeader\x12'\n" +
 	"\x0fpayload_summary\x18\b \x01(\fR\x0epayloadSummary\x12+\n" +
-	"\x11payload_positions\x18\t \x01(\fR\x10payloadPositions\x12!\n" +
+	"\x11payload_positions\x18\t \x01(\fR\x10payloadPositions\x12%\n" +
+	"\x0epayload_footer\x18\x11 \x01(\fR\rpayloadFooter\x12!\n" +
 	"\fpayload_hash\x18\n" +
 	" \x01(\tR\vpayloadHash\x12=\n" +
-	"\fpayloaded_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\vpayloadedAt\x12@\n" +
-	"\x0eerp_updated_at\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\ferpUpdatedAt\x12@\n" +
-	"\x0eerp_created_at\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\ferpCreatedAt\x12@\n" +
-	"\x0eerp_deleted_at\x18\x0e \x01(\v2\x1a.google.protobuf.TimestampR\ferpDeletedAt\x12!\n" +
-	"\ferp_archived\x18\x0f \x01(\bR\verpArchived\x12\x1a\n" +
-	"\barchived\x18\x10 \x01(\bR\barchived\"_\n" +
+	"\fpayloaded_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\vpayloadedAt\"\x97\x01\n" +
+	"\x15GetERPDocumentRequest\x12\x1b\n" +
+	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12#\n" +
+	"\rconnection_id\x18\x02 \x01(\tR\fconnectionId\x12\x1f\n" +
+	"\ventity_type\x18\x03 \x01(\tR\n" +
+	"entityType\x12\x1b\n" +
+	"\tentity_id\x18\x04 \x01(\tR\bentityId\"W\n" +
+	"\x16GetERPDocumentResponse\x12=\n" +
+	"\bdocument\x18\x01 \x01(\v2!.documan.core.v1.ERPDocumentEntryR\bdocument\"_\n" +
 	"\x1bGetERPDocumentCountsRequest\x12\x1b\n" +
 	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12#\n" +
-	"\rconnection_id\x18\x02 \x01(\tR\fconnectionId\"[\n" +
-	"\x1cGetERPDocumentCountsResponse\x12;\n" +
-	"\x05items\x18\x01 \x03(\v2%.documan.core.v1.ERPDocumentCountItemR\x05items\"\x9d\x01\n" +
-	"\x14ERPDocumentCountItem\x12&\n" +
-	"\x0ferp_entity_type\x18\x01 \x01(\tR\rerpEntityType\x12\x14\n" +
-	"\x05count\x18\x02 \x01(\x05R\x05count\x12G\n" +
-	"\x12max_erp_updated_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\x0fmaxErpUpdatedAt2\xe9\x06\n" +
+	"\rconnection_id\x18\x02 \x01(\tR\fconnectionId\"\\\n" +
+	"\x1cGetERPDocumentCountsResponse\x12<\n" +
+	"\x05items\x18\x01 \x03(\v2&.documan.core.v1.ERPDocumentCountEntryR\x05items\"N\n" +
+	"\x15ERPDocumentCountEntry\x12\x1f\n" +
+	"\ventity_type\x18\x01 \x01(\tR\n" +
+	"entityType\x12\x14\n" +
+	"\x05count\x18\x02 \x01(\x05R\x05count2\xe9\x06\n" +
 	"\x10CoreQueryService\x12^\n" +
 	"\rGetConnection\x12%.documan.core.v1.GetConnectionRequest\x1a&.documan.core.v1.GetConnectionResponse\x12d\n" +
 	"\x0fListConnections\x12'.documan.core.v1.ListConnectionsRequest\x1a(.documan.core.v1.ListConnectionsResponse\x12v\n" +
@@ -2029,7 +1557,7 @@ func file_core_v1_queries_proto_rawDescGZIP() []byte {
 	return file_core_v1_queries_proto_rawDescData
 }
 
-var file_core_v1_queries_proto_msgTypes = make([]protoimpl.MessageInfo, 23)
+var file_core_v1_queries_proto_msgTypes = make([]protoimpl.MessageInfo, 21)
 var file_core_v1_queries_proto_goTypes = []any{
 	(*GetConnectionRequest)(nil),          // 0: documan.core.v1.GetConnectionRequest
 	(*GetConnectionResponse)(nil),         // 1: documan.core.v1.GetConnectionResponse
@@ -2040,76 +1568,56 @@ var file_core_v1_queries_proto_goTypes = []any{
 	(*ListOriginalDocumentsResponse)(nil), // 6: documan.core.v1.ListOriginalDocumentsResponse
 	(*GetOriginalDocumentRequest)(nil),    // 7: documan.core.v1.GetOriginalDocumentRequest
 	(*GetOriginalDocumentResponse)(nil),   // 8: documan.core.v1.GetOriginalDocumentResponse
-	(*OriginalDocumentItem)(nil),          // 9: documan.core.v1.OriginalDocumentItem
-	(*OriginalDocumentDetails)(nil),       // 10: documan.core.v1.OriginalDocumentDetails
-	(*ListERPEntitiesRequest)(nil),        // 11: documan.core.v1.ListERPEntitiesRequest
-	(*ListERPEntitiesResponse)(nil),       // 12: documan.core.v1.ListERPEntitiesResponse
-	(*ERPEntityItem)(nil),                 // 13: documan.core.v1.ERPEntityItem
-	(*ListERPDocumentsRequest)(nil),       // 14: documan.core.v1.ListERPDocumentsRequest
-	(*ListERPDocumentsResponse)(nil),      // 15: documan.core.v1.ListERPDocumentsResponse
-	(*ERPDocumentItem)(nil),               // 16: documan.core.v1.ERPDocumentItem
-	(*GetERPDocumentRequest)(nil),         // 17: documan.core.v1.GetERPDocumentRequest
-	(*GetERPDocumentResponse)(nil),        // 18: documan.core.v1.GetERPDocumentResponse
-	(*ERPDocumentDetails)(nil),            // 19: documan.core.v1.ERPDocumentDetails
-	(*GetERPDocumentCountsRequest)(nil),   // 20: documan.core.v1.GetERPDocumentCountsRequest
-	(*GetERPDocumentCountsResponse)(nil),  // 21: documan.core.v1.GetERPDocumentCountsResponse
-	(*ERPDocumentCountItem)(nil),          // 22: documan.core.v1.ERPDocumentCountItem
-	(*timestamppb.Timestamp)(nil),         // 23: google.protobuf.Timestamp
-	(*v1.S3Ref)(nil),                      // 24: documan.common.v1.S3Ref
+	(*OriginalDocumentEntry)(nil),         // 9: documan.core.v1.OriginalDocumentEntry
+	(*ListERPEntitiesRequest)(nil),        // 10: documan.core.v1.ListERPEntitiesRequest
+	(*ListERPEntitiesResponse)(nil),       // 11: documan.core.v1.ListERPEntitiesResponse
+	(*ERPEntityEntry)(nil),                // 12: documan.core.v1.ERPEntityEntry
+	(*ListERPDocumentsRequest)(nil),       // 13: documan.core.v1.ListERPDocumentsRequest
+	(*ListERPDocumentsResponse)(nil),      // 14: documan.core.v1.ListERPDocumentsResponse
+	(*ERPDocumentEntry)(nil),              // 15: documan.core.v1.ERPDocumentEntry
+	(*GetERPDocumentRequest)(nil),         // 16: documan.core.v1.GetERPDocumentRequest
+	(*GetERPDocumentResponse)(nil),        // 17: documan.core.v1.GetERPDocumentResponse
+	(*GetERPDocumentCountsRequest)(nil),   // 18: documan.core.v1.GetERPDocumentCountsRequest
+	(*GetERPDocumentCountsResponse)(nil),  // 19: documan.core.v1.GetERPDocumentCountsResponse
+	(*ERPDocumentCountEntry)(nil),         // 20: documan.core.v1.ERPDocumentCountEntry
+	(*timestamppb.Timestamp)(nil),         // 21: google.protobuf.Timestamp
 }
 var file_core_v1_queries_proto_depIdxs = []int32{
 	4,  // 0: documan.core.v1.GetConnectionResponse.connection:type_name -> documan.core.v1.ConnectionItem
 	4,  // 1: documan.core.v1.ListConnectionsResponse.items:type_name -> documan.core.v1.ConnectionItem
-	23, // 2: documan.core.v1.ConnectionItem.last_sync_at:type_name -> google.protobuf.Timestamp
-	23, // 3: documan.core.v1.ConnectionItem.created_at:type_name -> google.protobuf.Timestamp
-	23, // 4: documan.core.v1.ConnectionItem.updated_at:type_name -> google.protobuf.Timestamp
-	9,  // 5: documan.core.v1.ListOriginalDocumentsResponse.items:type_name -> documan.core.v1.OriginalDocumentItem
-	10, // 6: documan.core.v1.GetOriginalDocumentResponse.document:type_name -> documan.core.v1.OriginalDocumentDetails
-	23, // 7: documan.core.v1.OriginalDocumentItem.payloaded_at:type_name -> google.protobuf.Timestamp
-	23, // 8: documan.core.v1.OriginalDocumentItem.created_at:type_name -> google.protobuf.Timestamp
-	23, // 9: documan.core.v1.OriginalDocumentItem.updated_at:type_name -> google.protobuf.Timestamp
-	23, // 10: documan.core.v1.OriginalDocumentDetails.payloaded_at:type_name -> google.protobuf.Timestamp
-	23, // 11: documan.core.v1.OriginalDocumentDetails.created_at:type_name -> google.protobuf.Timestamp
-	23, // 12: documan.core.v1.OriginalDocumentDetails.updated_at:type_name -> google.protobuf.Timestamp
-	24, // 13: documan.core.v1.OriginalDocumentDetails.original_file:type_name -> documan.common.v1.S3Ref
-	13, // 14: documan.core.v1.ListERPEntitiesResponse.items:type_name -> documan.core.v1.ERPEntityItem
-	23, // 15: documan.core.v1.ERPEntityItem.payloaded_at:type_name -> google.protobuf.Timestamp
-	23, // 16: documan.core.v1.ERPEntityItem.erp_updated_at:type_name -> google.protobuf.Timestamp
-	23, // 17: documan.core.v1.ERPEntityItem.erp_created_at:type_name -> google.protobuf.Timestamp
-	23, // 18: documan.core.v1.ERPEntityItem.erp_deleted_at:type_name -> google.protobuf.Timestamp
-	16, // 19: documan.core.v1.ListERPDocumentsResponse.items:type_name -> documan.core.v1.ERPDocumentItem
-	23, // 20: documan.core.v1.ERPDocumentItem.payloaded_at:type_name -> google.protobuf.Timestamp
-	23, // 21: documan.core.v1.ERPDocumentItem.erp_updated_at:type_name -> google.protobuf.Timestamp
-	23, // 22: documan.core.v1.ERPDocumentItem.erp_created_at:type_name -> google.protobuf.Timestamp
-	23, // 23: documan.core.v1.ERPDocumentItem.erp_deleted_at:type_name -> google.protobuf.Timestamp
-	19, // 24: documan.core.v1.GetERPDocumentResponse.document:type_name -> documan.core.v1.ERPDocumentDetails
-	23, // 25: documan.core.v1.ERPDocumentDetails.payloaded_at:type_name -> google.protobuf.Timestamp
-	23, // 26: documan.core.v1.ERPDocumentDetails.erp_updated_at:type_name -> google.protobuf.Timestamp
-	23, // 27: documan.core.v1.ERPDocumentDetails.erp_created_at:type_name -> google.protobuf.Timestamp
-	23, // 28: documan.core.v1.ERPDocumentDetails.erp_deleted_at:type_name -> google.protobuf.Timestamp
-	22, // 29: documan.core.v1.GetERPDocumentCountsResponse.items:type_name -> documan.core.v1.ERPDocumentCountItem
-	23, // 30: documan.core.v1.ERPDocumentCountItem.max_erp_updated_at:type_name -> google.protobuf.Timestamp
-	0,  // 31: documan.core.v1.CoreQueryService.GetConnection:input_type -> documan.core.v1.GetConnectionRequest
-	2,  // 32: documan.core.v1.CoreQueryService.ListConnections:input_type -> documan.core.v1.ListConnectionsRequest
-	5,  // 33: documan.core.v1.CoreQueryService.ListOriginalDocuments:input_type -> documan.core.v1.ListOriginalDocumentsRequest
-	7,  // 34: documan.core.v1.CoreQueryService.GetOriginalDocument:input_type -> documan.core.v1.GetOriginalDocumentRequest
-	11, // 35: documan.core.v1.CoreQueryService.ListERPEntities:input_type -> documan.core.v1.ListERPEntitiesRequest
-	14, // 36: documan.core.v1.CoreQueryService.ListERPDocuments:input_type -> documan.core.v1.ListERPDocumentsRequest
-	17, // 37: documan.core.v1.CoreQueryService.GetERPDocument:input_type -> documan.core.v1.GetERPDocumentRequest
-	20, // 38: documan.core.v1.CoreQueryService.GetERPDocumentCounts:input_type -> documan.core.v1.GetERPDocumentCountsRequest
-	1,  // 39: documan.core.v1.CoreQueryService.GetConnection:output_type -> documan.core.v1.GetConnectionResponse
-	3,  // 40: documan.core.v1.CoreQueryService.ListConnections:output_type -> documan.core.v1.ListConnectionsResponse
-	6,  // 41: documan.core.v1.CoreQueryService.ListOriginalDocuments:output_type -> documan.core.v1.ListOriginalDocumentsResponse
-	8,  // 42: documan.core.v1.CoreQueryService.GetOriginalDocument:output_type -> documan.core.v1.GetOriginalDocumentResponse
-	12, // 43: documan.core.v1.CoreQueryService.ListERPEntities:output_type -> documan.core.v1.ListERPEntitiesResponse
-	15, // 44: documan.core.v1.CoreQueryService.ListERPDocuments:output_type -> documan.core.v1.ListERPDocumentsResponse
-	18, // 45: documan.core.v1.CoreQueryService.GetERPDocument:output_type -> documan.core.v1.GetERPDocumentResponse
-	21, // 46: documan.core.v1.CoreQueryService.GetERPDocumentCounts:output_type -> documan.core.v1.GetERPDocumentCountsResponse
-	39, // [39:47] is the sub-list for method output_type
-	31, // [31:39] is the sub-list for method input_type
-	31, // [31:31] is the sub-list for extension type_name
-	31, // [31:31] is the sub-list for extension extendee
-	0,  // [0:31] is the sub-list for field type_name
+	21, // 2: documan.core.v1.ConnectionItem.last_sync_at:type_name -> google.protobuf.Timestamp
+	21, // 3: documan.core.v1.ConnectionItem.created_at:type_name -> google.protobuf.Timestamp
+	21, // 4: documan.core.v1.ConnectionItem.updated_at:type_name -> google.protobuf.Timestamp
+	9,  // 5: documan.core.v1.ListOriginalDocumentsResponse.items:type_name -> documan.core.v1.OriginalDocumentEntry
+	9,  // 6: documan.core.v1.GetOriginalDocumentResponse.document:type_name -> documan.core.v1.OriginalDocumentEntry
+	21, // 7: documan.core.v1.OriginalDocumentEntry.payloaded_at:type_name -> google.protobuf.Timestamp
+	12, // 8: documan.core.v1.ListERPEntitiesResponse.items:type_name -> documan.core.v1.ERPEntityEntry
+	21, // 9: documan.core.v1.ERPEntityEntry.payloaded_at:type_name -> google.protobuf.Timestamp
+	15, // 10: documan.core.v1.ListERPDocumentsResponse.items:type_name -> documan.core.v1.ERPDocumentEntry
+	21, // 11: documan.core.v1.ERPDocumentEntry.payloaded_at:type_name -> google.protobuf.Timestamp
+	15, // 12: documan.core.v1.GetERPDocumentResponse.document:type_name -> documan.core.v1.ERPDocumentEntry
+	20, // 13: documan.core.v1.GetERPDocumentCountsResponse.items:type_name -> documan.core.v1.ERPDocumentCountEntry
+	0,  // 14: documan.core.v1.CoreQueryService.GetConnection:input_type -> documan.core.v1.GetConnectionRequest
+	2,  // 15: documan.core.v1.CoreQueryService.ListConnections:input_type -> documan.core.v1.ListConnectionsRequest
+	5,  // 16: documan.core.v1.CoreQueryService.ListOriginalDocuments:input_type -> documan.core.v1.ListOriginalDocumentsRequest
+	7,  // 17: documan.core.v1.CoreQueryService.GetOriginalDocument:input_type -> documan.core.v1.GetOriginalDocumentRequest
+	10, // 18: documan.core.v1.CoreQueryService.ListERPEntities:input_type -> documan.core.v1.ListERPEntitiesRequest
+	13, // 19: documan.core.v1.CoreQueryService.ListERPDocuments:input_type -> documan.core.v1.ListERPDocumentsRequest
+	16, // 20: documan.core.v1.CoreQueryService.GetERPDocument:input_type -> documan.core.v1.GetERPDocumentRequest
+	18, // 21: documan.core.v1.CoreQueryService.GetERPDocumentCounts:input_type -> documan.core.v1.GetERPDocumentCountsRequest
+	1,  // 22: documan.core.v1.CoreQueryService.GetConnection:output_type -> documan.core.v1.GetConnectionResponse
+	3,  // 23: documan.core.v1.CoreQueryService.ListConnections:output_type -> documan.core.v1.ListConnectionsResponse
+	6,  // 24: documan.core.v1.CoreQueryService.ListOriginalDocuments:output_type -> documan.core.v1.ListOriginalDocumentsResponse
+	8,  // 25: documan.core.v1.CoreQueryService.GetOriginalDocument:output_type -> documan.core.v1.GetOriginalDocumentResponse
+	11, // 26: documan.core.v1.CoreQueryService.ListERPEntities:output_type -> documan.core.v1.ListERPEntitiesResponse
+	14, // 27: documan.core.v1.CoreQueryService.ListERPDocuments:output_type -> documan.core.v1.ListERPDocumentsResponse
+	17, // 28: documan.core.v1.CoreQueryService.GetERPDocument:output_type -> documan.core.v1.GetERPDocumentResponse
+	19, // 29: documan.core.v1.CoreQueryService.GetERPDocumentCounts:output_type -> documan.core.v1.GetERPDocumentCountsResponse
+	22, // [22:30] is the sub-list for method output_type
+	14, // [14:22] is the sub-list for method input_type
+	14, // [14:14] is the sub-list for extension type_name
+	14, // [14:14] is the sub-list for extension extendee
+	0,  // [0:14] is the sub-list for field type_name
 }
 
 func init() { file_core_v1_queries_proto_init() }
@@ -2123,7 +1631,7 @@ func file_core_v1_queries_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_core_v1_queries_proto_rawDesc), len(file_core_v1_queries_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   23,
+			NumMessages:   21,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

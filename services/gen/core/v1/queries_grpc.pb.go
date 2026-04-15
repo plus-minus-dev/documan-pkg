@@ -32,8 +32,6 @@ const (
 // CoreQueryServiceClient is the client API for CoreQueryService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-//
-// CoreQueryService -- чтение, вызывает BFF.
 type CoreQueryServiceClient interface {
 	GetConnection(ctx context.Context, in *GetConnectionRequest, opts ...grpc.CallOption) (*GetConnectionResponse, error)
 	ListConnections(ctx context.Context, in *ListConnectionsRequest, opts ...grpc.CallOption) (*ListConnectionsResponse, error)
@@ -42,7 +40,6 @@ type CoreQueryServiceClient interface {
 	ListERPEntities(ctx context.Context, in *ListERPEntitiesRequest, opts ...grpc.CallOption) (*ListERPEntitiesResponse, error)
 	ListERPDocuments(ctx context.Context, in *ListERPDocumentsRequest, opts ...grpc.CallOption) (*ListERPDocumentsResponse, error)
 	GetERPDocument(ctx context.Context, in *GetERPDocumentRequest, opts ...grpc.CallOption) (*GetERPDocumentResponse, error)
-	// ERP document counts per entity type for a connection
 	GetERPDocumentCounts(ctx context.Context, in *GetERPDocumentCountsRequest, opts ...grpc.CallOption) (*GetERPDocumentCountsResponse, error)
 }
 
@@ -137,8 +134,6 @@ func (c *coreQueryServiceClient) GetERPDocumentCounts(ctx context.Context, in *G
 // CoreQueryServiceServer is the server API for CoreQueryService service.
 // All implementations must embed UnimplementedCoreQueryServiceServer
 // for forward compatibility.
-//
-// CoreQueryService -- чтение, вызывает BFF.
 type CoreQueryServiceServer interface {
 	GetConnection(context.Context, *GetConnectionRequest) (*GetConnectionResponse, error)
 	ListConnections(context.Context, *ListConnectionsRequest) (*ListConnectionsResponse, error)
@@ -147,7 +142,6 @@ type CoreQueryServiceServer interface {
 	ListERPEntities(context.Context, *ListERPEntitiesRequest) (*ListERPEntitiesResponse, error)
 	ListERPDocuments(context.Context, *ListERPDocumentsRequest) (*ListERPDocumentsResponse, error)
 	GetERPDocument(context.Context, *GetERPDocumentRequest) (*GetERPDocumentResponse, error)
-	// ERP document counts per entity type for a connection
 	GetERPDocumentCounts(context.Context, *GetERPDocumentCountsRequest) (*GetERPDocumentCountsResponse, error)
 	mustEmbedUnimplementedCoreQueryServiceServer()
 }
