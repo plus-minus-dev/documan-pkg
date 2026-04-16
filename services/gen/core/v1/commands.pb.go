@@ -581,6 +581,326 @@ func (*DeleteConnectionResponse) Descriptor() ([]byte, []int) {
 	return file_core_v1_commands_proto_rawDescGZIP(), []int{9}
 }
 
+type NotifyFileUploadedRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TenantId      string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
+	Items         []*FileUploadedEntry   `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *NotifyFileUploadedRequest) Reset() {
+	*x = NotifyFileUploadedRequest{}
+	mi := &file_core_v1_commands_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *NotifyFileUploadedRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*NotifyFileUploadedRequest) ProtoMessage() {}
+
+func (x *NotifyFileUploadedRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_commands_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use NotifyFileUploadedRequest.ProtoReflect.Descriptor instead.
+func (*NotifyFileUploadedRequest) Descriptor() ([]byte, []int) {
+	return file_core_v1_commands_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *NotifyFileUploadedRequest) GetTenantId() string {
+	if x != nil {
+		return x.TenantId
+	}
+	return ""
+}
+
+func (x *NotifyFileUploadedRequest) GetItems() []*FileUploadedEntry {
+	if x != nil {
+		return x.Items
+	}
+	return nil
+}
+
+type FileUploadedEntry struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	FileName      string                 `protobuf:"bytes,2,opt,name=file_name,json=fileName,proto3" json:"file_name,omitempty"`
+	FileExt       string                 `protobuf:"bytes,3,opt,name=file_ext,json=fileExt,proto3" json:"file_ext,omitempty"`
+	Source        string                 `protobuf:"bytes,4,opt,name=source,proto3" json:"source,omitempty"`
+	UploadedBy    string                 `protobuf:"bytes,5,opt,name=uploaded_by,json=uploadedBy,proto3" json:"uploaded_by,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *FileUploadedEntry) Reset() {
+	*x = FileUploadedEntry{}
+	mi := &file_core_v1_commands_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *FileUploadedEntry) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FileUploadedEntry) ProtoMessage() {}
+
+func (x *FileUploadedEntry) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_commands_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FileUploadedEntry.ProtoReflect.Descriptor instead.
+func (*FileUploadedEntry) Descriptor() ([]byte, []int) {
+	return file_core_v1_commands_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *FileUploadedEntry) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *FileUploadedEntry) GetFileName() string {
+	if x != nil {
+		return x.FileName
+	}
+	return ""
+}
+
+func (x *FileUploadedEntry) GetFileExt() string {
+	if x != nil {
+		return x.FileExt
+	}
+	return ""
+}
+
+func (x *FileUploadedEntry) GetSource() string {
+	if x != nil {
+		return x.Source
+	}
+	return ""
+}
+
+func (x *FileUploadedEntry) GetUploadedBy() string {
+	if x != nil {
+		return x.UploadedBy
+	}
+	return ""
+}
+
+type NotifyFileUploadedResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Accepted      int32                  `protobuf:"varint,1,opt,name=accepted,proto3" json:"accepted,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *NotifyFileUploadedResponse) Reset() {
+	*x = NotifyFileUploadedResponse{}
+	mi := &file_core_v1_commands_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *NotifyFileUploadedResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*NotifyFileUploadedResponse) ProtoMessage() {}
+
+func (x *NotifyFileUploadedResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_commands_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use NotifyFileUploadedResponse.ProtoReflect.Descriptor instead.
+func (*NotifyFileUploadedResponse) Descriptor() ([]byte, []int) {
+	return file_core_v1_commands_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *NotifyFileUploadedResponse) GetAccepted() int32 {
+	if x != nil {
+		return x.Accepted
+	}
+	return 0
+}
+
+type NotifyParseFailedRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TenantId      string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
+	Items         []*ParseFailedEntry    `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *NotifyParseFailedRequest) Reset() {
+	*x = NotifyParseFailedRequest{}
+	mi := &file_core_v1_commands_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *NotifyParseFailedRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*NotifyParseFailedRequest) ProtoMessage() {}
+
+func (x *NotifyParseFailedRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_commands_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use NotifyParseFailedRequest.ProtoReflect.Descriptor instead.
+func (*NotifyParseFailedRequest) Descriptor() ([]byte, []int) {
+	return file_core_v1_commands_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *NotifyParseFailedRequest) GetTenantId() string {
+	if x != nil {
+		return x.TenantId
+	}
+	return ""
+}
+
+func (x *NotifyParseFailedRequest) GetItems() []*ParseFailedEntry {
+	if x != nil {
+		return x.Items
+	}
+	return nil
+}
+
+type ParseFailedEntry struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Reason        string                 `protobuf:"bytes,2,opt,name=reason,proto3" json:"reason,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ParseFailedEntry) Reset() {
+	*x = ParseFailedEntry{}
+	mi := &file_core_v1_commands_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ParseFailedEntry) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ParseFailedEntry) ProtoMessage() {}
+
+func (x *ParseFailedEntry) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_commands_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ParseFailedEntry.ProtoReflect.Descriptor instead.
+func (*ParseFailedEntry) Descriptor() ([]byte, []int) {
+	return file_core_v1_commands_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *ParseFailedEntry) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *ParseFailedEntry) GetReason() string {
+	if x != nil {
+		return x.Reason
+	}
+	return ""
+}
+
+type NotifyParseFailedResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Accepted      int32                  `protobuf:"varint,1,opt,name=accepted,proto3" json:"accepted,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *NotifyParseFailedResponse) Reset() {
+	*x = NotifyParseFailedResponse{}
+	mi := &file_core_v1_commands_proto_msgTypes[15]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *NotifyParseFailedResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*NotifyParseFailedResponse) ProtoMessage() {}
+
+func (x *NotifyParseFailedResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_commands_proto_msgTypes[15]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use NotifyParseFailedResponse.ProtoReflect.Descriptor instead.
+func (*NotifyParseFailedResponse) Descriptor() ([]byte, []int) {
+	return file_core_v1_commands_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *NotifyParseFailedResponse) GetAccepted() int32 {
+	if x != nil {
+		return x.Accepted
+	}
+	return 0
+}
+
 var File_core_v1_commands_proto protoreflect.FileDescriptor
 
 const file_core_v1_commands_proto_rawDesc = "" +
@@ -627,13 +947,35 @@ const file_core_v1_commands_proto_rawDesc = "" +
 	"\x17DeleteConnectionRequest\x12\x1b\n" +
 	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12#\n" +
 	"\rconnection_id\x18\x02 \x01(\tR\fconnectionId\"\x1a\n" +
-	"\x18DeleteConnectionResponse2\xa4\x04\n" +
+	"\x18DeleteConnectionResponse\"r\n" +
+	"\x19NotifyFileUploadedRequest\x12\x1b\n" +
+	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x128\n" +
+	"\x05items\x18\x02 \x03(\v2\".documan.core.v1.FileUploadedEntryR\x05items\"\x94\x01\n" +
+	"\x11FileUploadedEntry\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
+	"\tfile_name\x18\x02 \x01(\tR\bfileName\x12\x19\n" +
+	"\bfile_ext\x18\x03 \x01(\tR\afileExt\x12\x16\n" +
+	"\x06source\x18\x04 \x01(\tR\x06source\x12\x1f\n" +
+	"\vuploaded_by\x18\x05 \x01(\tR\n" +
+	"uploadedBy\"8\n" +
+	"\x1aNotifyFileUploadedResponse\x12\x1a\n" +
+	"\baccepted\x18\x01 \x01(\x05R\baccepted\"p\n" +
+	"\x18NotifyParseFailedRequest\x12\x1b\n" +
+	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x127\n" +
+	"\x05items\x18\x02 \x03(\v2!.documan.core.v1.ParseFailedEntryR\x05items\":\n" +
+	"\x10ParseFailedEntry\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x16\n" +
+	"\x06reason\x18\x02 \x01(\tR\x06reason\"7\n" +
+	"\x19NotifyParseFailedResponse\x12\x1a\n" +
+	"\baccepted\x18\x01 \x01(\x05R\baccepted2\xff\x05\n" +
 	"\x12CoreCommandService\x12g\n" +
 	"\x10CreateConnection\x12(.documan.core.v1.CreateConnectionRequest\x1a).documan.core.v1.CreateConnectionResponse\x12g\n" +
 	"\x10UpdateConnection\x12(.documan.core.v1.UpdateConnectionRequest\x1a).documan.core.v1.UpdateConnectionResponse\x12g\n" +
 	"\x10EnableConnection\x12(.documan.core.v1.EnableConnectionRequest\x1a).documan.core.v1.EnableConnectionResponse\x12j\n" +
 	"\x11DisableConnection\x12).documan.core.v1.DisableConnectionRequest\x1a*.documan.core.v1.DisableConnectionResponse\x12g\n" +
-	"\x10DeleteConnection\x12(.documan.core.v1.DeleteConnectionRequest\x1a).documan.core.v1.DeleteConnectionResponseB<Z:github.com/plus-minus-dev/documan-pkg/services/gen/core/v1b\x06proto3"
+	"\x10DeleteConnection\x12(.documan.core.v1.DeleteConnectionRequest\x1a).documan.core.v1.DeleteConnectionResponse\x12m\n" +
+	"\x12NotifyFileUploaded\x12*.documan.core.v1.NotifyFileUploadedRequest\x1a+.documan.core.v1.NotifyFileUploadedResponse\x12j\n" +
+	"\x11NotifyParseFailed\x12).documan.core.v1.NotifyParseFailedRequest\x1a*.documan.core.v1.NotifyParseFailedResponseB<Z:github.com/plus-minus-dev/documan-pkg/services/gen/core/v1b\x06proto3"
 
 var (
 	file_core_v1_commands_proto_rawDescOnce sync.Once
@@ -647,35 +989,47 @@ func file_core_v1_commands_proto_rawDescGZIP() []byte {
 	return file_core_v1_commands_proto_rawDescData
 }
 
-var file_core_v1_commands_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_core_v1_commands_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
 var file_core_v1_commands_proto_goTypes = []any{
-	(*CreateConnectionRequest)(nil),   // 0: documan.core.v1.CreateConnectionRequest
-	(*CreateConnectionResponse)(nil),  // 1: documan.core.v1.CreateConnectionResponse
-	(*UpdateConnectionRequest)(nil),   // 2: documan.core.v1.UpdateConnectionRequest
-	(*UpdateConnectionResponse)(nil),  // 3: documan.core.v1.UpdateConnectionResponse
-	(*EnableConnectionRequest)(nil),   // 4: documan.core.v1.EnableConnectionRequest
-	(*EnableConnectionResponse)(nil),  // 5: documan.core.v1.EnableConnectionResponse
-	(*DisableConnectionRequest)(nil),  // 6: documan.core.v1.DisableConnectionRequest
-	(*DisableConnectionResponse)(nil), // 7: documan.core.v1.DisableConnectionResponse
-	(*DeleteConnectionRequest)(nil),   // 8: documan.core.v1.DeleteConnectionRequest
-	(*DeleteConnectionResponse)(nil),  // 9: documan.core.v1.DeleteConnectionResponse
+	(*CreateConnectionRequest)(nil),    // 0: documan.core.v1.CreateConnectionRequest
+	(*CreateConnectionResponse)(nil),   // 1: documan.core.v1.CreateConnectionResponse
+	(*UpdateConnectionRequest)(nil),    // 2: documan.core.v1.UpdateConnectionRequest
+	(*UpdateConnectionResponse)(nil),   // 3: documan.core.v1.UpdateConnectionResponse
+	(*EnableConnectionRequest)(nil),    // 4: documan.core.v1.EnableConnectionRequest
+	(*EnableConnectionResponse)(nil),   // 5: documan.core.v1.EnableConnectionResponse
+	(*DisableConnectionRequest)(nil),   // 6: documan.core.v1.DisableConnectionRequest
+	(*DisableConnectionResponse)(nil),  // 7: documan.core.v1.DisableConnectionResponse
+	(*DeleteConnectionRequest)(nil),    // 8: documan.core.v1.DeleteConnectionRequest
+	(*DeleteConnectionResponse)(nil),   // 9: documan.core.v1.DeleteConnectionResponse
+	(*NotifyFileUploadedRequest)(nil),  // 10: documan.core.v1.NotifyFileUploadedRequest
+	(*FileUploadedEntry)(nil),          // 11: documan.core.v1.FileUploadedEntry
+	(*NotifyFileUploadedResponse)(nil), // 12: documan.core.v1.NotifyFileUploadedResponse
+	(*NotifyParseFailedRequest)(nil),   // 13: documan.core.v1.NotifyParseFailedRequest
+	(*ParseFailedEntry)(nil),           // 14: documan.core.v1.ParseFailedEntry
+	(*NotifyParseFailedResponse)(nil),  // 15: documan.core.v1.NotifyParseFailedResponse
 }
 var file_core_v1_commands_proto_depIdxs = []int32{
-	0, // 0: documan.core.v1.CoreCommandService.CreateConnection:input_type -> documan.core.v1.CreateConnectionRequest
-	2, // 1: documan.core.v1.CoreCommandService.UpdateConnection:input_type -> documan.core.v1.UpdateConnectionRequest
-	4, // 2: documan.core.v1.CoreCommandService.EnableConnection:input_type -> documan.core.v1.EnableConnectionRequest
-	6, // 3: documan.core.v1.CoreCommandService.DisableConnection:input_type -> documan.core.v1.DisableConnectionRequest
-	8, // 4: documan.core.v1.CoreCommandService.DeleteConnection:input_type -> documan.core.v1.DeleteConnectionRequest
-	1, // 5: documan.core.v1.CoreCommandService.CreateConnection:output_type -> documan.core.v1.CreateConnectionResponse
-	3, // 6: documan.core.v1.CoreCommandService.UpdateConnection:output_type -> documan.core.v1.UpdateConnectionResponse
-	5, // 7: documan.core.v1.CoreCommandService.EnableConnection:output_type -> documan.core.v1.EnableConnectionResponse
-	7, // 8: documan.core.v1.CoreCommandService.DisableConnection:output_type -> documan.core.v1.DisableConnectionResponse
-	9, // 9: documan.core.v1.CoreCommandService.DeleteConnection:output_type -> documan.core.v1.DeleteConnectionResponse
-	5, // [5:10] is the sub-list for method output_type
-	0, // [0:5] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	11, // 0: documan.core.v1.NotifyFileUploadedRequest.items:type_name -> documan.core.v1.FileUploadedEntry
+	14, // 1: documan.core.v1.NotifyParseFailedRequest.items:type_name -> documan.core.v1.ParseFailedEntry
+	0,  // 2: documan.core.v1.CoreCommandService.CreateConnection:input_type -> documan.core.v1.CreateConnectionRequest
+	2,  // 3: documan.core.v1.CoreCommandService.UpdateConnection:input_type -> documan.core.v1.UpdateConnectionRequest
+	4,  // 4: documan.core.v1.CoreCommandService.EnableConnection:input_type -> documan.core.v1.EnableConnectionRequest
+	6,  // 5: documan.core.v1.CoreCommandService.DisableConnection:input_type -> documan.core.v1.DisableConnectionRequest
+	8,  // 6: documan.core.v1.CoreCommandService.DeleteConnection:input_type -> documan.core.v1.DeleteConnectionRequest
+	10, // 7: documan.core.v1.CoreCommandService.NotifyFileUploaded:input_type -> documan.core.v1.NotifyFileUploadedRequest
+	13, // 8: documan.core.v1.CoreCommandService.NotifyParseFailed:input_type -> documan.core.v1.NotifyParseFailedRequest
+	1,  // 9: documan.core.v1.CoreCommandService.CreateConnection:output_type -> documan.core.v1.CreateConnectionResponse
+	3,  // 10: documan.core.v1.CoreCommandService.UpdateConnection:output_type -> documan.core.v1.UpdateConnectionResponse
+	5,  // 11: documan.core.v1.CoreCommandService.EnableConnection:output_type -> documan.core.v1.EnableConnectionResponse
+	7,  // 12: documan.core.v1.CoreCommandService.DisableConnection:output_type -> documan.core.v1.DisableConnectionResponse
+	9,  // 13: documan.core.v1.CoreCommandService.DeleteConnection:output_type -> documan.core.v1.DeleteConnectionResponse
+	12, // 14: documan.core.v1.CoreCommandService.NotifyFileUploaded:output_type -> documan.core.v1.NotifyFileUploadedResponse
+	15, // 15: documan.core.v1.CoreCommandService.NotifyParseFailed:output_type -> documan.core.v1.NotifyParseFailedResponse
+	9,  // [9:16] is the sub-list for method output_type
+	2,  // [2:9] is the sub-list for method input_type
+	2,  // [2:2] is the sub-list for extension type_name
+	2,  // [2:2] is the sub-list for extension extendee
+	0,  // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_core_v1_commands_proto_init() }
@@ -690,7 +1044,7 @@ func file_core_v1_commands_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_core_v1_commands_proto_rawDesc), len(file_core_v1_commands_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   10,
+			NumMessages:   16,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

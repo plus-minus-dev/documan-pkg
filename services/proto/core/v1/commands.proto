@@ -10,6 +10,8 @@ service CoreCommandService {
   rpc EnableConnection(EnableConnectionRequest) returns (EnableConnectionResponse);
   rpc DisableConnection(DisableConnectionRequest) returns (DisableConnectionResponse);
   rpc DeleteConnection(DeleteConnectionRequest) returns (DeleteConnectionResponse);
+  rpc NotifyFileUploaded(NotifyFileUploadedRequest) returns (NotifyFileUploadedResponse);
+  rpc NotifyParseFailed(NotifyParseFailedRequest) returns (NotifyParseFailedResponse);
 }
 
 // --- CreateConnection ---
@@ -72,3 +74,38 @@ message DeleteConnectionRequest {
 }
 
 message DeleteConnectionResponse {}
+
+// --- NotifyFileUploaded ---
+
+message NotifyFileUploadedRequest {
+  string tenant_id = 1;
+  repeated FileUploadedEntry items = 2;
+}
+
+message FileUploadedEntry {
+  string id = 1;
+  string file_name = 2;
+  string file_ext = 3;
+  string source = 4;
+  string uploaded_by = 5;
+}
+
+message NotifyFileUploadedResponse {
+  int32 accepted = 1;
+}
+
+// --- NotifyParseFailed ---
+
+message NotifyParseFailedRequest {
+  string tenant_id = 1;
+  repeated ParseFailedEntry items = 2;
+}
+
+message ParseFailedEntry {
+  string id = 1;
+  string reason = 2;
+}
+
+message NotifyParseFailedResponse {
+  int32 accepted = 1;
+}

@@ -58,6 +58,7 @@ message ConnectionItem {
 
 message ListOriginalDocumentsRequest {
   string tenant_id = 1;
+  string condition = 2;
   int32 limit = 3;
   int32 offset = 4;
 }
@@ -79,6 +80,10 @@ message GetOriginalDocumentResponse {
 message OriginalDocumentEntry {
   string tenant_id = 1;
   string id = 2;
+  string condition = 19;
+  string file_name = 20;
+  string file_ext = 21;
+  string source = 22;
   bytes payload_meta = 9;
   bytes payload_header = 10;
   bytes payload_summary = 11;

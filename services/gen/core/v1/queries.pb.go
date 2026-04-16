@@ -373,6 +373,7 @@ func (x *ConnectionItem) GetEtlEligible() bool {
 type ListOriginalDocumentsRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	TenantId      string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
+	Condition     string                 `protobuf:"bytes,2,opt,name=condition,proto3" json:"condition,omitempty"`
 	Limit         int32                  `protobuf:"varint,3,opt,name=limit,proto3" json:"limit,omitempty"`
 	Offset        int32                  `protobuf:"varint,4,opt,name=offset,proto3" json:"offset,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -412,6 +413,13 @@ func (*ListOriginalDocumentsRequest) Descriptor() ([]byte, []int) {
 func (x *ListOriginalDocumentsRequest) GetTenantId() string {
 	if x != nil {
 		return x.TenantId
+	}
+	return ""
+}
+
+func (x *ListOriginalDocumentsRequest) GetCondition() string {
+	if x != nil {
+		return x.Condition
 	}
 	return ""
 }
@@ -582,6 +590,10 @@ type OriginalDocumentEntry struct {
 	state             protoimpl.MessageState `protogen:"open.v1"`
 	TenantId          string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
 	Id                string                 `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
+	Condition         string                 `protobuf:"bytes,19,opt,name=condition,proto3" json:"condition,omitempty"`
+	FileName          string                 `protobuf:"bytes,20,opt,name=file_name,json=fileName,proto3" json:"file_name,omitempty"`
+	FileExt           string                 `protobuf:"bytes,21,opt,name=file_ext,json=fileExt,proto3" json:"file_ext,omitempty"`
+	Source            string                 `protobuf:"bytes,22,opt,name=source,proto3" json:"source,omitempty"`
 	PayloadMeta       []byte                 `protobuf:"bytes,9,opt,name=payload_meta,json=payloadMeta,proto3" json:"payload_meta,omitempty"`
 	PayloadHeader     []byte                 `protobuf:"bytes,10,opt,name=payload_header,json=payloadHeader,proto3" json:"payload_header,omitempty"`
 	PayloadSummary    []byte                 `protobuf:"bytes,11,opt,name=payload_summary,json=payloadSummary,proto3" json:"payload_summary,omitempty"`
@@ -634,6 +646,34 @@ func (x *OriginalDocumentEntry) GetTenantId() string {
 func (x *OriginalDocumentEntry) GetId() string {
 	if x != nil {
 		return x.Id
+	}
+	return ""
+}
+
+func (x *OriginalDocumentEntry) GetCondition() string {
+	if x != nil {
+		return x.Condition
+	}
+	return ""
+}
+
+func (x *OriginalDocumentEntry) GetFileName() string {
+	if x != nil {
+		return x.FileName
+	}
+	return ""
+}
+
+func (x *OriginalDocumentEntry) GetFileExt() string {
+	if x != nil {
+		return x.FileExt
+	}
+	return ""
+}
+
+func (x *OriginalDocumentEntry) GetSource() string {
+	if x != nil {
+		return x.Source
 	}
 	return ""
 }
@@ -1463,9 +1503,10 @@ const file_core_v1_queries_proto_rawDesc = "" +
 	"\n" +
 	"updated_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12)\n" +
 	"\x10provider_payload\x18\f \x01(\fR\x0fproviderPayload\x12!\n" +
-	"\fetl_eligible\x18\r \x01(\bR\vetlEligible\"i\n" +
+	"\fetl_eligible\x18\r \x01(\bR\vetlEligible\"\x87\x01\n" +
 	"\x1cListOriginalDocumentsRequest\x12\x1b\n" +
-	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12\x14\n" +
+	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12\x1c\n" +
+	"\tcondition\x18\x02 \x01(\tR\tcondition\x12\x14\n" +
 	"\x05limit\x18\x03 \x01(\x05R\x05limit\x12\x16\n" +
 	"\x06offset\x18\x04 \x01(\x05R\x06offset\"~\n" +
 	"\x1dListOriginalDocumentsResponse\x12<\n" +
@@ -1476,10 +1517,14 @@ const file_core_v1_queries_proto_rawDesc = "" +
 	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12\x0e\n" +
 	"\x02id\x18\x02 \x01(\tR\x02id\"a\n" +
 	"\x1bGetOriginalDocumentResponse\x12B\n" +
-	"\bdocument\x18\x01 \x01(\v2&.documan.core.v1.OriginalDocumentEntryR\bdocument\"\x9c\x03\n" +
+	"\bdocument\x18\x01 \x01(\v2&.documan.core.v1.OriginalDocumentEntryR\bdocument\"\x8a\x04\n" +
 	"\x15OriginalDocumentEntry\x12\x1b\n" +
 	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12\x0e\n" +
-	"\x02id\x18\x02 \x01(\tR\x02id\x12!\n" +
+	"\x02id\x18\x02 \x01(\tR\x02id\x12\x1c\n" +
+	"\tcondition\x18\x13 \x01(\tR\tcondition\x12\x1b\n" +
+	"\tfile_name\x18\x14 \x01(\tR\bfileName\x12\x19\n" +
+	"\bfile_ext\x18\x15 \x01(\tR\afileExt\x12\x16\n" +
+	"\x06source\x18\x16 \x01(\tR\x06source\x12!\n" +
 	"\fpayload_meta\x18\t \x01(\fR\vpayloadMeta\x12%\n" +
 	"\x0epayload_header\x18\n" +
 	" \x01(\fR\rpayloadHeader\x12'\n" +

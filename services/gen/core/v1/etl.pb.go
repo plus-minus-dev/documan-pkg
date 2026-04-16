@@ -25,7 +25,7 @@ type NotifyERPDataReadyRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	TenantId      string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
 	ConnectionId  string                 `protobuf:"bytes,2,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
-	EntityType    string                 `protobuf:"bytes,4,opt,name=entity_type,json=entityType,proto3" json:"entity_type,omitempty"` // "product", "supply", ...
+	EntityType    string                 `protobuf:"bytes,4,opt,name=entity_type,json=entityType,proto3" json:"entity_type,omitempty"`
 	Items         []*ERPDataEntry        `protobuf:"bytes,5,rep,name=items,proto3" json:"items,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -90,17 +90,16 @@ func (x *NotifyERPDataReadyRequest) GetItems() []*ERPDataEntry {
 }
 
 type ERPDataEntry struct {
-	state    protoimpl.MessageState `protogen:"open.v1"`
-	EntityId string                 `protobuf:"bytes,1,opt,name=entity_id,json=entityId,proto3" json:"entity_id,omitempty"`
-	// Payload JSON (bytes = []byte в Go = JSONB в Postgres)
-	PayloadEntity     []byte `protobuf:"bytes,2,opt,name=payload_entity,json=payloadEntity,proto3" json:"payload_entity,omitempty"` // entities: единственный payload
-	PayloadMeta       []byte `protobuf:"bytes,3,opt,name=payload_meta,json=payloadMeta,proto3" json:"payload_meta,omitempty"`       // documents: 5 payload
-	PayloadHeader     []byte `protobuf:"bytes,4,opt,name=payload_header,json=payloadHeader,proto3" json:"payload_header,omitempty"`
-	PayloadSummary    []byte `protobuf:"bytes,5,opt,name=payload_summary,json=payloadSummary,proto3" json:"payload_summary,omitempty"`
-	PayloadPositions  []byte `protobuf:"bytes,6,opt,name=payload_positions,json=payloadPositions,proto3" json:"payload_positions,omitempty"`
-	PayloadFooter     []byte `protobuf:"bytes,8,opt,name=payload_footer,json=payloadFooter,proto3" json:"payload_footer,omitempty"`
-	PayloadAttributes []byte `protobuf:"bytes,9,opt,name=payload_attributes,json=payloadAttributes,proto3" json:"payload_attributes,omitempty"`
-	PayloadHash       string `protobuf:"bytes,7,opt,name=payload_hash,json=payloadHash,proto3" json:"payload_hash,omitempty"` // SHA-256 от payload
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	EntityId          string                 `protobuf:"bytes,1,opt,name=entity_id,json=entityId,proto3" json:"entity_id,omitempty"`
+	PayloadEntity     []byte                 `protobuf:"bytes,2,opt,name=payload_entity,json=payloadEntity,proto3" json:"payload_entity,omitempty"`
+	PayloadMeta       []byte                 `protobuf:"bytes,3,opt,name=payload_meta,json=payloadMeta,proto3" json:"payload_meta,omitempty"`
+	PayloadHeader     []byte                 `protobuf:"bytes,4,opt,name=payload_header,json=payloadHeader,proto3" json:"payload_header,omitempty"`
+	PayloadSummary    []byte                 `protobuf:"bytes,5,opt,name=payload_summary,json=payloadSummary,proto3" json:"payload_summary,omitempty"`
+	PayloadPositions  []byte                 `protobuf:"bytes,6,opt,name=payload_positions,json=payloadPositions,proto3" json:"payload_positions,omitempty"`
+	PayloadFooter     []byte                 `protobuf:"bytes,8,opt,name=payload_footer,json=payloadFooter,proto3" json:"payload_footer,omitempty"`
+	PayloadAttributes []byte                 `protobuf:"bytes,9,opt,name=payload_attributes,json=payloadAttributes,proto3" json:"payload_attributes,omitempty"`
+	PayloadHash       string                 `protobuf:"bytes,7,opt,name=payload_hash,json=payloadHash,proto3" json:"payload_hash,omitempty"`
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
 }
@@ -251,16 +250,15 @@ func (x *NotifyIngestDataReadyRequest) GetItems() []*IngestDataEntry {
 }
 
 type IngestDataEntry struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	Id    string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"` // UUID документа (генерируется ingest)
-	// Payload JSON
-	PayloadMeta       []byte `protobuf:"bytes,2,opt,name=payload_meta,json=payloadMeta,proto3" json:"payload_meta,omitempty"` // S3 bucket/key внутри meta
-	PayloadHeader     []byte `protobuf:"bytes,3,opt,name=payload_header,json=payloadHeader,proto3" json:"payload_header,omitempty"`
-	PayloadSummary    []byte `protobuf:"bytes,4,opt,name=payload_summary,json=payloadSummary,proto3" json:"payload_summary,omitempty"`
-	PayloadPositions  []byte `protobuf:"bytes,5,opt,name=payload_positions,json=payloadPositions,proto3" json:"payload_positions,omitempty"`
-	PayloadFooter     []byte `protobuf:"bytes,8,opt,name=payload_footer,json=payloadFooter,proto3" json:"payload_footer,omitempty"`
-	PayloadAttributes []byte `protobuf:"bytes,9,opt,name=payload_attributes,json=payloadAttributes,proto3" json:"payload_attributes,omitempty"`
-	PayloadHash       string `protobuf:"bytes,6,opt,name=payload_hash,json=payloadHash,proto3" json:"payload_hash,omitempty"` // SHA-256 от payload
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	Id                string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	PayloadMeta       []byte                 `protobuf:"bytes,2,opt,name=payload_meta,json=payloadMeta,proto3" json:"payload_meta,omitempty"`
+	PayloadHeader     []byte                 `protobuf:"bytes,3,opt,name=payload_header,json=payloadHeader,proto3" json:"payload_header,omitempty"`
+	PayloadSummary    []byte                 `protobuf:"bytes,4,opt,name=payload_summary,json=payloadSummary,proto3" json:"payload_summary,omitempty"`
+	PayloadPositions  []byte                 `protobuf:"bytes,5,opt,name=payload_positions,json=payloadPositions,proto3" json:"payload_positions,omitempty"`
+	PayloadFooter     []byte                 `protobuf:"bytes,8,opt,name=payload_footer,json=payloadFooter,proto3" json:"payload_footer,omitempty"`
+	PayloadAttributes []byte                 `protobuf:"bytes,9,opt,name=payload_attributes,json=payloadAttributes,proto3" json:"payload_attributes,omitempty"`
+	PayloadHash       string                 `protobuf:"bytes,6,opt,name=payload_hash,json=payloadHash,proto3" json:"payload_hash,omitempty"`
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
 }
@@ -353,7 +351,7 @@ func (x *IngestDataEntry) GetPayloadHash() string {
 
 type RejectedItem struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"` // entity_id или document id
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Reason        string                 `protobuf:"bytes,2,opt,name=reason,proto3" json:"reason,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -591,14 +589,14 @@ type ActiveConnection struct {
 	state           protoimpl.MessageState `protogen:"open.v1"`
 	TenantId        string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
 	ConnectionId    string                 `protobuf:"bytes,2,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
-	ErpType         string                 `protobuf:"bytes,3,opt,name=erp_type,json=erpType,proto3" json:"erp_type,omitempty"` // "moysklad"
+	ErpType         string                 `protobuf:"bytes,3,opt,name=erp_type,json=erpType,proto3" json:"erp_type,omitempty"`
 	ErpAccountId    string                 `protobuf:"bytes,4,opt,name=erp_account_id,json=erpAccountId,proto3" json:"erp_account_id,omitempty"`
 	Enabled         bool                   `protobuf:"varint,5,opt,name=enabled,proto3" json:"enabled,omitempty"`
 	Status          string                 `protobuf:"bytes,6,opt,name=status,proto3" json:"status,omitempty"`
-	AuthType        string                 `protobuf:"bytes,7,opt,name=auth_type,json=authType,proto3" json:"auth_type,omitempty"`                      // "vendor_app" | "json_api" | "token" | "login_password"
-	ErpToken        string                 `protobuf:"bytes,8,opt,name=erp_token,json=erpToken,proto3" json:"erp_token,omitempty"`                      // токен доступа к ERP API
-	ProviderPayload []byte                 `protobuf:"bytes,9,opt,name=provider_payload,json=providerPayload,proto3" json:"provider_payload,omitempty"` // JSONB: vendor/json_api метаданные
-	EtlEligible     bool                   `protobuf:"varint,10,opt,name=etl_eligible,json=etlEligible,proto3" json:"etl_eligible,omitempty"`           // участвует ли connection в ETL
+	AuthType        string                 `protobuf:"bytes,7,opt,name=auth_type,json=authType,proto3" json:"auth_type,omitempty"`
+	ErpToken        string                 `protobuf:"bytes,8,opt,name=erp_token,json=erpToken,proto3" json:"erp_token,omitempty"`
+	ProviderPayload []byte                 `protobuf:"bytes,9,opt,name=provider_payload,json=providerPayload,proto3" json:"provider_payload,omitempty"`
+	EtlEligible     bool                   `protobuf:"varint,10,opt,name=etl_eligible,json=etlEligible,proto3" json:"etl_eligible,omitempty"`
 	unknownFields   protoimpl.UnknownFields
 	sizeCache       protoimpl.SizeCache
 }
