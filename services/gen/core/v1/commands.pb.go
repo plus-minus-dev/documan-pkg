@@ -901,6 +901,94 @@ func (x *NotifyParseFailedResponse) GetAccepted() int32 {
 	return 0
 }
 
+type DeleteOriginalDocumentRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TenantId      string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
+	Id            string                 `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteOriginalDocumentRequest) Reset() {
+	*x = DeleteOriginalDocumentRequest{}
+	mi := &file_core_v1_commands_proto_msgTypes[16]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteOriginalDocumentRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteOriginalDocumentRequest) ProtoMessage() {}
+
+func (x *DeleteOriginalDocumentRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_commands_proto_msgTypes[16]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteOriginalDocumentRequest.ProtoReflect.Descriptor instead.
+func (*DeleteOriginalDocumentRequest) Descriptor() ([]byte, []int) {
+	return file_core_v1_commands_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *DeleteOriginalDocumentRequest) GetTenantId() string {
+	if x != nil {
+		return x.TenantId
+	}
+	return ""
+}
+
+func (x *DeleteOriginalDocumentRequest) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+type DeleteOriginalDocumentResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteOriginalDocumentResponse) Reset() {
+	*x = DeleteOriginalDocumentResponse{}
+	mi := &file_core_v1_commands_proto_msgTypes[17]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteOriginalDocumentResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteOriginalDocumentResponse) ProtoMessage() {}
+
+func (x *DeleteOriginalDocumentResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_commands_proto_msgTypes[17]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteOriginalDocumentResponse.ProtoReflect.Descriptor instead.
+func (*DeleteOriginalDocumentResponse) Descriptor() ([]byte, []int) {
+	return file_core_v1_commands_proto_rawDescGZIP(), []int{17}
+}
+
 var File_core_v1_commands_proto protoreflect.FileDescriptor
 
 const file_core_v1_commands_proto_rawDesc = "" +
@@ -967,7 +1055,11 @@ const file_core_v1_commands_proto_rawDesc = "" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x16\n" +
 	"\x06reason\x18\x02 \x01(\tR\x06reason\"7\n" +
 	"\x19NotifyParseFailedResponse\x12\x1a\n" +
-	"\baccepted\x18\x01 \x01(\x05R\baccepted2\xff\x05\n" +
+	"\baccepted\x18\x01 \x01(\x05R\baccepted\"L\n" +
+	"\x1dDeleteOriginalDocumentRequest\x12\x1b\n" +
+	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12\x0e\n" +
+	"\x02id\x18\x02 \x01(\tR\x02id\" \n" +
+	"\x1eDeleteOriginalDocumentResponse2\xfa\x06\n" +
 	"\x12CoreCommandService\x12g\n" +
 	"\x10CreateConnection\x12(.documan.core.v1.CreateConnectionRequest\x1a).documan.core.v1.CreateConnectionResponse\x12g\n" +
 	"\x10UpdateConnection\x12(.documan.core.v1.UpdateConnectionRequest\x1a).documan.core.v1.UpdateConnectionResponse\x12g\n" +
@@ -975,7 +1067,8 @@ const file_core_v1_commands_proto_rawDesc = "" +
 	"\x11DisableConnection\x12).documan.core.v1.DisableConnectionRequest\x1a*.documan.core.v1.DisableConnectionResponse\x12g\n" +
 	"\x10DeleteConnection\x12(.documan.core.v1.DeleteConnectionRequest\x1a).documan.core.v1.DeleteConnectionResponse\x12m\n" +
 	"\x12NotifyFileUploaded\x12*.documan.core.v1.NotifyFileUploadedRequest\x1a+.documan.core.v1.NotifyFileUploadedResponse\x12j\n" +
-	"\x11NotifyParseFailed\x12).documan.core.v1.NotifyParseFailedRequest\x1a*.documan.core.v1.NotifyParseFailedResponseB<Z:github.com/plus-minus-dev/documan-pkg/services/gen/core/v1b\x06proto3"
+	"\x11NotifyParseFailed\x12).documan.core.v1.NotifyParseFailedRequest\x1a*.documan.core.v1.NotifyParseFailedResponse\x12y\n" +
+	"\x16DeleteOriginalDocument\x12..documan.core.v1.DeleteOriginalDocumentRequest\x1a/.documan.core.v1.DeleteOriginalDocumentResponseB<Z:github.com/plus-minus-dev/documan-pkg/services/gen/core/v1b\x06proto3"
 
 var (
 	file_core_v1_commands_proto_rawDescOnce sync.Once
@@ -989,24 +1082,26 @@ func file_core_v1_commands_proto_rawDescGZIP() []byte {
 	return file_core_v1_commands_proto_rawDescData
 }
 
-var file_core_v1_commands_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
+var file_core_v1_commands_proto_msgTypes = make([]protoimpl.MessageInfo, 18)
 var file_core_v1_commands_proto_goTypes = []any{
-	(*CreateConnectionRequest)(nil),    // 0: documan.core.v1.CreateConnectionRequest
-	(*CreateConnectionResponse)(nil),   // 1: documan.core.v1.CreateConnectionResponse
-	(*UpdateConnectionRequest)(nil),    // 2: documan.core.v1.UpdateConnectionRequest
-	(*UpdateConnectionResponse)(nil),   // 3: documan.core.v1.UpdateConnectionResponse
-	(*EnableConnectionRequest)(nil),    // 4: documan.core.v1.EnableConnectionRequest
-	(*EnableConnectionResponse)(nil),   // 5: documan.core.v1.EnableConnectionResponse
-	(*DisableConnectionRequest)(nil),   // 6: documan.core.v1.DisableConnectionRequest
-	(*DisableConnectionResponse)(nil),  // 7: documan.core.v1.DisableConnectionResponse
-	(*DeleteConnectionRequest)(nil),    // 8: documan.core.v1.DeleteConnectionRequest
-	(*DeleteConnectionResponse)(nil),   // 9: documan.core.v1.DeleteConnectionResponse
-	(*NotifyFileUploadedRequest)(nil),  // 10: documan.core.v1.NotifyFileUploadedRequest
-	(*FileUploadedEntry)(nil),          // 11: documan.core.v1.FileUploadedEntry
-	(*NotifyFileUploadedResponse)(nil), // 12: documan.core.v1.NotifyFileUploadedResponse
-	(*NotifyParseFailedRequest)(nil),   // 13: documan.core.v1.NotifyParseFailedRequest
-	(*ParseFailedEntry)(nil),           // 14: documan.core.v1.ParseFailedEntry
-	(*NotifyParseFailedResponse)(nil),  // 15: documan.core.v1.NotifyParseFailedResponse
+	(*CreateConnectionRequest)(nil),        // 0: documan.core.v1.CreateConnectionRequest
+	(*CreateConnectionResponse)(nil),       // 1: documan.core.v1.CreateConnectionResponse
+	(*UpdateConnectionRequest)(nil),        // 2: documan.core.v1.UpdateConnectionRequest
+	(*UpdateConnectionResponse)(nil),       // 3: documan.core.v1.UpdateConnectionResponse
+	(*EnableConnectionRequest)(nil),        // 4: documan.core.v1.EnableConnectionRequest
+	(*EnableConnectionResponse)(nil),       // 5: documan.core.v1.EnableConnectionResponse
+	(*DisableConnectionRequest)(nil),       // 6: documan.core.v1.DisableConnectionRequest
+	(*DisableConnectionResponse)(nil),      // 7: documan.core.v1.DisableConnectionResponse
+	(*DeleteConnectionRequest)(nil),        // 8: documan.core.v1.DeleteConnectionRequest
+	(*DeleteConnectionResponse)(nil),       // 9: documan.core.v1.DeleteConnectionResponse
+	(*NotifyFileUploadedRequest)(nil),      // 10: documan.core.v1.NotifyFileUploadedRequest
+	(*FileUploadedEntry)(nil),              // 11: documan.core.v1.FileUploadedEntry
+	(*NotifyFileUploadedResponse)(nil),     // 12: documan.core.v1.NotifyFileUploadedResponse
+	(*NotifyParseFailedRequest)(nil),       // 13: documan.core.v1.NotifyParseFailedRequest
+	(*ParseFailedEntry)(nil),               // 14: documan.core.v1.ParseFailedEntry
+	(*NotifyParseFailedResponse)(nil),      // 15: documan.core.v1.NotifyParseFailedResponse
+	(*DeleteOriginalDocumentRequest)(nil),  // 16: documan.core.v1.DeleteOriginalDocumentRequest
+	(*DeleteOriginalDocumentResponse)(nil), // 17: documan.core.v1.DeleteOriginalDocumentResponse
 }
 var file_core_v1_commands_proto_depIdxs = []int32{
 	11, // 0: documan.core.v1.NotifyFileUploadedRequest.items:type_name -> documan.core.v1.FileUploadedEntry
@@ -1018,15 +1113,17 @@ var file_core_v1_commands_proto_depIdxs = []int32{
 	8,  // 6: documan.core.v1.CoreCommandService.DeleteConnection:input_type -> documan.core.v1.DeleteConnectionRequest
 	10, // 7: documan.core.v1.CoreCommandService.NotifyFileUploaded:input_type -> documan.core.v1.NotifyFileUploadedRequest
 	13, // 8: documan.core.v1.CoreCommandService.NotifyParseFailed:input_type -> documan.core.v1.NotifyParseFailedRequest
-	1,  // 9: documan.core.v1.CoreCommandService.CreateConnection:output_type -> documan.core.v1.CreateConnectionResponse
-	3,  // 10: documan.core.v1.CoreCommandService.UpdateConnection:output_type -> documan.core.v1.UpdateConnectionResponse
-	5,  // 11: documan.core.v1.CoreCommandService.EnableConnection:output_type -> documan.core.v1.EnableConnectionResponse
-	7,  // 12: documan.core.v1.CoreCommandService.DisableConnection:output_type -> documan.core.v1.DisableConnectionResponse
-	9,  // 13: documan.core.v1.CoreCommandService.DeleteConnection:output_type -> documan.core.v1.DeleteConnectionResponse
-	12, // 14: documan.core.v1.CoreCommandService.NotifyFileUploaded:output_type -> documan.core.v1.NotifyFileUploadedResponse
-	15, // 15: documan.core.v1.CoreCommandService.NotifyParseFailed:output_type -> documan.core.v1.NotifyParseFailedResponse
-	9,  // [9:16] is the sub-list for method output_type
-	2,  // [2:9] is the sub-list for method input_type
+	16, // 9: documan.core.v1.CoreCommandService.DeleteOriginalDocument:input_type -> documan.core.v1.DeleteOriginalDocumentRequest
+	1,  // 10: documan.core.v1.CoreCommandService.CreateConnection:output_type -> documan.core.v1.CreateConnectionResponse
+	3,  // 11: documan.core.v1.CoreCommandService.UpdateConnection:output_type -> documan.core.v1.UpdateConnectionResponse
+	5,  // 12: documan.core.v1.CoreCommandService.EnableConnection:output_type -> documan.core.v1.EnableConnectionResponse
+	7,  // 13: documan.core.v1.CoreCommandService.DisableConnection:output_type -> documan.core.v1.DisableConnectionResponse
+	9,  // 14: documan.core.v1.CoreCommandService.DeleteConnection:output_type -> documan.core.v1.DeleteConnectionResponse
+	12, // 15: documan.core.v1.CoreCommandService.NotifyFileUploaded:output_type -> documan.core.v1.NotifyFileUploadedResponse
+	15, // 16: documan.core.v1.CoreCommandService.NotifyParseFailed:output_type -> documan.core.v1.NotifyParseFailedResponse
+	17, // 17: documan.core.v1.CoreCommandService.DeleteOriginalDocument:output_type -> documan.core.v1.DeleteOriginalDocumentResponse
+	10, // [10:18] is the sub-list for method output_type
+	2,  // [2:10] is the sub-list for method input_type
 	2,  // [2:2] is the sub-list for extension type_name
 	2,  // [2:2] is the sub-list for extension extendee
 	0,  // [0:2] is the sub-list for field type_name
@@ -1044,7 +1141,7 @@ func file_core_v1_commands_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_core_v1_commands_proto_rawDesc), len(file_core_v1_commands_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   16,
+			NumMessages:   18,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

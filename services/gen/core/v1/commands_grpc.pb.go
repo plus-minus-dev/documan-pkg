@@ -19,13 +19,14 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	CoreCommandService_CreateConnection_FullMethodName   = "/documan.core.v1.CoreCommandService/CreateConnection"
-	CoreCommandService_UpdateConnection_FullMethodName   = "/documan.core.v1.CoreCommandService/UpdateConnection"
-	CoreCommandService_EnableConnection_FullMethodName   = "/documan.core.v1.CoreCommandService/EnableConnection"
-	CoreCommandService_DisableConnection_FullMethodName  = "/documan.core.v1.CoreCommandService/DisableConnection"
-	CoreCommandService_DeleteConnection_FullMethodName   = "/documan.core.v1.CoreCommandService/DeleteConnection"
-	CoreCommandService_NotifyFileUploaded_FullMethodName = "/documan.core.v1.CoreCommandService/NotifyFileUploaded"
-	CoreCommandService_NotifyParseFailed_FullMethodName  = "/documan.core.v1.CoreCommandService/NotifyParseFailed"
+	CoreCommandService_CreateConnection_FullMethodName       = "/documan.core.v1.CoreCommandService/CreateConnection"
+	CoreCommandService_UpdateConnection_FullMethodName       = "/documan.core.v1.CoreCommandService/UpdateConnection"
+	CoreCommandService_EnableConnection_FullMethodName       = "/documan.core.v1.CoreCommandService/EnableConnection"
+	CoreCommandService_DisableConnection_FullMethodName      = "/documan.core.v1.CoreCommandService/DisableConnection"
+	CoreCommandService_DeleteConnection_FullMethodName       = "/documan.core.v1.CoreCommandService/DeleteConnection"
+	CoreCommandService_NotifyFileUploaded_FullMethodName     = "/documan.core.v1.CoreCommandService/NotifyFileUploaded"
+	CoreCommandService_NotifyParseFailed_FullMethodName      = "/documan.core.v1.CoreCommandService/NotifyParseFailed"
+	CoreCommandService_DeleteOriginalDocument_FullMethodName = "/documan.core.v1.CoreCommandService/DeleteOriginalDocument"
 )
 
 // CoreCommandServiceClient is the client API for CoreCommandService service.
@@ -41,6 +42,7 @@ type CoreCommandServiceClient interface {
 	DeleteConnection(ctx context.Context, in *DeleteConnectionRequest, opts ...grpc.CallOption) (*DeleteConnectionResponse, error)
 	NotifyFileUploaded(ctx context.Context, in *NotifyFileUploadedRequest, opts ...grpc.CallOption) (*NotifyFileUploadedResponse, error)
 	NotifyParseFailed(ctx context.Context, in *NotifyParseFailedRequest, opts ...grpc.CallOption) (*NotifyParseFailedResponse, error)
+	DeleteOriginalDocument(ctx context.Context, in *DeleteOriginalDocumentRequest, opts ...grpc.CallOption) (*DeleteOriginalDocumentResponse, error)
 }
 
 type coreCommandServiceClient struct {
@@ -121,6 +123,16 @@ func (c *coreCommandServiceClient) NotifyParseFailed(ctx context.Context, in *No
 	return out, nil
 }
 
+func (c *coreCommandServiceClient) DeleteOriginalDocument(ctx context.Context, in *DeleteOriginalDocumentRequest, opts ...grpc.CallOption) (*DeleteOriginalDocumentResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteOriginalDocumentResponse)
+	err := c.cc.Invoke(ctx, CoreCommandService_DeleteOriginalDocument_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CoreCommandServiceServer is the server API for CoreCommandService service.
 // All implementations must embed UnimplementedCoreCommandServiceServer
 // for forward compatibility.
@@ -134,6 +146,7 @@ type CoreCommandServiceServer interface {
 	DeleteConnection(context.Context, *DeleteConnectionRequest) (*DeleteConnectionResponse, error)
 	NotifyFileUploaded(context.Context, *NotifyFileUploadedRequest) (*NotifyFileUploadedResponse, error)
 	NotifyParseFailed(context.Context, *NotifyParseFailedRequest) (*NotifyParseFailedResponse, error)
+	DeleteOriginalDocument(context.Context, *DeleteOriginalDocumentRequest) (*DeleteOriginalDocumentResponse, error)
 	mustEmbedUnimplementedCoreCommandServiceServer()
 }
 
@@ -164,6 +177,9 @@ func (UnimplementedCoreCommandServiceServer) NotifyFileUploaded(context.Context,
 }
 func (UnimplementedCoreCommandServiceServer) NotifyParseFailed(context.Context, *NotifyParseFailedRequest) (*NotifyParseFailedResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method NotifyParseFailed not implemented")
+}
+func (UnimplementedCoreCommandServiceServer) DeleteOriginalDocument(context.Context, *DeleteOriginalDocumentRequest) (*DeleteOriginalDocumentResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method DeleteOriginalDocument not implemented")
 }
 func (UnimplementedCoreCommandServiceServer) mustEmbedUnimplementedCoreCommandServiceServer() {}
 func (UnimplementedCoreCommandServiceServer) testEmbeddedByValue()                            {}
@@ -312,6 +328,24 @@ func _CoreCommandService_NotifyParseFailed_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CoreCommandService_DeleteOriginalDocument_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteOriginalDocumentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CoreCommandServiceServer).DeleteOriginalDocument(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CoreCommandService_DeleteOriginalDocument_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CoreCommandServiceServer).DeleteOriginalDocument(ctx, req.(*DeleteOriginalDocumentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CoreCommandService_ServiceDesc is the grpc.ServiceDesc for CoreCommandService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -346,6 +380,10 @@ var CoreCommandService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "NotifyParseFailed",
 			Handler:    _CoreCommandService_NotifyParseFailed_Handler,
+		},
+		{
+			MethodName: "DeleteOriginalDocument",
+			Handler:    _CoreCommandService_DeleteOriginalDocument_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

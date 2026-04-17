@@ -12,6 +12,7 @@ service CoreCommandService {
   rpc DeleteConnection(DeleteConnectionRequest) returns (DeleteConnectionResponse);
   rpc NotifyFileUploaded(NotifyFileUploadedRequest) returns (NotifyFileUploadedResponse);
   rpc NotifyParseFailed(NotifyParseFailedRequest) returns (NotifyParseFailedResponse);
+  rpc DeleteOriginalDocument(DeleteOriginalDocumentRequest) returns (DeleteOriginalDocumentResponse);
 }
 
 // --- CreateConnection ---
@@ -109,3 +110,12 @@ message ParseFailedEntry {
 message NotifyParseFailedResponse {
   int32 accepted = 1;
 }
+
+// --- DeleteOriginalDocument ---
+
+message DeleteOriginalDocumentRequest {
+  string tenant_id = 1;
+  string id = 2;
+}
+
+message DeleteOriginalDocumentResponse {}
