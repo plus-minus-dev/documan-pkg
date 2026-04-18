@@ -61,6 +61,7 @@ message ListOriginalDocumentsRequest {
   string condition = 2;
   int32 limit = 3;
   int32 offset = 4;
+  string view = 5; // "queue" | "history" | "" (all)
 }
 
 message ListOriginalDocumentsResponse {

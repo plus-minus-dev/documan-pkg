@@ -376,6 +376,7 @@ type ListOriginalDocumentsRequest struct {
 	Condition     string                 `protobuf:"bytes,2,opt,name=condition,proto3" json:"condition,omitempty"`
 	Limit         int32                  `protobuf:"varint,3,opt,name=limit,proto3" json:"limit,omitempty"`
 	Offset        int32                  `protobuf:"varint,4,opt,name=offset,proto3" json:"offset,omitempty"`
+	View          string                 `protobuf:"bytes,5,opt,name=view,proto3" json:"view,omitempty"` // "queue" | "history" | "" (all)
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -436,6 +437,13 @@ func (x *ListOriginalDocumentsRequest) GetOffset() int32 {
 		return x.Offset
 	}
 	return 0
+}
+
+func (x *ListOriginalDocumentsRequest) GetView() string {
+	if x != nil {
+		return x.View
+	}
+	return ""
 }
 
 type ListOriginalDocumentsResponse struct {
@@ -1503,12 +1511,13 @@ const file_core_v1_queries_proto_rawDesc = "" +
 	"\n" +
 	"updated_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12)\n" +
 	"\x10provider_payload\x18\f \x01(\fR\x0fproviderPayload\x12!\n" +
-	"\fetl_eligible\x18\r \x01(\bR\vetlEligible\"\x87\x01\n" +
+	"\fetl_eligible\x18\r \x01(\bR\vetlEligible\"\x9b\x01\n" +
 	"\x1cListOriginalDocumentsRequest\x12\x1b\n" +
 	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12\x1c\n" +
 	"\tcondition\x18\x02 \x01(\tR\tcondition\x12\x14\n" +
 	"\x05limit\x18\x03 \x01(\x05R\x05limit\x12\x16\n" +
-	"\x06offset\x18\x04 \x01(\x05R\x06offset\"~\n" +
+	"\x06offset\x18\x04 \x01(\x05R\x06offset\x12\x12\n" +
+	"\x04view\x18\x05 \x01(\tR\x04view\"~\n" +
 	"\x1dListOriginalDocumentsResponse\x12<\n" +
 	"\x05items\x18\x01 \x03(\v2&.documan.core.v1.OriginalDocumentEntryR\x05items\x12\x1f\n" +
 	"\vtotal_count\x18\x02 \x01(\x05R\n" +
