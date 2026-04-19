@@ -5,7 +5,8 @@ type Meta struct {
 	// Источник
 	Source string `json:"source,omitempty"` // для original: "ms_files", "ms_dnd", "web" или "my_dnd" или "ui_dnd". Для erp: "connector-ms", "connector-1c"
 
-	SourceAccountID string `json:"source_account_id,omitempty"` // opaque account id источника, не обязательно UUID
+	SourceAccountID string     `json:"source_account_id,omitempty"` // opaque account id источника, не обязательно UUID
+	Files           []MetaFile `json:"files,omitempty"`              // привязка к ERP-документам (source=ms_files)
 
 	// Номер/дата в системе-источнике (ERP internal name/moment)
 	SourceNumber string `json:"source_number,omitempty"`
@@ -46,4 +47,10 @@ type Meta struct {
 	// Трассировка (закомментировано — раскомментировать при необходимости)
 	// ConnectionType         string `json:"connection_type,omitempty"`          // auth type соединения (json_api, vendor_app, ...)
 	// LastSourceConnectionID string `json:"last_source_connection_id,omitempty"` // UUID connection, который последним обновил запись
+}
+
+// MetaFile — привязка original-документа к ERP-документу по entity_type/entity_id.
+type MetaFile struct {
+	EntityType string `json:"entity_type,omitempty"`
+	EntityID   string `json:"entity_id,omitempty"`
 }
