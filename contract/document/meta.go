@@ -6,16 +6,16 @@ type Meta struct {
 	Source string `json:"source,omitempty"` // для original: "ms_files", "ms_dnd", "web" или "my_dnd" или "ui_dnd". Для erp: "connector-ms", "connector-1c"
 
 	SourceAccountID string     `json:"source_account_id,omitempty"` // opaque account id источника, не обязательно UUID
-	Files           []MetaFile `json:"files,omitempty"`              // привязка к ERP-документам (source=ms_files)
+	Files           []MetaFile `json:"files,omitempty"`             // привязка к ERP-документам (source=ms_files)
 
 	// Номер/дата в системе-источнике (ERP internal name/moment)
 	SourceNumber string `json:"source_number,omitempty"`
 	SourceDate   string `json:"source_date,omitempty"` // YYYY-MM-DD
 
 	// Состояние в системе-источнике
-	SourceCreatedAt string `json:"source_created_at,omitempty"` // RFC3339 UTC
-	SourceUpdatedAt string `json:"source_updated_at,omitempty"` // RFC3339 UTC
-	SourceDeletedAt string `json:"source_deleted_at,omitempty"` // RFC3339 UTC
+	SourceCreatedAt   string `json:"source_created_at,omitempty"`  // RFC3339 UTC
+	SourceUpdatedAt   string `json:"source_updated_at,omitempty"`  // RFC3339 UTC
+	SourceDeletedAt   string `json:"source_deleted_at,omitempty"`  // RFC3339 UTC
 	SourceState       string `json:"source_state,omitempty"`       // статус документа в ERP
 	SourceRate        string `json:"source_rate,omitempty"`        // курс валюты в источнике
 	SourceDescription string `json:"source_description,omitempty"` // описание / примечание к документу из источника
