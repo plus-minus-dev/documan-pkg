@@ -51,6 +51,7 @@ type Meta struct {
 
 // MetaFile — привязка original-документа к ERP-документу по entity_type/entity_id.
 type MetaFile struct {
-	EntityType string `json:"entity_type,omitempty"`
-	EntityID   string `json:"entity_id,omitempty"`
+	EntityType   string `json:"entity_type,omitempty"`
+	EntityID     string `json:"entity_id,omitempty"`
+	DownloadHref string `json:"download_href,omitempty"`
 }
