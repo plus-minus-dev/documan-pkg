@@ -990,15 +990,14 @@ func (*DeleteOriginalDocumentResponse) Descriptor() ([]byte, []int) {
 }
 
 type CleanupDocumentLinksRequest struct {
-	state             protoimpl.MessageState `protogen:"open.v1"`
-	TenantId          string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
-	AccountId         string                 `protobuf:"bytes,2,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"`
-	EntityType        string                 `protobuf:"bytes,3,opt,name=entity_type,json=entityType,proto3" json:"entity_type,omitempty"`
-	EntityId          string                 `protobuf:"bytes,4,opt,name=entity_id,json=entityId,proto3" json:"entity_id,omitempty"`
-	ActualOriginalIds []string               `protobuf:"bytes,5,rep,name=actual_original_ids,json=actualOriginalIds,proto3" json:"actual_original_ids,omitempty"`
-	ActualFileKeys    []string               `protobuf:"bytes,6,rep,name=actual_file_keys,json=actualFileKeys,proto3" json:"actual_file_keys,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	TenantId       string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
+	AccountId      string                 `protobuf:"bytes,2,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"`
+	EntityType     string                 `protobuf:"bytes,3,opt,name=entity_type,json=entityType,proto3" json:"entity_type,omitempty"`
+	EntityId       string                 `protobuf:"bytes,4,opt,name=entity_id,json=entityId,proto3" json:"entity_id,omitempty"`
+	ActualFileKeys []string               `protobuf:"bytes,5,rep,name=actual_file_keys,json=actualFileKeys,proto3" json:"actual_file_keys,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *CleanupDocumentLinksRequest) Reset() {
@@ -1057,13 +1056,6 @@ func (x *CleanupDocumentLinksRequest) GetEntityId() string {
 		return x.EntityId
 	}
 	return ""
-}
-
-func (x *CleanupDocumentLinksRequest) GetActualOriginalIds() []string {
-	if x != nil {
-		return x.ActualOriginalIds
-	}
-	return nil
 }
 
 func (x *CleanupDocumentLinksRequest) GetActualFileKeys() []string {
@@ -1187,16 +1179,15 @@ const file_core_v1_commands_proto_rawDesc = "" +
 	"\x1dDeleteOriginalDocumentRequest\x12\x1b\n" +
 	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12\x0e\n" +
 	"\x02id\x18\x02 \x01(\tR\x02id\" \n" +
-	"\x1eDeleteOriginalDocumentResponse\"\xf1\x01\n" +
+	"\x1eDeleteOriginalDocumentResponse\"\xc1\x01\n" +
 	"\x1bCleanupDocumentLinksRequest\x12\x1b\n" +
 	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12\x1d\n" +
 	"\n" +
 	"account_id\x18\x02 \x01(\tR\taccountId\x12\x1f\n" +
 	"\ventity_type\x18\x03 \x01(\tR\n" +
 	"entityType\x12\x1b\n" +
-	"\tentity_id\x18\x04 \x01(\tR\bentityId\x12.\n" +
-	"\x13actual_original_ids\x18\x05 \x03(\tR\x11actualOriginalIds\x12(\n" +
-	"\x10actual_file_keys\x18\x06 \x03(\tR\x0eactualFileKeys\"8\n" +
+	"\tentity_id\x18\x04 \x01(\tR\bentityId\x12(\n" +
+	"\x10actual_file_keys\x18\x05 \x03(\tR\x0eactualFileKeys\"8\n" +
 	"\x1cCleanupDocumentLinksResponse\x12\x18\n" +
 	"\adeleted\x18\x01 \x01(\x05R\adeleted2\xef\a\n" +
 	"\x12CoreCommandService\x12g\n" +

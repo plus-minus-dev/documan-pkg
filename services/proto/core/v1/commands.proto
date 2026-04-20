@@ -128,8 +128,7 @@ message CleanupDocumentLinksRequest {
   string account_id = 2;
   string entity_type = 3;
   string entity_id = 4;
-  repeated string actual_original_ids = 5;
-  repeated string actual_file_keys = 6;
+  repeated string actual_file_keys = 5;
 }
 
 message CleanupDocumentLinksResponse {
