@@ -13,6 +13,7 @@ service CoreCommandService {
   rpc NotifyFileUploaded(NotifyFileUploadedRequest) returns (NotifyFileUploadedResponse);
   rpc NotifyParseFailed(NotifyParseFailedRequest) returns (NotifyParseFailedResponse);
   rpc DeleteOriginalDocument(DeleteOriginalDocumentRequest) returns (DeleteOriginalDocumentResponse);
+  rpc CleanupDocumentLinks(CleanupDocumentLinksRequest) returns (CleanupDocumentLinksResponse);
 }
 
 // --- CreateConnection ---
@@ -119,3 +120,17 @@ message DeleteOriginalDocumentRequest {
 }
 
 message DeleteOriginalDocumentResponse {}
+
+// --- CleanupDocumentLinks ---
+
+message CleanupDocumentLinksRequest {
+  string tenant_id = 1;
+  string account_id = 2;
+  string entity_type = 3;
+  string entity_id = 4;
+  repeated string actual_original_ids = 5;
+}
+
+message CleanupDocumentLinksResponse {
+  int32 deleted = 1;
+}

@@ -989,6 +989,126 @@ func (*DeleteOriginalDocumentResponse) Descriptor() ([]byte, []int) {
 	return file_core_v1_commands_proto_rawDescGZIP(), []int{17}
 }
 
+type CleanupDocumentLinksRequest struct {
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	TenantId          string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
+	AccountId         string                 `protobuf:"bytes,2,opt,name=account_id,json=accountId,proto3" json:"account_id,omitempty"`
+	EntityType        string                 `protobuf:"bytes,3,opt,name=entity_type,json=entityType,proto3" json:"entity_type,omitempty"`
+	EntityId          string                 `protobuf:"bytes,4,opt,name=entity_id,json=entityId,proto3" json:"entity_id,omitempty"`
+	ActualOriginalIds []string               `protobuf:"bytes,5,rep,name=actual_original_ids,json=actualOriginalIds,proto3" json:"actual_original_ids,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
+}
+
+func (x *CleanupDocumentLinksRequest) Reset() {
+	*x = CleanupDocumentLinksRequest{}
+	mi := &file_core_v1_commands_proto_msgTypes[18]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CleanupDocumentLinksRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CleanupDocumentLinksRequest) ProtoMessage() {}
+
+func (x *CleanupDocumentLinksRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_commands_proto_msgTypes[18]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CleanupDocumentLinksRequest.ProtoReflect.Descriptor instead.
+func (*CleanupDocumentLinksRequest) Descriptor() ([]byte, []int) {
+	return file_core_v1_commands_proto_rawDescGZIP(), []int{18}
+}
+
+func (x *CleanupDocumentLinksRequest) GetTenantId() string {
+	if x != nil {
+		return x.TenantId
+	}
+	return ""
+}
+
+func (x *CleanupDocumentLinksRequest) GetAccountId() string {
+	if x != nil {
+		return x.AccountId
+	}
+	return ""
+}
+
+func (x *CleanupDocumentLinksRequest) GetEntityType() string {
+	if x != nil {
+		return x.EntityType
+	}
+	return ""
+}
+
+func (x *CleanupDocumentLinksRequest) GetEntityId() string {
+	if x != nil {
+		return x.EntityId
+	}
+	return ""
+}
+
+func (x *CleanupDocumentLinksRequest) GetActualOriginalIds() []string {
+	if x != nil {
+		return x.ActualOriginalIds
+	}
+	return nil
+}
+
+type CleanupDocumentLinksResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Deleted       int32                  `protobuf:"varint,1,opt,name=deleted,proto3" json:"deleted,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CleanupDocumentLinksResponse) Reset() {
+	*x = CleanupDocumentLinksResponse{}
+	mi := &file_core_v1_commands_proto_msgTypes[19]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CleanupDocumentLinksResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CleanupDocumentLinksResponse) ProtoMessage() {}
+
+func (x *CleanupDocumentLinksResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_commands_proto_msgTypes[19]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CleanupDocumentLinksResponse.ProtoReflect.Descriptor instead.
+func (*CleanupDocumentLinksResponse) Descriptor() ([]byte, []int) {
+	return file_core_v1_commands_proto_rawDescGZIP(), []int{19}
+}
+
+func (x *CleanupDocumentLinksResponse) GetDeleted() int32 {
+	if x != nil {
+		return x.Deleted
+	}
+	return 0
+}
+
 var File_core_v1_commands_proto protoreflect.FileDescriptor
 
 const file_core_v1_commands_proto_rawDesc = "" +
@@ -1059,7 +1179,17 @@ const file_core_v1_commands_proto_rawDesc = "" +
 	"\x1dDeleteOriginalDocumentRequest\x12\x1b\n" +
 	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12\x0e\n" +
 	"\x02id\x18\x02 \x01(\tR\x02id\" \n" +
-	"\x1eDeleteOriginalDocumentResponse2\xfa\x06\n" +
+	"\x1eDeleteOriginalDocumentResponse\"\xc7\x01\n" +
+	"\x1bCleanupDocumentLinksRequest\x12\x1b\n" +
+	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12\x1d\n" +
+	"\n" +
+	"account_id\x18\x02 \x01(\tR\taccountId\x12\x1f\n" +
+	"\ventity_type\x18\x03 \x01(\tR\n" +
+	"entityType\x12\x1b\n" +
+	"\tentity_id\x18\x04 \x01(\tR\bentityId\x12.\n" +
+	"\x13actual_original_ids\x18\x05 \x03(\tR\x11actualOriginalIds\"8\n" +
+	"\x1cCleanupDocumentLinksResponse\x12\x18\n" +
+	"\adeleted\x18\x01 \x01(\x05R\adeleted2\xef\a\n" +
 	"\x12CoreCommandService\x12g\n" +
 	"\x10CreateConnection\x12(.documan.core.v1.CreateConnectionRequest\x1a).documan.core.v1.CreateConnectionResponse\x12g\n" +
 	"\x10UpdateConnection\x12(.documan.core.v1.UpdateConnectionRequest\x1a).documan.core.v1.UpdateConnectionResponse\x12g\n" +
@@ -1068,7 +1198,8 @@ const file_core_v1_commands_proto_rawDesc = "" +
 	"\x10DeleteConnection\x12(.documan.core.v1.DeleteConnectionRequest\x1a).documan.core.v1.DeleteConnectionResponse\x12m\n" +
 	"\x12NotifyFileUploaded\x12*.documan.core.v1.NotifyFileUploadedRequest\x1a+.documan.core.v1.NotifyFileUploadedResponse\x12j\n" +
 	"\x11NotifyParseFailed\x12).documan.core.v1.NotifyParseFailedRequest\x1a*.documan.core.v1.NotifyParseFailedResponse\x12y\n" +
-	"\x16DeleteOriginalDocument\x12..documan.core.v1.DeleteOriginalDocumentRequest\x1a/.documan.core.v1.DeleteOriginalDocumentResponseB<Z:github.com/plus-minus-dev/documan-pkg/services/gen/core/v1b\x06proto3"
+	"\x16DeleteOriginalDocument\x12..documan.core.v1.DeleteOriginalDocumentRequest\x1a/.documan.core.v1.DeleteOriginalDocumentResponse\x12s\n" +
+	"\x14CleanupDocumentLinks\x12,.documan.core.v1.CleanupDocumentLinksRequest\x1a-.documan.core.v1.CleanupDocumentLinksResponseB<Z:github.com/plus-minus-dev/documan-pkg/services/gen/core/v1b\x06proto3"
 
 var (
 	file_core_v1_commands_proto_rawDescOnce sync.Once
@@ -1082,7 +1213,7 @@ func file_core_v1_commands_proto_rawDescGZIP() []byte {
 	return file_core_v1_commands_proto_rawDescData
 }
 
-var file_core_v1_commands_proto_msgTypes = make([]protoimpl.MessageInfo, 18)
+var file_core_v1_commands_proto_msgTypes = make([]protoimpl.MessageInfo, 20)
 var file_core_v1_commands_proto_goTypes = []any{
 	(*CreateConnectionRequest)(nil),        // 0: documan.core.v1.CreateConnectionRequest
 	(*CreateConnectionResponse)(nil),       // 1: documan.core.v1.CreateConnectionResponse
@@ -1102,6 +1233,8 @@ var file_core_v1_commands_proto_goTypes = []any{
 	(*NotifyParseFailedResponse)(nil),      // 15: documan.core.v1.NotifyParseFailedResponse
 	(*DeleteOriginalDocumentRequest)(nil),  // 16: documan.core.v1.DeleteOriginalDocumentRequest
 	(*DeleteOriginalDocumentResponse)(nil), // 17: documan.core.v1.DeleteOriginalDocumentResponse
+	(*CleanupDocumentLinksRequest)(nil),    // 18: documan.core.v1.CleanupDocumentLinksRequest
+	(*CleanupDocumentLinksResponse)(nil),   // 19: documan.core.v1.CleanupDocumentLinksResponse
 }
 var file_core_v1_commands_proto_depIdxs = []int32{
 	11, // 0: documan.core.v1.NotifyFileUploadedRequest.items:type_name -> documan.core.v1.FileUploadedEntry
@@ -1114,16 +1247,18 @@ var file_core_v1_commands_proto_depIdxs = []int32{
 	10, // 7: documan.core.v1.CoreCommandService.NotifyFileUploaded:input_type -> documan.core.v1.NotifyFileUploadedRequest
 	13, // 8: documan.core.v1.CoreCommandService.NotifyParseFailed:input_type -> documan.core.v1.NotifyParseFailedRequest
 	16, // 9: documan.core.v1.CoreCommandService.DeleteOriginalDocument:input_type -> documan.core.v1.DeleteOriginalDocumentRequest
-	1,  // 10: documan.core.v1.CoreCommandService.CreateConnection:output_type -> documan.core.v1.CreateConnectionResponse
-	3,  // 11: documan.core.v1.CoreCommandService.UpdateConnection:output_type -> documan.core.v1.UpdateConnectionResponse
-	5,  // 12: documan.core.v1.CoreCommandService.EnableConnection:output_type -> documan.core.v1.EnableConnectionResponse
-	7,  // 13: documan.core.v1.CoreCommandService.DisableConnection:output_type -> documan.core.v1.DisableConnectionResponse
-	9,  // 14: documan.core.v1.CoreCommandService.DeleteConnection:output_type -> documan.core.v1.DeleteConnectionResponse
-	12, // 15: documan.core.v1.CoreCommandService.NotifyFileUploaded:output_type -> documan.core.v1.NotifyFileUploadedResponse
-	15, // 16: documan.core.v1.CoreCommandService.NotifyParseFailed:output_type -> documan.core.v1.NotifyParseFailedResponse
-	17, // 17: documan.core.v1.CoreCommandService.DeleteOriginalDocument:output_type -> documan.core.v1.DeleteOriginalDocumentResponse
-	10, // [10:18] is the sub-list for method output_type
-	2,  // [2:10] is the sub-list for method input_type
+	18, // 10: documan.core.v1.CoreCommandService.CleanupDocumentLinks:input_type -> documan.core.v1.CleanupDocumentLinksRequest
+	1,  // 11: documan.core.v1.CoreCommandService.CreateConnection:output_type -> documan.core.v1.CreateConnectionResponse
+	3,  // 12: documan.core.v1.CoreCommandService.UpdateConnection:output_type -> documan.core.v1.UpdateConnectionResponse
+	5,  // 13: documan.core.v1.CoreCommandService.EnableConnection:output_type -> documan.core.v1.EnableConnectionResponse
+	7,  // 14: documan.core.v1.CoreCommandService.DisableConnection:output_type -> documan.core.v1.DisableConnectionResponse
+	9,  // 15: documan.core.v1.CoreCommandService.DeleteConnection:output_type -> documan.core.v1.DeleteConnectionResponse
+	12, // 16: documan.core.v1.CoreCommandService.NotifyFileUploaded:output_type -> documan.core.v1.NotifyFileUploadedResponse
+	15, // 17: documan.core.v1.CoreCommandService.NotifyParseFailed:output_type -> documan.core.v1.NotifyParseFailedResponse
+	17, // 18: documan.core.v1.CoreCommandService.DeleteOriginalDocument:output_type -> documan.core.v1.DeleteOriginalDocumentResponse
+	19, // 19: documan.core.v1.CoreCommandService.CleanupDocumentLinks:output_type -> documan.core.v1.CleanupDocumentLinksResponse
+	11, // [11:20] is the sub-list for method output_type
+	2,  // [2:11] is the sub-list for method input_type
 	2,  // [2:2] is the sub-list for extension type_name
 	2,  // [2:2] is the sub-list for extension extendee
 	0,  // [0:2] is the sub-list for field type_name
@@ -1141,7 +1276,7 @@ func file_core_v1_commands_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_core_v1_commands_proto_rawDesc), len(file_core_v1_commands_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   18,
+			NumMessages:   20,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

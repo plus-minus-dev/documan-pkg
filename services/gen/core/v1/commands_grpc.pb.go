@@ -27,6 +27,7 @@ const (
 	CoreCommandService_NotifyFileUploaded_FullMethodName     = "/documan.core.v1.CoreCommandService/NotifyFileUploaded"
 	CoreCommandService_NotifyParseFailed_FullMethodName      = "/documan.core.v1.CoreCommandService/NotifyParseFailed"
 	CoreCommandService_DeleteOriginalDocument_FullMethodName = "/documan.core.v1.CoreCommandService/DeleteOriginalDocument"
+	CoreCommandService_CleanupDocumentLinks_FullMethodName   = "/documan.core.v1.CoreCommandService/CleanupDocumentLinks"
 )
 
 // CoreCommandServiceClient is the client API for CoreCommandService service.
@@ -43,6 +44,7 @@ type CoreCommandServiceClient interface {
 	NotifyFileUploaded(ctx context.Context, in *NotifyFileUploadedRequest, opts ...grpc.CallOption) (*NotifyFileUploadedResponse, error)
 	NotifyParseFailed(ctx context.Context, in *NotifyParseFailedRequest, opts ...grpc.CallOption) (*NotifyParseFailedResponse, error)
 	DeleteOriginalDocument(ctx context.Context, in *DeleteOriginalDocumentRequest, opts ...grpc.CallOption) (*DeleteOriginalDocumentResponse, error)
+	CleanupDocumentLinks(ctx context.Context, in *CleanupDocumentLinksRequest, opts ...grpc.CallOption) (*CleanupDocumentLinksResponse, error)
 }
 
 type coreCommandServiceClient struct {
@@ -133,6 +135,16 @@ func (c *coreCommandServiceClient) DeleteOriginalDocument(ctx context.Context, i
 	return out, nil
 }
 
+func (c *coreCommandServiceClient) CleanupDocumentLinks(ctx context.Context, in *CleanupDocumentLinksRequest, opts ...grpc.CallOption) (*CleanupDocumentLinksResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CleanupDocumentLinksResponse)
+	err := c.cc.Invoke(ctx, CoreCommandService_CleanupDocumentLinks_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CoreCommandServiceServer is the server API for CoreCommandService service.
 // All implementations must embed UnimplementedCoreCommandServiceServer
 // for forward compatibility.
@@ -147,6 +159,7 @@ type CoreCommandServiceServer interface {
 	NotifyFileUploaded(context.Context, *NotifyFileUploadedRequest) (*NotifyFileUploadedResponse, error)
 	NotifyParseFailed(context.Context, *NotifyParseFailedRequest) (*NotifyParseFailedResponse, error)
 	DeleteOriginalDocument(context.Context, *DeleteOriginalDocumentRequest) (*DeleteOriginalDocumentResponse, error)
+	CleanupDocumentLinks(context.Context, *CleanupDocumentLinksRequest) (*CleanupDocumentLinksResponse, error)
 	mustEmbedUnimplementedCoreCommandServiceServer()
 }
 
@@ -180,6 +193,9 @@ func (UnimplementedCoreCommandServiceServer) NotifyParseFailed(context.Context, 
 }
 func (UnimplementedCoreCommandServiceServer) DeleteOriginalDocument(context.Context, *DeleteOriginalDocumentRequest) (*DeleteOriginalDocumentResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method DeleteOriginalDocument not implemented")
+}
+func (UnimplementedCoreCommandServiceServer) CleanupDocumentLinks(context.Context, *CleanupDocumentLinksRequest) (*CleanupDocumentLinksResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method CleanupDocumentLinks not implemented")
 }
 func (UnimplementedCoreCommandServiceServer) mustEmbedUnimplementedCoreCommandServiceServer() {}
 func (UnimplementedCoreCommandServiceServer) testEmbeddedByValue()                            {}
@@ -346,6 +362,24 @@ func _CoreCommandService_DeleteOriginalDocument_Handler(srv interface{}, ctx con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CoreCommandService_CleanupDocumentLinks_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CleanupDocumentLinksRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CoreCommandServiceServer).CleanupDocumentLinks(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CoreCommandService_CleanupDocumentLinks_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CoreCommandServiceServer).CleanupDocumentLinks(ctx, req.(*CleanupDocumentLinksRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CoreCommandService_ServiceDesc is the grpc.ServiceDesc for CoreCommandService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -384,6 +418,10 @@ var CoreCommandService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteOriginalDocument",
 			Handler:    _CoreCommandService_DeleteOriginalDocument_Handler,
+		},
+		{
+			MethodName: "CleanupDocumentLinks",
+			Handler:    _CoreCommandService_CleanupDocumentLinks_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
