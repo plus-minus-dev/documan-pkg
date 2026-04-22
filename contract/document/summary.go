@@ -8,6 +8,7 @@ type Summary struct {
 	Amount        *int64 `json:"amount,omitempty"`          // сумма без НДС
 	TaxAmount     *int64 `json:"tax_amount,omitempty"`      // сумма НДС
 	AmountWithTax *int64 `json:"amount_with_tax,omitempty"` // сумма с НДС
+	Discount      *int64 `json:"discount,omitempty"`        // скидка, копейки
 
 	// Агрегаты
 	// Qty: decimal string, dot separator, no thousand separators, normalized.
