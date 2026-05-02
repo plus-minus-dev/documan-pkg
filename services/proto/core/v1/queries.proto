@@ -10,6 +10,7 @@ service CoreQueryService {
   rpc ListConnections(ListConnectionsRequest) returns (ListConnectionsResponse);
   rpc ListOriginalDocuments(ListOriginalDocumentsRequest) returns (ListOriginalDocumentsResponse);
   rpc GetOriginalDocument(GetOriginalDocumentRequest) returns (GetOriginalDocumentResponse);
+  rpc GetOriginalItemMatches(GetOriginalItemMatchesRequest) returns (GetOriginalItemMatchesResponse);
   rpc ListERPEntities(ListERPEntitiesRequest) returns (ListERPEntitiesResponse);
   rpc ListERPDocuments(ListERPDocumentsRequest) returns (ListERPDocumentsResponse);
   rpc GetERPDocument(GetERPDocumentRequest) returns (GetERPDocumentResponse);
@@ -76,6 +77,22 @@ message GetOriginalDocumentRequest {
 
 message GetOriginalDocumentResponse {
   OriginalDocumentEntry document = 1;
+}
+
+message GetOriginalItemMatchesRequest {
+  string tenant_id = 1;
+  string connection_id = 2;
+  string original_doc_id = 3;
+}
+
+message GetOriginalItemMatchesResponse {
+  repeated OriginalItemMatch items = 1;
+}
+
+message OriginalItemMatch {
+  int32 original_position_index = 1;
+  string entity_type = 2;
+  string entity_id = 3;
 }
 
 message OriginalDocumentEntry {
