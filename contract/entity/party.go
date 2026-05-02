@@ -7,11 +7,12 @@ type Party struct {
 	Meta
 
 	// Идентификация
-	Name       string `json:"name,omitempty"`        // краткое название
-	LegalTitle string `json:"legal_title,omitempty"` // полное юридическое название
-	INN        string `json:"inn,omitempty"`
-	KPP        string `json:"kpp,omitempty"`
-	Address    string `json:"address,omitempty"`
+	Name        string `json:"name,omitempty"`        // краткое название
+	LegalTitle  string `json:"legal_title,omitempty"` // полное юридическое название
+	INN         string `json:"inn,omitempty"`
+	KPP         string `json:"kpp,omitempty"`
+	CompanyType string `json:"companyType,omitempty"`
+	Address     string `json:"address,omitempty"`
 
 	// ERP/source business code
 	SourceCode string `json:"source_code,omitempty"`
