@@ -749,6 +749,7 @@ type ListERPEntitiesRequest struct {
 	EntityType    string                 `protobuf:"bytes,3,opt,name=entity_type,json=entityType,proto3" json:"entity_type,omitempty"`
 	Limit         int32                  `protobuf:"varint,4,opt,name=limit,proto3" json:"limit,omitempty"`
 	Offset        int32                  `protobuf:"varint,5,opt,name=offset,proto3" json:"offset,omitempty"`
+	Search        string                 `protobuf:"bytes,6,opt,name=search,proto3" json:"search,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -816,6 +817,13 @@ func (x *ListERPEntitiesRequest) GetOffset() int32 {
 		return x.Offset
 	}
 	return 0
+}
+
+func (x *ListERPEntitiesRequest) GetSearch() string {
+	if x != nil {
+		return x.Search
+	}
+	return ""
 }
 
 type ListERPEntitiesResponse struct {
@@ -1542,14 +1550,15 @@ const file_core_v1_queries_proto_rawDesc = "" +
 	"\x0epayload_footer\x18\x11 \x01(\fR\rpayloadFooter\x12-\n" +
 	"\x12payload_attributes\x18\x12 \x01(\fR\x11payloadAttributes\x12!\n" +
 	"\fpayload_hash\x18\b \x01(\tR\vpayloadHash\x12=\n" +
-	"\fpayloaded_at\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\vpayloadedAt\"\xa9\x01\n" +
+	"\fpayloaded_at\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\vpayloadedAt\"\xc1\x01\n" +
 	"\x16ListERPEntitiesRequest\x12\x1b\n" +
 	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12#\n" +
 	"\rconnection_id\x18\x02 \x01(\tR\fconnectionId\x12\x1f\n" +
 	"\ventity_type\x18\x03 \x01(\tR\n" +
 	"entityType\x12\x14\n" +
 	"\x05limit\x18\x04 \x01(\x05R\x05limit\x12\x16\n" +
-	"\x06offset\x18\x05 \x01(\x05R\x06offset\"q\n" +
+	"\x06offset\x18\x05 \x01(\x05R\x06offset\x12\x16\n" +
+	"\x06search\x18\x06 \x01(\tR\x06search\"q\n" +
 	"\x17ListERPEntitiesResponse\x125\n" +
 	"\x05items\x18\x01 \x03(\v2\x1f.documan.core.v1.ERPEntityEntryR\x05items\x12\x1f\n" +
 	"\vtotal_count\x18\x02 \x01(\x05R\n" +
