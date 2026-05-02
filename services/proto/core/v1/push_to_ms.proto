@@ -16,6 +16,9 @@ service CorePushService {
 
   // BFF/solution: "создай задачу на push в ERP"
   rpc CreatePushTask(CreatePushTaskRequest) returns (CreatePushTaskResponse);
+
+  // BFF/solution: "создай ERP-документ из original document"
+  rpc CreateERPDocumentFromOriginal(CreateERPDocumentFromOriginalRequest) returns (CreateERPDocumentFromOriginalResponse);
 }
 
 // ===== GetPushTasks =====
@@ -60,5 +63,36 @@ message CreatePushTaskRequest {
 }
 
 message CreatePushTaskResponse {
+  string task_id = 1;
+}
+
+// ===== CreateERPDocumentFromOriginal =====
+
+message CreateERPDocumentFromOriginalRequest {
+  string tenant_id = 1;
+  string connection_id = 2;
+  string original_doc_id = 3;
+  string erp_entity_type = 4;                         // "supply", "invoicein", ...
+
+  string organization_id = 5;
+  string counterparty_id = 6;
+  string store_id = 7;
+
+  string description = 8;
+  bool attach_original_file = 9;
+
+  repeated CreateERPDocumentPosition positions = 10;
+}
+
+message CreateERPDocumentPosition {
+  int32 original_position_index = 1;
+  string assortment_type = 2;                         // "product", "service", "variant", ...
+  string assortment_id = 3;
+  string quantity = 4;
+  int64 price = 5;                                    // minor units, формат МойСклад
+  int32 vat = 6;                                      // 0, 10, 20, ...
+}
+
+message CreateERPDocumentFromOriginalResponse {
   string task_id = 1;
 }

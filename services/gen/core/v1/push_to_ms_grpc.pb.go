@@ -19,9 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	CorePushService_GetPushTasks_FullMethodName    = "/documan.core.v1.CorePushService/GetPushTasks"
-	CorePushService_AckPushComplete_FullMethodName = "/documan.core.v1.CorePushService/AckPushComplete"
-	CorePushService_CreatePushTask_FullMethodName  = "/documan.core.v1.CorePushService/CreatePushTask"
+	CorePushService_GetPushTasks_FullMethodName                  = "/documan.core.v1.CorePushService/GetPushTasks"
+	CorePushService_AckPushComplete_FullMethodName               = "/documan.core.v1.CorePushService/AckPushComplete"
+	CorePushService_CreatePushTask_FullMethodName                = "/documan.core.v1.CorePushService/CreatePushTask"
+	CorePushService_CreateERPDocumentFromOriginal_FullMethodName = "/documan.core.v1.CorePushService/CreateERPDocumentFromOriginal"
 )
 
 // CorePushServiceClient is the client API for CorePushService service.
@@ -37,6 +38,8 @@ type CorePushServiceClient interface {
 	AckPushComplete(ctx context.Context, in *AckPushCompleteRequest, opts ...grpc.CallOption) (*AckPushCompleteResponse, error)
 	// BFF/solution: "создай задачу на push в ERP"
 	CreatePushTask(ctx context.Context, in *CreatePushTaskRequest, opts ...grpc.CallOption) (*CreatePushTaskResponse, error)
+	// BFF/solution: "создай ERP-документ из original document"
+	CreateERPDocumentFromOriginal(ctx context.Context, in *CreateERPDocumentFromOriginalRequest, opts ...grpc.CallOption) (*CreateERPDocumentFromOriginalResponse, error)
 }
 
 type corePushServiceClient struct {
@@ -77,6 +80,16 @@ func (c *corePushServiceClient) CreatePushTask(ctx context.Context, in *CreatePu
 	return out, nil
 }
 
+func (c *corePushServiceClient) CreateERPDocumentFromOriginal(ctx context.Context, in *CreateERPDocumentFromOriginalRequest, opts ...grpc.CallOption) (*CreateERPDocumentFromOriginalResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateERPDocumentFromOriginalResponse)
+	err := c.cc.Invoke(ctx, CorePushService_CreateERPDocumentFromOriginal_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CorePushServiceServer is the server API for CorePushService service.
 // All implementations must embed UnimplementedCorePushServiceServer
 // for forward compatibility.
@@ -90,6 +103,8 @@ type CorePushServiceServer interface {
 	AckPushComplete(context.Context, *AckPushCompleteRequest) (*AckPushCompleteResponse, error)
 	// BFF/solution: "создай задачу на push в ERP"
 	CreatePushTask(context.Context, *CreatePushTaskRequest) (*CreatePushTaskResponse, error)
+	// BFF/solution: "создай ERP-документ из original document"
+	CreateERPDocumentFromOriginal(context.Context, *CreateERPDocumentFromOriginalRequest) (*CreateERPDocumentFromOriginalResponse, error)
 	mustEmbedUnimplementedCorePushServiceServer()
 }
 
@@ -108,6 +123,9 @@ func (UnimplementedCorePushServiceServer) AckPushComplete(context.Context, *AckP
 }
 func (UnimplementedCorePushServiceServer) CreatePushTask(context.Context, *CreatePushTaskRequest) (*CreatePushTaskResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method CreatePushTask not implemented")
+}
+func (UnimplementedCorePushServiceServer) CreateERPDocumentFromOriginal(context.Context, *CreateERPDocumentFromOriginalRequest) (*CreateERPDocumentFromOriginalResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateERPDocumentFromOriginal not implemented")
 }
 func (UnimplementedCorePushServiceServer) mustEmbedUnimplementedCorePushServiceServer() {}
 func (UnimplementedCorePushServiceServer) testEmbeddedByValue()                         {}
@@ -184,6 +202,24 @@ func _CorePushService_CreatePushTask_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CorePushService_CreateERPDocumentFromOriginal_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateERPDocumentFromOriginalRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CorePushServiceServer).CreateERPDocumentFromOriginal(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CorePushService_CreateERPDocumentFromOriginal_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CorePushServiceServer).CreateERPDocumentFromOriginal(ctx, req.(*CreateERPDocumentFromOriginalRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CorePushService_ServiceDesc is the grpc.ServiceDesc for CorePushService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -202,6 +238,10 @@ var CorePushService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreatePushTask",
 			Handler:    _CorePushService_CreatePushTask_Handler,
+		},
+		{
+			MethodName: "CreateERPDocumentFromOriginal",
+			Handler:    _CorePushService_CreateERPDocumentFromOriginal_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -426,6 +426,250 @@ func (x *CreatePushTaskResponse) GetTaskId() string {
 	return ""
 }
 
+type CreateERPDocumentFromOriginalRequest struct {
+	state              protoimpl.MessageState       `protogen:"open.v1"`
+	TenantId           string                       `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
+	ConnectionId       string                       `protobuf:"bytes,2,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
+	OriginalDocId      string                       `protobuf:"bytes,3,opt,name=original_doc_id,json=originalDocId,proto3" json:"original_doc_id,omitempty"`
+	ErpEntityType      string                       `protobuf:"bytes,4,opt,name=erp_entity_type,json=erpEntityType,proto3" json:"erp_entity_type,omitempty"` // "supply", "invoicein", ...
+	OrganizationId     string                       `protobuf:"bytes,5,opt,name=organization_id,json=organizationId,proto3" json:"organization_id,omitempty"`
+	CounterpartyId     string                       `protobuf:"bytes,6,opt,name=counterparty_id,json=counterpartyId,proto3" json:"counterparty_id,omitempty"`
+	StoreId            string                       `protobuf:"bytes,7,opt,name=store_id,json=storeId,proto3" json:"store_id,omitempty"`
+	Description        string                       `protobuf:"bytes,8,opt,name=description,proto3" json:"description,omitempty"`
+	AttachOriginalFile bool                         `protobuf:"varint,9,opt,name=attach_original_file,json=attachOriginalFile,proto3" json:"attach_original_file,omitempty"`
+	Positions          []*CreateERPDocumentPosition `protobuf:"bytes,10,rep,name=positions,proto3" json:"positions,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
+}
+
+func (x *CreateERPDocumentFromOriginalRequest) Reset() {
+	*x = CreateERPDocumentFromOriginalRequest{}
+	mi := &file_core_v1_push_to_ms_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateERPDocumentFromOriginalRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateERPDocumentFromOriginalRequest) ProtoMessage() {}
+
+func (x *CreateERPDocumentFromOriginalRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_push_to_ms_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateERPDocumentFromOriginalRequest.ProtoReflect.Descriptor instead.
+func (*CreateERPDocumentFromOriginalRequest) Descriptor() ([]byte, []int) {
+	return file_core_v1_push_to_ms_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *CreateERPDocumentFromOriginalRequest) GetTenantId() string {
+	if x != nil {
+		return x.TenantId
+	}
+	return ""
+}
+
+func (x *CreateERPDocumentFromOriginalRequest) GetConnectionId() string {
+	if x != nil {
+		return x.ConnectionId
+	}
+	return ""
+}
+
+func (x *CreateERPDocumentFromOriginalRequest) GetOriginalDocId() string {
+	if x != nil {
+		return x.OriginalDocId
+	}
+	return ""
+}
+
+func (x *CreateERPDocumentFromOriginalRequest) GetErpEntityType() string {
+	if x != nil {
+		return x.ErpEntityType
+	}
+	return ""
+}
+
+func (x *CreateERPDocumentFromOriginalRequest) GetOrganizationId() string {
+	if x != nil {
+		return x.OrganizationId
+	}
+	return ""
+}
+
+func (x *CreateERPDocumentFromOriginalRequest) GetCounterpartyId() string {
+	if x != nil {
+		return x.CounterpartyId
+	}
+	return ""
+}
+
+func (x *CreateERPDocumentFromOriginalRequest) GetStoreId() string {
+	if x != nil {
+		return x.StoreId
+	}
+	return ""
+}
+
+func (x *CreateERPDocumentFromOriginalRequest) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *CreateERPDocumentFromOriginalRequest) GetAttachOriginalFile() bool {
+	if x != nil {
+		return x.AttachOriginalFile
+	}
+	return false
+}
+
+func (x *CreateERPDocumentFromOriginalRequest) GetPositions() []*CreateERPDocumentPosition {
+	if x != nil {
+		return x.Positions
+	}
+	return nil
+}
+
+type CreateERPDocumentPosition struct {
+	state                 protoimpl.MessageState `protogen:"open.v1"`
+	OriginalPositionIndex int32                  `protobuf:"varint,1,opt,name=original_position_index,json=originalPositionIndex,proto3" json:"original_position_index,omitempty"`
+	AssortmentType        string                 `protobuf:"bytes,2,opt,name=assortment_type,json=assortmentType,proto3" json:"assortment_type,omitempty"` // "product", "service", "variant", ...
+	AssortmentId          string                 `protobuf:"bytes,3,opt,name=assortment_id,json=assortmentId,proto3" json:"assortment_id,omitempty"`
+	Quantity              string                 `protobuf:"bytes,4,opt,name=quantity,proto3" json:"quantity,omitempty"`
+	Price                 int64                  `protobuf:"varint,5,opt,name=price,proto3" json:"price,omitempty"` // minor units, формат МойСклад
+	Vat                   int32                  `protobuf:"varint,6,opt,name=vat,proto3" json:"vat,omitempty"`     // 0, 10, 20, ...
+	unknownFields         protoimpl.UnknownFields
+	sizeCache             protoimpl.SizeCache
+}
+
+func (x *CreateERPDocumentPosition) Reset() {
+	*x = CreateERPDocumentPosition{}
+	mi := &file_core_v1_push_to_ms_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateERPDocumentPosition) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateERPDocumentPosition) ProtoMessage() {}
+
+func (x *CreateERPDocumentPosition) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_push_to_ms_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateERPDocumentPosition.ProtoReflect.Descriptor instead.
+func (*CreateERPDocumentPosition) Descriptor() ([]byte, []int) {
+	return file_core_v1_push_to_ms_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *CreateERPDocumentPosition) GetOriginalPositionIndex() int32 {
+	if x != nil {
+		return x.OriginalPositionIndex
+	}
+	return 0
+}
+
+func (x *CreateERPDocumentPosition) GetAssortmentType() string {
+	if x != nil {
+		return x.AssortmentType
+	}
+	return ""
+}
+
+func (x *CreateERPDocumentPosition) GetAssortmentId() string {
+	if x != nil {
+		return x.AssortmentId
+	}
+	return ""
+}
+
+func (x *CreateERPDocumentPosition) GetQuantity() string {
+	if x != nil {
+		return x.Quantity
+	}
+	return ""
+}
+
+func (x *CreateERPDocumentPosition) GetPrice() int64 {
+	if x != nil {
+		return x.Price
+	}
+	return 0
+}
+
+func (x *CreateERPDocumentPosition) GetVat() int32 {
+	if x != nil {
+		return x.Vat
+	}
+	return 0
+}
+
+type CreateERPDocumentFromOriginalResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TaskId        string                 `protobuf:"bytes,1,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateERPDocumentFromOriginalResponse) Reset() {
+	*x = CreateERPDocumentFromOriginalResponse{}
+	mi := &file_core_v1_push_to_ms_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateERPDocumentFromOriginalResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateERPDocumentFromOriginalResponse) ProtoMessage() {}
+
+func (x *CreateERPDocumentFromOriginalResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_push_to_ms_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateERPDocumentFromOriginalResponse.ProtoReflect.Descriptor instead.
+func (*CreateERPDocumentFromOriginalResponse) Descriptor() ([]byte, []int) {
+	return file_core_v1_push_to_ms_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *CreateERPDocumentFromOriginalResponse) GetTaskId() string {
+	if x != nil {
+		return x.TaskId
+	}
+	return ""
+}
+
 var File_core_v1_push_to_ms_proto protoreflect.FileDescriptor
 
 const file_core_v1_push_to_ms_proto_rawDesc = "" +
@@ -457,11 +701,33 @@ const file_core_v1_push_to_ms_proto_rawDesc = "" +
 	"\rerp_entity_id\x18\x04 \x01(\tR\verpEntityId\x12\x18\n" +
 	"\apayload\x18\x05 \x01(\fR\apayload\"1\n" +
 	"\x16CreatePushTaskResponse\x12\x17\n" +
-	"\atask_id\x18\x01 \x01(\tR\x06taskId2\xb7\x02\n" +
+	"\atask_id\x18\x01 \x01(\tR\x06taskId\"\xc3\x03\n" +
+	"$CreateERPDocumentFromOriginalRequest\x12\x1b\n" +
+	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12#\n" +
+	"\rconnection_id\x18\x02 \x01(\tR\fconnectionId\x12&\n" +
+	"\x0foriginal_doc_id\x18\x03 \x01(\tR\roriginalDocId\x12&\n" +
+	"\x0ferp_entity_type\x18\x04 \x01(\tR\rerpEntityType\x12'\n" +
+	"\x0forganization_id\x18\x05 \x01(\tR\x0eorganizationId\x12'\n" +
+	"\x0fcounterparty_id\x18\x06 \x01(\tR\x0ecounterpartyId\x12\x19\n" +
+	"\bstore_id\x18\a \x01(\tR\astoreId\x12 \n" +
+	"\vdescription\x18\b \x01(\tR\vdescription\x120\n" +
+	"\x14attach_original_file\x18\t \x01(\bR\x12attachOriginalFile\x12H\n" +
+	"\tpositions\x18\n" +
+	" \x03(\v2*.documan.core.v1.CreateERPDocumentPositionR\tpositions\"\xe5\x01\n" +
+	"\x19CreateERPDocumentPosition\x126\n" +
+	"\x17original_position_index\x18\x01 \x01(\x05R\x15originalPositionIndex\x12'\n" +
+	"\x0fassortment_type\x18\x02 \x01(\tR\x0eassortmentType\x12#\n" +
+	"\rassortment_id\x18\x03 \x01(\tR\fassortmentId\x12\x1a\n" +
+	"\bquantity\x18\x04 \x01(\tR\bquantity\x12\x14\n" +
+	"\x05price\x18\x05 \x01(\x03R\x05price\x12\x10\n" +
+	"\x03vat\x18\x06 \x01(\x05R\x03vat\"@\n" +
+	"%CreateERPDocumentFromOriginalResponse\x12\x17\n" +
+	"\atask_id\x18\x01 \x01(\tR\x06taskId2\xc8\x03\n" +
 	"\x0fCorePushService\x12[\n" +
 	"\fGetPushTasks\x12$.documan.core.v1.GetPushTasksRequest\x1a%.documan.core.v1.GetPushTasksResponse\x12d\n" +
 	"\x0fAckPushComplete\x12'.documan.core.v1.AckPushCompleteRequest\x1a(.documan.core.v1.AckPushCompleteResponse\x12a\n" +
-	"\x0eCreatePushTask\x12&.documan.core.v1.CreatePushTaskRequest\x1a'.documan.core.v1.CreatePushTaskResponseB<Z:github.com/plus-minus-dev/documan-pkg/services/gen/core/v1b\x06proto3"
+	"\x0eCreatePushTask\x12&.documan.core.v1.CreatePushTaskRequest\x1a'.documan.core.v1.CreatePushTaskResponse\x12\x8e\x01\n" +
+	"\x1dCreateERPDocumentFromOriginal\x125.documan.core.v1.CreateERPDocumentFromOriginalRequest\x1a6.documan.core.v1.CreateERPDocumentFromOriginalResponseB<Z:github.com/plus-minus-dev/documan-pkg/services/gen/core/v1b\x06proto3"
 
 var (
 	file_core_v1_push_to_ms_proto_rawDescOnce sync.Once
@@ -475,31 +741,37 @@ func file_core_v1_push_to_ms_proto_rawDescGZIP() []byte {
 	return file_core_v1_push_to_ms_proto_rawDescData
 }
 
-var file_core_v1_push_to_ms_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_core_v1_push_to_ms_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_core_v1_push_to_ms_proto_goTypes = []any{
-	(*GetPushTasksRequest)(nil),     // 0: documan.core.v1.GetPushTasksRequest
-	(*GetPushTasksResponse)(nil),    // 1: documan.core.v1.GetPushTasksResponse
-	(*PushTask)(nil),                // 2: documan.core.v1.PushTask
-	(*AckPushCompleteRequest)(nil),  // 3: documan.core.v1.AckPushCompleteRequest
-	(*AckPushCompleteResponse)(nil), // 4: documan.core.v1.AckPushCompleteResponse
-	(*CreatePushTaskRequest)(nil),   // 5: documan.core.v1.CreatePushTaskRequest
-	(*CreatePushTaskResponse)(nil),  // 6: documan.core.v1.CreatePushTaskResponse
-	(*timestamppb.Timestamp)(nil),   // 7: google.protobuf.Timestamp
+	(*GetPushTasksRequest)(nil),                   // 0: documan.core.v1.GetPushTasksRequest
+	(*GetPushTasksResponse)(nil),                  // 1: documan.core.v1.GetPushTasksResponse
+	(*PushTask)(nil),                              // 2: documan.core.v1.PushTask
+	(*AckPushCompleteRequest)(nil),                // 3: documan.core.v1.AckPushCompleteRequest
+	(*AckPushCompleteResponse)(nil),               // 4: documan.core.v1.AckPushCompleteResponse
+	(*CreatePushTaskRequest)(nil),                 // 5: documan.core.v1.CreatePushTaskRequest
+	(*CreatePushTaskResponse)(nil),                // 6: documan.core.v1.CreatePushTaskResponse
+	(*CreateERPDocumentFromOriginalRequest)(nil),  // 7: documan.core.v1.CreateERPDocumentFromOriginalRequest
+	(*CreateERPDocumentPosition)(nil),             // 8: documan.core.v1.CreateERPDocumentPosition
+	(*CreateERPDocumentFromOriginalResponse)(nil), // 9: documan.core.v1.CreateERPDocumentFromOriginalResponse
+	(*timestamppb.Timestamp)(nil),                 // 10: google.protobuf.Timestamp
 }
 var file_core_v1_push_to_ms_proto_depIdxs = []int32{
-	2, // 0: documan.core.v1.GetPushTasksResponse.items:type_name -> documan.core.v1.PushTask
-	7, // 1: documan.core.v1.PushTask.created_at:type_name -> google.protobuf.Timestamp
-	0, // 2: documan.core.v1.CorePushService.GetPushTasks:input_type -> documan.core.v1.GetPushTasksRequest
-	3, // 3: documan.core.v1.CorePushService.AckPushComplete:input_type -> documan.core.v1.AckPushCompleteRequest
-	5, // 4: documan.core.v1.CorePushService.CreatePushTask:input_type -> documan.core.v1.CreatePushTaskRequest
-	1, // 5: documan.core.v1.CorePushService.GetPushTasks:output_type -> documan.core.v1.GetPushTasksResponse
-	4, // 6: documan.core.v1.CorePushService.AckPushComplete:output_type -> documan.core.v1.AckPushCompleteResponse
-	6, // 7: documan.core.v1.CorePushService.CreatePushTask:output_type -> documan.core.v1.CreatePushTaskResponse
-	5, // [5:8] is the sub-list for method output_type
-	2, // [2:5] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	2,  // 0: documan.core.v1.GetPushTasksResponse.items:type_name -> documan.core.v1.PushTask
+	10, // 1: documan.core.v1.PushTask.created_at:type_name -> google.protobuf.Timestamp
+	8,  // 2: documan.core.v1.CreateERPDocumentFromOriginalRequest.positions:type_name -> documan.core.v1.CreateERPDocumentPosition
+	0,  // 3: documan.core.v1.CorePushService.GetPushTasks:input_type -> documan.core.v1.GetPushTasksRequest
+	3,  // 4: documan.core.v1.CorePushService.AckPushComplete:input_type -> documan.core.v1.AckPushCompleteRequest
+	5,  // 5: documan.core.v1.CorePushService.CreatePushTask:input_type -> documan.core.v1.CreatePushTaskRequest
+	7,  // 6: documan.core.v1.CorePushService.CreateERPDocumentFromOriginal:input_type -> documan.core.v1.CreateERPDocumentFromOriginalRequest
+	1,  // 7: documan.core.v1.CorePushService.GetPushTasks:output_type -> documan.core.v1.GetPushTasksResponse
+	4,  // 8: documan.core.v1.CorePushService.AckPushComplete:output_type -> documan.core.v1.AckPushCompleteResponse
+	6,  // 9: documan.core.v1.CorePushService.CreatePushTask:output_type -> documan.core.v1.CreatePushTaskResponse
+	9,  // 10: documan.core.v1.CorePushService.CreateERPDocumentFromOriginal:output_type -> documan.core.v1.CreateERPDocumentFromOriginalResponse
+	7,  // [7:11] is the sub-list for method output_type
+	3,  // [3:7] is the sub-list for method input_type
+	3,  // [3:3] is the sub-list for extension type_name
+	3,  // [3:3] is the sub-list for extension extendee
+	0,  // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_core_v1_push_to_ms_proto_init() }
@@ -513,7 +785,7 @@ func file_core_v1_push_to_ms_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_core_v1_push_to_ms_proto_rawDesc), len(file_core_v1_push_to_ms_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   7,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
