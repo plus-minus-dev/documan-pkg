@@ -215,6 +215,7 @@ type AckPushCompleteRequest struct {
 	TaskId        string                 `protobuf:"bytes,1,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"`
 	Success       bool                   `protobuf:"varint,2,opt,name=success,proto3" json:"success,omitempty"`
 	ErrorMessage  string                 `protobuf:"bytes,3,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"` // если success=false
+	ErpEntityId   string                 `protobuf:"bytes,4,opt,name=erp_entity_id,json=erpEntityId,proto3" json:"erp_entity_id,omitempty"`  // созданный ID ERP-документа
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -266,6 +267,13 @@ func (x *AckPushCompleteRequest) GetSuccess() bool {
 func (x *AckPushCompleteRequest) GetErrorMessage() string {
 	if x != nil {
 		return x.ErrorMessage
+	}
+	return ""
+}
+
+func (x *AckPushCompleteRequest) GetErpEntityId() string {
+	if x != nil {
+		return x.ErpEntityId
 	}
 	return ""
 }
@@ -688,11 +696,12 @@ const file_core_v1_push_to_ms_proto_rawDesc = "" +
 	"\rerp_entity_id\x18\x05 \x01(\tR\verpEntityId\x12\x18\n" +
 	"\apayload\x18\x06 \x01(\fR\apayload\x129\n" +
 	"\n" +
-	"created_at\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\"p\n" +
+	"created_at\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\"\x94\x01\n" +
 	"\x16AckPushCompleteRequest\x12\x17\n" +
 	"\atask_id\x18\x01 \x01(\tR\x06taskId\x12\x18\n" +
 	"\asuccess\x18\x02 \x01(\bR\asuccess\x12#\n" +
-	"\rerror_message\x18\x03 \x01(\tR\ferrorMessage\"\x19\n" +
+	"\rerror_message\x18\x03 \x01(\tR\ferrorMessage\x12\"\n" +
+	"\rerp_entity_id\x18\x04 \x01(\tR\verpEntityId\"\x19\n" +
 	"\x17AckPushCompleteResponse\"\xbf\x01\n" +
 	"\x15CreatePushTaskRequest\x12\x1b\n" +
 	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12#\n" +

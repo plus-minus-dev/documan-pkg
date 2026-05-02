@@ -48,6 +48,7 @@ message AckPushCompleteRequest {
   string task_id = 1;
   bool success = 2;
   string error_message = 3;                           // если success=false
+  string erp_entity_id = 4;                           // созданный ID ERP-документа
 }
 
 message AckPushCompleteResponse {}
