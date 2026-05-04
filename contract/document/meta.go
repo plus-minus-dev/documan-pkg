@@ -5,8 +5,9 @@ type Meta struct {
 	// Источник
 	Source string `json:"source,omitempty"` // для original: "ms_files", "ms_dnd", "web" или "my_dnd" или "ui_dnd". Для erp: "connector-ms", "connector-1c"
 
-	SourceAccountID string     `json:"source_account_id,omitempty"` // opaque account id источника, не обязательно UUID
-	Files           []MetaFile `json:"files,omitempty"`             // привязка к ERP-документам (source=ms_files)
+	SourceAccountID string            `json:"source_account_id,omitempty"` // opaque account id источника, не обязательно UUID
+	Files           []MetaFile        `json:"files,omitempty"`             // привязка к ERP-документам (source=ms_files)
+	DocRelations    []MetaDocRelation `json:"doc_relations,omitempty"`
 
 	// Номер/дата в системе-источнике (ERP internal name/moment)
 	SourceNumber string `json:"source_number,omitempty"`
@@ -54,4 +55,10 @@ type MetaFile struct {
 	EntityType   string `json:"entity_type,omitempty"`
 	EntityID     string `json:"entity_id,omitempty"`
 	DownloadHref string `json:"download_href,omitempty"`
+}
+
+// MetaDocRelation — связь ERP-документа с другим ERP-документом по entity_type/entity_id.
+type MetaDocRelation struct {
+	EntityType string `json:"entity_type,omitempty"`
+	EntityID   string `json:"entity_id,omitempty"`
 }
