@@ -19,15 +19,17 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	CoreQueryService_GetConnection_FullMethodName          = "/documan.core.v1.CoreQueryService/GetConnection"
-	CoreQueryService_ListConnections_FullMethodName        = "/documan.core.v1.CoreQueryService/ListConnections"
-	CoreQueryService_ListOriginalDocuments_FullMethodName  = "/documan.core.v1.CoreQueryService/ListOriginalDocuments"
-	CoreQueryService_GetOriginalDocument_FullMethodName    = "/documan.core.v1.CoreQueryService/GetOriginalDocument"
-	CoreQueryService_GetOriginalItemMatches_FullMethodName = "/documan.core.v1.CoreQueryService/GetOriginalItemMatches"
-	CoreQueryService_ListERPEntities_FullMethodName        = "/documan.core.v1.CoreQueryService/ListERPEntities"
-	CoreQueryService_ListERPDocuments_FullMethodName       = "/documan.core.v1.CoreQueryService/ListERPDocuments"
-	CoreQueryService_GetERPDocument_FullMethodName         = "/documan.core.v1.CoreQueryService/GetERPDocument"
-	CoreQueryService_GetERPDocumentCounts_FullMethodName   = "/documan.core.v1.CoreQueryService/GetERPDocumentCounts"
+	CoreQueryService_GetConnection_FullMethodName           = "/documan.core.v1.CoreQueryService/GetConnection"
+	CoreQueryService_ListConnections_FullMethodName         = "/documan.core.v1.CoreQueryService/ListConnections"
+	CoreQueryService_ListOriginalDocuments_FullMethodName   = "/documan.core.v1.CoreQueryService/ListOriginalDocuments"
+	CoreQueryService_GetOriginalDocument_FullMethodName     = "/documan.core.v1.CoreQueryService/GetOriginalDocument"
+	CoreQueryService_GetOriginalItemMatches_FullMethodName  = "/documan.core.v1.CoreQueryService/GetOriginalItemMatches"
+	CoreQueryService_GetOriginalPartyMatches_FullMethodName = "/documan.core.v1.CoreQueryService/GetOriginalPartyMatches"
+	CoreQueryService_GetOriginalStoreMatch_FullMethodName   = "/documan.core.v1.CoreQueryService/GetOriginalStoreMatch"
+	CoreQueryService_ListERPEntities_FullMethodName         = "/documan.core.v1.CoreQueryService/ListERPEntities"
+	CoreQueryService_ListERPDocuments_FullMethodName        = "/documan.core.v1.CoreQueryService/ListERPDocuments"
+	CoreQueryService_GetERPDocument_FullMethodName          = "/documan.core.v1.CoreQueryService/GetERPDocument"
+	CoreQueryService_GetERPDocumentCounts_FullMethodName    = "/documan.core.v1.CoreQueryService/GetERPDocumentCounts"
 )
 
 // CoreQueryServiceClient is the client API for CoreQueryService service.
@@ -39,6 +41,8 @@ type CoreQueryServiceClient interface {
 	ListOriginalDocuments(ctx context.Context, in *ListOriginalDocumentsRequest, opts ...grpc.CallOption) (*ListOriginalDocumentsResponse, error)
 	GetOriginalDocument(ctx context.Context, in *GetOriginalDocumentRequest, opts ...grpc.CallOption) (*GetOriginalDocumentResponse, error)
 	GetOriginalItemMatches(ctx context.Context, in *GetOriginalItemMatchesRequest, opts ...grpc.CallOption) (*GetOriginalItemMatchesResponse, error)
+	GetOriginalPartyMatches(ctx context.Context, in *GetOriginalPartyMatchesRequest, opts ...grpc.CallOption) (*GetOriginalPartyMatchesResponse, error)
+	GetOriginalStoreMatch(ctx context.Context, in *GetOriginalStoreMatchRequest, opts ...grpc.CallOption) (*GetOriginalStoreMatchResponse, error)
 	ListERPEntities(ctx context.Context, in *ListERPEntitiesRequest, opts ...grpc.CallOption) (*ListERPEntitiesResponse, error)
 	ListERPDocuments(ctx context.Context, in *ListERPDocumentsRequest, opts ...grpc.CallOption) (*ListERPDocumentsResponse, error)
 	GetERPDocument(ctx context.Context, in *GetERPDocumentRequest, opts ...grpc.CallOption) (*GetERPDocumentResponse, error)
@@ -103,6 +107,26 @@ func (c *coreQueryServiceClient) GetOriginalItemMatches(ctx context.Context, in 
 	return out, nil
 }
 
+func (c *coreQueryServiceClient) GetOriginalPartyMatches(ctx context.Context, in *GetOriginalPartyMatchesRequest, opts ...grpc.CallOption) (*GetOriginalPartyMatchesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetOriginalPartyMatchesResponse)
+	err := c.cc.Invoke(ctx, CoreQueryService_GetOriginalPartyMatches_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *coreQueryServiceClient) GetOriginalStoreMatch(ctx context.Context, in *GetOriginalStoreMatchRequest, opts ...grpc.CallOption) (*GetOriginalStoreMatchResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetOriginalStoreMatchResponse)
+	err := c.cc.Invoke(ctx, CoreQueryService_GetOriginalStoreMatch_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *coreQueryServiceClient) ListERPEntities(ctx context.Context, in *ListERPEntitiesRequest, opts ...grpc.CallOption) (*ListERPEntitiesResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListERPEntitiesResponse)
@@ -152,6 +176,8 @@ type CoreQueryServiceServer interface {
 	ListOriginalDocuments(context.Context, *ListOriginalDocumentsRequest) (*ListOriginalDocumentsResponse, error)
 	GetOriginalDocument(context.Context, *GetOriginalDocumentRequest) (*GetOriginalDocumentResponse, error)
 	GetOriginalItemMatches(context.Context, *GetOriginalItemMatchesRequest) (*GetOriginalItemMatchesResponse, error)
+	GetOriginalPartyMatches(context.Context, *GetOriginalPartyMatchesRequest) (*GetOriginalPartyMatchesResponse, error)
+	GetOriginalStoreMatch(context.Context, *GetOriginalStoreMatchRequest) (*GetOriginalStoreMatchResponse, error)
 	ListERPEntities(context.Context, *ListERPEntitiesRequest) (*ListERPEntitiesResponse, error)
 	ListERPDocuments(context.Context, *ListERPDocumentsRequest) (*ListERPDocumentsResponse, error)
 	GetERPDocument(context.Context, *GetERPDocumentRequest) (*GetERPDocumentResponse, error)
@@ -180,6 +206,12 @@ func (UnimplementedCoreQueryServiceServer) GetOriginalDocument(context.Context, 
 }
 func (UnimplementedCoreQueryServiceServer) GetOriginalItemMatches(context.Context, *GetOriginalItemMatchesRequest) (*GetOriginalItemMatchesResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetOriginalItemMatches not implemented")
+}
+func (UnimplementedCoreQueryServiceServer) GetOriginalPartyMatches(context.Context, *GetOriginalPartyMatchesRequest) (*GetOriginalPartyMatchesResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetOriginalPartyMatches not implemented")
+}
+func (UnimplementedCoreQueryServiceServer) GetOriginalStoreMatch(context.Context, *GetOriginalStoreMatchRequest) (*GetOriginalStoreMatchResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetOriginalStoreMatch not implemented")
 }
 func (UnimplementedCoreQueryServiceServer) ListERPEntities(context.Context, *ListERPEntitiesRequest) (*ListERPEntitiesResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListERPEntities not implemented")
@@ -304,6 +336,42 @@ func _CoreQueryService_GetOriginalItemMatches_Handler(srv interface{}, ctx conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CoreQueryService_GetOriginalPartyMatches_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetOriginalPartyMatchesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CoreQueryServiceServer).GetOriginalPartyMatches(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CoreQueryService_GetOriginalPartyMatches_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CoreQueryServiceServer).GetOriginalPartyMatches(ctx, req.(*GetOriginalPartyMatchesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CoreQueryService_GetOriginalStoreMatch_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetOriginalStoreMatchRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CoreQueryServiceServer).GetOriginalStoreMatch(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CoreQueryService_GetOriginalStoreMatch_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CoreQueryServiceServer).GetOriginalStoreMatch(ctx, req.(*GetOriginalStoreMatchRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _CoreQueryService_ListERPEntities_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListERPEntitiesRequest)
 	if err := dec(in); err != nil {
@@ -402,6 +470,14 @@ var CoreQueryService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetOriginalItemMatches",
 			Handler:    _CoreQueryService_GetOriginalItemMatches_Handler,
+		},
+		{
+			MethodName: "GetOriginalPartyMatches",
+			Handler:    _CoreQueryService_GetOriginalPartyMatches_Handler,
+		},
+		{
+			MethodName: "GetOriginalStoreMatch",
+			Handler:    _CoreQueryService_GetOriginalStoreMatch_Handler,
 		},
 		{
 			MethodName: "ListERPEntities",

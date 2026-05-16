@@ -11,6 +11,8 @@ service CoreQueryService {
   rpc ListOriginalDocuments(ListOriginalDocumentsRequest) returns (ListOriginalDocumentsResponse);
   rpc GetOriginalDocument(GetOriginalDocumentRequest) returns (GetOriginalDocumentResponse);
   rpc GetOriginalItemMatches(GetOriginalItemMatchesRequest) returns (GetOriginalItemMatchesResponse);
+  rpc GetOriginalPartyMatches(GetOriginalPartyMatchesRequest) returns (GetOriginalPartyMatchesResponse);
+  rpc GetOriginalStoreMatch(GetOriginalStoreMatchRequest) returns (GetOriginalStoreMatchResponse);
   rpc ListERPEntities(ListERPEntitiesRequest) returns (ListERPEntitiesResponse);
   rpc ListERPDocuments(ListERPDocumentsRequest) returns (ListERPDocumentsResponse);
   rpc GetERPDocument(GetERPDocumentRequest) returns (GetERPDocumentResponse);
@@ -93,6 +95,32 @@ message OriginalItemMatch {
   int32 original_position_index = 1;
   string entity_type = 2;
   string entity_id = 3;
+}
+
+message GetOriginalPartyMatchesRequest {
+  string tenant_id = 1;
+  string connection_id = 2;
+  string original_doc_id = 3;
+}
+
+message GetOriginalPartyMatchesResponse {
+  OriginalEntityMatch seller = 1;
+  OriginalEntityMatch buyer = 2;
+}
+
+message GetOriginalStoreMatchRequest {
+  string tenant_id = 1;
+  string connection_id = 2;
+  string original_doc_id = 3;
+}
+
+message GetOriginalStoreMatchResponse {
+  OriginalEntityMatch store = 1;
+}
+
+message OriginalEntityMatch {
+  string entity_type = 1;
+  string entity_id = 2;
 }
 
 message OriginalDocumentEntry {
