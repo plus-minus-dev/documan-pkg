@@ -13,6 +13,7 @@ service CoreQueryService {
   rpc GetOriginalItemMatches(GetOriginalItemMatchesRequest) returns (GetOriginalItemMatchesResponse);
   rpc GetOriginalPartyMatches(GetOriginalPartyMatchesRequest) returns (GetOriginalPartyMatchesResponse);
   rpc GetOriginalStoreMatch(GetOriginalStoreMatchRequest) returns (GetOriginalStoreMatchResponse);
+  rpc StreamOriginalDocumentMatches(StreamOriginalDocumentMatchesRequest) returns (stream OriginalDocumentMatchEvent);
   rpc ListERPEntities(ListERPEntitiesRequest) returns (ListERPEntitiesResponse);
   rpc ListERPDocuments(ListERPDocumentsRequest) returns (ListERPDocumentsResponse);
   rpc GetERPDocument(GetERPDocumentRequest) returns (GetERPDocumentResponse);
@@ -121,6 +122,35 @@ message GetOriginalStoreMatchResponse {
 message OriginalEntityMatch {
   string entity_type = 1;
   string entity_id = 2;
+}
+
+message StreamOriginalDocumentMatchesRequest {
+  string tenant_id = 1;
+  string connection_id = 2;
+  string original_doc_id = 3;
+}
+
+message OriginalDocumentMatchEvent {
+  string kind = 1; // "seller" | "buyer" | "store" | "item" | "done"
+  string status = 2; // "matched" | "empty" | "error" | "done"
+  string key = 3; // "supplier" | "buyer" | "warehouse" | "position-0"
+  int32 original_position_index = 4; // only for item
+  OriginalMatchedEntity entity = 5;
+  string error = 6; // only for status="error"
+}
+
+message OriginalMatchedEntity {
+  string entity_type = 1;
+  string entity_id = 2;
+  string name = 3;
+  string article = 4; // item only
+  string item_code = 5; // item only
+  repeated string gtin = 6; // item only
+  repeated string barcodes = 7; // item only
+  string inn = 8; // party only
+  string kpp = 9; // party only
+  string code = 10; // store only
+  string address = 11; // store only
 }
 
 message OriginalDocumentEntry {

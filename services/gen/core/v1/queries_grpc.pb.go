@@ -19,17 +19,18 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	CoreQueryService_GetConnection_FullMethodName           = "/documan.core.v1.CoreQueryService/GetConnection"
-	CoreQueryService_ListConnections_FullMethodName         = "/documan.core.v1.CoreQueryService/ListConnections"
-	CoreQueryService_ListOriginalDocuments_FullMethodName   = "/documan.core.v1.CoreQueryService/ListOriginalDocuments"
-	CoreQueryService_GetOriginalDocument_FullMethodName     = "/documan.core.v1.CoreQueryService/GetOriginalDocument"
-	CoreQueryService_GetOriginalItemMatches_FullMethodName  = "/documan.core.v1.CoreQueryService/GetOriginalItemMatches"
-	CoreQueryService_GetOriginalPartyMatches_FullMethodName = "/documan.core.v1.CoreQueryService/GetOriginalPartyMatches"
-	CoreQueryService_GetOriginalStoreMatch_FullMethodName   = "/documan.core.v1.CoreQueryService/GetOriginalStoreMatch"
-	CoreQueryService_ListERPEntities_FullMethodName         = "/documan.core.v1.CoreQueryService/ListERPEntities"
-	CoreQueryService_ListERPDocuments_FullMethodName        = "/documan.core.v1.CoreQueryService/ListERPDocuments"
-	CoreQueryService_GetERPDocument_FullMethodName          = "/documan.core.v1.CoreQueryService/GetERPDocument"
-	CoreQueryService_GetERPDocumentCounts_FullMethodName    = "/documan.core.v1.CoreQueryService/GetERPDocumentCounts"
+	CoreQueryService_GetConnection_FullMethodName                 = "/documan.core.v1.CoreQueryService/GetConnection"
+	CoreQueryService_ListConnections_FullMethodName               = "/documan.core.v1.CoreQueryService/ListConnections"
+	CoreQueryService_ListOriginalDocuments_FullMethodName         = "/documan.core.v1.CoreQueryService/ListOriginalDocuments"
+	CoreQueryService_GetOriginalDocument_FullMethodName           = "/documan.core.v1.CoreQueryService/GetOriginalDocument"
+	CoreQueryService_GetOriginalItemMatches_FullMethodName        = "/documan.core.v1.CoreQueryService/GetOriginalItemMatches"
+	CoreQueryService_GetOriginalPartyMatches_FullMethodName       = "/documan.core.v1.CoreQueryService/GetOriginalPartyMatches"
+	CoreQueryService_GetOriginalStoreMatch_FullMethodName         = "/documan.core.v1.CoreQueryService/GetOriginalStoreMatch"
+	CoreQueryService_StreamOriginalDocumentMatches_FullMethodName = "/documan.core.v1.CoreQueryService/StreamOriginalDocumentMatches"
+	CoreQueryService_ListERPEntities_FullMethodName               = "/documan.core.v1.CoreQueryService/ListERPEntities"
+	CoreQueryService_ListERPDocuments_FullMethodName              = "/documan.core.v1.CoreQueryService/ListERPDocuments"
+	CoreQueryService_GetERPDocument_FullMethodName                = "/documan.core.v1.CoreQueryService/GetERPDocument"
+	CoreQueryService_GetERPDocumentCounts_FullMethodName          = "/documan.core.v1.CoreQueryService/GetERPDocumentCounts"
 )
 
 // CoreQueryServiceClient is the client API for CoreQueryService service.
@@ -43,6 +44,7 @@ type CoreQueryServiceClient interface {
 	GetOriginalItemMatches(ctx context.Context, in *GetOriginalItemMatchesRequest, opts ...grpc.CallOption) (*GetOriginalItemMatchesResponse, error)
 	GetOriginalPartyMatches(ctx context.Context, in *GetOriginalPartyMatchesRequest, opts ...grpc.CallOption) (*GetOriginalPartyMatchesResponse, error)
 	GetOriginalStoreMatch(ctx context.Context, in *GetOriginalStoreMatchRequest, opts ...grpc.CallOption) (*GetOriginalStoreMatchResponse, error)
+	StreamOriginalDocumentMatches(ctx context.Context, in *StreamOriginalDocumentMatchesRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[OriginalDocumentMatchEvent], error)
 	ListERPEntities(ctx context.Context, in *ListERPEntitiesRequest, opts ...grpc.CallOption) (*ListERPEntitiesResponse, error)
 	ListERPDocuments(ctx context.Context, in *ListERPDocumentsRequest, opts ...grpc.CallOption) (*ListERPDocumentsResponse, error)
 	GetERPDocument(ctx context.Context, in *GetERPDocumentRequest, opts ...grpc.CallOption) (*GetERPDocumentResponse, error)
@@ -127,6 +129,25 @@ func (c *coreQueryServiceClient) GetOriginalStoreMatch(ctx context.Context, in *
 	return out, nil
 }
 
+func (c *coreQueryServiceClient) StreamOriginalDocumentMatches(ctx context.Context, in *StreamOriginalDocumentMatchesRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[OriginalDocumentMatchEvent], error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	stream, err := c.cc.NewStream(ctx, &CoreQueryService_ServiceDesc.Streams[0], CoreQueryService_StreamOriginalDocumentMatches_FullMethodName, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &grpc.GenericClientStream[StreamOriginalDocumentMatchesRequest, OriginalDocumentMatchEvent]{ClientStream: stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type CoreQueryService_StreamOriginalDocumentMatchesClient = grpc.ServerStreamingClient[OriginalDocumentMatchEvent]
+
 func (c *coreQueryServiceClient) ListERPEntities(ctx context.Context, in *ListERPEntitiesRequest, opts ...grpc.CallOption) (*ListERPEntitiesResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ListERPEntitiesResponse)
@@ -178,6 +199,7 @@ type CoreQueryServiceServer interface {
 	GetOriginalItemMatches(context.Context, *GetOriginalItemMatchesRequest) (*GetOriginalItemMatchesResponse, error)
 	GetOriginalPartyMatches(context.Context, *GetOriginalPartyMatchesRequest) (*GetOriginalPartyMatchesResponse, error)
 	GetOriginalStoreMatch(context.Context, *GetOriginalStoreMatchRequest) (*GetOriginalStoreMatchResponse, error)
+	StreamOriginalDocumentMatches(*StreamOriginalDocumentMatchesRequest, grpc.ServerStreamingServer[OriginalDocumentMatchEvent]) error
 	ListERPEntities(context.Context, *ListERPEntitiesRequest) (*ListERPEntitiesResponse, error)
 	ListERPDocuments(context.Context, *ListERPDocumentsRequest) (*ListERPDocumentsResponse, error)
 	GetERPDocument(context.Context, *GetERPDocumentRequest) (*GetERPDocumentResponse, error)
@@ -212,6 +234,9 @@ func (UnimplementedCoreQueryServiceServer) GetOriginalPartyMatches(context.Conte
 }
 func (UnimplementedCoreQueryServiceServer) GetOriginalStoreMatch(context.Context, *GetOriginalStoreMatchRequest) (*GetOriginalStoreMatchResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetOriginalStoreMatch not implemented")
+}
+func (UnimplementedCoreQueryServiceServer) StreamOriginalDocumentMatches(*StreamOriginalDocumentMatchesRequest, grpc.ServerStreamingServer[OriginalDocumentMatchEvent]) error {
+	return status.Error(codes.Unimplemented, "method StreamOriginalDocumentMatches not implemented")
 }
 func (UnimplementedCoreQueryServiceServer) ListERPEntities(context.Context, *ListERPEntitiesRequest) (*ListERPEntitiesResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListERPEntities not implemented")
@@ -372,6 +397,17 @@ func _CoreQueryService_GetOriginalStoreMatch_Handler(srv interface{}, ctx contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CoreQueryService_StreamOriginalDocumentMatches_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(StreamOriginalDocumentMatchesRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(CoreQueryServiceServer).StreamOriginalDocumentMatches(m, &grpc.GenericServerStream[StreamOriginalDocumentMatchesRequest, OriginalDocumentMatchEvent]{ServerStream: stream})
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type CoreQueryService_StreamOriginalDocumentMatchesServer = grpc.ServerStreamingServer[OriginalDocumentMatchEvent]
+
 func _CoreQueryService_ListERPEntities_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListERPEntitiesRequest)
 	if err := dec(in); err != nil {
@@ -496,6 +532,12 @@ var CoreQueryService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _CoreQueryService_GetERPDocumentCounts_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "StreamOriginalDocumentMatches",
+			Handler:       _CoreQueryService_StreamOriginalDocumentMatches_Handler,
+			ServerStreams: true,
+		},
+	},
 	Metadata: "core/v1/queries.proto",
 }
