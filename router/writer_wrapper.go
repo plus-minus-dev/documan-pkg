@@ -27,6 +27,16 @@ func (w *Writer) Write(data []byte) (int, error) {
 	return w.ResponseWriter.Write(data) //nolint:wrapcheck
 }
 
+func (w *Writer) Flush() {
+	if flusher, ok := w.ResponseWriter.(http.Flusher); ok {
+		flusher.Flush()
+	}
+}
+
+func (w *Writer) Unwrap() http.ResponseWriter {
+	return w.ResponseWriter
+}
+
 func (w *Writer) Code() int {
 	return w.code
 }
