@@ -153,21 +153,6 @@ message OriginalMatchedEntity {
   string address = 11; // store only
 }
 
-// PartyMatch — результат каскадного матчинга стороны документа (seller/buyer).
-// Каскад: match_party_kb (приоритет) -> entities_erp по ИНН (ровно 1) -> none.
-message PartyMatch {
-  string status = 1; // "matched" | "none" | "pending"
-  string entity_id = 2; // заполнено при status="matched"
-  string name = 3; // имя контрагента/организации из ERP
-  string source = 4; // "kb" | "inn"
-}
-
-// DocumentParties — обе стороны документа. Единый механизм, одна таблица match_party_kb.
-message DocumentParties {
-  PartyMatch seller = 1; // контрагент-поставщик (entity_type="counterparty")
-  PartyMatch buyer = 2; // организация-покупатель (entity_type="organization")
-}
-
 message OriginalDocumentEntry {
   string tenant_id = 1;
   string id = 2;
@@ -183,7 +168,6 @@ message OriginalDocumentEntry {
   bytes payload_attributes = 18;
   string payload_hash = 8;
   google.protobuf.Timestamp payloaded_at = 13;
-  DocumentParties parties = 23; // каскадный party-матч, резолвится на лету в ListOriginalDocuments
 }
 
 // ===== ERPEntity =====
