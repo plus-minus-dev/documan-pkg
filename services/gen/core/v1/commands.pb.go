@@ -1109,6 +1109,118 @@ func (x *CleanupDocumentLinksResponse) GetDeleted() int32 {
 	return 0
 }
 
+type DeleteMatchKBRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TenantId      string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
+	ConnectionId  string                 `protobuf:"bytes,2,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
+	Fingerprint   string                 `protobuf:"bytes,3,opt,name=fingerprint,proto3" json:"fingerprint,omitempty"`
+	ErpEntityType string                 `protobuf:"bytes,4,opt,name=erp_entity_type,json=erpEntityType,proto3" json:"erp_entity_type,omitempty"`
+	ErpEntityId   string                 `protobuf:"bytes,5,opt,name=erp_entity_id,json=erpEntityId,proto3" json:"erp_entity_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteMatchKBRequest) Reset() {
+	*x = DeleteMatchKBRequest{}
+	mi := &file_core_v1_commands_proto_msgTypes[20]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteMatchKBRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteMatchKBRequest) ProtoMessage() {}
+
+func (x *DeleteMatchKBRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_commands_proto_msgTypes[20]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteMatchKBRequest.ProtoReflect.Descriptor instead.
+func (*DeleteMatchKBRequest) Descriptor() ([]byte, []int) {
+	return file_core_v1_commands_proto_rawDescGZIP(), []int{20}
+}
+
+func (x *DeleteMatchKBRequest) GetTenantId() string {
+	if x != nil {
+		return x.TenantId
+	}
+	return ""
+}
+
+func (x *DeleteMatchKBRequest) GetConnectionId() string {
+	if x != nil {
+		return x.ConnectionId
+	}
+	return ""
+}
+
+func (x *DeleteMatchKBRequest) GetFingerprint() string {
+	if x != nil {
+		return x.Fingerprint
+	}
+	return ""
+}
+
+func (x *DeleteMatchKBRequest) GetErpEntityType() string {
+	if x != nil {
+		return x.ErpEntityType
+	}
+	return ""
+}
+
+func (x *DeleteMatchKBRequest) GetErpEntityId() string {
+	if x != nil {
+		return x.ErpEntityId
+	}
+	return ""
+}
+
+type DeleteMatchKBResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteMatchKBResponse) Reset() {
+	*x = DeleteMatchKBResponse{}
+	mi := &file_core_v1_commands_proto_msgTypes[21]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteMatchKBResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteMatchKBResponse) ProtoMessage() {}
+
+func (x *DeleteMatchKBResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_commands_proto_msgTypes[21]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteMatchKBResponse.ProtoReflect.Descriptor instead.
+func (*DeleteMatchKBResponse) Descriptor() ([]byte, []int) {
+	return file_core_v1_commands_proto_rawDescGZIP(), []int{21}
+}
+
 var File_core_v1_commands_proto protoreflect.FileDescriptor
 
 const file_core_v1_commands_proto_rawDesc = "" +
@@ -1189,7 +1301,14 @@ const file_core_v1_commands_proto_rawDesc = "" +
 	"\tentity_id\x18\x04 \x01(\tR\bentityId\x12(\n" +
 	"\x10actual_file_keys\x18\x05 \x03(\tR\x0eactualFileKeys\"8\n" +
 	"\x1cCleanupDocumentLinksResponse\x12\x18\n" +
-	"\adeleted\x18\x01 \x01(\x05R\adeleted2\xef\a\n" +
+	"\adeleted\x18\x01 \x01(\x05R\adeleted\"\xc6\x01\n" +
+	"\x14DeleteMatchKBRequest\x12\x1b\n" +
+	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12#\n" +
+	"\rconnection_id\x18\x02 \x01(\tR\fconnectionId\x12 \n" +
+	"\vfingerprint\x18\x03 \x01(\tR\vfingerprint\x12&\n" +
+	"\x0ferp_entity_type\x18\x04 \x01(\tR\rerpEntityType\x12\"\n" +
+	"\rerp_entity_id\x18\x05 \x01(\tR\verpEntityId\"\x17\n" +
+	"\x15DeleteMatchKBResponse2\xcf\b\n" +
 	"\x12CoreCommandService\x12g\n" +
 	"\x10CreateConnection\x12(.documan.core.v1.CreateConnectionRequest\x1a).documan.core.v1.CreateConnectionResponse\x12g\n" +
 	"\x10UpdateConnection\x12(.documan.core.v1.UpdateConnectionRequest\x1a).documan.core.v1.UpdateConnectionResponse\x12g\n" +
@@ -1199,7 +1318,8 @@ const file_core_v1_commands_proto_rawDesc = "" +
 	"\x12NotifyFileUploaded\x12*.documan.core.v1.NotifyFileUploadedRequest\x1a+.documan.core.v1.NotifyFileUploadedResponse\x12j\n" +
 	"\x11NotifyParseFailed\x12).documan.core.v1.NotifyParseFailedRequest\x1a*.documan.core.v1.NotifyParseFailedResponse\x12y\n" +
 	"\x16DeleteOriginalDocument\x12..documan.core.v1.DeleteOriginalDocumentRequest\x1a/.documan.core.v1.DeleteOriginalDocumentResponse\x12s\n" +
-	"\x14CleanupDocumentLinks\x12,.documan.core.v1.CleanupDocumentLinksRequest\x1a-.documan.core.v1.CleanupDocumentLinksResponseB<Z:github.com/plus-minus-dev/documan-pkg/services/gen/core/v1b\x06proto3"
+	"\x14CleanupDocumentLinks\x12,.documan.core.v1.CleanupDocumentLinksRequest\x1a-.documan.core.v1.CleanupDocumentLinksResponse\x12^\n" +
+	"\rDeleteMatchKB\x12%.documan.core.v1.DeleteMatchKBRequest\x1a&.documan.core.v1.DeleteMatchKBResponseB<Z:github.com/plus-minus-dev/documan-pkg/services/gen/core/v1b\x06proto3"
 
 var (
 	file_core_v1_commands_proto_rawDescOnce sync.Once
@@ -1213,7 +1333,7 @@ func file_core_v1_commands_proto_rawDescGZIP() []byte {
 	return file_core_v1_commands_proto_rawDescData
 }
 
-var file_core_v1_commands_proto_msgTypes = make([]protoimpl.MessageInfo, 20)
+var file_core_v1_commands_proto_msgTypes = make([]protoimpl.MessageInfo, 22)
 var file_core_v1_commands_proto_goTypes = []any{
 	(*CreateConnectionRequest)(nil),        // 0: documan.core.v1.CreateConnectionRequest
 	(*CreateConnectionResponse)(nil),       // 1: documan.core.v1.CreateConnectionResponse
@@ -1235,6 +1355,8 @@ var file_core_v1_commands_proto_goTypes = []any{
 	(*DeleteOriginalDocumentResponse)(nil), // 17: documan.core.v1.DeleteOriginalDocumentResponse
 	(*CleanupDocumentLinksRequest)(nil),    // 18: documan.core.v1.CleanupDocumentLinksRequest
 	(*CleanupDocumentLinksResponse)(nil),   // 19: documan.core.v1.CleanupDocumentLinksResponse
+	(*DeleteMatchKBRequest)(nil),           // 20: documan.core.v1.DeleteMatchKBRequest
+	(*DeleteMatchKBResponse)(nil),          // 21: documan.core.v1.DeleteMatchKBResponse
 }
 var file_core_v1_commands_proto_depIdxs = []int32{
 	11, // 0: documan.core.v1.NotifyFileUploadedRequest.items:type_name -> documan.core.v1.FileUploadedEntry
@@ -1248,17 +1370,19 @@ var file_core_v1_commands_proto_depIdxs = []int32{
 	13, // 8: documan.core.v1.CoreCommandService.NotifyParseFailed:input_type -> documan.core.v1.NotifyParseFailedRequest
 	16, // 9: documan.core.v1.CoreCommandService.DeleteOriginalDocument:input_type -> documan.core.v1.DeleteOriginalDocumentRequest
 	18, // 10: documan.core.v1.CoreCommandService.CleanupDocumentLinks:input_type -> documan.core.v1.CleanupDocumentLinksRequest
-	1,  // 11: documan.core.v1.CoreCommandService.CreateConnection:output_type -> documan.core.v1.CreateConnectionResponse
-	3,  // 12: documan.core.v1.CoreCommandService.UpdateConnection:output_type -> documan.core.v1.UpdateConnectionResponse
-	5,  // 13: documan.core.v1.CoreCommandService.EnableConnection:output_type -> documan.core.v1.EnableConnectionResponse
-	7,  // 14: documan.core.v1.CoreCommandService.DisableConnection:output_type -> documan.core.v1.DisableConnectionResponse
-	9,  // 15: documan.core.v1.CoreCommandService.DeleteConnection:output_type -> documan.core.v1.DeleteConnectionResponse
-	12, // 16: documan.core.v1.CoreCommandService.NotifyFileUploaded:output_type -> documan.core.v1.NotifyFileUploadedResponse
-	15, // 17: documan.core.v1.CoreCommandService.NotifyParseFailed:output_type -> documan.core.v1.NotifyParseFailedResponse
-	17, // 18: documan.core.v1.CoreCommandService.DeleteOriginalDocument:output_type -> documan.core.v1.DeleteOriginalDocumentResponse
-	19, // 19: documan.core.v1.CoreCommandService.CleanupDocumentLinks:output_type -> documan.core.v1.CleanupDocumentLinksResponse
-	11, // [11:20] is the sub-list for method output_type
-	2,  // [2:11] is the sub-list for method input_type
+	20, // 11: documan.core.v1.CoreCommandService.DeleteMatchKB:input_type -> documan.core.v1.DeleteMatchKBRequest
+	1,  // 12: documan.core.v1.CoreCommandService.CreateConnection:output_type -> documan.core.v1.CreateConnectionResponse
+	3,  // 13: documan.core.v1.CoreCommandService.UpdateConnection:output_type -> documan.core.v1.UpdateConnectionResponse
+	5,  // 14: documan.core.v1.CoreCommandService.EnableConnection:output_type -> documan.core.v1.EnableConnectionResponse
+	7,  // 15: documan.core.v1.CoreCommandService.DisableConnection:output_type -> documan.core.v1.DisableConnectionResponse
+	9,  // 16: documan.core.v1.CoreCommandService.DeleteConnection:output_type -> documan.core.v1.DeleteConnectionResponse
+	12, // 17: documan.core.v1.CoreCommandService.NotifyFileUploaded:output_type -> documan.core.v1.NotifyFileUploadedResponse
+	15, // 18: documan.core.v1.CoreCommandService.NotifyParseFailed:output_type -> documan.core.v1.NotifyParseFailedResponse
+	17, // 19: documan.core.v1.CoreCommandService.DeleteOriginalDocument:output_type -> documan.core.v1.DeleteOriginalDocumentResponse
+	19, // 20: documan.core.v1.CoreCommandService.CleanupDocumentLinks:output_type -> documan.core.v1.CleanupDocumentLinksResponse
+	21, // 21: documan.core.v1.CoreCommandService.DeleteMatchKB:output_type -> documan.core.v1.DeleteMatchKBResponse
+	12, // [12:22] is the sub-list for method output_type
+	2,  // [2:12] is the sub-list for method input_type
 	2,  // [2:2] is the sub-list for extension type_name
 	2,  // [2:2] is the sub-list for extension extendee
 	0,  // [0:2] is the sub-list for field type_name
@@ -1276,7 +1400,7 @@ func file_core_v1_commands_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_core_v1_commands_proto_rawDesc), len(file_core_v1_commands_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   20,
+			NumMessages:   22,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
