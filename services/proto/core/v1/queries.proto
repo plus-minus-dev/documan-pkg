@@ -18,6 +18,7 @@ service CoreQueryService {
   rpc ListERPDocuments(ListERPDocumentsRequest) returns (ListERPDocumentsResponse);
   rpc GetERPDocument(GetERPDocumentRequest) returns (GetERPDocumentResponse);
   rpc GetERPDocumentCounts(GetERPDocumentCountsRequest) returns (GetERPDocumentCountsResponse);
+  rpc ListMatchKB(ListMatchKBRequest) returns (ListMatchKBResponse);
 }
 
 // ===== Connection =====
@@ -250,4 +251,42 @@ message GetERPDocumentCountsResponse {
 message ERPDocumentCountEntry {
   string entity_type = 1;
   int32 count = 2;
+}
+
+// ===== MatchKB (база сопоставлений / KBPage) =====
+
+message ListMatchKBRequest {
+  string tenant_id = 1;
+  string connection_id = 2;
+  string search = 3;          // по original_name / erp_entity_name; "" = без поиска
+  string erp_supplier_id = 4; // фильтр по поставщику (ERP-id matched-контрагента); "" = все
+  string matched_by = 5;      // "all" | "human" | "machine"
+  int32 limit = 6;
+  int32 offset = 7;
+}
+
+message ListMatchKBResponse {
+  repeated MatchKBEntry items = 1;
+  int32 total_count = 2;
+  MatchKBStats stats = 3;
+}
+
+message MatchKBEntry {
+  string id = 1;                     // составной ключ строки (fingerprint:erp_entity_type:erp_entity_id)
+  string erp_entity_type = 2;        // "product" | "service" | "bundle" | "variant"
+  string erp_entity_id = 3;
+  string erp_entity_code = 4;        // числовой код МС
+  string erp_entity_name = 5;        // наименование МС
+  string original_name = 6;          // читаемое имя из исходного документа
+  string original_doc_type = 7;      // тип документа-источника
+  string original_supplier_name = 8; // контрагент-источник (у original нет id)
+  string original_buyer_name = 9;    // покупатель-источник (у original нет id)
+  bool matched_by_machine = 10;      // true=машина (эвристика/LLM), false=человек → contract source
+  string matched_by = 11;            // "heuristic" | "llm" | "manual"
+}
+
+message MatchKBStats {
+  int32 human = 1;
+  int32 machine = 2;
+  int32 total = 3;
 }

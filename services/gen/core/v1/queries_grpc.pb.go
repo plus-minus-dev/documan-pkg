@@ -31,6 +31,7 @@ const (
 	CoreQueryService_ListERPDocuments_FullMethodName              = "/documan.core.v1.CoreQueryService/ListERPDocuments"
 	CoreQueryService_GetERPDocument_FullMethodName                = "/documan.core.v1.CoreQueryService/GetERPDocument"
 	CoreQueryService_GetERPDocumentCounts_FullMethodName          = "/documan.core.v1.CoreQueryService/GetERPDocumentCounts"
+	CoreQueryService_ListMatchKB_FullMethodName                   = "/documan.core.v1.CoreQueryService/ListMatchKB"
 )
 
 // CoreQueryServiceClient is the client API for CoreQueryService service.
@@ -49,6 +50,7 @@ type CoreQueryServiceClient interface {
 	ListERPDocuments(ctx context.Context, in *ListERPDocumentsRequest, opts ...grpc.CallOption) (*ListERPDocumentsResponse, error)
 	GetERPDocument(ctx context.Context, in *GetERPDocumentRequest, opts ...grpc.CallOption) (*GetERPDocumentResponse, error)
 	GetERPDocumentCounts(ctx context.Context, in *GetERPDocumentCountsRequest, opts ...grpc.CallOption) (*GetERPDocumentCountsResponse, error)
+	ListMatchKB(ctx context.Context, in *ListMatchKBRequest, opts ...grpc.CallOption) (*ListMatchKBResponse, error)
 }
 
 type coreQueryServiceClient struct {
@@ -188,6 +190,16 @@ func (c *coreQueryServiceClient) GetERPDocumentCounts(ctx context.Context, in *G
 	return out, nil
 }
 
+func (c *coreQueryServiceClient) ListMatchKB(ctx context.Context, in *ListMatchKBRequest, opts ...grpc.CallOption) (*ListMatchKBResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListMatchKBResponse)
+	err := c.cc.Invoke(ctx, CoreQueryService_ListMatchKB_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CoreQueryServiceServer is the server API for CoreQueryService service.
 // All implementations must embed UnimplementedCoreQueryServiceServer
 // for forward compatibility.
@@ -204,6 +216,7 @@ type CoreQueryServiceServer interface {
 	ListERPDocuments(context.Context, *ListERPDocumentsRequest) (*ListERPDocumentsResponse, error)
 	GetERPDocument(context.Context, *GetERPDocumentRequest) (*GetERPDocumentResponse, error)
 	GetERPDocumentCounts(context.Context, *GetERPDocumentCountsRequest) (*GetERPDocumentCountsResponse, error)
+	ListMatchKB(context.Context, *ListMatchKBRequest) (*ListMatchKBResponse, error)
 	mustEmbedUnimplementedCoreQueryServiceServer()
 }
 
@@ -249,6 +262,9 @@ func (UnimplementedCoreQueryServiceServer) GetERPDocument(context.Context, *GetE
 }
 func (UnimplementedCoreQueryServiceServer) GetERPDocumentCounts(context.Context, *GetERPDocumentCountsRequest) (*GetERPDocumentCountsResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetERPDocumentCounts not implemented")
+}
+func (UnimplementedCoreQueryServiceServer) ListMatchKB(context.Context, *ListMatchKBRequest) (*ListMatchKBResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListMatchKB not implemented")
 }
 func (UnimplementedCoreQueryServiceServer) mustEmbedUnimplementedCoreQueryServiceServer() {}
 func (UnimplementedCoreQueryServiceServer) testEmbeddedByValue()                          {}
@@ -480,6 +496,24 @@ func _CoreQueryService_GetERPDocumentCounts_Handler(srv interface{}, ctx context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CoreQueryService_ListMatchKB_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListMatchKBRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CoreQueryServiceServer).ListMatchKB(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CoreQueryService_ListMatchKB_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CoreQueryServiceServer).ListMatchKB(ctx, req.(*ListMatchKBRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CoreQueryService_ServiceDesc is the grpc.ServiceDesc for CoreQueryService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -530,6 +564,10 @@ var CoreQueryService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetERPDocumentCounts",
 			Handler:    _CoreQueryService_GetERPDocumentCounts_Handler,
+		},
+		{
+			MethodName: "ListMatchKB",
+			Handler:    _CoreQueryService_ListMatchKB_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

@@ -2182,6 +2182,342 @@ func (x *ERPDocumentCountEntry) GetCount() int32 {
 	return 0
 }
 
+type ListMatchKBRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TenantId      string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
+	ConnectionId  string                 `protobuf:"bytes,2,opt,name=connection_id,json=connectionId,proto3" json:"connection_id,omitempty"`
+	Search        string                 `protobuf:"bytes,3,opt,name=search,proto3" json:"search,omitempty"`                                      // по original_name / erp_entity_name; "" = без поиска
+	ErpSupplierId string                 `protobuf:"bytes,4,opt,name=erp_supplier_id,json=erpSupplierId,proto3" json:"erp_supplier_id,omitempty"` // фильтр по поставщику (ERP-id matched-контрагента); "" = все
+	MatchedBy     string                 `protobuf:"bytes,5,opt,name=matched_by,json=matchedBy,proto3" json:"matched_by,omitempty"`               // "all" | "human" | "machine"
+	Limit         int32                  `protobuf:"varint,6,opt,name=limit,proto3" json:"limit,omitempty"`
+	Offset        int32                  `protobuf:"varint,7,opt,name=offset,proto3" json:"offset,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListMatchKBRequest) Reset() {
+	*x = ListMatchKBRequest{}
+	mi := &file_core_v1_queries_proto_msgTypes[32]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListMatchKBRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListMatchKBRequest) ProtoMessage() {}
+
+func (x *ListMatchKBRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_queries_proto_msgTypes[32]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListMatchKBRequest.ProtoReflect.Descriptor instead.
+func (*ListMatchKBRequest) Descriptor() ([]byte, []int) {
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{32}
+}
+
+func (x *ListMatchKBRequest) GetTenantId() string {
+	if x != nil {
+		return x.TenantId
+	}
+	return ""
+}
+
+func (x *ListMatchKBRequest) GetConnectionId() string {
+	if x != nil {
+		return x.ConnectionId
+	}
+	return ""
+}
+
+func (x *ListMatchKBRequest) GetSearch() string {
+	if x != nil {
+		return x.Search
+	}
+	return ""
+}
+
+func (x *ListMatchKBRequest) GetErpSupplierId() string {
+	if x != nil {
+		return x.ErpSupplierId
+	}
+	return ""
+}
+
+func (x *ListMatchKBRequest) GetMatchedBy() string {
+	if x != nil {
+		return x.MatchedBy
+	}
+	return ""
+}
+
+func (x *ListMatchKBRequest) GetLimit() int32 {
+	if x != nil {
+		return x.Limit
+	}
+	return 0
+}
+
+func (x *ListMatchKBRequest) GetOffset() int32 {
+	if x != nil {
+		return x.Offset
+	}
+	return 0
+}
+
+type ListMatchKBResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Items         []*MatchKBEntry        `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
+	TotalCount    int32                  `protobuf:"varint,2,opt,name=total_count,json=totalCount,proto3" json:"total_count,omitempty"`
+	Stats         *MatchKBStats          `protobuf:"bytes,3,opt,name=stats,proto3" json:"stats,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListMatchKBResponse) Reset() {
+	*x = ListMatchKBResponse{}
+	mi := &file_core_v1_queries_proto_msgTypes[33]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListMatchKBResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListMatchKBResponse) ProtoMessage() {}
+
+func (x *ListMatchKBResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_queries_proto_msgTypes[33]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListMatchKBResponse.ProtoReflect.Descriptor instead.
+func (*ListMatchKBResponse) Descriptor() ([]byte, []int) {
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{33}
+}
+
+func (x *ListMatchKBResponse) GetItems() []*MatchKBEntry {
+	if x != nil {
+		return x.Items
+	}
+	return nil
+}
+
+func (x *ListMatchKBResponse) GetTotalCount() int32 {
+	if x != nil {
+		return x.TotalCount
+	}
+	return 0
+}
+
+func (x *ListMatchKBResponse) GetStats() *MatchKBStats {
+	if x != nil {
+		return x.Stats
+	}
+	return nil
+}
+
+type MatchKBEntry struct {
+	state                protoimpl.MessageState `protogen:"open.v1"`
+	Id                   string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`                                              // составной ключ строки (fingerprint:erp_entity_type:erp_entity_id)
+	ErpEntityType        string                 `protobuf:"bytes,2,opt,name=erp_entity_type,json=erpEntityType,proto3" json:"erp_entity_type,omitempty"` // "product" | "service" | "bundle" | "variant"
+	ErpEntityId          string                 `protobuf:"bytes,3,opt,name=erp_entity_id,json=erpEntityId,proto3" json:"erp_entity_id,omitempty"`
+	ErpEntityCode        string                 `protobuf:"bytes,4,opt,name=erp_entity_code,json=erpEntityCode,proto3" json:"erp_entity_code,omitempty"`                      // числовой код МС
+	ErpEntityName        string                 `protobuf:"bytes,5,opt,name=erp_entity_name,json=erpEntityName,proto3" json:"erp_entity_name,omitempty"`                      // наименование МС
+	OriginalName         string                 `protobuf:"bytes,6,opt,name=original_name,json=originalName,proto3" json:"original_name,omitempty"`                           // читаемое имя из исходного документа
+	OriginalDocType      string                 `protobuf:"bytes,7,opt,name=original_doc_type,json=originalDocType,proto3" json:"original_doc_type,omitempty"`                // тип документа-источника
+	OriginalSupplierName string                 `protobuf:"bytes,8,opt,name=original_supplier_name,json=originalSupplierName,proto3" json:"original_supplier_name,omitempty"` // контрагент-источник (у original нет id)
+	OriginalBuyerName    string                 `protobuf:"bytes,9,opt,name=original_buyer_name,json=originalBuyerName,proto3" json:"original_buyer_name,omitempty"`          // покупатель-источник (у original нет id)
+	MatchedByMachine     bool                   `protobuf:"varint,10,opt,name=matched_by_machine,json=matchedByMachine,proto3" json:"matched_by_machine,omitempty"`           // true=машина (эвристика/LLM), false=человек → contract source
+	MatchedBy            string                 `protobuf:"bytes,11,opt,name=matched_by,json=matchedBy,proto3" json:"matched_by,omitempty"`                                   // "heuristic" | "llm" | "manual"
+	unknownFields        protoimpl.UnknownFields
+	sizeCache            protoimpl.SizeCache
+}
+
+func (x *MatchKBEntry) Reset() {
+	*x = MatchKBEntry{}
+	mi := &file_core_v1_queries_proto_msgTypes[34]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *MatchKBEntry) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MatchKBEntry) ProtoMessage() {}
+
+func (x *MatchKBEntry) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_queries_proto_msgTypes[34]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MatchKBEntry.ProtoReflect.Descriptor instead.
+func (*MatchKBEntry) Descriptor() ([]byte, []int) {
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{34}
+}
+
+func (x *MatchKBEntry) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *MatchKBEntry) GetErpEntityType() string {
+	if x != nil {
+		return x.ErpEntityType
+	}
+	return ""
+}
+
+func (x *MatchKBEntry) GetErpEntityId() string {
+	if x != nil {
+		return x.ErpEntityId
+	}
+	return ""
+}
+
+func (x *MatchKBEntry) GetErpEntityCode() string {
+	if x != nil {
+		return x.ErpEntityCode
+	}
+	return ""
+}
+
+func (x *MatchKBEntry) GetErpEntityName() string {
+	if x != nil {
+		return x.ErpEntityName
+	}
+	return ""
+}
+
+func (x *MatchKBEntry) GetOriginalName() string {
+	if x != nil {
+		return x.OriginalName
+	}
+	return ""
+}
+
+func (x *MatchKBEntry) GetOriginalDocType() string {
+	if x != nil {
+		return x.OriginalDocType
+	}
+	return ""
+}
+
+func (x *MatchKBEntry) GetOriginalSupplierName() string {
+	if x != nil {
+		return x.OriginalSupplierName
+	}
+	return ""
+}
+
+func (x *MatchKBEntry) GetOriginalBuyerName() string {
+	if x != nil {
+		return x.OriginalBuyerName
+	}
+	return ""
+}
+
+func (x *MatchKBEntry) GetMatchedByMachine() bool {
+	if x != nil {
+		return x.MatchedByMachine
+	}
+	return false
+}
+
+func (x *MatchKBEntry) GetMatchedBy() string {
+	if x != nil {
+		return x.MatchedBy
+	}
+	return ""
+}
+
+type MatchKBStats struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Human         int32                  `protobuf:"varint,1,opt,name=human,proto3" json:"human,omitempty"`
+	Machine       int32                  `protobuf:"varint,2,opt,name=machine,proto3" json:"machine,omitempty"`
+	Total         int32                  `protobuf:"varint,3,opt,name=total,proto3" json:"total,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *MatchKBStats) Reset() {
+	*x = MatchKBStats{}
+	mi := &file_core_v1_queries_proto_msgTypes[35]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *MatchKBStats) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MatchKBStats) ProtoMessage() {}
+
+func (x *MatchKBStats) ProtoReflect() protoreflect.Message {
+	mi := &file_core_v1_queries_proto_msgTypes[35]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use MatchKBStats.ProtoReflect.Descriptor instead.
+func (*MatchKBStats) Descriptor() ([]byte, []int) {
+	return file_core_v1_queries_proto_rawDescGZIP(), []int{35}
+}
+
+func (x *MatchKBStats) GetHuman() int32 {
+	if x != nil {
+		return x.Human
+	}
+	return 0
+}
+
+func (x *MatchKBStats) GetMachine() int32 {
+	if x != nil {
+		return x.Machine
+	}
+	return 0
+}
+
+func (x *MatchKBStats) GetTotal() int32 {
+	if x != nil {
+		return x.Total
+	}
+	return 0
+}
+
 var File_core_v1_queries_proto protoreflect.FileDescriptor
 
 const file_core_v1_queries_proto_rawDesc = "" +
@@ -2368,8 +2704,39 @@ const file_core_v1_queries_proto_rawDesc = "" +
 	"\x15ERPDocumentCountEntry\x12\x1f\n" +
 	"\ventity_type\x18\x01 \x01(\tR\n" +
 	"entityType\x12\x14\n" +
-	"\x05count\x18\x02 \x01(\x05R\x05count2\xe2\n" +
+	"\x05count\x18\x02 \x01(\x05R\x05count\"\xe3\x01\n" +
+	"\x12ListMatchKBRequest\x12\x1b\n" +
+	"\ttenant_id\x18\x01 \x01(\tR\btenantId\x12#\n" +
+	"\rconnection_id\x18\x02 \x01(\tR\fconnectionId\x12\x16\n" +
+	"\x06search\x18\x03 \x01(\tR\x06search\x12&\n" +
+	"\x0ferp_supplier_id\x18\x04 \x01(\tR\rerpSupplierId\x12\x1d\n" +
 	"\n" +
+	"matched_by\x18\x05 \x01(\tR\tmatchedBy\x12\x14\n" +
+	"\x05limit\x18\x06 \x01(\x05R\x05limit\x12\x16\n" +
+	"\x06offset\x18\a \x01(\x05R\x06offset\"\xa0\x01\n" +
+	"\x13ListMatchKBResponse\x123\n" +
+	"\x05items\x18\x01 \x03(\v2\x1d.documan.core.v1.MatchKBEntryR\x05items\x12\x1f\n" +
+	"\vtotal_count\x18\x02 \x01(\x05R\n" +
+	"totalCount\x123\n" +
+	"\x05stats\x18\x03 \x01(\v2\x1d.documan.core.v1.MatchKBStatsR\x05stats\"\xbe\x03\n" +
+	"\fMatchKBEntry\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12&\n" +
+	"\x0ferp_entity_type\x18\x02 \x01(\tR\rerpEntityType\x12\"\n" +
+	"\rerp_entity_id\x18\x03 \x01(\tR\verpEntityId\x12&\n" +
+	"\x0ferp_entity_code\x18\x04 \x01(\tR\rerpEntityCode\x12&\n" +
+	"\x0ferp_entity_name\x18\x05 \x01(\tR\rerpEntityName\x12#\n" +
+	"\roriginal_name\x18\x06 \x01(\tR\foriginalName\x12*\n" +
+	"\x11original_doc_type\x18\a \x01(\tR\x0foriginalDocType\x124\n" +
+	"\x16original_supplier_name\x18\b \x01(\tR\x14originalSupplierName\x12.\n" +
+	"\x13original_buyer_name\x18\t \x01(\tR\x11originalBuyerName\x12,\n" +
+	"\x12matched_by_machine\x18\n" +
+	" \x01(\bR\x10matchedByMachine\x12\x1d\n" +
+	"\n" +
+	"matched_by\x18\v \x01(\tR\tmatchedBy\"T\n" +
+	"\fMatchKBStats\x12\x14\n" +
+	"\x05human\x18\x01 \x01(\x05R\x05human\x12\x18\n" +
+	"\amachine\x18\x02 \x01(\x05R\amachine\x12\x14\n" +
+	"\x05total\x18\x03 \x01(\x05R\x05total2\xbc\v\n" +
 	"\x10CoreQueryService\x12^\n" +
 	"\rGetConnection\x12%.documan.core.v1.GetConnectionRequest\x1a&.documan.core.v1.GetConnectionResponse\x12d\n" +
 	"\x0fListConnections\x12'.documan.core.v1.ListConnectionsRequest\x1a(.documan.core.v1.ListConnectionsResponse\x12v\n" +
@@ -2382,7 +2749,8 @@ const file_core_v1_queries_proto_rawDesc = "" +
 	"\x0fListERPEntities\x12'.documan.core.v1.ListERPEntitiesRequest\x1a(.documan.core.v1.ListERPEntitiesResponse\x12g\n" +
 	"\x10ListERPDocuments\x12(.documan.core.v1.ListERPDocumentsRequest\x1a).documan.core.v1.ListERPDocumentsResponse\x12a\n" +
 	"\x0eGetERPDocument\x12&.documan.core.v1.GetERPDocumentRequest\x1a'.documan.core.v1.GetERPDocumentResponse\x12s\n" +
-	"\x14GetERPDocumentCounts\x12,.documan.core.v1.GetERPDocumentCountsRequest\x1a-.documan.core.v1.GetERPDocumentCountsResponseB<Z:github.com/plus-minus-dev/documan-pkg/services/gen/core/v1b\x06proto3"
+	"\x14GetERPDocumentCounts\x12,.documan.core.v1.GetERPDocumentCountsRequest\x1a-.documan.core.v1.GetERPDocumentCountsResponse\x12X\n" +
+	"\vListMatchKB\x12#.documan.core.v1.ListMatchKBRequest\x1a$.documan.core.v1.ListMatchKBResponseB<Z:github.com/plus-minus-dev/documan-pkg/services/gen/core/v1b\x06proto3"
 
 var (
 	file_core_v1_queries_proto_rawDescOnce sync.Once
@@ -2396,7 +2764,7 @@ func file_core_v1_queries_proto_rawDescGZIP() []byte {
 	return file_core_v1_queries_proto_rawDescData
 }
 
-var file_core_v1_queries_proto_msgTypes = make([]protoimpl.MessageInfo, 32)
+var file_core_v1_queries_proto_msgTypes = make([]protoimpl.MessageInfo, 36)
 var file_core_v1_queries_proto_goTypes = []any{
 	(*GetConnectionRequest)(nil),                 // 0: documan.core.v1.GetConnectionRequest
 	(*GetConnectionResponse)(nil),                // 1: documan.core.v1.GetConnectionResponse
@@ -2430,14 +2798,18 @@ var file_core_v1_queries_proto_goTypes = []any{
 	(*GetERPDocumentCountsRequest)(nil),          // 29: documan.core.v1.GetERPDocumentCountsRequest
 	(*GetERPDocumentCountsResponse)(nil),         // 30: documan.core.v1.GetERPDocumentCountsResponse
 	(*ERPDocumentCountEntry)(nil),                // 31: documan.core.v1.ERPDocumentCountEntry
-	(*timestamppb.Timestamp)(nil),                // 32: google.protobuf.Timestamp
+	(*ListMatchKBRequest)(nil),                   // 32: documan.core.v1.ListMatchKBRequest
+	(*ListMatchKBResponse)(nil),                  // 33: documan.core.v1.ListMatchKBResponse
+	(*MatchKBEntry)(nil),                         // 34: documan.core.v1.MatchKBEntry
+	(*MatchKBStats)(nil),                         // 35: documan.core.v1.MatchKBStats
+	(*timestamppb.Timestamp)(nil),                // 36: google.protobuf.Timestamp
 }
 var file_core_v1_queries_proto_depIdxs = []int32{
 	4,  // 0: documan.core.v1.GetConnectionResponse.connection:type_name -> documan.core.v1.ConnectionItem
 	4,  // 1: documan.core.v1.ListConnectionsResponse.items:type_name -> documan.core.v1.ConnectionItem
-	32, // 2: documan.core.v1.ConnectionItem.last_sync_at:type_name -> google.protobuf.Timestamp
-	32, // 3: documan.core.v1.ConnectionItem.created_at:type_name -> google.protobuf.Timestamp
-	32, // 4: documan.core.v1.ConnectionItem.updated_at:type_name -> google.protobuf.Timestamp
+	36, // 2: documan.core.v1.ConnectionItem.last_sync_at:type_name -> google.protobuf.Timestamp
+	36, // 3: documan.core.v1.ConnectionItem.created_at:type_name -> google.protobuf.Timestamp
+	36, // 4: documan.core.v1.ConnectionItem.updated_at:type_name -> google.protobuf.Timestamp
 	20, // 5: documan.core.v1.ListOriginalDocumentsResponse.items:type_name -> documan.core.v1.OriginalDocumentEntry
 	20, // 6: documan.core.v1.GetOriginalDocumentResponse.document:type_name -> documan.core.v1.OriginalDocumentEntry
 	11, // 7: documan.core.v1.GetOriginalItemMatchesResponse.items:type_name -> documan.core.v1.OriginalItemMatch
@@ -2445,42 +2817,46 @@ var file_core_v1_queries_proto_depIdxs = []int32{
 	16, // 9: documan.core.v1.GetOriginalPartyMatchesResponse.buyer:type_name -> documan.core.v1.OriginalEntityMatch
 	16, // 10: documan.core.v1.GetOriginalStoreMatchResponse.store:type_name -> documan.core.v1.OriginalEntityMatch
 	19, // 11: documan.core.v1.OriginalDocumentMatchEvent.entity:type_name -> documan.core.v1.OriginalMatchedEntity
-	32, // 12: documan.core.v1.OriginalDocumentEntry.payloaded_at:type_name -> google.protobuf.Timestamp
+	36, // 12: documan.core.v1.OriginalDocumentEntry.payloaded_at:type_name -> google.protobuf.Timestamp
 	23, // 13: documan.core.v1.ListERPEntitiesResponse.items:type_name -> documan.core.v1.ERPEntityEntry
-	32, // 14: documan.core.v1.ERPEntityEntry.payloaded_at:type_name -> google.protobuf.Timestamp
+	36, // 14: documan.core.v1.ERPEntityEntry.payloaded_at:type_name -> google.protobuf.Timestamp
 	26, // 15: documan.core.v1.ListERPDocumentsResponse.items:type_name -> documan.core.v1.ERPDocumentEntry
-	32, // 16: documan.core.v1.ERPDocumentEntry.payloaded_at:type_name -> google.protobuf.Timestamp
+	36, // 16: documan.core.v1.ERPDocumentEntry.payloaded_at:type_name -> google.protobuf.Timestamp
 	26, // 17: documan.core.v1.GetERPDocumentResponse.document:type_name -> documan.core.v1.ERPDocumentEntry
 	31, // 18: documan.core.v1.GetERPDocumentCountsResponse.items:type_name -> documan.core.v1.ERPDocumentCountEntry
-	0,  // 19: documan.core.v1.CoreQueryService.GetConnection:input_type -> documan.core.v1.GetConnectionRequest
-	2,  // 20: documan.core.v1.CoreQueryService.ListConnections:input_type -> documan.core.v1.ListConnectionsRequest
-	5,  // 21: documan.core.v1.CoreQueryService.ListOriginalDocuments:input_type -> documan.core.v1.ListOriginalDocumentsRequest
-	7,  // 22: documan.core.v1.CoreQueryService.GetOriginalDocument:input_type -> documan.core.v1.GetOriginalDocumentRequest
-	9,  // 23: documan.core.v1.CoreQueryService.GetOriginalItemMatches:input_type -> documan.core.v1.GetOriginalItemMatchesRequest
-	12, // 24: documan.core.v1.CoreQueryService.GetOriginalPartyMatches:input_type -> documan.core.v1.GetOriginalPartyMatchesRequest
-	14, // 25: documan.core.v1.CoreQueryService.GetOriginalStoreMatch:input_type -> documan.core.v1.GetOriginalStoreMatchRequest
-	17, // 26: documan.core.v1.CoreQueryService.StreamOriginalDocumentMatches:input_type -> documan.core.v1.StreamOriginalDocumentMatchesRequest
-	21, // 27: documan.core.v1.CoreQueryService.ListERPEntities:input_type -> documan.core.v1.ListERPEntitiesRequest
-	24, // 28: documan.core.v1.CoreQueryService.ListERPDocuments:input_type -> documan.core.v1.ListERPDocumentsRequest
-	27, // 29: documan.core.v1.CoreQueryService.GetERPDocument:input_type -> documan.core.v1.GetERPDocumentRequest
-	29, // 30: documan.core.v1.CoreQueryService.GetERPDocumentCounts:input_type -> documan.core.v1.GetERPDocumentCountsRequest
-	1,  // 31: documan.core.v1.CoreQueryService.GetConnection:output_type -> documan.core.v1.GetConnectionResponse
-	3,  // 32: documan.core.v1.CoreQueryService.ListConnections:output_type -> documan.core.v1.ListConnectionsResponse
-	6,  // 33: documan.core.v1.CoreQueryService.ListOriginalDocuments:output_type -> documan.core.v1.ListOriginalDocumentsResponse
-	8,  // 34: documan.core.v1.CoreQueryService.GetOriginalDocument:output_type -> documan.core.v1.GetOriginalDocumentResponse
-	10, // 35: documan.core.v1.CoreQueryService.GetOriginalItemMatches:output_type -> documan.core.v1.GetOriginalItemMatchesResponse
-	13, // 36: documan.core.v1.CoreQueryService.GetOriginalPartyMatches:output_type -> documan.core.v1.GetOriginalPartyMatchesResponse
-	15, // 37: documan.core.v1.CoreQueryService.GetOriginalStoreMatch:output_type -> documan.core.v1.GetOriginalStoreMatchResponse
-	18, // 38: documan.core.v1.CoreQueryService.StreamOriginalDocumentMatches:output_type -> documan.core.v1.OriginalDocumentMatchEvent
-	22, // 39: documan.core.v1.CoreQueryService.ListERPEntities:output_type -> documan.core.v1.ListERPEntitiesResponse
-	25, // 40: documan.core.v1.CoreQueryService.ListERPDocuments:output_type -> documan.core.v1.ListERPDocumentsResponse
-	28, // 41: documan.core.v1.CoreQueryService.GetERPDocument:output_type -> documan.core.v1.GetERPDocumentResponse
-	30, // 42: documan.core.v1.CoreQueryService.GetERPDocumentCounts:output_type -> documan.core.v1.GetERPDocumentCountsResponse
-	31, // [31:43] is the sub-list for method output_type
-	19, // [19:31] is the sub-list for method input_type
-	19, // [19:19] is the sub-list for extension type_name
-	19, // [19:19] is the sub-list for extension extendee
-	0,  // [0:19] is the sub-list for field type_name
+	34, // 19: documan.core.v1.ListMatchKBResponse.items:type_name -> documan.core.v1.MatchKBEntry
+	35, // 20: documan.core.v1.ListMatchKBResponse.stats:type_name -> documan.core.v1.MatchKBStats
+	0,  // 21: documan.core.v1.CoreQueryService.GetConnection:input_type -> documan.core.v1.GetConnectionRequest
+	2,  // 22: documan.core.v1.CoreQueryService.ListConnections:input_type -> documan.core.v1.ListConnectionsRequest
+	5,  // 23: documan.core.v1.CoreQueryService.ListOriginalDocuments:input_type -> documan.core.v1.ListOriginalDocumentsRequest
+	7,  // 24: documan.core.v1.CoreQueryService.GetOriginalDocument:input_type -> documan.core.v1.GetOriginalDocumentRequest
+	9,  // 25: documan.core.v1.CoreQueryService.GetOriginalItemMatches:input_type -> documan.core.v1.GetOriginalItemMatchesRequest
+	12, // 26: documan.core.v1.CoreQueryService.GetOriginalPartyMatches:input_type -> documan.core.v1.GetOriginalPartyMatchesRequest
+	14, // 27: documan.core.v1.CoreQueryService.GetOriginalStoreMatch:input_type -> documan.core.v1.GetOriginalStoreMatchRequest
+	17, // 28: documan.core.v1.CoreQueryService.StreamOriginalDocumentMatches:input_type -> documan.core.v1.StreamOriginalDocumentMatchesRequest
+	21, // 29: documan.core.v1.CoreQueryService.ListERPEntities:input_type -> documan.core.v1.ListERPEntitiesRequest
+	24, // 30: documan.core.v1.CoreQueryService.ListERPDocuments:input_type -> documan.core.v1.ListERPDocumentsRequest
+	27, // 31: documan.core.v1.CoreQueryService.GetERPDocument:input_type -> documan.core.v1.GetERPDocumentRequest
+	29, // 32: documan.core.v1.CoreQueryService.GetERPDocumentCounts:input_type -> documan.core.v1.GetERPDocumentCountsRequest
+	32, // 33: documan.core.v1.CoreQueryService.ListMatchKB:input_type -> documan.core.v1.ListMatchKBRequest
+	1,  // 34: documan.core.v1.CoreQueryService.GetConnection:output_type -> documan.core.v1.GetConnectionResponse
+	3,  // 35: documan.core.v1.CoreQueryService.ListConnections:output_type -> documan.core.v1.ListConnectionsResponse
+	6,  // 36: documan.core.v1.CoreQueryService.ListOriginalDocuments:output_type -> documan.core.v1.ListOriginalDocumentsResponse
+	8,  // 37: documan.core.v1.CoreQueryService.GetOriginalDocument:output_type -> documan.core.v1.GetOriginalDocumentResponse
+	10, // 38: documan.core.v1.CoreQueryService.GetOriginalItemMatches:output_type -> documan.core.v1.GetOriginalItemMatchesResponse
+	13, // 39: documan.core.v1.CoreQueryService.GetOriginalPartyMatches:output_type -> documan.core.v1.GetOriginalPartyMatchesResponse
+	15, // 40: documan.core.v1.CoreQueryService.GetOriginalStoreMatch:output_type -> documan.core.v1.GetOriginalStoreMatchResponse
+	18, // 41: documan.core.v1.CoreQueryService.StreamOriginalDocumentMatches:output_type -> documan.core.v1.OriginalDocumentMatchEvent
+	22, // 42: documan.core.v1.CoreQueryService.ListERPEntities:output_type -> documan.core.v1.ListERPEntitiesResponse
+	25, // 43: documan.core.v1.CoreQueryService.ListERPDocuments:output_type -> documan.core.v1.ListERPDocumentsResponse
+	28, // 44: documan.core.v1.CoreQueryService.GetERPDocument:output_type -> documan.core.v1.GetERPDocumentResponse
+	30, // 45: documan.core.v1.CoreQueryService.GetERPDocumentCounts:output_type -> documan.core.v1.GetERPDocumentCountsResponse
+	33, // 46: documan.core.v1.CoreQueryService.ListMatchKB:output_type -> documan.core.v1.ListMatchKBResponse
+	34, // [34:47] is the sub-list for method output_type
+	21, // [21:34] is the sub-list for method input_type
+	21, // [21:21] is the sub-list for extension type_name
+	21, // [21:21] is the sub-list for extension extendee
+	0,  // [0:21] is the sub-list for field type_name
 }
 
 func init() { file_core_v1_queries_proto_init() }
@@ -2494,7 +2870,7 @@ func file_core_v1_queries_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_core_v1_queries_proto_rawDesc), len(file_core_v1_queries_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   32,
+			NumMessages:   36,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
