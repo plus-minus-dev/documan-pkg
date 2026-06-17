@@ -92,6 +92,7 @@ message CreateERPDocumentPosition {
   string quantity = 4;
   int64 price = 5;                                    // minor units, формат МойСклад
   int32 vat = 6;                                      // 0, 10, 20, ...
+  string source = 7;                                  // "human" | "machine" — источник матча (тегирование KB)
 }
 
 message CreateERPDocumentFromOriginalResponse {

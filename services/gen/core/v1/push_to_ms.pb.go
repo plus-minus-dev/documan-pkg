@@ -556,8 +556,9 @@ type CreateERPDocumentPosition struct {
 	AssortmentType        string                 `protobuf:"bytes,2,opt,name=assortment_type,json=assortmentType,proto3" json:"assortment_type,omitempty"` // "product", "service", "variant", ...
 	AssortmentId          string                 `protobuf:"bytes,3,opt,name=assortment_id,json=assortmentId,proto3" json:"assortment_id,omitempty"`
 	Quantity              string                 `protobuf:"bytes,4,opt,name=quantity,proto3" json:"quantity,omitempty"`
-	Price                 int64                  `protobuf:"varint,5,opt,name=price,proto3" json:"price,omitempty"` // minor units, формат МойСклад
-	Vat                   int32                  `protobuf:"varint,6,opt,name=vat,proto3" json:"vat,omitempty"`     // 0, 10, 20, ...
+	Price                 int64                  `protobuf:"varint,5,opt,name=price,proto3" json:"price,omitempty"`  // minor units, формат МойСклад
+	Vat                   int32                  `protobuf:"varint,6,opt,name=vat,proto3" json:"vat,omitempty"`      // 0, 10, 20, ...
+	Source                string                 `protobuf:"bytes,7,opt,name=source,proto3" json:"source,omitempty"` // "human" | "machine" — источник матча (тегирование KB)
 	unknownFields         protoimpl.UnknownFields
 	sizeCache             protoimpl.SizeCache
 }
@@ -632,6 +633,13 @@ func (x *CreateERPDocumentPosition) GetVat() int32 {
 		return x.Vat
 	}
 	return 0
+}
+
+func (x *CreateERPDocumentPosition) GetSource() string {
+	if x != nil {
+		return x.Source
+	}
+	return ""
 }
 
 type CreateERPDocumentFromOriginalResponse struct {
@@ -722,14 +730,15 @@ const file_core_v1_push_to_ms_proto_rawDesc = "" +
 	"\vdescription\x18\b \x01(\tR\vdescription\x120\n" +
 	"\x14attach_original_file\x18\t \x01(\bR\x12attachOriginalFile\x12H\n" +
 	"\tpositions\x18\n" +
-	" \x03(\v2*.documan.core.v1.CreateERPDocumentPositionR\tpositions\"\xe5\x01\n" +
+	" \x03(\v2*.documan.core.v1.CreateERPDocumentPositionR\tpositions\"\xfd\x01\n" +
 	"\x19CreateERPDocumentPosition\x126\n" +
 	"\x17original_position_index\x18\x01 \x01(\x05R\x15originalPositionIndex\x12'\n" +
 	"\x0fassortment_type\x18\x02 \x01(\tR\x0eassortmentType\x12#\n" +
 	"\rassortment_id\x18\x03 \x01(\tR\fassortmentId\x12\x1a\n" +
 	"\bquantity\x18\x04 \x01(\tR\bquantity\x12\x14\n" +
 	"\x05price\x18\x05 \x01(\x03R\x05price\x12\x10\n" +
-	"\x03vat\x18\x06 \x01(\x05R\x03vat\"@\n" +
+	"\x03vat\x18\x06 \x01(\x05R\x03vat\x12\x16\n" +
+	"\x06source\x18\a \x01(\tR\x06source\"@\n" +
 	"%CreateERPDocumentFromOriginalResponse\x12\x17\n" +
 	"\atask_id\x18\x01 \x01(\tR\x06taskId2\xc8\x03\n" +
 	"\x0fCorePushService\x12[\n" +
